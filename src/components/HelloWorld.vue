@@ -5,9 +5,6 @@
         <v-img :src="require('../assets/logo.svg')" class="my-3" contain height="200" />
       </v-col>
     </v-row>
-    <div class="my-2">
-      <v-btn small @click="submit" color="primary">Log-out</v-btn>
-    </div>
   </v-container>
 </template>
 
@@ -29,7 +26,6 @@ export default Vue.extend({
     (async () => {
       const parsed = await ky.get("http://localhost:3000/gambar").json();
       console.log(parsed);
-      
     })();
   }
 });
