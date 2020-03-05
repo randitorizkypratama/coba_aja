@@ -4,9 +4,19 @@
       <v-container fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
-            <v-card class="elevation-12" v-bind:style="{ backgroundColor: backgroundC}">
-              <v-img height="50" width="50" src="../assets/logo_e1VHP.svg"></v-img>
+            <v-card
+              class="elevation-12"
+              v-bind:style="{ backgroundColor: backgroundC }"
+            >
+              <v-img
+                height="50"
+                width="50"
+                src="../assets/logo_e1VHP.svg"
+              ></v-img>
               <v-card-title>Visual Hotel Program</v-card-title>
+              <div>
+                <v-alert type="error">I'm an error alert.</v-alert>
+              </div>
               <v-card-text>
                 <v-form>
                   <v-text-field
@@ -47,7 +57,9 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="primary" block="true" @click="submit">Login</v-btn>
+                <v-btn color="primary" block="true" @click="submit"
+                  >Login</v-btn
+                >
                 <v-spacer></v-spacer>
               </v-card-actions>
               <span>Copyright by PT. Supranusa Sindata</span>
@@ -63,6 +75,7 @@
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
+import ky from "ky";
 export default {
   mixins: [validationMixin],
 
@@ -112,6 +125,17 @@ export default {
   methods: {
     submit() {
       this.$v.$touch();
+      (async () => {
+        const parsed = await ky.get("http://localhost:3000/users").json();
+        if (
+          parsed[0].user == this.email &&
+          parsed[0].password == this.password
+        ) {
+          this.$router.push("/");
+        } else {
+          console.log("err");
+        }
+      })();
     },
     clear() {
       this.$v.$reset();
