@@ -14,9 +14,9 @@
                 src="../assets/logo_e1VHP.svg"
               ></v-img>
               <v-card-title>Visual Hotel Program</v-card-title>
-              <div>
+              <!-- <div>
                 <v-alert type="error">I'm an error alert.</v-alert>
-              </div>
+              </div> -->
               <v-card-text>
                 <v-form>
                   <v-text-field
@@ -93,7 +93,7 @@ export default {
     password: "",
     email: "",
     select: null,
-    items: ["Item 1", "Item 2", "Item 3", "Item 4"],
+    items: ["ENGLISH", "INDONESIA"],
     backgroundUrl,
     backgroundC: "rgba(255, 255, 255, 0.4)"
   }),
@@ -131,8 +131,12 @@ export default {
           parsed[0].user == this.email &&
           parsed[0].password == this.password
         ) {
+<<<<<<< HEAD
           localStorage.setItem("login", "01");
           this.$router.push("/");
+=======
+          this.$router.push("/home");
+>>>>>>> 160ea27aa6f8781efbc997a6baa7ef0c7b936afb
         } else {
           console.log("err");
         }

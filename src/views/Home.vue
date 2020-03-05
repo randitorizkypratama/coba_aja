@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <v-app-bar app color="primary" dark>VHP</v-app-bar>
+
     <HelloWorld msg="Welcome to Your Vue.js App" />
   </div>
 </template>
