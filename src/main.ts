@@ -5,6 +5,9 @@ import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
 
+const authData = localStorage.getItem("login");
+console.log(authData);
+
 new Vue({
   router,
   vuetify,

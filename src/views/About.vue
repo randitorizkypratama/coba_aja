@@ -121,7 +121,6 @@ export default {
       return errors;
     }
   },
-  //lll
 
   methods: {
     submit() {
@@ -132,6 +131,7 @@ export default {
           parsed[0].user == this.email &&
           parsed[0].password == this.password
         ) {
+          localStorage.setItem("login", "01");
           this.$router.push("/");
         } else {
           console.log("err");
