@@ -131,12 +131,7 @@ export default {
           parsed[0].user == this.email &&
           parsed[0].password == this.password
         ) {
-<<<<<<< HEAD
-          localStorage.setItem("login", "01");
-          this.$router.push("/");
-=======
           this.$router.push("/home");
->>>>>>> 160ea27aa6f8781efbc997a6baa7ef0c7b936afb
         } else {
           console.log("err");
         }
