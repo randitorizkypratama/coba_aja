@@ -1,17 +1,12 @@
 <template>
-  <v-app
-    id="inspire"
-    :style="{ backgroundImage: 'url(https://cdn.vuetifyjs.com/images/cards/docks.jpg)' }"
-  >
+  <v-app id="inspire" :style="{ backgroundImage: `url(${backgroundUrl})` }">
     <v-content>
       <v-container fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
-            <v-card class="elevation-12">
-              <!-- <v-img height="50px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"></v-img> -->
-              <v-toolbar color="primary" dark flat>
-                <v-toolbar-title>Visual Hotel Program</v-toolbar-title>
-              </v-toolbar>
+            <v-card class="elevation-12" v-bind:style="{ backgroundColor: backgroundC}">
+              <v-img height="50" width="50" src="../assets/logo_e1VHP.svg"></v-img>
+              <v-card-title>Visual Hotel Program</v-card-title>
               <v-card-text>
                 <v-form>
                   <v-text-field
@@ -21,6 +16,7 @@
                     v-model="email"
                     :error-messages="emailErrors"
                     required
+                    outlined
                     @input="$v.email.$touch()"
                     @blur="$v.email.$touch()"
                     id="email"
@@ -33,6 +29,7 @@
                     v-model="password"
                     :error-messages="passwordErrors"
                     required
+                    outlined
                     @input="$v.password.$touch()"
                     @blur="$v.password.$touch()"
                     id="password"
@@ -65,7 +62,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
-
+import backgroundUrl from "../assets/sign-in-bg.jpg";
 export default {
   mixins: [validationMixin],
 
@@ -83,7 +80,9 @@ export default {
     password: "",
     email: "",
     select: null,
-    items: ["Item 1", "Item 2", "Item 3", "Item 4"]
+    items: ["Item 1", "Item 2", "Item 3", "Item 4"],
+    backgroundUrl,
+    backgroundC: "rgba(255, 255, 255, 0.4)"
   }),
 
   computed: {
