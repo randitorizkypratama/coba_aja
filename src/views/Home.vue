@@ -62,6 +62,12 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 
 export default {
+  beforeRouteEnter(to, from, next) {
+    if (!localStorage.getItem("login")) {
+      next({ path: "/" });
+    }
+    next();
+  },
   name: "Home",
   data: () => ({
     drawer: false
