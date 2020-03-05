@@ -1,12 +1,9 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      VHP
       <!-- <div id="nav">
         <router-link to="/home">Home</router-link>|
         <router-link to="/">About</router-link>
       </div> -->
-    </v-app-bar>
 
     <v-content>
       <router-view />
