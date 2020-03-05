@@ -140,7 +140,6 @@ export default {
           localStorage.setItem("login", "01");
           this.$router.push("/home");
         } else {
-          console.log("err");
           this.error = true;
         }
       })();
