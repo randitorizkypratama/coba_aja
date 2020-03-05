@@ -3,8 +3,10 @@
     <v-row class="text-center">
       <v-col cols="12">
         <v-img :src="require('../assets/logo.svg')" class="my-3" contain height="200" />
+        <v-img :src="kosong" class="my-3" contain height="200" />
       </v-col>
     </v-row>
+    {{kosong}}
   </v-container>
 </template>
 
@@ -14,7 +16,9 @@ import ky from "ky";
 export default Vue.extend({
   name: "HelloWorld",
 
-  data: () => ({}),
+  data: () => ({
+    kosong: ""
+  }),
 
   methods: {
     submit() {
@@ -25,7 +29,8 @@ export default Vue.extend({
   beforeCreate() {
     (async () => {
       const parsed = await ky.get("http://localhost:3000/gambar").json();
-      console.log(parsed);
+      // console.log(parsed[0].gambar);
+      this.kosong = parsed[0].gambar;
     })();
   }
 });
