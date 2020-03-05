@@ -1,5 +1,125 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <v-app
+    id="inspire"
+    :style="{ backgroundImage: 'url(https://cdn.vuetifyjs.com/images/cards/docks.jpg)' }"
+  >
+    <v-content>
+      <v-container fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
+            <v-card class="elevation-12">
+              <!-- <v-img height="50px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"></v-img> -->
+              <v-toolbar color="primary" dark flat>
+                <v-toolbar-title>Visual Hotel Program</v-toolbar-title>
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    label="E-mail"
+                    name="email"
+                    type="text"
+                    v-model="email"
+                    :error-messages="emailErrors"
+                    required
+                    @input="$v.email.$touch()"
+                    @blur="$v.email.$touch()"
+                    id="email"
+                  />
+
+                  <v-text-field
+                    label="Password"
+                    name="password"
+                    type="password"
+                    v-model="password"
+                    :error-messages="passwordErrors"
+                    required
+                    @input="$v.password.$touch()"
+                    @blur="$v.password.$touch()"
+                    id="password"
+                  />
+                  <v-select
+                    v-model="select"
+                    :items="items"
+                    :error-messages="selectErrors"
+                    label="Language"
+                    required
+                    @change="$v.select.$touch()"
+                    @blur="$v.select.$touch()"
+                  ></v-select>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn color="primary" block="true" @click="submit">Login</v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+              <span>Copyright by PT. Supranusa Sindata</span>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
+
+<script>
+import { validationMixin } from "vuelidate";
+import { required, maxLength, email } from "vuelidate/lib/validators";
+
+export default {
+  mixins: [validationMixin],
+
+  props: {
+    source: String
+  },
+
+  validations: {
+    password: { required, maxLength: maxLength(10) },
+    email: { required, email },
+    select: { required }
+  },
+
+  data: () => ({
+    password: "",
+    email: "",
+    select: null,
+    items: ["Item 1", "Item 2", "Item 3", "Item 4"]
+  }),
+
+  computed: {
+    selectErrors() {
+      const errors = [];
+      if (!this.$v.select.$dirty) return errors;
+      !this.$v.select.required && errors.push("Item is required");
+      return errors;
+    },
+    passwordErrors() {
+      const errors = [];
+      if (!this.$v.password.$dirty) return errors;
+      !this.$v.password.maxLength &&
+        errors.push("password must be at most 10 characters long");
+      !this.$v.password.required && errors.push("password is required.");
+      return errors;
+    },
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.email.$dirty) return errors;
+      !this.$v.email.email && errors.push("Must be valid e-mail");
+      !this.$v.email.required && errors.push("E-mail is required");
+      return errors;
+    }
+  },
+
+  methods: {
+    submit() {
+      this.$v.$touch();
+    },
+    clear() {
+      this.$v.$reset();
+      this.password = "";
+      this.email = "";
+      this.select = null;
+    }
+  }
+};
+</script>
