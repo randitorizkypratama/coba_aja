@@ -4,17 +4,26 @@
       <v-container fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
-            <v-card class="elevation-12" v-bind:style="{ backgroundColor: backgroundC }">
+            <v-card
+              class="elevation-12"
+              v-bind:style="{ backgroundColor: backgroundC }"
+            >
               <v-row class="text-center">
                 <v-col cols="12">
-                  <v-img height="70" width="70" src="../assets/logo_e1VHP.svg" />
+                  <v-img
+                    height="70"
+                    width="70"
+                    src="../assets/logo_e1VHP.svg"
+                  />
                 </v-col>
 
                 <v-col cols="12">
                   <h3 class="font-weight-bold">Visual Hotel Program</h3>
                 </v-col>
               </v-row>
-              <v-alert v-if="error" type="error">Invalid username and password</v-alert>
+              <v-alert v-if="error" type="error"
+                >Invalid username and password</v-alert
+              >
               <!-- <div>
                 <v-alert type="error">I'm an error alert.</v-alert>
               </div>-->
@@ -60,7 +69,9 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="primary" block="true" @click="submit">Login</v-btn>
+                <v-btn color="primary" block="true" @click="submit"
+                  >Login</v-btn
+                >
                 <v-spacer></v-spacer>
               </v-card-actions>
               <span>Copyright by PT. Supranusa Sindata</span>
@@ -138,11 +149,23 @@ export default {
     submit() {
       this.$v.$touch();
       (async () => {
-        const parsed = await ky.get("http://localhost:3000/users").json();
-        if (
-          parsed[0].user == this.email &&
-          parsed[0].password == this.password
-        ) {
+        const parsed = await ky
+          .post(
+            "http://54.251.169.160:8080/logserver/rest/loginServer/loginAuth",
+
+            {
+              json: {
+                request: {
+                  countryId: "ENG",
+                  userName: this.email,
+                  userPswd: this.password
+                }
+              }
+            }
+          )
+          .json();
+
+        if (parsed.response.iResult == 0) {
           localStorage.setItem("login", "01");
           this.$router.push("/home");
         } else {
