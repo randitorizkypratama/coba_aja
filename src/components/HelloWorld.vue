@@ -8,14 +8,10 @@
           contain
           height="200"
         />
-        <v-img :src="kosong" class="my-3" contain height="200" />
+        <!-- <v-img :src="kosong" class="my-3" contain height="200" /> -->
       </v-col>
     </v-row>
-
-    <div>
-      <img v-bind:src="data" />
-    </div>
-    {{ kosong }}
+    <!-- {{kosong}} -->
   </v-container>
 </template>
 
@@ -34,13 +30,24 @@ export default Vue.extend({
       localStorage.clear();
       this.$router.push("/");
     }
-  },
-  beforeCreate() {
-    (async () => {
-      const parsed = await ky.get("http://localhost:3000/gambar").json();
-      // console.log(parsed[0].gambar);
-      this.kosong = parsed[0].gambar;
-    })();
+    // reformData(tempDate) {
+    //   for (let i = 0; i < tempDate.length; i++) {
+    //     const element = tempDate[i];
+    //     language.push({
+    //       value: element["country-id"],
+    //       label: element["country-name"]
+    //     });
+    //   }
+
+    //   return language;
+    // }
   }
+  // beforeCreate() {
+  //   (async () => {
+  //     const parsed = await ky.get("http://localhost:3000/gambar").json();
+  //     // console.log(parsed[0].gambar);
+  //     this.kosong = parsed[0].gambar;
+  //   })();
+  // },
 });
 </script>
