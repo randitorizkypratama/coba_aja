@@ -1,6 +1,23 @@
 {
-  "users": [{ "id": 1, "user": "tes", "password": "tes" }],
-
+  "users": [
+    {
+      "id": 1,
+      "user": "tes",
+      "password": "tes"
+    },
+    {
+      "iCase": 0,
+      "id": 2
+    },
+    {
+      "iCase": "0",
+      "id": 3
+    },
+    {
+      "iCase": "0",
+      "id": 4
+    }
+  ],
   "gambar": [
     {
       "id": 1,
