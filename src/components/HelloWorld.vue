@@ -11,13 +11,11 @@
         <v-img :src="kosong" class="my-3" contain height="200" />
       </v-col>
     </v-row>
-    <<<<<<< HEAD
+
     <div>
       <img v-bind:src="data" />
     </div>
-    =======
     {{ kosong }}
-    >>>>>>> 3ff1ac52049d94d84d358d6d845558ad9658c1de
   </v-container>
 </template>
 

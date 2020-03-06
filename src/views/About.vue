@@ -159,9 +159,6 @@ export default {
           )
           .json();
 
-        console.log(parsed.response.iResult);
-        console.log(this.items);
-
         if (parsed.response.iResult == 0) {
           localStorage.setItem("login", "01");
           this.$router.push("/home");
