@@ -5,6 +5,9 @@
         <v-img :src="require('../assets/logo.svg')" class="my-3" contain height="200" />
       </v-col>
     </v-row>
+    <div>
+      <img v-bind:src="data" />
+    </div>
   </v-container>
 </template>
 
@@ -13,8 +16,9 @@ import Vue from "vue";
 import ky from "ky";
 export default Vue.extend({
   name: "HelloWorld",
-
-  data: () => ({}),
+  data: () => ({
+    data: ""
+  }),
 
   methods: {
     submit() {
@@ -25,7 +29,7 @@ export default Vue.extend({
   beforeCreate() {
     (async () => {
       const parsed = await ky.get("http://localhost:3000/gambar").json();
-      console.log(parsed);
+      this.data = parsed[0].gambar;
     })();
   }
 });

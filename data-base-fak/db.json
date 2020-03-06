@@ -1,6 +1,19 @@
 {
-  "users": [{ "id": 1, "user": "tes", "password": "tes" }],
-
+  "users": [
+    {
+      "id": 1,
+      "user": "tes",
+      "password": "tes"
+    },
+    {
+      "request": {
+        "countryId": "ss",
+        "userName": "ss",
+        "userPswd": "sss"
+      },
+      "id": 2
+    }
+  ],
   "gambar": [
     {
       "id": 1,
