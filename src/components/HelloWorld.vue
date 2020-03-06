@@ -11,7 +11,6 @@
         <!-- <v-img :src="kosong" class="my-3" contain height="200" /> -->
       </v-col>
     </v-row>
-    <!-- {{kosong}} -->
   </v-container>
 </template>
 
@@ -30,17 +29,6 @@ export default Vue.extend({
       localStorage.clear();
       this.$router.push("/");
     }
-    // reformData(tempDate) {
-    //   for (let i = 0; i < tempDate.length; i++) {
-    //     const element = tempDate[i];
-    //     language.push({
-    //       value: element["country-id"],
-    //       label: element["country-name"]
-    //     });
-    //   }
-
-    //   return language;
-    // }
   }
   // beforeCreate() {
   //   (async () => {

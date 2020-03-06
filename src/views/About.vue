@@ -55,8 +55,10 @@
                     id="password"
                   />
                   <v-select
-                    v-model="select"
+                    v-model="defaultSelected"
                     :items="items"
+                    item-text="label"
+                    item-value="value"
                     :error-messages="selectErrors"
                     label="Language"
                     required
@@ -109,7 +111,11 @@ export default {
     password: "",
     email: "",
     select: null,
-    items: ["ENGLISH", "INDONESIA"],
+    defaultSelected: {
+      label: "ENGLISH",
+      value: "ENG"
+    },
+    items: [],
     backgroundUrl,
     backgroundC: "rgba(255, 255, 255, 0.4)",
     error: false
@@ -173,6 +179,36 @@ export default {
       this.email = "";
       this.select = null;
     }
+  },
+  beforeCreate() {
+    (async () => {
+      const language = await ky
+        .post(
+          "http://54.251.169.160:8080/logserver/rest/loginServer/loadLanguages",
+          {
+            json: {
+              request: {
+                iCase: "0"
+              }
+            }
+          }
+        )
+        .json();
+
+      // console.log(language.response.tLanguages["t-languages"], "language");
+      const tempDate = language.response.tLanguages["t-languages"];
+      for (let i = 0; i < tempDate.length; i++) {
+        const element = tempDate[i];
+        this.items.push({
+          value: element["country-id"],
+          label: element["country-name"]
+        });
+        // this.items.push(element["country-name"]);
+      }
+
+      return this.items;
+      //=> `{data: '🦄'}`
+    })();
   }
 };
 </script>
