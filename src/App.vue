@@ -1,6 +1,6 @@
 <template>
   <v-app>
-      <!-- <div id="nav">
+    <!-- <div id="nav">
         <router-link to="/home">Home</router-link>|
         <router-link to="/">About</router-link>
       </div> -->
@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-
+import ky from "ky";
 export default Vue.extend({
   name: "App",
 
@@ -21,7 +21,12 @@ export default Vue.extend({
 
   data: () => ({
     //
-  })
+  }),
+  beforeCreate() {
+    (async () => {
+      const parsed = await ky.get("http://localhost:3000/gambar").json();
+    })();
+  }
 });
 </script>
 

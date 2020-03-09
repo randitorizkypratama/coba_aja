@@ -4,26 +4,17 @@
       <v-container fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
-            <v-card
-              class="elevation-12"
-              v-bind:style="{ backgroundColor: backgroundC }"
-            >
+            <v-card class="elevation-12" v-bind:style="{ backgroundColor: backgroundC }">
               <v-row class="text-center">
                 <v-col cols="12">
-                  <v-img
-                    height="70"
-                    width="70"
-                    src="../assets/logo_e1VHP.svg"
-                  />
+                  <v-img height="70" width="70" src="../assets/logo_e1VHP.svg" />
                 </v-col>
 
                 <v-col cols="12">
                   <h3 class="font-weight-bold">Visual Hotel Program</h3>
                 </v-col>
               </v-row>
-              <v-alert v-if="error" type="error"
-                >Invalid username and password</v-alert
-              >
+              <v-alert v-if="error" type="error">Invalid username and password</v-alert>
               <!-- <div>
                 <v-alert type="error">I'm an error alert.</v-alert>
               </div>-->
@@ -33,7 +24,7 @@
                     label="E-mail"
                     name="email"
                     type="text"
-                    v-model="email"
+                    v-model="users.email"
                     :error-messages="emailErrors"
                     required
                     outlined
@@ -46,7 +37,7 @@
                     label="Password"
                     name="password"
                     type="password"
-                    v-model="password"
+                    v-model="users.password"
                     :error-messages="passwordErrors"
                     required
                     outlined
@@ -69,9 +60,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="primary" block="true" @click="submit"
-                  >Login</v-btn
-                >
+                <v-btn color="primary" block="true" @click="submit">Login</v-btn>
                 <v-spacer></v-spacer>
               </v-card-actions>
               <span>Copyright by PT. Supranusa Sindata</span>
@@ -87,6 +76,7 @@
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
+import { api } from "../../utils/api";
 import ky from "ky";
 export default {
   beforeRouteEnter(to, from, next) {
@@ -108,8 +98,10 @@ export default {
   },
 
   data: () => ({
-    password: "",
-    email: "",
+    users: {
+      password: "",
+      email: ""
+    },
     select: null,
     defaultSelected: {
       label: "ENGLISH",
@@ -152,24 +144,24 @@ export default {
         const parsed = await ky
           .post(
             "http://54.251.169.160:8080/logserver/rest/loginServer/loginAuth",
-
             {
               json: {
                 request: {
                   countryId: "ENG",
-                  userName: this.email,
-                  userPswd: this.password
+                  userName: this.users.email,
+                  userPswd: this.users.password
                 }
               }
             }
           )
           .json();
-
         if (parsed.response.iResult == 0) {
-          localStorage.setItem("login", "01");
-          this.$router.push("/home");
-        } else {
-          this.error = true;
+          localStorage.setItem("login", JSON.stringify(parsed));
+          localStorage.setItem(
+            "token",
+            JSON.stringify(parsed.response.userToken)
+          );
+          this.$router.push("home");
         }
       })();
     },
