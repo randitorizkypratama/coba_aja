@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" dark>
+  <v-app-bar app color="#232f3e" dense flat dark>
     <v-avatar tile>
       <img src="../assets/logoVHP.svg" @click="homie" />
     </v-avatar>
