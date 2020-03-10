@@ -25,7 +25,7 @@
                     label="E-mail"
                     name="email"
                     type="text"
-                    v-model="email"
+                    v-model="users.email"
                     :error-messages="emailErrors"
                     required
                     outlined
@@ -38,7 +38,7 @@
                     label="Password"
                     name="password"
                     type="password"
-                    v-model="password"
+                    v-model="users.password"
                     :error-messages="passwordErrors"
                     required
                     outlined
@@ -98,8 +98,10 @@ export default {
   },
 
   data: () => ({
-    password: "",
-    email: "",
+    users: {
+      password: "",
+      email: ""
+    },
     select: null,
     defaultSelected: {
       label: "ENGLISH",
@@ -138,26 +140,30 @@ export default {
   methods: {
     submit() {
       this.$v.$touch();
+      console.log("auth1234", this.items);
+
       (async () => {
         const parsed = await ky
           .post(
             "http://54.251.169.160:8080/logserver/rest/loginServer/loginAuth",
-
             {
               json: {
                 request: {
                   countryId: "ENG",
-                  userName: this.email,
-                  userPswd: this.password
+                  userName: this.users.email,
+                  userPswd: this.users.password
                 }
               }
             }
           )
           .json();
-
         if (parsed.response.iResult == 0) {
-          localStorage.setItem("login", "01");
-          this.$router.push("/home");
+          localStorage.setItem("login", JSON.stringify(parsed));
+          localStorage.setItem(
+            "token",
+            JSON.stringify(parsed.response.userToken)
+          );
+          this.$router.push("home");
         } else {
           this.error = true;
         }

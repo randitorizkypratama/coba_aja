@@ -283,13 +283,6 @@ export default Vue.extend({
       this.$router.push("/");
     }
   }
-  // beforeCreate() {
-  //   (async () => {
-  //     const parsed = await ky.get("http://localhost:3000/gambar").json();
-  //     // console.log(parsed[0].gambar);
-  //     this.kosong = parsed[0].gambar;
-  //   })();
-  // },
 });
 </script>
 
