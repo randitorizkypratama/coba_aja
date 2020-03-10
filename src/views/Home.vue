@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <NavBar />
+    <div>{{author}}</div>
 
     <HelloWorld msg="Welcome to Your Vue.js App" />
-    <div>{{author}}</div>
   </div>
 </template>
 
