@@ -4,7 +4,10 @@
       <v-container fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
-            <v-card class="elevation-12" v-bind:style="{ backgroundColor: backgroundC }">
+            <v-card
+              class="elevation-12"
+              v-bind:style="{ backgroundColor: backgroundC }"
+            >
               <v-row>
                 <v-col cols="12">
                   <v-img
@@ -15,7 +18,9 @@
                   <h3 class="font-weight-bold">Visual Hotel Program</h3>
                 </v-col>
               </v-row>
-              <v-alert v-if="error" type="error">Invalid username and password</v-alert>
+              <v-alert v-if="error" type="error"
+                >Invalid username and password</v-alert
+              >
               <!-- <div>
                 <v-alert type="error">I'm an error alert.</v-alert>
               </div>-->
@@ -25,7 +30,7 @@
                     label="E-mail"
                     name="email"
                     type="text"
-                    v-model="email"
+                    v-model="users.email"
                     :error-messages="emailErrors"
                     required
                     outlined
@@ -38,7 +43,7 @@
                     label="Password"
                     name="password"
                     type="password"
-                    v-model="password"
+                    v-model="users.password"
                     :error-messages="passwordErrors"
                     required
                     outlined
@@ -77,6 +82,7 @@
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
+import { LOGIN } from "../../utils/store/action.type";
 import ky from "ky";
 export default {
   beforeRouteEnter(to, from, next) {
@@ -98,8 +104,10 @@ export default {
   },
 
   data: () => ({
-    password: "",
-    email: "",
+    users: {
+      password: "",
+      email: ""
+    },
     select: null,
     defaultSelected: {
       label: "ENGLISH",
@@ -138,26 +146,36 @@ export default {
   methods: {
     submit() {
       this.$v.$touch();
+      console.log("context123", this.users.password);
+
+      this.$store.dispatch(LOGIN, {
+        email: this.users.email,
+        password: this.users.password
+      });
+
       (async () => {
         const parsed = await ky
           .post(
             "http://54.251.169.160:8080/logserver/rest/loginServer/loginAuth",
-
             {
               json: {
                 request: {
                   countryId: "ENG",
-                  userName: this.email,
-                  userPswd: this.password
+                  userName: this.users.email,
+                  userPswd: this.users.password
                 }
               }
             }
           )
           .json();
-
         if (parsed.response.iResult == 0) {
-          localStorage.setItem("login", "01");
-          this.$router.push("/home");
+          localStorage.setItem("login", JSON.stringify(parsed));
+          localStorage.setItem(
+            "token",
+            JSON.stringify(parsed.response.userToken)
+          );
+          localStorage.setItem("user", JSON.stringify(this.users.email));
+          this.$router.push("home");
         } else {
           this.error = true;
         }
