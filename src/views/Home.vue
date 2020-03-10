@@ -1,72 +1,9 @@
 <template>
   <div class="home">
-    <!-- <v-app-bar app color="primary" dark>
-      <v-img max-height="77" width="37" src="../assets/logoVHP.svg" alt="VHP Logo"></v-img>
-    </v-app-bar>-->
-    <v-app-bar app color="primary" dark>
-      <!-- <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon> -->
-
-      <!-- <v-toolbar-title>Page title</v-toolbar-title> -->
-      <v-avatar tile>
-        <img src="../assets/logoVHP.svg" @click="homie" />
-      </v-avatar>
-
-      <v-spacer></v-spacer>
-
-      <!-- <v-btn icon @click="submit">
-        <v-icon>mdi-account-circle</v-icon>
-      </v-btn>-->
-
-      <v-menu left bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon>mdi-account-circle</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item @click="() => {}">
-            <v-list-item-title @click="submit">Log Out</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-
-      <v-menu left bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon>mdi-apps</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item v-for="n in 5" :key="n" @click="() => {}">
-            <v-list-item-title>Option {{ n }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-app-bar>
-
-    <!-- <v-navigation-drawer v-model="drawer" absolute temporary>
-      <v-list nav dense>
-        <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Account</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>-->
+    <NavBar />
 
     <HelloWorld msg="Welcome to Your Vue.js App" />
+    <div>{{author}}</div>
   </div>
 </template>
 
@@ -74,6 +11,8 @@
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
 import ky from "ky";
+import NavBar from "@/components/Navbar.vue";
+import { mapState } from "vuex";
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -82,12 +21,14 @@ export default {
     }
     next();
   },
-  name: "Home",
-  data: () => ({
-    // drawer: false
-  }),
+
+  computed: {
+    ...mapState(["author"])
+  },
+
   components: {
-    HelloWorld
+    HelloWorld,
+    NavBar
   },
   methods: {
     submit() {
@@ -114,6 +55,8 @@ export default {
           }
         })
         .json();
+      console.log("parsed", parsed);
+
       if (parsed.response.iResult == "0") {
         localStorage.setItem(
           "token",
