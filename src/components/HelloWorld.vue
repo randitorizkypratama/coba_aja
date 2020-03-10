@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -14,7 +14,7 @@
           <p class="text-no-wrap mx-auto">Front Office Reception</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -27,7 +27,7 @@
           <p class="text-no-wrap mx-auto">Front Office Cashier</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -40,7 +40,7 @@
           <p class="text-no-wrap mx-auto">Telephone Operator</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -53,7 +53,7 @@
           <p class="text-no-wrap mx-auto">Houskeeping</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -66,7 +66,7 @@
           <p class="text-no-wrap mx-auto">Sales Marketing</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -79,7 +79,7 @@
           <p class="text-no-wrap mx-auto">Point Of Sales</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -92,7 +92,7 @@
           <p class="text-no-wrap mx-auto">Banquet</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -105,7 +105,7 @@
           <p class="text-no-wrap mx-auto">Outlet</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -118,7 +118,7 @@
           <p class="text-no-wrap mx-auto">Accounts Receivables</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -131,22 +131,20 @@
           <p class="text-no-wrap mx-auto">Purchasing</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
-        <router-link to="/recipe">
-          <v-card class="pa-2" max-width="160" hover outlined>
-            <v-img
-              max-width="80"
-              :src="require('../assets/main-screen/Inventory.svg')"
-              class="mb-3 ml-auto mr-auto"
-              width="80"
-              contain
-              height="60"
-            />
-            <p class="text-no-wrap mx-auto">Inventory</p>
-          </v-card>
-        </router-link>
+      <v-col cols="6" md="2">
+        <v-card class="pa-2" max-width="160" hover outlined>
+          <v-img
+            max-width="80"
+            :src="require('../assets/main-screen/Inventory.svg')"
+            class="mb-3 ml-auto mr-auto"
+            width="80"
+            contain
+            height="60"
+          />
+          <p class="text-no-wrap mx-auto">Inventory</p>
+        </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -159,7 +157,7 @@
           <p class="text-no-wrap mx-auto">Accounts Payables</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -172,7 +170,7 @@
           <p class="text-no-wrap mx-auto">General Cashier</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -185,7 +183,7 @@
           <p class="text-no-wrap mx-auto">General Ledger</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -198,7 +196,7 @@
           <p class="text-no-wrap mx-auto">Fixed Assets</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -211,7 +209,7 @@
           <p class="text-no-wrap mx-auto">Engineering</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -224,7 +222,7 @@
           <p class="text-no-wrap mx-auto">System Tools</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -237,7 +235,7 @@
           <p class="text-no-wrap mx-auto">Setting</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"
@@ -250,7 +248,7 @@
           <p class="text-no-wrap mx-auto">Night Audit</p>
         </v-card>
       </v-col>
-      <v-col cols="6" md="2" sm="3">
+      <v-col cols="6" md="2">
         <v-card class="pa-2" max-width="160" hover outlined>
           <v-img
             max-width="80"

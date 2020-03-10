@@ -4,7 +4,10 @@
       <v-container fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
-            <v-card class="elevation-12" v-bind:style="{ backgroundColor: backgroundC }">
+            <v-card
+              class="elevation-12"
+              v-bind:style="{ backgroundColor: backgroundC }"
+            >
               <v-row>
                 <v-col cols="12">
                   <v-img
@@ -15,7 +18,9 @@
                   <h3 class="font-weight-bold">Visual Hotel Program</h3>
                 </v-col>
               </v-row>
-              <v-alert v-if="error" type="error">Invalid username and password</v-alert>
+              <v-alert v-if="error" type="error"
+                >Invalid username and password</v-alert
+              >
               <!-- <div>
                 <v-alert type="error">I'm an error alert.</v-alert>
               </div>-->
@@ -169,6 +174,7 @@ export default {
             "token",
             JSON.stringify(parsed.response.userToken)
           );
+          localStorage.setItem("user", JSON.stringify(this.users.email));
           this.$router.push("home");
         } else {
           this.error = true;
