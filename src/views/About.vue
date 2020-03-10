@@ -77,6 +77,7 @@
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
+import { LOGIN } from "../../utils/store/action.type";
 import ky from "ky";
 export default {
   beforeRouteEnter(to, from, next) {
@@ -140,7 +141,12 @@ export default {
   methods: {
     submit() {
       this.$v.$touch();
-      console.log("auth1234", this.items);
+      console.log("context123", this.users.password);
+
+      this.$store.dispatch(LOGIN, {
+        email: this.users.email,
+        password: this.users.password
+      });
 
       (async () => {
         const parsed = await ky

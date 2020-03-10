@@ -1,9 +1,14 @@
 <template>
   <div class="home">
     <NavBar />
+    <div>{{author}}</div>
 
+<<<<<<< HEAD
     <HelloWorld />
     <div>{{author}}</div>
+=======
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+>>>>>>> e9e200238857452d265b62413d47ca2c54dacf64
   </div>
 </template>
 

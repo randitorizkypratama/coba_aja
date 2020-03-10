@@ -68,14 +68,14 @@ export default Vue.extend({
     }
   },
 
-  beforeCreate() {
-    const local = JSON.parse(localStorage.getItem("login"));
+  // beforeCreate() {
+  //   const local = JSON.parse(localStorage.getItem("login"));
 
-    this.hotelname = local.response.htlName;
+  //   this.hotelname = local.response.htlName;
 
-    console.log(this.hotelname);
+  //   console.log(this.hotelname);
     
-  }
+  // }
 });
 </script>
 
