@@ -3,7 +3,8 @@
     <v-avatar tile>
       <img src="../assets/logoVHP.svg" @click="homie" />
     </v-avatar>
-
+    <v-spacer></v-spacer>
+    <p class="mt-4 font-weight-black">Grand Visual Hotel (Jakarta)</p>
     <v-spacer></v-spacer>
     <v-menu left bottom>
       <template v-slot:activator="{ on }">
@@ -30,7 +31,7 @@
         <v-list-item @click="() => {}">
           <v-list-item-title>
             <router-link to="/home">Home</router-link>
-           </v-list-item-title>
+          </v-list-item-title>
           <v-list-item-title>
             <router-link to="/purchase-book">Purchase Book</router-link>
           </v-list-item-title>
@@ -45,7 +46,7 @@ import Vue from "vue";
 
 export default Vue.extend({
   name: "NavBar",
-    beforeRouteEnter(to, from, next) {
+  beforeRouteEnter(to, from, next) {
     if (!localStorage.getItem("login")) {
       next({ path: "/" });
     }
