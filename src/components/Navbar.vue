@@ -1,10 +1,10 @@
 <template>
-  <v-app-bar app color="#232f3e" dense flat dark>
+  <v-app-bar app color="#232f3e" dense flat dark height="37">
     <v-avatar tile>
       <img src="../assets/logoVHP.svg" @click="homie" />
     </v-avatar>
     <v-spacer></v-spacer>
-    <p class="mt-4 font-weight-black">Grand Visual Hotel (Jakarta)</p>
+    <p class="mt-4 font-weight-black">{{hotelname}}</p>
     <v-spacer></v-spacer>
     <v-menu left bottom>
       <template v-slot:activator="{ on }">
@@ -54,6 +54,8 @@ export default Vue.extend({
   },
   data: () => ({
     // drawer: false
+    hotelname: "GRAND VISUAL HOTEL",
+    hoteladdress: ""
   }),
 
   methods: {
@@ -64,6 +66,20 @@ export default Vue.extend({
     homie() {
       this.$router.push("/home");
     }
+  },
+
+  beforeCreate() {
+    const local = JSON.parse(localStorage.getItem("login"));
+
+    this.hotelname = local.response.htlName;
+
+    console.log(this.hotelname);
+    
   }
 });
 </script>
+
+
+<style lang="scss">
+// $color: red;
+</style>

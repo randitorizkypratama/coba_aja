@@ -2,7 +2,7 @@
   <div class="home">
     <NavBar />
 
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <HelloWorld />
     <div>{{author}}</div>
   </div>
 </template>
