@@ -9,7 +9,8 @@
     <v-menu left bottom>
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on" class="pr-6">
-          <v-icon>mdi-account-circle</v-icon>{{username}}
+          <v-icon>mdi-account-circle</v-icon>
+          {{username}}
         </v-btn>
       </template>
 
