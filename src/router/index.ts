@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Purchasebook from "../views/Purchasebook.vue";
+import Recipe from "../views/Recipe.vue";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,11 @@ const routes = [
     path: "/purchase-book",
     name: "Purchasebook",
     component: Purchasebook
+  },
+  {
+    path: "/recipe",
+    name: "Recipe",
+    component: Recipe
   },
 ];
 
