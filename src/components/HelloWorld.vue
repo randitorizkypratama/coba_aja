@@ -5,7 +5,7 @@
         <v-card class="pa-2" max-width="160" hover outlined @click="nextaja(item.url)">
           <img
             max-width="80"
-            :src="item.photo"
+            :src="require('@/assets/main-screen/FO-Reception.svg')"
             class="mb-3 ml-auto mr-auto hover"
             width="80"
             height="60"
@@ -19,7 +19,27 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import ky from "ky";
+// import ky from "ky";
+// var f_o_r = require("../assets/main-screen/FO-Reception.svg");
+// var f_o_c = require("../assets/main-screen/FO-Cashier.svg");
+// var t_o = require("../assets/main-screen/TO.svg");
+// var hk = require("../assets/main-screen/HK.svg");
+// var sm = require("../assets/main-screen/SM.svg");
+// var pos = require("../assets/main-screen/POS.svg");
+// var banquet = require("../assets/main-screen/Banquet.svg");
+// var outlet = require("../assets/main-screen/Outlet.svg");
+// var ar = require("../assets/main-screen/AR.svg");
+// var pu = require("../assets/main-screen/Purchasing.svg");
+// var inv = require("../assets/main-screen/Inventory.svg");
+// var ap = require("../assets/main-screen/AP.svg");
+// var gc = require("../assets/main-screen/GC.svg");
+// var gl = require("../assets/main-screen/GL.svg");
+// var fa = require("../assets/main-screen/FixAssets.svg");
+// var eg = require("../assets/main-screen/Engineering.svg");
+// var st = require("../assets/main-screen/SettingTools.svg);
+// var set = require("../assets/main-screen/Setting.svg);
+// var na = require("../assets/main-screen/NightAudit.svg);
+// var ia = require("../assets/main-screen/IncomeAudit.svg);
 
 export default Vue.extend({
   name: "HelloWorld",
@@ -29,102 +49,102 @@ export default Vue.extend({
     shoppingItems: [
       {
         name: "Front Office Reception",
-        photo: "/img/FO-Reception.decbb0fe.svg",
+        photo: "FO-Reception.svg",
         url: "front-office-reception"
       },
       {
         name: "Front Office Cashier",
-        photo: "/img/FO-Cashier.a45529cd.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Telephone Operator",
-        photo: "/img/TO.d041c629.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Housekeeping",
-        photo: "/img/HK.b144ef07.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Sales Marketing",
-        photo: "/img/SM.78c0ab2a.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Point Of Sales",
-        photo: "/img/POS.fed6bcc7.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Banquet",
-        photo: "/img/Banquet.c062a36d.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Outlet",
-        photo: "/img/Outlet.63135982.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Accounts Receivable",
-        photo: "/img/AR.1dfac63c.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Purchasing",
-        photo: "/img/Purchasing.a608f6ca.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Inventory",
-        photo: "/img/Inventory.bb7a940f.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Accounts Payable",
-        photo: "/img/AP.00e0f68b.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "General Cashier",
-        photo: "/img/GC.aaf98a6a.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "General Ledger",
-        photo: "/img/GL.32fb2240.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Fixed Assets",
-        photo: "/img/FixAssets.ec26a420.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Engineering",
-        photo: "/img/Engineering.376abbe6.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "System Tools",
-        photo: "/img/SettingTools.8219d6aa.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Setting",
-        photo: "/img/Setting.78b44b3a.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Night Audit",
-        photo: "/img/NightAudit.44eebb2a.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       },
       {
         name: "Income Audit",
-        photo: "/img/IncomeAudit.72b6c250.svg",
+        photo: "FO-Cashier.svg",
         url: "front-office-reception"
       }
     ]
