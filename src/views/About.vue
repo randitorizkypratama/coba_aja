@@ -77,11 +77,12 @@
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
-import { LOGIN } from "../../utils/store/action.type";
 import ky from "ky";
+import { LOGIN } from "../../utils/store/actions";
 export default {
   beforeRouteEnter(to, from, next) {
-    if (localStorage.getItem("login")) {
+    const local = localStorage.getItem("login");
+    if (local) {
       next({ path: "home" });
     }
     next();
@@ -98,21 +99,23 @@ export default {
     select: { required }
   },
 
-  data: () => ({
-    users: {
-      password: "",
-      email: ""
-    },
-    select: null,
-    defaultSelected: {
-      label: "ENGLISH",
-      value: "ENG"
-    },
-    items: [],
-    backgroundUrl,
-    backgroundC: "rgba(255, 255, 255, 0.4)",
-    error: false
-  }),
+  data() {
+    return {
+      users: {
+        password: "",
+        email: ""
+      },
+      select: null,
+      defaultSelected: {
+        label: "ENGLISH",
+        value: "ENG"
+      },
+      items: [],
+      backgroundUrl,
+      backgroundC: "rgba(255, 255, 255, 0.4)",
+      error: false
+    };
+  },
 
   computed: {
     selectErrors() {
@@ -141,39 +144,15 @@ export default {
   methods: {
     submit() {
       this.$v.$touch();
-      console.log("context123", this.users.password);
+      this.$store.dispatch(LOGIN, this.users);
+      const login = JSON.parse(localStorage.getItem("login"));
+      console.log("login123", login);
 
-      this.$store.dispatch(LOGIN, {
-        email: this.users.email,
-        password: this.users.password
-      });
-
-      (async () => {
-        const parsed = await ky
-          .post(
-            "http://54.251.169.160:8080/logserver/rest/loginServer/loginAuth",
-            {
-              json: {
-                request: {
-                  countryId: "ENG",
-                  userName: this.users.email,
-                  userPswd: this.users.password
-                }
-              }
-            }
-          )
-          .json();
-        if (parsed.response.iResult == 0) {
-          localStorage.setItem("login", JSON.stringify(parsed));
-          localStorage.setItem(
-            "token",
-            JSON.stringify(parsed.response.userToken)
-          );
-          this.$router.push("home");
-        } else {
-          this.error = true;
-        }
-      })();
+      if (login.response.iResult == "0") {
+        this.$router.push("home");
+      } else {
+        this.error = true;
+      }
     },
     clear() {
       this.$v.$reset();

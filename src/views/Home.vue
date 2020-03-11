@@ -1,7 +1,9 @@
 <template>
   <div class="home">
     <NavBar />
-    <div>{{author}}</div>
+    <!-- <div>{{author}}</div>
+    <div>{{mencariId(2).jenis}}</div>
+    <div>{{mencariId(2).id}}</div>-->
 
     <HelloWorld msg="Welcome to Your Vue.js App" />
   </div>
@@ -12,19 +14,21 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 import ky from "ky";
 import NavBar from "@/components/Navbar.vue";
-import { mapState } from "vuex";
+// import { mapState, mapGetters } from "vuex";
 
 export default {
   beforeRouteEnter(to, from, next) {
-    if (!localStorage.getItem("login")) {
+    const local = localStorage.getItem("login");
+    if (!local) {
       next({ path: "/" });
     }
     next();
   },
 
-  computed: {
-    ...mapState(["author"])
-  },
+  // computed: {
+  //   ...mapState(["author"]),
+  //   ...mapGetters(["mencariId"])
+  // },
 
   components: {
     HelloWorld,
@@ -55,8 +59,6 @@ export default {
           }
         })
         .json();
-      console.log("parsed", parsed);
-
       if (parsed.response.iResult == "0") {
         localStorage.setItem(
           "token",
