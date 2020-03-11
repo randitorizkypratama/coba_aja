@@ -72,7 +72,7 @@
             </v-card>
           </v-col>
         </v-row>
-        <div class="copyright text-center">Copyright by PT. Supranusa Sindata</div>
+        <p class="copyright">Copyright by PT. Supranusa Sindata</p>
       </v-container>
     </v-content>
   </v-app>
@@ -226,11 +226,9 @@ export default {
   padding-top: 50px;
   font-size: 14px;
   position: fixed;
-  text-align: center;
   bottom: 0;
   opacity: 0.75;
-  margin-bottom: 10px;
-  margin-left: 588px;
+  margin-left: 630px;
 }
 
 .v-btn {
