@@ -6,7 +6,7 @@
           <img
             max-width="80"
             :src="require('@/assets/main-screen/' + item.photo)"
-            class="mb-3 ml-auto mr-auto hover"
+            class="ma-3 ml-auto mr-auto hover"
             width="80"
             height="60"
             contain
@@ -148,5 +148,9 @@ export default Vue.extend({
 <style scoped>
 p {
   font-size: 14px;
+}
+
+.v-card:not(.v-sheet--tile):not(.v-card--shaped) {
+  border-radius: 20px;
 }
 </style>

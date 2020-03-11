@@ -4,13 +4,13 @@
       <img src="../assets/logoVHP.svg" @click="homie" />
     </v-avatar>
     <v-spacer></v-spacer>
-    <p class="mt-4 font-weight-black">{{hotelname}} ({{hoteladdress}})</p>
+    <p class="mt-4 font-weight-black">{{ hotelname }} ({{ hoteladdress }})</p>
     <v-spacer></v-spacer>
     <v-menu left bottom>
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on" class="pr-6">
           <v-icon>mdi-account-circle</v-icon>
-          {{username}}
+          {{ username }}
         </v-btn>
       </template>
 
