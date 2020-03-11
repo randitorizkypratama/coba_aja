@@ -3,7 +3,7 @@
     <NavBar />
     <v-container fluid>
       <v-row>
-        <v-col cols="6" md="3">
+        <v-col cols="4" md="3">
           <v-select
             v-model="select"
             :items="mainGroup"
@@ -15,6 +15,7 @@
           <v-select
             v-model="select"
             :items="storeNumber"
+            item-text="label"
             item-value="value"
             label="Store Number"
             outlined
@@ -28,7 +29,7 @@
           <v-spacer></v-spacer>
         </v-col>
 
-        <v-col cols="12" md="9">
+        <v-col cols="14" md="9">
           <v-data-table
             :headers="headers"
             :items="desserts"
@@ -45,6 +46,7 @@
 
 <script>
 import NavBar from "@/components/Navbar.vue";
+import ky from "ky";
 
 export default {
   components: {
@@ -66,6 +68,39 @@ export default {
       { text: "Actual Price", value: "anzahl" },
       { text: "Last Purchase Date", value: "einzelpreis" }
     ]
-  })
+  }),
+  beforeCreate() {
+    (async () => {
+      const data = await ky
+        .post(
+          "http://ws1.e1-vhp.com/VHPWebBased/rest/vhpINV/slowMovingPrepare",
+          {
+            json: {
+              request: {
+                inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+                inputUsername: "sindata",
+                LnLProg: " "
+              }
+            }
+          }
+        )
+        .json();
+
+      console.log(data.response.tLLager["t-l-lager"], "dataaja");
+      console.log(data.response.tLHauptgrp["t-l-hauptgrp"], "dataaja2");
+      //   const tempDate = language.response.tLanguages["t-languages"];
+      //   for (let i = 0; i < tempDate.length; i++) {
+      //     const element = tempDate[i];
+      //     this.storeNumber.push({
+      //       value: element["country-id"],
+      //       label: element["country-name"]
+      //     });
+      // this.items.push(element["country-name"]);
+      //   }
+
+      //   return this.storeNumber;
+      //=> `{data: '🦄'}`
+    })();
+  }
 };
 </script>
