@@ -2,13 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="6" md="2" v-for="item in shoppingItems" :key="item.name">
-        <v-card
-          class="pa-1"
-          max-width="150"
-          hover
-          outlined
-          @click="nextaja(item.url)"
-        >
+        <v-card class="pa-1" max-width="150" hover outlined @click="nextaja(item.url)">
           <img
             max-width="80"
             :src="require('@/assets/main-screen/' + item.photo)"
@@ -153,5 +147,9 @@ export default Vue.extend({
 <style scoped>
 p {
   font-size: 14px;
+}
+
+.v-card:not(.v-sheet--tile):not(.v-card--shaped) {
+  border-radius: 20px;
 }
 </style>
