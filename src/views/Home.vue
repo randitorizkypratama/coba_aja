@@ -5,7 +5,8 @@
     <div>{{mencariId(2).jenis}}</div>
     <div>{{mencariId(2).id}}</div>-->
 
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <HelloWorld />
+    <div>{{author}}</div>
   </div>
 </template>
 

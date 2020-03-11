@@ -1,15 +1,16 @@
 <template>
-  <v-app-bar app color="#232f3e" dense flat dark>
+  <v-app-bar app color="#232f3e" dense flat dark height="37">
     <v-avatar tile>
       <img src="../assets/logoVHP.svg" @click="homie" />
     </v-avatar>
     <v-spacer></v-spacer>
-    <p class="mt-4 font-weight-black">Grand Visual Hotel (Jakarta)</p>
+    <p class="mt-4 font-weight-black">{{ hotelname }} ({{ hoteladdress }})</p>
     <v-spacer></v-spacer>
     <v-menu left bottom>
       <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on">
+        <v-btn icon v-on="on" class="pr-6">
           <v-icon>mdi-account-circle</v-icon>
+          {{ username }}
         </v-btn>
       </template>
 
@@ -52,9 +53,18 @@ export default Vue.extend({
     }
     next();
   },
-  data: () => ({
-    // drawer: false
-  }),
+  // data: () => ({
+  //   // drawer: false
+  //   hotelname: "GRAND VISUAL HOTEL",
+  //   hoteladdress: "JAKARTA"
+  // }),
+  data() {
+    return {
+      hotelname: "",
+      hoteladdress: "",
+      username: ""
+    };
+  },
 
   methods: {
     submit() {
@@ -64,6 +74,15 @@ export default Vue.extend({
     homie() {
       this.$router.push("/home");
     }
+  },
+
+  mounted() {
+    const local = JSON.parse(localStorage.getItem("login") || "{}");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+    this.hotelname = local.response.htlName;
+    this.hoteladdress = local.response.htlCity;
+    this.username = user.substring(0, user.indexOf("@"));
   }
 });
 </script>

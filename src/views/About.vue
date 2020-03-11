@@ -1,10 +1,15 @@
+<!-- @format -->
+
 <template>
   <v-app id="inspire" :style="{ backgroundImage: `url(${backgroundUrl})` }">
     <v-content>
       <v-container fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
-            <v-card class="elevation-12" v-bind:style="{ backgroundColor: backgroundC }">
+            <v-card
+              class="elevation-12"
+              v-bind:style="{ backgroundColor: backgroundC }"
+            >
               <v-row>
                 <v-col cols="12">
                   <v-img
@@ -15,7 +20,9 @@
                   <h3 class="font-weight-bold">Visual Hotel Program</h3>
                 </v-col>
               </v-row>
-              <v-alert v-if="error" type="error">Invalid username and password</v-alert>
+              <v-alert v-if="error" type="error"
+                >Invalid username and password</v-alert
+              >
               <!-- <div>
                 <v-alert type="error">I'm an error alert.</v-alert>
               </div>-->
@@ -61,13 +68,19 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn class="mb-5" color="primary" block="true" @click="submit">Login</v-btn>
+                <v-btn
+                  class="mb-5 mt-n3 font-weight-bold"
+                  color="primary"
+                  block="true"
+                  @click="submit"
+                  >Log In</v-btn
+                >
                 <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
-        <div class="copyright text-center">Copyright by PT. Supranusa Sindata</div>
+        <p class="copyright">Copyright by PT. Supranusa Sindata</p>
       </v-container>
     </v-content>
   </v-app>
@@ -199,10 +212,23 @@ export default {
   padding-top: 50px;
   font-size: 14px;
   position: fixed;
-  text-align: center;
   bottom: 0;
   opacity: 0.75;
-  margin-bottom: 10px;
-  margin-left: 588px;
+  margin-left: 630px;
+}
+
+.v-btn {
+  box-shadow: 0 4px 8px 0 rgba(24, 144, 255, 0.37);
+  text-transform: capitalize;
+  border-radius: 30px;
+  height: 55px;
+  font-size: 16px;
+}
+
+.v-btn:hover {
+  box-shadow: 0 8px 16px 0 rgba(24, 144, 255, 0.37);
+  border-radius: 30px;
+  text-transform: capitalize;
+  font-size: 16px;
 }
 </style>
