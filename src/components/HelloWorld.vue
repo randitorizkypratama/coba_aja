@@ -139,6 +139,7 @@ export default Vue.extend({
       console.log(e);
 
       this.$router.push("/" + e);
+      // <router-link to="/home"></router-link>
     }
   }
 });

@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Purchasebook from "../views/Purchasebook.vue";
 import Recipe from "../views/Recipe.vue";
+import Inventory from "../vhp-modules/inventory/inventory.vue"
+import SlowMovingStockOnHand from "../vhp-modules/inventory/reports/slow-moving-stock-on-hand/Slow-Moving-Stock-On-Hand.vue"
 
 Vue.use(VueRouter);
 
@@ -30,6 +32,16 @@ const routes = [
     path: "/recipe",
     name: "Recipe",
     component: Recipe
+  },
+  {
+    path: "/inventory",
+    name: "Inventory",
+    component: Inventory
+  },
+  {
+    path: "/slow-moving-stock-on-hand",
+    name: "SlowMovingStockOnHand",
+    component: SlowMovingStockOnHand
   },
 ];
 
