@@ -6,7 +6,7 @@
           <img
             max-width="80"
             :src="require('@/assets/main-screen/' + item.photo)"
-            class="mb-3 ml-auto mr-auto hover"
+            class="ma-3 ml-auto mr-auto hover"
             width="80"
             height="60"
             contain
