@@ -6,7 +6,7 @@
         <v-col cols="6" md="3">
           <v-select v-model="artnr" :items="items" item-value="value" item-text="label" label="Select Article" dense="true" outlined></v-select>
           <v-btn class="mb-3" color="primary" @click="search" block depressed large>
-            <v-icon right dark>mdi-magnify</v-icon>Search</v-btn>
+            <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search</v-btn>
           <v-spacer></v-spacer>
           <div>
             <p class="dashed">Remark</p>
@@ -21,7 +21,8 @@
             class="elevation-1"
             dense="true"
             hide-default-footer="true"
-            item-per-page="ALL"/>
+            rows-per-page-items="[15, 30, 50, 100]"
+            pagination.sync="pagination"/>
         </v-col>
       </v-row>
     </v-container>
@@ -38,6 +39,8 @@ export default {
     NavBar
   },
   mounted () {
+    this.uname = localStorage.getItem("user");
+    console.log(this.uname);
     (async () => {
       const parsed = await ky
         .post(
@@ -85,7 +88,12 @@ export default {
         { text: "Remark", value: "remark" }
       ],
       datas: [],
-      artnr: ""
+      artnr: "",
+      pagination: {
+        rowsPerPage: 30
+      },
+      uname: "",
+      ukey: ""
     };
   },
   methods: {
