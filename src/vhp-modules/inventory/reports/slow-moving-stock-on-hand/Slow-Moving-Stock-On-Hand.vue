@@ -7,6 +7,7 @@
           <v-select
             v-model="select"
             :items="mainGroup"
+            item-text="label"
             item-value="value"
             label="Main Group"
             outlined
@@ -86,19 +87,27 @@ export default {
         )
         .json();
 
-      console.log(data.response.tLLager["t-l-lager"], "dataaja");
-      console.log(data.response.tLHauptgrp["t-l-hauptgrp"], "dataaja2");
-      //   const tempDate = language.response.tLanguages["t-languages"];
-      //   for (let i = 0; i < tempDate.length; i++) {
-      //     const element = tempDate[i];
-      //     this.storeNumber.push({
-      //       value: element["country-id"],
-      //       label: element["country-name"]
-      //     });
-      // this.items.push(element["country-name"]);
-      //   }
+      // console.log(data.response.tLLager["t-l-lager"], "dataaja");
+      // console.log(data.response.tLHauptgrp["t-l-hauptgrp"], "dataaja2");
+      const tempMainGroup = data.response.tLLager["t-l-lager"];
+      for (let i = 0; i < tempMainGroup.length; i++) {
+        const element = tempMainGroup[i];
+        this.mainGroup.push({
+          value: element["lager-nr"],
+          label: element["bezeich"]
+        });
+        // this.items.push(element["country-name"]);
+      }
+      const tempStoreNumber = data.response.tLHauptgrp["t-l-hauptgrp"];
+      for (let i = 0; i < tempStoreNumber.length; i++) {
+        const element = tempStoreNumber[i];
+        this.storeNumber.push({
+          value: element["endkum"],
+          label: element["bezeich"]
+        });
+        // this.items.push(element["country-name"]);
+      }
 
-      //   return this.storeNumber;
       //=> `{data: '🦄'}`
     })();
   }
