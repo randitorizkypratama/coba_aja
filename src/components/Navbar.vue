@@ -1,3 +1,5 @@
+<!-- @format -->
+
 <template>
   <v-app-bar app color="#232f3e" dense flat dark height="37">
     <v-avatar tile>
@@ -68,7 +70,7 @@ export default Vue.extend({
 
   methods: {
     submit() {
-      localStorage.removeItem("login");
+      localStorage.clear();
       this.$router.push("/");
     },
     homie() {

@@ -1,22 +1,11 @@
 /** @format */
+/** @format */
 
-import { LOGIN } from "./actions";
-import { API_URL } from "../api/config";
+import { LOGIN } from "../context/actions";
+import { API_URL } from "../api/api";
 import ky from "ky";
 
-const state = {
-  author: "state management",
-  data: [
-    {
-      id: 1,
-      jenis: "string"
-    },
-    {
-      id: 2,
-      jenis: "bolean"
-    }
-  ]
-};
+const state = {};
 
 const actions = {
   [LOGIN](context, credentials) {
@@ -41,7 +30,6 @@ const actions = {
 
 const mutations = {
   confirm: (state, credentials) => {
-    console.log("dataSatu", credentials);
     localStorage.setItem("login", JSON.stringify(credentials));
     localStorage.setItem(
       "token",
@@ -50,13 +38,7 @@ const mutations = {
   }
 };
 
-const getters = {
-  mencariId: state => id => {
-    return state.data.find(obj => {
-      return obj.id === id;
-    });
-  }
-};
+const getters = {};
 export default {
   state,
   actions,
