@@ -214,7 +214,7 @@ export default {
   position: fixed;
   bottom: 0;
   opacity: 0.75;
-  margin-left: 630px;
+  margin-left: 558px;
 }
 
 .v-btn {
