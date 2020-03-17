@@ -22,12 +22,27 @@
             outlined
             dense
           ></v-autocomplete>
+
           <v-text-field v-model="day" label="Days" type="number" outlined dense></v-text-field>
           <v-btn color="primary" @click="cari" block depressed small>
             <v-icon right dark>mdi-magnify</v-icon>Rounded Button
           </v-btn>
 
-          <v-spacer></v-spacer>
+          <v-daterange v-model="range"></v-daterange>
+
+          <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                :value="computedDateFormattedMomentjs"
+                clearable
+                label="Formatted with Moment.js"
+                readonly
+                v-on="on"
+                @click:clear="date = null"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="date" @change="menu1 = false"></v-date-picker>
+          </v-menu>
         </v-col>
 
         <v-col cols="14" md="9">
@@ -55,15 +70,21 @@
 import NavBar from "@/components/Navbar.vue";
 import ky from "ky";
 import moment from "moment";
+import { VDaterange } from "vuetify-daterange-picker";
+import "vuetify-daterange-picker/dist/vuetify-daterange-picker.css";
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    VDaterange
   },
   data: () => ({
     height: 450,
+    date: new Date().toISOString().substr(0, 10),
+    menu1: false,
     mainGroup: [],
     storeNumber: [],
+    range: {},
     datas: [],
     showPrice: "",
     select: "",
@@ -125,6 +146,11 @@ export default {
 
       //=> `{data: '🦄'}`
     })();
+  },
+  computed: {
+    computedDateFormattedMomentjs() {
+      return this.date ? moment(this.date).format("dddd, MMMM Do YYYY") : "";
+    }
   },
   methods: {
     cari() {
