@@ -4,7 +4,10 @@
 import { LOGIN } from "../context/actions";
 import { API_URL, API_LOGIN } from "../api/api";
 import ky from "ky";
-import state from "utils/store";
+
+const state = {
+  dataIssue: 0
+};
 
 const actions = {
   [LOGIN](context, credentials) {
@@ -35,7 +38,7 @@ const actions = {
             }
           })
           .json();
-        context.commit("issuing", parsed.response.tLHauptgrp["t-l-hauptgrp"]);
+        context.commit("issuingData", parsed);
       })();
     });
   }
@@ -49,14 +52,15 @@ const mutations = {
       JSON.stringify(credentials.response.userToken)
     );
   },
-  issuing: (state, credentials) => {
-    console.log("data1234", credentials);
-
-    state.issuing = credentials;
+  issuingData: (state, credentials) => {
+    state.dataIssue = credentials.response.tLHauptgrp["t-l-hauptgrp"];
   }
 };
 
+const getters = {};
 export default {
+  state,
   actions,
-  mutations
+  mutations,
+  getters
 };

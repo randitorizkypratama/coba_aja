@@ -94,8 +94,9 @@ import ky from "ky";
 import { LOGIN } from "../../utils/context/actions";
 export default {
   beforeRouteEnter(to, from, next) {
-    const local = localStorage.getItem("login");
-    if (local) {
+    const local = JSON.parse(localStorage.getItem("login"));
+    const login = local !== null ? local.response.iResult : "err";
+    if (login == 0) {
       next({ path: "home" });
     }
     next();
@@ -159,8 +160,6 @@ export default {
       this.$v.$touch();
       this.$store.dispatch(LOGIN, this.users);
       const login = JSON.parse(localStorage.getItem("login"));
-      console.log("login123", login);
-
       if (login.response.iResult == "0") {
         this.$router.push("home");
       } else {

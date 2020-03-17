@@ -1,13 +1,12 @@
 /** @format */
 
 const state = {
-  issuing: []
+  listAgenda: [
+    { hari: "senin", kegiatan: "Belajar Vuejs" },
+    { hari: "selasa", kegiatan: "Belajar Laravel" },
+    { hari: "rabu", kegiatan: "Belajar Mysql" }
+  ],
+  issuingState: 0
 };
 
-const getters = {
-  // dataIssuing(state) {
-  //   return state.issuing;
-  // }
-};
-
-export default { state, getters };
+export default state;
