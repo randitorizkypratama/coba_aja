@@ -40,10 +40,11 @@
             disable-pagination
             hide-default-footer
             fixed-header
-            dark
             calculate-widths
             dense
-          ></v-data-table>
+          >
+            <template v-slot:item.datum="{ item }">{{ formatDate(item.datum) }}</template>
+          </v-data-table>
         </v-col>
       </v-row>
     </v-container>
@@ -81,8 +82,7 @@ export default {
       { text: "Actual Price", value: "ek-aktuell" },
       {
         text: "Last Purchase Date",
-        value: "datum",
-        format: "DD-MM-YYYY"
+        value: "datum"
       }
     ]
   }),
@@ -151,13 +151,9 @@ export default {
         const pbookList = parsed.response.sList["s-list"];
         this.datas = pbookList;
       })();
-    }
-  },
-  computed: {
-    computedDateFormattedMomentjs() {
-      return this.datas.datum != undefined
-        ? moment(this.datas.datum).format("dd-mm-yyyy")
-        : "";
+    },
+    formatDate(value) {
+      return moment(value).format("DD-MM-YYYY");
     }
   }
 };
