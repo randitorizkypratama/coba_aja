@@ -22,12 +22,25 @@
             outlined
             dense
           ></v-autocomplete>
+
           <v-text-field v-model="day" label="Days" type="number" outlined dense></v-text-field>
           <v-btn color="primary" @click="cari" block depressed small>
             <v-icon right dark>mdi-magnify</v-icon>Rounded Button
           </v-btn>
 
-          <v-spacer></v-spacer>
+          <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                :value="dateRangeText"
+                clearable
+                label="Date"
+                readonly
+                v-on="on"
+                @click:clear="date = null"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
+          </v-menu>
         </v-col>
 
         <v-col cols="14" md="9">
@@ -62,8 +75,11 @@ export default {
   },
   data: () => ({
     height: 450,
+    date: new Date().toISOString().substr(0, 10),
+    menu1: false,
     mainGroup: [],
     storeNumber: [],
+    ranges: ["2019-09-10", "2019-09-20"],
     datas: [],
     showPrice: "",
     select: "",
@@ -125,6 +141,14 @@ export default {
 
       //=> `{data: '🦄'}`
     })();
+  },
+  computed: {
+    // computedDateFormattedMomentjs() {
+    //   return this.date ? moment(this.date).format("dddd, MMMM Do YYYY") : "";
+    // }
+    dateRangeText() {
+      return this.ranges.join(" - ");
+    }
   },
   methods: {
     cari() {
