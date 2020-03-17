@@ -1,29 +1,16 @@
 /** @format */
+/** @format */
 
-import { LOGIN } from "./actions";
-import { API_URL } from "../api/config";
+import { LOGIN } from "../context/actions";
+import { API_URL, API_LOGIN } from "../api/api";
 import ky from "ky";
-
-const state = {
-  author: "state management",
-  data: [
-    {
-      id: 1,
-      jenis: "string"
-    },
-    {
-      id: 2,
-      jenis: "bolean"
-    }
-  ]
-};
 
 const actions = {
   [LOGIN](context, credentials) {
     return new Promise(e => {
       (async () => {
         const parsed = await ky
-          .post(API_URL, {
+          .post(API_LOGIN + "loginAuth", {
             json: {
               request: {
                 countryId: "ENG",
@@ -36,29 +23,38 @@ const actions = {
         context.commit("confirm", parsed);
       })();
     });
+  },
+  ["issuing"](context, credentials) {
+    return new Promise(e => {
+      (async () => {
+        const parsed = await ky
+          .post(API_URL + "stockOutlistPrepare", {
+            json: {
+              request: credentials
+            }
+          })
+          .json();
+        context.commit("issuing", parsed);
+      })();
+    });
   }
 };
 
 const mutations = {
   confirm: (state, credentials) => {
-    console.log("dataSatu", credentials);
     localStorage.setItem("login", JSON.stringify(credentials));
     localStorage.setItem(
       "token",
       JSON.stringify(credentials.response.userToken)
     );
+  },
+  issuing: (state, credentials) => {
+    state.issuing = credentials;
   }
 };
 
-const getters = {
-  mencariId: state => id => {
-    return state.data.find(obj => {
-      return obj.id === id;
-    });
-  }
-};
+const getters = {};
 export default {
-  state,
   actions,
   mutations,
   getters

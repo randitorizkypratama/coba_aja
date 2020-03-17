@@ -91,7 +91,7 @@ import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
 import ky from "ky";
-import { LOGIN } from "../../utils/store/actions";
+import { LOGIN } from "../../utils/context/actions";
 export default {
   beforeRouteEnter(to, from, next) {
     const local = localStorage.getItem("login");

@@ -1,12 +1,10 @@
+<!-- @format -->
+
 <template>
   <div class="home">
     <NavBar />
-    <!-- <div>{{author}}</div>
-    <div>{{mencariId(2).jenis}}</div>
-    <div>{{mencariId(2).id}}</div>-->
 
-    <HelloWorld />
-    <div>{{author}}</div>
+    <HelloWorld msg="Welcome to Your Vue.js App" />
   </div>
 </template>
 
@@ -15,7 +13,6 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 import ky from "ky";
 import NavBar from "@/components/Navbar.vue";
-// import { mapState, mapGetters } from "vuex";
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -25,12 +22,6 @@ export default {
     }
     next();
   },
-
-  // computed: {
-  //   ...mapState(["author"]),
-  //   ...mapGetters(["mencariId"])
-  // },
-
   components: {
     HelloWorld,
     NavBar
