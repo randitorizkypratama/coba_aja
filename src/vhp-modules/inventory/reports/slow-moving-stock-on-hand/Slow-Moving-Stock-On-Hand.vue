@@ -37,9 +37,12 @@
             item-key="name"
             :height="height"
             class="elevation-1"
-            :items-per-page="jumlah+1"
+            disable-pagination
             hide-default-footer
             fixed-header
+            dark
+            calculate-widths
+            dense
           ></v-data-table>
         </v-col>
       </v-row>
@@ -50,6 +53,7 @@
 <script>
 import NavBar from "@/components/Navbar.vue";
 import ky from "ky";
+import moment from "moment";
 
 export default {
   components: {
@@ -60,7 +64,6 @@ export default {
     mainGroup: [],
     storeNumber: [],
     datas: [],
-    jumlah: 0,
     showPrice: "",
     select: "",
     selected: "",
@@ -76,7 +79,11 @@ export default {
       { text: "Current On Hand", value: "curr-oh" },
       { text: "Average Price", value: "avrgprice" },
       { text: "Actual Price", value: "ek-aktuell" },
-      { text: "Last Purchase Date", value: "datum" }
+      {
+        text: "Last Purchase Date",
+        value: "datum",
+        format: "DD-MM-YYYY"
+      }
     ]
   }),
   beforeCreate() {
@@ -143,8 +150,14 @@ export default {
           .json();
         const pbookList = parsed.response.sList["s-list"];
         this.datas = pbookList;
-        this.jumlah = this.datas.length;
       })();
+    }
+  },
+  computed: {
+    computedDateFormattedMomentjs() {
+      return this.datas.datum != undefined
+        ? moment(this.datas.datum).format("dd-mm-yyyy")
+        : "";
     }
   }
 };
