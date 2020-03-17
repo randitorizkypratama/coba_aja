@@ -38,6 +38,9 @@
           <v-list-item-title>
             <router-link to="/purchase-book">Purchase Book</router-link>
           </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/issuing">Issuing</router-link>
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>

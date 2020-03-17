@@ -4,9 +4,18 @@
     <v-container fluid>
       <v-row>
         <v-col cols="6" md="3">
-          <v-select v-model="artnr" :items="items" item-value="value" item-text="label" label="Select Article" dense="true" outlined></v-select>
+          <v-select
+            v-model="artnr"
+            :items="items"
+            item-value="value"
+            item-text="label"
+            label="Select Article"
+            dense="true"
+            outlined
+          ></v-select>
           <v-btn class="mb-3" color="primary" @click="search" block depressed large>
-            <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search</v-btn>
+            <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search
+          </v-btn>
           <v-spacer></v-spacer>
           <div>
             <p class="dashed">Remark</p>
@@ -22,7 +31,8 @@
             dense="true"
             hide-default-footer="true"
             rows-per-page-items="[15, 30, 50, 100]"
-            pagination.sync="pagination"/>
+            pagination.sync="pagination"
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -38,34 +48,32 @@ export default {
   components: {
     NavBar
   },
-  mounted () {
+  mounted() {
     this.uname = localStorage.getItem("user");
     console.log(this.uname);
     (async () => {
       const parsed = await ky
-        .post(
-          "http://ws1.e1-vhp.com/VHPWebBased/rest/Common/getAllArtikel",
-          {
-            json: {
-              request: {
-                "inputUserkey": "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-                "inputUsername": "sindata",
-                "sorttype" : "2",
-                "lastArt" : "*",
-                "lastArt1" : "?"
-              }
+        .post("http://ws1.e1-vhp.com/VHPWebBased/rest/Common/getAllArtikel", {
+          json: {
+            request: {
+              inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+              inputUsername: "sindata",
+              sorttype: "2",
+              lastArt: "*",
+              lastArt1: "?"
             }
           }
-        ).json();
-        const tempArt = parsed.response.tLArtikel["t-l-artikel"];
-        for (let i = 0; i < tempArt.length; i++) {
-          const element = tempArt[i];
-          this.items.push({
-            value: element["artnr"],
-            label: element["bezeich"]
-          });
-        }
-        return this.items;
+        })
+        .json();
+      const tempArt = parsed.response.tLArtikel["t-l-artikel"];
+      for (let i = 0; i < tempArt.length; i++) {
+        const element = tempArt[i];
+        this.items.push({
+          value: element["artnr"],
+          label: element["bezeich"]
+        });
+      }
+      return this.items;
     })();
   },
   data: () => {
@@ -100,23 +108,21 @@ export default {
     search() {
       (async () => {
         const parsed = await ky
-          .post(
-            "http://ws1.e1-vhp.com/VHPWebBased/rest/vhpINV/purchaseBook",
-            {
-              json: {
-                request: {
-                  "inputUserkey": "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-                  "inputUsername": "sindata",
-                  "sArtnr" : this.artnr
-                }
+          .post("http://ws1.e1-vhp.com/VHPWebBased/rest/vhpINV/purchaseBook", {
+            json: {
+              request: {
+                inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+                inputUsername: "sindata",
+                sArtnr: this.artnr
               }
             }
-          ).json();
-          const pbookList = parsed.response.pchaseList["pchase-list"];
-          this.datas = pbookList;
+          })
+          .json();
+        const pbookList = parsed.response.pchaseList["pchase-list"];
+        this.datas = pbookList;
       })();
-    },
-},
+    }
+  }
 };
 </script>
 <style>
