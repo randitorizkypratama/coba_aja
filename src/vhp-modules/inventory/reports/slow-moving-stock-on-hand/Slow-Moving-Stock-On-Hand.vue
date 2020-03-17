@@ -28,20 +28,18 @@
             <v-icon right dark>mdi-magnify</v-icon>Rounded Button
           </v-btn>
 
-          <v-daterange v-model="range"></v-daterange>
-
           <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
             <template v-slot:activator="{ on }">
               <v-text-field
-                :value="computedDateFormattedMomentjs"
+                :value="dateRangeText"
                 clearable
-                label="Formatted with Moment.js"
+                label="Date"
                 readonly
                 v-on="on"
                 @click:clear="date = null"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="date" @change="menu1 = false"></v-date-picker>
+            <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
           </v-menu>
         </v-col>
 
@@ -70,13 +68,10 @@
 import NavBar from "@/components/Navbar.vue";
 import ky from "ky";
 import moment from "moment";
-import { VDaterange } from "vuetify-daterange-picker";
-import "vuetify-daterange-picker/dist/vuetify-daterange-picker.css";
 
 export default {
   components: {
-    NavBar,
-    VDaterange
+    NavBar
   },
   data: () => ({
     height: 450,
@@ -84,7 +79,7 @@ export default {
     menu1: false,
     mainGroup: [],
     storeNumber: [],
-    range: {},
+    ranges: ["2019-09-10", "2019-09-20"],
     datas: [],
     showPrice: "",
     select: "",
@@ -148,8 +143,11 @@ export default {
     })();
   },
   computed: {
-    computedDateFormattedMomentjs() {
-      return this.date ? moment(this.date).format("dddd, MMMM Do YYYY") : "";
+    // computedDateFormattedMomentjs() {
+    //   return this.date ? moment(this.date).format("dddd, MMMM Do YYYY") : "";
+    // }
+    dateRangeText() {
+      return this.ranges.join(" - ");
     }
   },
   methods: {
