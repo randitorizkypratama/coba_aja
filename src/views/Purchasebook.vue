@@ -20,9 +20,8 @@
             item-key="docu-nr"
             class="elevation-1"
             dense="true"
-            hide-default-footer="true"
-            rows-per-page-items="[15, 30, 50, 100]"
-            pagination.sync="pagination"/>
+            item-per-page="30"
+            />
         </v-col>
       </v-row>
     </v-container>
@@ -39,8 +38,14 @@ export default {
     NavBar
   },
   mounted () {
-    this.uname = localStorage.getItem("user");
-    console.log(this.uname);
+    //const user = localStorage.getItem("user");
+    const login = localStorage.getItem("login");
+    //const users = JSON.parse(user);
+    //const userss = users.split("@");
+    const logins = JSON.parse(login);
+    //this.uname = userss[0];
+    this.uname = "sindata";
+    this.ukey = logins.response["userKey"];
     (async () => {
       const parsed = await ky
         .post(
@@ -48,8 +53,8 @@ export default {
           {
             json: {
               request: {
-                "inputUserkey": "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-                "inputUsername": "sindata",
+                "inputUserkey": this.ukey,
+                "inputUsername": this.uname,
                 "sorttype" : "2",
                 "lastArt" : "*",
                 "lastArt1" : "?"
@@ -105,8 +110,8 @@ export default {
             {
               json: {
                 request: {
-                  "inputUserkey": "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-                  "inputUsername": "sindata",
+                  "inputUserkey": this.ukey,
+                  "inputUsername": this.uname,
                   "sArtnr" : this.artnr
                 }
               }
