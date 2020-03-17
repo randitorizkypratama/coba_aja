@@ -1,7 +1,13 @@
 /** @format */
 
 const state = {
-  issuing: ""
+  issuing: []
 };
 
-export default state;
+const getters = {
+  // dataIssuing(state) {
+  //   return state.issuing;
+  // }
+};
+
+export default { state, getters };

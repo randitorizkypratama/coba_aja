@@ -4,7 +4,7 @@
     <v-container fluid>
       <v-row>
         <v-col cols="6" md="3">
-          <h4>Date</h4>
+          <h4>{{counter}}</h4>
           <v-select
             v-model="artnr"
             :items="items"
@@ -42,7 +42,7 @@
             outlined
             dense
           ></v-autocomplete>
-
+          <div class="counter">{{ counter }}</div>
           <v-btn class="mb-3" color="primary" @click="search" block depressed large>
             <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search
           </v-btn>
@@ -77,7 +77,7 @@ export default {
 
   data: () => {
     return {
-      mainGroup: ["Foo", "Bar", "Fizz", "Buzz"],
+      mainGroup: [],
       headers: [
         {
           text: "Date",
@@ -108,9 +108,20 @@ export default {
       inputUsername: "sindata",
       LnLProg: "stock-outlist.lst"
     });
+  },
 
-    const data = this.$store.state.auth;
-    console.log("credentials", data);
+  mounted() {
+    const data = this.$store.state;
+    for (let i = 0; i < data.length; i++) {
+      const element = data[i];
+      this.mainGroup.push({
+        value: element.endkum,
+        nameData: element.bezeich
+      });
+    }
+
+    console.log("credentials123", this.mainGroup);
+    console.log("credentials123", this.$store.getters.dataIssuing);
   }
 };
 </script>

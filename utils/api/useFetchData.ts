@@ -4,6 +4,7 @@
 import { LOGIN } from "../context/actions";
 import { API_URL, API_LOGIN } from "../api/api";
 import ky from "ky";
+import state from "utils/store";
 
 const actions = {
   [LOGIN](context, credentials) {
@@ -34,7 +35,7 @@ const actions = {
             }
           })
           .json();
-        context.commit("issuing", parsed);
+        context.commit("issuing", parsed.response.tLHauptgrp["t-l-hauptgrp"]);
       })();
     });
   }
@@ -49,13 +50,13 @@ const mutations = {
     );
   },
   issuing: (state, credentials) => {
+    console.log("data1234", credentials);
+
     state.issuing = credentials;
   }
 };
 
-const getters = {};
 export default {
   actions,
-  mutations,
-  getters
+  mutations
 };
