@@ -2,30 +2,23 @@
 /** @format */
 
 import { LOGIN } from "../context/actions";
-import { API_URL } from "../api/api";
+import { API_URL, API_LOGIN } from "../api/api";
 import ky from "ky";
-
-const state = {
-  issuing: ""
-};
 
 const actions = {
   [LOGIN](context, credentials) {
     return new Promise(e => {
       (async () => {
         const parsed = await ky
-          .post(
-            "http://54.251.169.160:8080/logserver/rest/loginServer/loginAuth",
-            {
-              json: {
-                request: {
-                  countryId: "ENG",
-                  userName: credentials.email,
-                  userPswd: credentials.password
-                }
+          .post(API_LOGIN + "loginAuth", {
+            json: {
+              request: {
+                countryId: "ENG",
+                userName: credentials.email,
+                userPswd: credentials.password
               }
             }
-          )
+          })
           .json();
         context.commit("confirm", parsed);
       })();
@@ -62,7 +55,6 @@ const mutations = {
 
 const getters = {};
 export default {
-  state,
   actions,
   mutations,
   getters

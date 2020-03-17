@@ -109,7 +109,7 @@ export default {
       LnLProg: "stock-outlist.lst"
     });
 
-    const data = this.$store.state;
+    const data = this.$store.state.auth;
     console.log("credentials", data);
   }
 };
