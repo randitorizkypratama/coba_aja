@@ -57,7 +57,6 @@ export default {
   },
   mounted() {
     this.uname = localStorage.getItem("user");
-    console.log(this.uname);
     (async () => {
       const parsed = await ky
         .post("http://ws1.e1-vhp.com/VHPWebBased/rest/Common/getAllArtikel", {

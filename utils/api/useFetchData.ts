@@ -42,6 +42,7 @@ const actions = {
 
 const mutations = {
   confirm: (state, credentials) => {
+
     localStorage.setItem("login", JSON.stringify(credentials));
     localStorage.setItem(
       "token",
