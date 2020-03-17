@@ -4,25 +4,25 @@
     <v-container fluid>
       <v-row>
         <v-col cols="4" md="3">
-          <v-select
+          <v-autocomplete
             v-model="select"
             :items="mainGroup"
             item-text="label"
             item-value="value"
             label="Main Group"
             outlined
-            solo-inverted
-          ></v-select>
-          <v-select
-            v-model="select"
+            dense
+          ></v-autocomplete>
+          <v-autocomplete
+            v-model="selected"
             :items="storeNumber"
             item-text="label"
             item-value="value"
             label="Store Number"
             outlined
-            solo-inverted
-          ></v-select>
-          <v-text-field label="Days" solo-inverted outlined></v-text-field>
+            dense
+          ></v-autocomplete>
+          <v-text-field v-model="day" label="Days" type="number" outlined dense></v-text-field>
           <v-btn color="primary" @click="cari" block depressed small>
             <v-icon right dark>mdi-magnify</v-icon>Rounded Button
           </v-btn>
@@ -31,28 +31,16 @@
         </v-col>
 
         <v-col cols="14" md="9">
-          <v-card>
-            <v-card-title>
-              Nutrition
-              <v-spacer></v-spacer>
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search"
-                single-line
-                hide-details
-              ></v-text-field>
-            </v-card-title>
-            <v-data-table
-              :headers="headers"
-              :items="datas"
-              item-key="name"
-              :search="search"
-              :items-per-page="5"
-              class="elevation-1"
-              dense="true"
-            ></v-data-table>
-          </v-card>
+          <v-data-table
+            :headers="headers"
+            :items="datas"
+            item-key="name"
+            :height="height"
+            class="elevation-1"
+            :items-per-page="jumlah+1"
+            hide-default-footer
+            fixed-header
+          ></v-data-table>
         </v-col>
       </v-row>
     </v-container>
@@ -68,11 +56,15 @@ export default {
     NavBar
   },
   data: () => ({
+    height: 450,
     mainGroup: [],
     storeNumber: [],
     datas: [],
+    jumlah: 0,
     showPrice: "",
-    search: "",
+    select: "",
+    selected: "",
+    day: "",
     headers: [
       {
         text: "Article Number",
@@ -109,7 +101,7 @@ export default {
       for (let i = 0; i < tempMainGroup.length; i++) {
         const element = tempMainGroup[i];
         this.mainGroup.push({
-          value: element["lager-nr"],
+          value: element["endkum"],
           label: element["bezeich"]
         });
         // this.items.push(element["country-name"]);
@@ -118,7 +110,7 @@ export default {
       for (let i = 0; i < tempStoreNumber.length; i++) {
         const element = tempStoreNumber[i];
         this.storeNumber.push({
-          value: element["endkum"],
+          value: element["lager-nr"],
           label: element["bezeich"]
         });
         // this.items.push(element["country-name"]);
@@ -129,6 +121,8 @@ export default {
   },
   methods: {
     cari() {
+      console.log(this.day, "day");
+
       (async () => {
         const parsed = await ky
           .post(
@@ -138,19 +132,18 @@ export default {
                 request: {
                   inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
                   inputUsername: "sindata",
-                  storeNo: "1",
-                  mainGrp: "1",
+                  storeNo: this.selected,
+                  mainGrp: this.select,
                   tage: "0",
-                  showPrice: "true"
+                  showPrice: this.showPrice
                 }
               }
             }
           )
           .json();
         const pbookList = parsed.response.sList["s-list"];
-        console.log(pbookList, "data");
-
         this.datas = pbookList;
+        this.jumlah = this.datas.length;
       })();
     }
   }
