@@ -1,13 +1,13 @@
-/** @format */
-
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "@/views/Home.vue";
+import Home from "../views/Home.vue";
 import Purchasebook from "../views/Purchasebook.vue";
-import Issuing from "../views/issuing.vue";
 import Recipe from "../views/Recipe.vue";
 import Inventory from "../vhp-modules/inventory/inventory.vue";
 import SlowMovingStockOnHand from "../vhp-modules/inventory/reports/slow-moving-stock-on-hand/Slow-Moving-Stock-On-Hand.vue";
+
+import Outlet from "../vhp-modules/outlet/outlet.vue";
+import TesReport from "../vhp-modules/outlet/reports/tes-report/Tes-Report.vue";
 
 Vue.use(VueRouter);
 
@@ -24,17 +24,12 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpac,kChunkName: "about" */ "@/views/About.vue")
+      import(/* webpac,kChunkName: "about" */ "../views/About.vue")
   },
   {
     path: "/purchase-book",
     name: "Purchasebook",
     component: Purchasebook
-  },
-  {
-    path: "/issuing",
-    name: "issuing",
-    component: Issuing
   },
   {
     path: "/recipe",
@@ -50,6 +45,16 @@ const routes = [
     path: "/slow-moving-stock-on-hand",
     name: "SlowMovingStockOnHand",
     component: SlowMovingStockOnHand
+  },
+  {
+    path: "/outlet",
+    name: "Outlet",
+    component: Outlet
+  },
+  {
+    path: "/tes-report",
+    name: "TesReport",
+    component: TesReport
   }
 ];
 
@@ -58,5 +63,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-
+//tesst
 export default router;
