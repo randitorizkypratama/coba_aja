@@ -6,7 +6,10 @@
       <v-container fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
-            <v-card class="elevation-12" v-bind:style="{ backgroundColor: backgroundC }">
+            <v-card
+              class="elevation-12"
+              v-bind:style="{ backgroundColor: backgroundC }"
+            >
               <v-row>
                 <v-col cols="12">
                   <v-img
@@ -17,7 +20,9 @@
                   <h3 class="font-weight-bold">Visual Hotel Program</h3>
                 </v-col>
               </v-row>
-              <v-alert v-if="error" type="error">Invalid username and password</v-alert>
+              <v-alert v-if="error" type="error"
+                >Invalid username and password</v-alert
+              >
               <!-- <div>
                 <v-alert type="error">I'm an error alert.</v-alert>
               </div>-->
@@ -68,7 +73,8 @@
                   color="primary"
                   block="true"
                   @click="submit"
-                >Log In</v-btn>
+                  >Log In</v-btn
+                >
                 <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>
@@ -83,6 +89,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
+import loginData from "@/vhp-modules/login/utils/login";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
 import ky from "ky";
 import { LOGIN } from "../../utils/context/actions";
@@ -152,13 +159,17 @@ export default {
   methods: {
     submit() {
       this.$v.$touch();
-      this.$store.dispatch(LOGIN, this.users);
-      const login = JSON.parse(localStorage.getItem("login"));
-      if (login.response.iResult == "0") {
-        this.$router.push("home");
-      } else {
-        this.error = true;
-      }
+      loginData("loginAuth", this.users).then(res => {
+        console.log("tes123", res);
+        localStorage.setItem("login", JSON.stringify(res));
+      });
+      // this.$store.dispatch(LOGIN, this.users);
+      // const login = JSON.parse(localStorage.getItem("login"));
+      // if (login.response.iResult == "0") {
+      //   this.$router.push("home");
+      // } else {
+      //   this.error = true;
+      // }
     },
     clear() {
       this.$v.$reset();

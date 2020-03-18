@@ -44,7 +44,14 @@
             outlined
             dense
           ></v-autocomplete>
-          <v-btn class="mb-3" color="primary" @click="search" block depressed large>
+          <v-btn
+            class="mb-3"
+            color="primary"
+            @click="search"
+            block
+            depressed
+            large
+          >
             <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search
           </v-btn>
           <v-spacer></v-spacer>
