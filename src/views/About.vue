@@ -97,7 +97,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     const local = JSON.parse(localStorage.getItem("login"));
     const login = local !== null ? local.response.iResult : "err";
-    if (local) {
+    if (login == 0) {
       next({ path: "home" });
     }
     next();
