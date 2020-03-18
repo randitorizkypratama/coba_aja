@@ -163,13 +163,6 @@ export default {
         console.log("tes123", res);
         localStorage.setItem("login", JSON.stringify(res));
       });
-      // this.$store.dispatch(LOGIN, this.users);
-      // const login = JSON.parse(localStorage.getItem("login"));
-      // if (login.response.iResult == "0") {
-      //   this.$router.push("home");
-      // } else {
-      //   this.error = true;
-      // }
     },
     clear() {
       this.$v.$reset();

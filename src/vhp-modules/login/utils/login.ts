@@ -4,7 +4,7 @@ import ky from "ky";
 export default function name(api: string, params: object) {
   async function ambilData() {
     const data = await ky
-      .post(API_LOGIN + "loginAuth", {
+      .post("http://54.251.169.160:8080/logserver/rest/loginServer/loginAuth", {
         json: {
           request: {
             countryId: "IDN",
