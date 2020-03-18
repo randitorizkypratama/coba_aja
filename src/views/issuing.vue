@@ -44,14 +44,7 @@
             outlined
             dense
           ></v-autocomplete>
-          <v-btn
-            class="mb-3"
-            color="primary"
-            @click="search"
-            block
-            depressed
-            large
-          >
+          <v-btn class="mb-3" color="primary" @click="search" block depressed large>
             <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search
           </v-btn>
           <v-spacer></v-spacer>
@@ -77,6 +70,7 @@
 <script>
 // @ is an alias to /src
 import NavBar from "@/components/Navbar.vue";
+import utilsIssuing from "./utils-issuing";
 
 export default {
   components: {
@@ -111,13 +105,19 @@ export default {
   },
 
   beforeCreate() {
-    this.$store.dispatch("issuing", {
+    utilsIssuing("stockOutlistPrepare", {
       inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
       inputUsername: "sindata",
       LnLProg: "stock-outlist.lst"
+    }).then(res => {
+      const dataArry = res.response.tLHauptgrp["t-l-hauptgrp"];
+      for (let i = 0; i < dataArry.length; i++) {
+        this.mainGroup.push({
+          value: dataArry[i].endkum,
+          label: dataArry[i].bezeich
+        });
+      }
     });
-
-    console.log("data12345", this.$store.state.auth.dataIssue);
   }
 };
 </script>

@@ -1,12 +1,11 @@
 /** @format */
-/** @format */
 
 import { LOGIN } from "../context/actions";
-import { API_URL, API_LOGIN } from "../api/api";
+import { API_URL, API_LOGIN, ApiService } from "../api/api";
 import ky from "ky";
 
 const state = {
-  dataIssue: 0
+  issuingState: ""
 };
 
 const actions = {
@@ -28,33 +27,23 @@ const actions = {
       })();
     });
   },
-  ["issuing"](context, credentials) {
-    return new Promise(e => {
-      (async () => {
-        const parsed = await ky
-          .post(API_URL + "stockOutlistPrepare", {
-            json: {
-              request: credentials
-            }
-          })
-          .json();
-        context.commit("issuingData", parsed);
-      })();
-    });
+  ["issuing"]({ commit, state }, credentials) {
+    commit("KONFIRMASI_AGENDA", credentials);
   }
 };
 
 const mutations = {
   confirm: (state, credentials) => {
-
     localStorage.setItem("login", JSON.stringify(credentials));
     localStorage.setItem(
       "token",
       JSON.stringify(credentials.response.userToken)
     );
   },
-  issuingData: (state, credentials) => {
-    state.dataIssue = credentials.response.tLHauptgrp["t-l-hauptgrp"];
+  KONFIRMASI_AGENDA: (state, credentials) => {
+    console.log("data1234", credentials);
+
+    state.issuingState = credentials;
   }
 };
 

@@ -6,10 +6,7 @@
       <v-container fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
-            <v-card
-              class="elevation-12"
-              v-bind:style="{ backgroundColor: backgroundC }"
-            >
+            <v-card class="elevation-12" v-bind:style="{ backgroundColor: backgroundC }">
               <v-row>
                 <v-col cols="12">
                   <v-img
@@ -20,9 +17,7 @@
                   <h3 class="font-weight-bold">Visual Hotel Program</h3>
                 </v-col>
               </v-row>
-              <v-alert v-if="error" type="error"
-                >Invalid username and password</v-alert
-              >
+              <v-alert v-if="error" type="error">Invalid username and password</v-alert>
               <!-- <div>
                 <v-alert type="error">I'm an error alert.</v-alert>
               </div>-->
@@ -73,8 +68,7 @@
                   color="primary"
                   block="true"
                   @click="submit"
-                  >Log In</v-btn
-                >
+                >Log In</v-btn>
                 <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>
@@ -96,7 +90,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     const local = JSON.parse(localStorage.getItem("login"));
     const login = local !== null ? local.response.iResult : "err";
-    if (login == 0) {
+    if (local) {
       next({ path: "home" });
     }
     next();
