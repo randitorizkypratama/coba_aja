@@ -155,9 +155,11 @@ export default {
       this.$v.$touch();
       loginData("loginAuth", this.users).then(res => {
         localStorage.setItem("login", JSON.stringify(res));
+        console.log("tes", res);
         if (res.response.iResult == 0) {
-          console.log("tes", res.response.iResult);
           this.$router.push("/home");
+        } else {
+          this.error = true;
         }
       });
     },
