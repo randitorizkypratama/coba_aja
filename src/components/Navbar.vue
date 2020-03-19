@@ -41,6 +41,9 @@
           <v-list-item-title>
             <router-link to="/issusing">Issuing</router-link>
           </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/min-max-stock-on-hand">Minimum/Maximum Stock On Hand</router-link>
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
