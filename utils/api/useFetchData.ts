@@ -2,17 +2,15 @@
 /** @format */
 
 import { LOGIN } from "../context/actions";
-import { API_URL } from "../api/api";
+import { API_URL, API_LOGIN } from "../api/api";
 import ky from "ky";
-
-const state = {};
 
 const actions = {
   [LOGIN](context, credentials) {
     return new Promise(e => {
       (async () => {
         const parsed = await ky
-          .post(API_URL, {
+          .post(API_LOGIN + "loginAuth", {
             json: {
               request: {
                 countryId: "ENG",
@@ -25,6 +23,20 @@ const actions = {
         context.commit("confirm", parsed);
       })();
     });
+  },
+  ["issuing"](context, credentials) {
+    return new Promise(e => {
+      (async () => {
+        const parsed = await ky
+          .post(API_URL + "stockOutlistPrepare", {
+            json: {
+              request: credentials
+            }
+          })
+          .json();
+        context.commit("issuing", parsed);
+      })();
+    });
   }
 };
 
@@ -35,12 +47,14 @@ const mutations = {
       "token",
       JSON.stringify(credentials.response.userToken)
     );
+  },
+  issuing: (state, credentials) => {
+    state.issuing = credentials;
   }
 };
 
 const getters = {};
 export default {
-  state,
   actions,
   mutations,
   getters

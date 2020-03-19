@@ -4,9 +4,25 @@
     <v-container fluid>
       <v-row>
         <v-col cols="6" md="3">
-          <v-select v-model="artnr" :items="items" item-value="value" item-text="label" label="Select Article" dense="true" outlined></v-select>
-          <v-btn class="mb-3" color="primary" @click="search" block depressed large>
-            <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search</v-btn>
+          <v-autocomplete
+            v-model="artnr"
+            :items="items"
+            item-valsue="value"
+            item-text="label"
+            label="Select Article"
+            dense
+            outlined
+          ></v-autocomplete>
+          <v-btn
+            class="mb-3"
+            color="primary"
+            @click="search"
+            block
+            depressed
+            large
+          >
+            <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search
+          </v-btn>
           <v-spacer></v-spacer>
           <div>
             <p class="dashed">Remark</p>
@@ -20,8 +36,10 @@
             item-key="docu-nr"
             class="elevation-1"
             dense="true"
-            item-per-page="30"
-            />
+            hide-default-footer="true"
+            rows-per-page-items="[15, 30, 50, 100]"
+            pagination.sync="pagination"
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -37,7 +55,7 @@ export default {
   components: {
     NavBar
   },
-  mounted () {
+  mounted() {
     //const user = localStorage.getItem("user");
     const login = localStorage.getItem("login");
     //const users = JSON.parse(user);
@@ -48,29 +66,27 @@ export default {
     this.ukey = logins.response["userKey"];
     (async () => {
       const parsed = await ky
-        .post(
-          "http://ws1.e1-vhp.com/VHPWebBased/rest/Common/getAllArtikel",
-          {
-            json: {
-              request: {
-                "inputUserkey": this.ukey,
-                "inputUsername": this.uname,
-                "sorttype" : "2",
-                "lastArt" : "*",
-                "lastArt1" : "?"
-              }
+        .post("http://182.253.140.35/VHPWebBased/rest/Common/getAllArtikel", {
+          json: {
+            request: {
+              inputUserkey: this.ukey,
+              inputUsername: this.uname,
+              sorttype: "2",
+              lastArt: "*",
+              lastArt1: "?"
             }
           }
-        ).json();
-        const tempArt = parsed.response.tLArtikel["t-l-artikel"];
-        for (let i = 0; i < tempArt.length; i++) {
-          const element = tempArt[i];
-          this.items.push({
-            value: element["artnr"],
-            label: element["bezeich"]
-          });
-        }
-        return this.items;
+        })
+        .json();
+      const tempArt = parsed.response.tLArtikel["t-l-artikel"];
+      for (let i = 0; i < tempArt.length; i++) {
+        const element = tempArt[i];
+        this.items.push({
+          value: element["artnr"],
+          label: element["bezeich"]
+        });
+      }
+      return this.items;
     })();
   },
   data: () => {
@@ -105,23 +121,21 @@ export default {
     search() {
       (async () => {
         const parsed = await ky
-          .post(
-            "http://ws1.e1-vhp.com/VHPWebBased/rest/vhpINV/purchaseBook",
-            {
-              json: {
-                request: {
-                  "inputUserkey": this.ukey,
-                  "inputUsername": this.uname,
-                  "sArtnr" : this.artnr
-                }
+          .post("http://182.253.140.35/VHPWebBased/rest/vhpINV/purchaseBook", {
+            json: {
+              request: {
+                inputUserkey: this.ukey,
+                inputUsername: this.uname,
+                sArtnr: this.artnr
               }
             }
-          ).json();
-          const pbookList = parsed.response.pchaseList["pchase-list"];
-          this.datas = pbookList;
+          })
+          .json();
+        const pbookList = parsed.response.pchaseList["pchase-list"];
+        this.datas = pbookList;
       })();
-    },
-},
+    }
+  }
 };
 </script>
 <style>
