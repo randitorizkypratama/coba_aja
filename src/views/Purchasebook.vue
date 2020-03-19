@@ -56,14 +56,7 @@ export default {
     NavBar
   },
   mounted() {
-    //const user = localStorage.getItem("user");
-    const login = localStorage.getItem("login");
-    //const users = JSON.parse(user);
-    //const userss = users.split("@");
-    const logins = JSON.parse(login);
-    //this.uname = userss[0];
-    this.uname = "sindata";
-    this.ukey = logins.response["userKey"];
+    this.uname = localStorage.getItem("user");
     (async () => {
       const parsed = await ky
         .post("http://182.253.140.35/VHPWebBased/rest/Common/getAllArtikel", {

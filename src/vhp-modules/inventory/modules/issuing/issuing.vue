@@ -1,3 +1,5 @@
+<!-- @format -->
+
 <template>
   <v-app>
     <NavBar />
@@ -42,7 +44,8 @@
             outlined
             dense
           ></v-autocomplete>
-
+          <v-text-field @click="open" label="Another input"></v-text-field>
+          <ModalAcc ref="child" />
           <v-btn class="mb-3" color="primary" @click="search" block depressed large>
             <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search
           </v-btn>
@@ -69,15 +72,25 @@
 <script>
 // @ is an alias to /src
 import NavBar from "@/components/Navbar.vue";
+import utilsIssuing from "@/../utils/api/useFetchData";
+import ModalAcc from "./comonents/modal-alocations";
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    ModalAcc
+  },
+
+  methods: {
+    open() {
+      this.$refs.child.someFunction();
+    }
   },
 
   data: () => {
     return {
-      mainGroup: ["Foo", "Bar", "Fizz", "Buzz"],
+      mainGroup: [],
+      CostAlloc: [],
       headers: [
         {
           text: "Date",
@@ -103,14 +116,19 @@ export default {
   },
 
   beforeCreate() {
-    this.$store.dispatch("issuing", {
-      inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-      inputUsername: "sindata",
+    utilsIssuing("stockOutlistPrepare", {
       LnLProg: "stock-outlist.lst"
+    }).then(res => {
+      const dataArry = res.response.tLHauptgrp["t-l-hauptgrp"];
+      const element = res.response.tParameters["t-parameters"];
+      this.$refs.child.dataAccount(element);
+      for (let i = 0; i < dataArry.length; i++) {
+        this.mainGroup.push({
+          value: dataArry[i].endkum,
+          label: dataArry[i].bezeich
+        });
+      }
     });
-
-    const data = this.$store.state.auth;
-    console.log("credentials", data);
   }
 };
 </script>

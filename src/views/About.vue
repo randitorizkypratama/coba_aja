@@ -89,13 +89,15 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
+import loginData from "@/vhp-modules/login/utils/login";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
 import ky from "ky";
 import { LOGIN } from "../../utils/context/actions";
 export default {
   beforeRouteEnter(to, from, next) {
-    const local = localStorage.getItem("login");
-    if (local) {
+    const local = JSON.parse(localStorage.getItem("login"));
+    const login = local !== null ? local.response.iResult : "err";
+    if (login == 3) {
       next({ path: "home" });
     }
     next();
@@ -157,15 +159,9 @@ export default {
   methods: {
     submit() {
       this.$v.$touch();
-      this.$store.dispatch(LOGIN, this.users);
-      const login = JSON.parse(localStorage.getItem("login"));
-      console.log("login123", login);
-
-      if (login.response.iResult == "0") {
-        this.$router.push("home");
-      } else {
-        this.error = true;
-      }
+      loginData("loginAuth", this.users).then(res => {
+        localStorage.setItem("login", JSON.stringify(res));
+      });
     },
     clear() {
       this.$v.$reset();

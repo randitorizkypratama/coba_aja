@@ -22,12 +22,25 @@
             outlined
             dense
           ></v-autocomplete>
+
           <v-text-field v-model="day" label="Days" type="number" outlined dense></v-text-field>
           <v-btn color="primary" @click="cari" block depressed small>
             <v-icon right dark>mdi-magnify</v-icon>Rounded Button
           </v-btn>
 
-          <v-spacer></v-spacer>
+          <!-- <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                :value="dateRangeText"
+                clearable
+                label="Date"
+                readonly
+                v-on="on"
+                @click:clear="date = null"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
+          </v-menu> -->
         </v-col>
 
         <v-col cols="14" md="9">
@@ -40,10 +53,11 @@
             disable-pagination
             hide-default-footer
             fixed-header
-            dark
             calculate-widths
             dense
-          ></v-data-table>
+          >
+            <template v-slot:item.datum="{ item }">{{ formatDate(item.datum) }}</template>
+          </v-data-table>
         </v-col>
       </v-row>
     </v-container>
@@ -61,8 +75,11 @@ export default {
   },
   data: () => ({
     height: 450,
+    date: new Date().toISOString().substr(0, 10),
+    menu1: false,
     mainGroup: [],
     storeNumber: [],
+    ranges: ["2019-09-10", "2019-09-20"],
     datas: [],
     showPrice: "",
     select: "",
@@ -81,8 +98,7 @@ export default {
       { text: "Actual Price", value: "ek-aktuell" },
       {
         text: "Last Purchase Date",
-        value: "datum",
-        format: "DD-MM-YYYY"
+        value: "datum"
       }
     ]
   }),
@@ -90,7 +106,7 @@ export default {
     (async () => {
       const data = await ky
         .post(
-          "http://ws1.e1-vhp.com/VHPWebBased/rest/vhpINV/slowMovingPrepare",
+          "http://182.253.140.35/VHPWebBased/rest/vhpINV/slowMovingPrepare",
           {
             json: {
               request: {
@@ -122,9 +138,19 @@ export default {
         });
         // this.items.push(element["country-name"]);
       }
+      console.log(tempStoreNumber);
+      console.log(tempMainGroup);
 
       //=> `{data: '🦄'}`
     })();
+  },
+  computed: {
+    // computedDateFormattedMomentjs() {
+    //   return this.date ? moment(this.date).format("dddd, MMMM Do YYYY") : "";
+    // }
+    dateRangeText() {
+      return this.ranges.join(" - ");
+    }
   },
   methods: {
     cari() {
@@ -133,7 +159,7 @@ export default {
       (async () => {
         const parsed = await ky
           .post(
-            "http://ws1.e1-vhp.com/VHPWebBased/rest/vhpINV/slowMovingList",
+            "http://182.253.140.35/VHPWebBased/rest/vhpINV/slowMovingList",
             {
               json: {
                 request: {
@@ -149,15 +175,12 @@ export default {
           )
           .json();
         const pbookList = parsed.response.sList["s-list"];
+
         this.datas = pbookList;
       })();
-    }
-  },
-  computed: {
-    computedDateFormattedMomentjs() {
-      return this.datas.datum != undefined
-        ? moment(this.datas.datum).format("dd-mm-yyyy")
-        : "";
+    },
+    formatDate(value) {
+      return moment(value).format("DD-MM-YYYY");
     }
   }
 };
