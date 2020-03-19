@@ -45,9 +45,7 @@ export default {
       this.dialog = true;
     },
     dataAccount(e) {
-      for (let i = 0; i < e.length; i++) {
-        console.log("kamu", e[i]);
-
+      for (let i in e) {
         this.desserts.push(e[i]);
       }
     }

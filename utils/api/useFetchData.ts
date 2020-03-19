@@ -20,24 +20,3 @@ export default function name(api: string, additionalParameters: object) {
   }
   return ambilData();
 }
-
-// interface TypeApiService {
-//   api: string;
-//   additionalParameters: object;
-// }
-
-// class ApiService implements TypeApiService {
-//   api: string;
-//   additionalParameters: object;
-
-//   constructor(api: string, additionalParameters: object) {
-//     this.api = api;
-//     this.additionalParameters = additionalParameters;
-//   }
-
-//   a(): void {
-//     console.log("tes", api());
-//   }
-// }
-
-// export default ApiService;

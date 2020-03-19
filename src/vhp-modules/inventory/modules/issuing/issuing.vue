@@ -7,15 +7,19 @@
       <v-row>
         <v-col cols="6" md="3">
           <h4>Date</h4>
-          <v-select
-            v-model="artnr"
-            :items="items"
-            item-value="value"
-            item-text="label"
-            label="Select Article"
-            dense="true"
-            outlined
-          ></v-select>
+          <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                :value="dateRangeText"
+                clearable
+                label="Date"
+                readonly
+                v-on="on"
+                @click:clear="date = null"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
+          </v-menu>
           <v-select
             v-model="artnr"
             :items="items"
@@ -55,7 +59,7 @@
         <v-col cols="12" md="9">
           <v-data-table
             :headers="headers"
-            :items="datas"
+            :items="dataTable"
             item-key="docu-nr"
             class="elevation-1"
             dense="true"
@@ -74,7 +78,7 @@
 import NavBar from "@/components/Navbar.vue";
 import utilsIssuing from "@/../utils/api/useFetchData";
 import ModalAcc from "./comonents/modal-alocations";
-
+import moment from "moment";
 export default {
   components: {
     NavBar,
@@ -84,25 +88,31 @@ export default {
   methods: {
     open() {
       this.$refs.child.someFunction();
+    },
+    formatDate(value) {
+      return moment(value).format("DD-MM-YYYY");
     }
   },
 
   data: () => {
     return {
       mainGroup: [],
+      dataTable: [],
+      date: new Date().toISOString().substr(0, 10),
+      ranges: ["2019-09-10", "2019-09-20"],
       CostAlloc: [],
       headers: [
         {
           text: "Date",
           align: "start",
-          value: "bestelldatum"
+          value: "datum"
         },
-        { text: "Storage", value: "storage" },
+        { text: "Storage", value: "lager" },
         { text: "Document Number", value: "docu-nr" },
-        { text: "Article", value: "article" },
-        { text: "Description", value: "description" },
-        { text: "Outgoing Quantity", value: "outgoing-quantity" },
-        { text: "Average Price", value: "average-price" },
+        { text: "Article", value: "art-nr" },
+        { text: "Description", value: "art-bez" },
+        { text: "Outgoing Quantity", value: "out-qty" },
+        { text: "Average Price", value: "avrg-price" },
         { text: "Amount", value: "amount" },
         { text: "ID", value: "id" }
       ],
@@ -114,7 +124,11 @@ export default {
       ukey: ""
     };
   },
-
+  computed: {
+    dateRangeText() {
+      return this.ranges.join(" - ");
+    }
+  },
   beforeCreate() {
     utilsIssuing("stockOutlistPrepare", {
       LnLProg: "stock-outlist.lst"
@@ -122,11 +136,36 @@ export default {
       const dataArry = res.response.tLHauptgrp["t-l-hauptgrp"];
       const element = res.response.tParameters["t-parameters"];
       this.$refs.child.dataAccount(element);
-      for (let i = 0; i < dataArry.length; i++) {
+      for (const i in dataArry) {
         this.mainGroup.push({
           value: dataArry[i].endkum,
           label: dataArry[i].bezeich
         });
+      }
+    });
+
+    utilsIssuing("stockOutlistList", {
+      transCode: "R190102010",
+      fromGrp: 1,
+      miAlloc: "no",
+      miArticle: "yes",
+      miDocu: "no",
+      miDate: "no",
+      mattype: 0,
+      fromLager: 1,
+      toLager: 99,
+      fromDate: "01/01/19",
+      toDate: "31/01/19",
+      fromArt: 9999999,
+      toArt: 9999999,
+      showPrice: "yes",
+      costAcct: "01026220",
+      deptNo: 0
+    }).then(res => {
+      const dataTable = res.response.stockOutlist["stock-outlist"];
+      for (const i in dataTable) {
+        console.log("tes1", dataTable[i]);
+        this.dataTable.push(dataTable[i]);
       }
     });
   }

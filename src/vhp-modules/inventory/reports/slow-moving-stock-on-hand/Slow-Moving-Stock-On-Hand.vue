@@ -178,6 +178,8 @@ export default {
       })();
     },
     formatDate(value) {
+      console.log("tes", value);
+
       return moment(value).format("DD-MM-YYYY");
     }
   }
