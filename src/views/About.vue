@@ -154,9 +154,9 @@ export default {
     submit() {
       this.$v.$touch();
       loginData("loginAuth", this.users).then(res => {
-        localStorage.setItem("login", JSON.stringify(res));
-        console.log("tes", res);
         if (res.response.iResult == 0) {
+          localStorage.setItem("login", JSON.stringify(res));
+          localStorage.setItem("token", JSON.stringify(res.response.userToken));
           this.$router.push("/home");
         } else {
           this.error = true;

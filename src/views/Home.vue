@@ -13,6 +13,7 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 import ky from "ky";
 import NavBar from "@/components/Navbar.vue";
+import fetchData from "@/../utils/api/useFetchCommon";
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -39,28 +40,21 @@ export default {
   beforeCreate() {
     const users = JSON.parse(localStorage.getItem("login"));
     const token = JSON.parse(localStorage.getItem("token"));
-    (async () => {
-      const parsed = await ky
-        .post("http://ws1.e1-vhp.com/VHPWebBased/rest/Common/verifyToken", {
-          json: {
-            request: {
-              userInit: users.response.userInit,
-              licenseNr: users.response.licNr,
-              userToken: token
-            }
-          }
-        })
-        .json();
-      if (parsed.response.iResult == "0") {
+    fetchData("verifyToken", {
+      userInit: users.response.userInit,
+      licenseNr: users.response.licNr,
+      userToken: token
+    }).then(res => {
+      if (res.response.iResult == 0) {
         localStorage.setItem(
           "token",
-          JSON.stringify(parsed.response.newUserToken)
+          JSON.stringify(res.response.newUserToken)
         );
       } else {
-        // localStorage.clear();
-        // this.$router.push("/");
+        localStorage.clear();
+        this.$router.push("/");
       }
-    })();
+    });
   }
 };
 </script>

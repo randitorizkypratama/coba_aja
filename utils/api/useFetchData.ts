@@ -1,5 +1,5 @@
 /** @format */
-import { API_URL, api } from "./api";
+import { API_URL } from "./api";
 import ky from "ky";
 
 export default function name(api: string, additionalParameters: object) {
