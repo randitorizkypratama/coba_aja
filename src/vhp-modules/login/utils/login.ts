@@ -1,7 +1,7 @@
 /** @format */
 import { API_LOGIN } from "@/../utils/api/api";
 import ky from "ky";
-export default function name(api: string, params: object) {
+export default function name(api: string, params: any) {
   async function ambilData() {
     const data = await ky
       .post(API_LOGIN + api, {
