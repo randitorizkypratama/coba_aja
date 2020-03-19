@@ -73,7 +73,7 @@
 // @ is an alias to /src
 import NavBar from "@/components/Navbar.vue";
 import utilsIssuing from "@/../utils/api/useFetchData";
-import ModalAcc from "./comonents/modal-alocations";
+import ModalAcc from "./components/modal-alocations";
 
 export default {
   components: {

@@ -45,7 +45,7 @@ export default {
       this.dialog = true;
     },
     dataAccount(e) {
-      for (let i in e) {
+      for (const i in e) {
         this.desserts.push(e[i]);
       }
     }
