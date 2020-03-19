@@ -7,6 +7,7 @@ import Purchasebook from "../views/Purchasebook.vue";
 import Recipe from "../views/Recipe.vue";
 import Inventory from "../vhp-modules/inventory/inventory.vue";
 import SlowMovingStockOnHand from "../vhp-modules/inventory/reports/slow-moving-stock-on-hand/Slow-Moving-Stock-On-Hand.vue";
+import TableTest from "../vhp-modules/inventory/reports/table-test/tablecomponent";
 import IssusingData from "../views/issuing";
 import Outlet from "../vhp-modules/outlet/outlet.vue";
 import TesReport from "../vhp-modules/outlet/reports/tes-report/Tes-Report.vue";
@@ -47,6 +48,11 @@ const routes = [
     path: "/slow-moving-stock-on-hand",
     name: "SlowMovingStockOnHand",
     component: SlowMovingStockOnHand
+  },
+  {
+    path: "/table-component",
+    name: "TableTest",
+    component: TableTest
   },
   {
     path: "/issusing",

@@ -28,7 +28,7 @@
             <v-icon right dark>mdi-magnify</v-icon>Rounded Button
           </v-btn>
 
-          <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
+          <!-- <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
             <template v-slot:activator="{ on }">
               <v-text-field
                 :value="dateRangeText"
@@ -40,7 +40,7 @@
               ></v-text-field>
             </template>
             <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
-          </v-menu>
+          </v-menu> -->
         </v-col>
 
         <v-col cols="14" md="9">
@@ -106,7 +106,7 @@ export default {
     (async () => {
       const data = await ky
         .post(
-          "http://ws1.e1-vhp.com/VHPWebBased/rest/vhpINV/slowMovingPrepare",
+          "http://182.253.140.35/VHPWebBased/rest/vhpINV/slowMovingPrepare",
           {
             json: {
               request: {
@@ -138,6 +138,8 @@ export default {
         });
         // this.items.push(element["country-name"]);
       }
+      console.log(tempStoreNumber);
+      console.log(tempMainGroup);
 
       //=> `{data: '🦄'}`
     })();
@@ -157,7 +159,7 @@ export default {
       (async () => {
         const parsed = await ky
           .post(
-            "http://ws1.e1-vhp.com/VHPWebBased/rest/vhpINV/slowMovingList",
+            "http://182.253.140.35/VHPWebBased/rest/vhpINV/slowMovingList",
             {
               json: {
                 request: {
