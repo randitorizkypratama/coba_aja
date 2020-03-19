@@ -175,6 +175,7 @@ export default {
           )
           .json();
         const pbookList = parsed.response.sList["s-list"];
+
         this.datas = pbookList;
       })();
     },

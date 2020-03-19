@@ -44,14 +44,9 @@
             outlined
             dense
           ></v-autocomplete>
-          <v-btn
-            class="mb-3"
-            color="primary"
-            @click="search"
-            block
-            depressed
-            large
-          >
+          <v-text-field @click="open" label="Another input"></v-text-field>
+          <ModalAcc ref="child" />
+          <v-btn class="mb-3" color="primary" @click="search" block depressed large>
             <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search
           </v-btn>
           <v-spacer></v-spacer>
@@ -77,16 +72,25 @@
 <script>
 // @ is an alias to /src
 import NavBar from "@/components/Navbar.vue";
-import utilsIssuing from "./utils-issuing";
+import utilsIssuing from "@/../utils/api/useFetchData";
+import ModalAcc from "./comonents/modal-alocations";
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    ModalAcc
+  },
+
+  methods: {
+    open() {
+      this.$refs.child.someFunction();
+    }
   },
 
   data: () => {
     return {
       mainGroup: [],
+      CostAlloc: [],
       headers: [
         {
           text: "Date",
@@ -113,11 +117,11 @@ export default {
 
   beforeCreate() {
     utilsIssuing("stockOutlistPrepare", {
-      inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-      inputUsername: "sindata",
       LnLProg: "stock-outlist.lst"
     }).then(res => {
       const dataArry = res.response.tLHauptgrp["t-l-hauptgrp"];
+      const element = res.response.tParameters["t-parameters"];
+      this.$refs.child.dataAccount(element);
       for (let i = 0; i < dataArry.length; i++) {
         this.mainGroup.push({
           value: dataArry[i].endkum,

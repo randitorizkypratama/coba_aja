@@ -1,31 +1,43 @@
 /** @format */
-
-import { LOGIN } from "../context/actions";
-import { API_URL, API_LOGIN, ApiService } from "../api/api";
+import { API_URL, api } from "./api";
 import ky from "ky";
 
-const state = {
-  issuingState: ""
-};
-
-const actions = {
-  ["issuing"]({ commit, state }, credentials) {
-    commit("KONFIRMASI_AGENDA", credentials);
+export default function name(api: string, additionalParameters: object) {
+  const credentials: object = {
+    inputUsername: "sindata",
+    inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD"
+  };
+  const params: object = Object.assign(credentials, additionalParameters);
+  async function ambilData() {
+    const data = await ky
+      .post(API_URL + api, {
+        json: {
+          request: params
+        }
+      })
+      .json();
+    return data;
   }
-};
+  return ambilData();
+}
 
-const mutations = {
-  KONFIRMASI_AGENDA: (state, credentials) => {
-    console.log("data1234", credentials);
+// interface TypeApiService {
+//   api: string;
+//   additionalParameters: object;
+// }
 
-    state.issuingState = credentials;
-  }
-};
+// class ApiService implements TypeApiService {
+//   api: string;
+//   additionalParameters: object;
 
-const getters = {};
-export default {
-  state,
-  actions,
-  mutations,
-  getters
-};
+//   constructor(api: string, additionalParameters: object) {
+//     this.api = api;
+//     this.additionalParameters = additionalParameters;
+//   }
+
+//   a(): void {
+//     console.log("tes", api());
+//   }
+// }
+
+// export default ApiService;

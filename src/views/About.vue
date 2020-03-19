@@ -97,7 +97,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     const local = JSON.parse(localStorage.getItem("login"));
     const login = local !== null ? local.response.iResult : "err";
-    if (login == 0) {
+    if (login == 3) {
       next({ path: "home" });
     }
     next();
@@ -160,7 +160,6 @@ export default {
     submit() {
       this.$v.$touch();
       loginData("loginAuth", this.users).then(res => {
-        console.log("tes123", res);
         localStorage.setItem("login", JSON.stringify(res));
       });
     },
