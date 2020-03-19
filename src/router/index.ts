@@ -12,6 +12,7 @@ import TableTest from "../vhp-modules/inventory/reports/table-test/tablecomponen
 import IssusingData from "../vhp-modules/inventory/modules/issuing/issuing";
 import Outlet from "../vhp-modules/outlet/outlet.vue";
 import TesReport from "../vhp-modules/outlet/reports/tes-report/Tes-Report.vue";
+import MinMaxStockOnHand from "../vhp-modules/inventory/reports/min-max-stock-on-hand/min-max-stock-on-hand.vue";
 
 Vue.use(VueRouter);
 
@@ -69,7 +70,13 @@ const routes = [
     path: "/tes-report",
     name: "TesReport",
     component: TesReport
+  },
+  {
+    path: "/min-max-stock-on-hand",
+    name: "MinMaxStockOnHand",
+    component: MinMaxStockOnHand
   }
+
 ];
 
 const router = new VueRouter({
