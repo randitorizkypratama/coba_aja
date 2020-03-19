@@ -86,7 +86,7 @@ import { required, maxLength, email } from "vuelidate/lib/validators";
 import loginData from "@/vhp-modules/login/utils/login";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
 import ky from "ky";
-import { LOGIN } from "../../utils/context/actions";
+import { setToken, setLogin } from "@/../utils/local-storage";
 export default {
   beforeRouteEnter(to, from, next) {
     const local = JSON.parse(localStorage.getItem("login"));
@@ -155,8 +155,9 @@ export default {
       this.$v.$touch();
       loginData("loginAuth", this.users).then(res => {
         if (res.response.iResult == 0) {
-          localStorage.setItem("login", JSON.stringify(res));
-          localStorage.setItem("token", JSON.stringify(res.response.userToken));
+          setLogin(res);
+          // localStorage.setItem("login", JSON.stringify(res));
+          setToken(res.response.userToken);
           this.$router.push("/home");
         } else {
           this.error = true;
