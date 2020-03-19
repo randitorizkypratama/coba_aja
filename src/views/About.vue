@@ -83,7 +83,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
-import loginData from "@/vhp-modules/login/utils/login";
+import loginData from "@/../utils/api/useFetchLogin";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
 import ky from "ky";
 import { setToken, setLogin } from "@/../utils/local-storage";
@@ -171,34 +171,16 @@ export default {
     }
   },
   beforeCreate() {
-    (async () => {
-      const language = await ky
-        .post(
-          "http://54.251.169.160:8080/logserver/rest/loginServer/loadLanguages",
-          {
-            json: {
-              request: {
-                iCase: "0"
-              }
-            }
-          }
-        )
-        .json();
-
-      // console.log(language.response.tLanguages["t-languages"], "language");
-      const tempDate = language.response.tLanguages["t-languages"];
-      for (let i = 0; i < tempDate.length; i++) {
-        const element = tempDate[i];
+    loginData("loadLanguages", { iCase: 0 }).then(res => {
+      const lng = res.response.tLanguages["t-languages"];
+      for (const i in lng) {
+        console.log("tes", lng[i]);
         this.items.push({
-          value: element["country-id"],
-          label: element["country-name"]
+          value: lng[i]["country-id"],
+          label: lng[i]["country-name"]
         });
-        // this.items.push(element["country-name"]);
       }
-
-      return this.items;
-      //=> `{data: '🦄'}`
-    })();
+    });
   }
 };
 </script>
