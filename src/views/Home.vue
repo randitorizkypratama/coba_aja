@@ -57,8 +57,8 @@ export default {
           JSON.stringify(parsed.response.newUserToken)
         );
       } else {
-        localStorage.clear();
-        this.$router.push("/");
+        // localStorage.clear();
+        // this.$router.push("/");
       }
     })();
   }
