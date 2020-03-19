@@ -122,7 +122,7 @@ export default {
       const dataArry = res.response.tLHauptgrp["t-l-hauptgrp"];
       const element = res.response.tParameters["t-parameters"];
       this.$refs.child.dataAccount(element);
-      for (let i = 0; i < dataArry.length; i++) {
+      for (const i in dataArry) {
         this.mainGroup.push({
           value: dataArry[i].endkum,
           label: dataArry[i].bezeich
@@ -150,7 +150,6 @@ export default {
     }).then(res => {
       const dataTable = res.response.stockOutlist["stock-outlist"];
       for (const i in dataTable) {
-        console.log("tes", dataTable[i]);
         this.CostAlloc.push(dataTable[i]);
       }
     });

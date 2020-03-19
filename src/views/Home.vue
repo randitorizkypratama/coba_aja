@@ -14,7 +14,7 @@ import HelloWorld from "@/components/HelloWorld.vue";
 import ky from "ky";
 import NavBar from "@/components/Navbar.vue";
 import fetchData from "@/../utils/api/useFetchCommon";
-import { users, token, setToken } from "@/../utils/local-storage";
+import { users, token, setToken, clear } from "@/../utils/local-storage";
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -44,12 +44,10 @@ export default {
       licenseNr: users.response.licNr,
       userToken: token
     }).then(res => {
-      console.log("tes3", res);
-
       if (res.response.iResult == 0) {
         setToken(res.response.newUserToken);
       } else {
-        localStorage.clear();
+        clear();
         this.$router.push("/");
       }
     });

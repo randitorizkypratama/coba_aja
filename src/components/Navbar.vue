@@ -49,6 +49,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { clear } from "@/../utils/local-storage";
 
 export default Vue.extend({
   name: "NavBar",
@@ -73,7 +74,7 @@ export default Vue.extend({
 
   methods: {
     submit() {
-      localStorage.clear();
+      clear();
       this.$router.push("/");
     },
     homie() {

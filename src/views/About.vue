@@ -156,7 +156,6 @@ export default {
       loginData("loginAuth", this.users).then(res => {
         if (res.response.iResult == 0) {
           setLogin(res);
-          // localStorage.setItem("login", JSON.stringify(res));
           setToken(res.response.userToken);
           this.$router.push("/home");
         } else {
