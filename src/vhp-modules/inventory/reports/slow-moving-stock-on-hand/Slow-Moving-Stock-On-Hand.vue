@@ -167,7 +167,7 @@ export default {
                   inputUsername: "sindata",
                   storeNo: this.selected,
                   mainGrp: this.select,
-                  tage: "0",
+                  tage: this.day != "" ? this.day : 0,
                   showPrice: this.showPrice
                 }
               }
@@ -175,6 +175,7 @@ export default {
           )
           .json();
         const pbookList = parsed.response.sList["s-list"];
+console.log(parsed);
 
         this.datas = pbookList;
       })();
