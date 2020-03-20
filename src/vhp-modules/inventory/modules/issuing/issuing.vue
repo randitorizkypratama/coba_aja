@@ -55,7 +55,7 @@
         <v-col cols="12" md="9">
           <v-data-table
             :headers="headers"
-            :items="datas"
+            :items="CostAlloc"
             item-key="docu-nr"
             class="elevation-1"
             dense="true"
@@ -95,14 +95,14 @@ export default {
         {
           text: "Date",
           align: "start",
-          value: "bestelldatum"
+          value: "datum"
         },
-        { text: "Storage", value: "storage" },
+        { text: "Storage", value: "lager" },
         { text: "Document Number", value: "docu-nr" },
-        { text: "Article", value: "article" },
-        { text: "Description", value: "description" },
-        { text: "Outgoing Quantity", value: "outgoing-quantity" },
-        { text: "Average Price", value: "average-price" },
+        { text: "Article", value: "art-nr" },
+        { text: "Description", value: "art-bez" },
+        { text: "Outgoing Quantity", value: "out-qty" },
+        { text: "Average Price", value: "avrg-price" },
         { text: "Amount", value: "amount" },
         { text: "ID", value: "id" }
       ],
@@ -122,11 +122,35 @@ export default {
       const dataArry = res.response.tLHauptgrp["t-l-hauptgrp"];
       const element = res.response.tParameters["t-parameters"];
       this.$refs.child.dataAccount(element);
-      for (let i = 0; i < dataArry.length; i++) {
+      for (const i in dataArry) {
         this.mainGroup.push({
           value: dataArry[i].endkum,
           label: dataArry[i].bezeich
         });
+      }
+    });
+
+    utilsIssuing("stockOutlistList", {
+      transCode: "R190102010",
+      fromGrp: 3,
+      miAlloc: "no",
+      miArticle: "yes",
+      miDocu: "no",
+      miDate: "no",
+      mattype: 4,
+      fromLager: 1,
+      toLager: 99,
+      fromDate: "01/01/19",
+      toDate: "31/01/19",
+      fromArt: 9999999,
+      toArt: 9999999,
+      showPrice: "yes",
+      costAcct: "01026220",
+      deptNo: 0
+    }).then(res => {
+      const dataTable = res.response.stockOutlist["stock-outlist"];
+      for (const i in dataTable) {
+        this.CostAlloc.push(dataTable[i]);
       }
     });
   }

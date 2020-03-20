@@ -41,6 +41,9 @@
           <v-list-item-title>
             <router-link to="/issusing">Issuing</router-link>
           </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/min-max-stock-on-hand">Minimum/Maximum Stock On Hand</router-link>
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -49,6 +52,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { clear } from "@/../utils/local-storage";
 
 export default Vue.extend({
   name: "NavBar",
@@ -73,7 +77,7 @@ export default Vue.extend({
 
   methods: {
     submit() {
-      localStorage.clear();
+      clear();
       this.$router.push("/");
     },
     homie() {

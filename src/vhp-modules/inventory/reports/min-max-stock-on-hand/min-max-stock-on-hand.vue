@@ -5,11 +5,29 @@
       <v-row>
         <v-col cols="6" md="3">
           <v-autocomplete
-            v-model="artnr"
-            :items="items"
+            v-model="fromStorage"
+            :items="storage"
             item-value="value"
             item-text="label"
-            label="Select Article"
+            label="Select Storage"
+            dense
+            outlined
+          ></v-autocomplete>
+          <v-autocomplete
+            v-model="toStorage"
+            :items="storage"
+            item-value="value"
+            item-text="label"
+            label="Select Storage"
+            dense
+            outlined
+          ></v-autocomplete>
+          <v-autocomplete
+            v-model="fromMainGroup"
+            :items="mainGroup"
+            item-valsue="value"
+            item-text="label"
+            label="Select Main Group"
             dense
             outlined
           ></v-autocomplete>
@@ -61,33 +79,23 @@ export default {
     this.uname = "sindata";
     //this.uname = localStorage.getItem("user");
     (async () => {
-      const parsed = await ky
-        .post("http://182.253.140.35/VHPWebBased/rest/Common/getAllArtikel", {
+      this.respons = await ky
+        .post("http://182.253.140.35/VHPWebBased/rest/vhpINV/minOHPrepare", {
           json: {
             request: {
               inputUserkey: this.ukey,
-              inputUsername: this.uname,
-              sorttype: "2",
-              lastArt: "*",
-              lastArt1: "?"
+              inputUsername: this.uname
             }
           }
         })
         .json();
-      const tempArt = parsed.response.tLArtikel["t-l-artikel"];
-      for (let i = 0; i < tempArt.length; i++) {
-        const element = tempArt[i];
-        this.items.push({
-          value: element["artnr"],
-          label: element["bezeich"]
-        });
-      }
-      return this.items;
+      this.showPrice = this.respons.response.showPrice;
+      this.loadStorage();
+      this.loadMainGroup();
     })();
   },
   data: () => {
     return {
-      items: [],
       headers: [
         {
           text: "Date",
@@ -104,8 +112,14 @@ export default {
         { text: "Value", value: "warenwert" },
         { text: "Remark", value: "remark" }
       ],
+      respons: "",
       datas: [],
-      artnr: "",
+      storage: [],
+      fromStorage: "",
+      toStorage: "",
+      mainGroup: [],
+      fromMainGroup: "",
+      showPrice: "",
       pagination: {
         rowsPerPage: 30
       },
@@ -115,7 +129,7 @@ export default {
   },
   methods: {
     search() {
-      (async () => {
+      /*(async () => {
         const parsed = await ky
           .post("http://182.253.140.35/VHPWebBased/rest/vhpINV/purchaseBook", {
             json: {
@@ -129,7 +143,29 @@ export default {
           .json();
         const pbookList = parsed.response.pchaseList["pchase-list"];
         this.datas = pbookList;
-      })();
+      })();*/
+    },
+    loadStorage() {
+      const tempStorage = this.respons.response.tLLager["t-l-lager"];
+      for (let i = 0; i < tempStorage.length; i++) {
+        const element = tempStorage[i];
+        this.storage.push({
+          value: element["lager-nr"],
+          label: element["bezeich"]
+        });
+      }
+      return this.storage;
+    },
+    loadMainGroup() {
+      const tempMainGroup = this.respons.response.tLHauptgrp["t-l-hauptgrp"];
+      for (let i = 0; i < tempMainGroup.length; i++) {
+        const element = tempMainGroup[i];
+        this.mainGroup.push({
+          value: element["endkum"],
+          label: element["bezeich"]
+        });
+      }
+      return this.mainGroup;
     }
   }
 };

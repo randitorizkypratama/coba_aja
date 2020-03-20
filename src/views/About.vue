@@ -83,10 +83,10 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
-import loginData from "@/vhp-modules/login/utils/login";
+import loginData from "@/../utils/api/useFetchLogin";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
 import ky from "ky";
-import { LOGIN } from "../../utils/context/actions";
+import { setToken, setLogin } from "@/../utils/local-storage";
 export default {
   beforeRouteEnter(to, from, next) {
     const local = JSON.parse(localStorage.getItem("login"));
@@ -154,9 +154,9 @@ export default {
     submit() {
       this.$v.$touch();
       loginData("loginAuth", this.users).then(res => {
-        localStorage.setItem("login", JSON.stringify(res));
-        console.log("tes", res);
         if (res.response.iResult == 0) {
+          setLogin(res);
+          setToken(res.response.userToken);
           this.$router.push("/home");
         } else {
           this.error = true;
@@ -171,34 +171,16 @@ export default {
     }
   },
   beforeCreate() {
-    (async () => {
-      const language = await ky
-        .post(
-          "http://54.251.169.160:8080/logserver/rest/loginServer/loadLanguages",
-          {
-            json: {
-              request: {
-                iCase: "0"
-              }
-            }
-          }
-        )
-        .json();
-
-      // console.log(language.response.tLanguages["t-languages"], "language");
-      const tempDate = language.response.tLanguages["t-languages"];
-      for (let i = 0; i < tempDate.length; i++) {
-        const element = tempDate[i];
+    loginData("loadLanguages", { iCase: 0 }).then(res => {
+      const lng = res.response.tLanguages["t-languages"];
+      for (const i in lng) {
+        console.log("tes", lng[i]);
         this.items.push({
-          value: element["country-id"],
-          label: element["country-name"]
+          value: lng[i]["country-id"],
+          label: lng[i]["country-name"]
         });
-        // this.items.push(element["country-name"]);
       }
-
-      return this.items;
-      //=> `{data: '🦄'}`
-    })();
+    });
   }
 };
 </script>
