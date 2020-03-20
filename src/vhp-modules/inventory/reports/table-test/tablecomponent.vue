@@ -115,6 +115,8 @@ export default {
   data: () => ({
     height: 450,
     dialog: false,
+    ranges: [],
+
     headers: [
       {
         text: "Dessert (100g serving)",
@@ -163,6 +165,9 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "Add" : "Edit";
+    },
+    dateRangeText() {
+      return this.ranges.join(" - ");
     }
   },
 
