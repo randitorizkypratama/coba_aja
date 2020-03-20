@@ -4,43 +4,68 @@
     <v-container fluid>
       <v-row>
         <v-col cols="4" md="3">
-          <v-autocomplete
-            v-model="select"
-            :items="mainGroup"
-            item-text="label"
-            item-value="value"
-            label="Main Group"
-            outlined
-            dense
-          ></v-autocomplete>
-          <v-autocomplete
-            v-model="selected"
-            :items="storeNumber"
-            item-text="label"
-            item-value="value"
-            label="Store Number"
-            outlined
-            dense
-          ></v-autocomplete>
-
-          <v-text-field v-model="day" label="Days" type="number" outlined dense></v-text-field>
-          <v-btn color="primary" @click="cari" block depressed small>
-            <v-icon right dark>mdi-magnify</v-icon>Rounded Button
-          </v-btn>
-
-          <!-- <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
+          <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
             <template v-slot:activator="{ on }">
               <v-text-field
                 :value="dateRangeText"
                 clearable
                 label="Date"
                 readonly
+                outlined
+                dense
                 v-on="on"
                 @click:clear="date = null"
               ></v-text-field>
             </template>
             <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
-          </v-menu>-->
+          </v-menu>
+          <v-autocomplete
+            v-model="fromMainGroup"
+            :items="mainGroup"
+            item-text="label"
+            item-value="value"
+            label="From Main Group"
+            outlined
+            dense
+          ></v-autocomplete>
+          <v-autocomplete
+            v-model="toMainGroup"
+            :items="mainGroup"
+            item-text="label"
+            item-value="value"
+            label="To Main Group"
+            outlined
+            dense
+          ></v-autocomplete>
+          <v-autocomplete
+            v-model="storeNumber"
+            :items="storeselect"
+            item-text="label"
+            item-value="value"
+            label="Store Number"
+            outlined
+            dense
+          ></v-autocomplete>
+          <v-autocomplete
+            v-model="storeNumber"
+            :items="storeselect"
+            item-text="label"
+            item-value="value"
+            label="Supplier"
+            outlined
+            dense
+          ></v-autocomplete>
+
+          <v-checkbox v-model="checkbox1" :label="`Display All Supplier`" dense></v-checkbox>
+          <v-radio-group v-model="radios" :mandatory="false">
+            <v-radio label="By Supplier" value="radio-1"></v-radio>
+            <v-radio label="By Document" value="radio-2"></v-radio>
+            <v-radio label="By Sub Group" value="radio-2"></v-radio>
+          </v-radio-group>
+
+          <v-btn color="primary" @click="cari" block depressed small>
+            <v-icon right dark>mdi-magnify</v-icon>Rounded Button
+          </v-btn>
         </v-col>
 
         <v-col cols="14" md="9">
@@ -75,16 +100,17 @@ export default {
   },
   data: () => ({
     height: 450,
-    date: new Date().toISOString().substr(0, 10),
-    menu1: false,
     mainGroup: [],
-    storeNumber: [],
-    ranges: ["2019-09-10", "2019-09-20"],
+    storeselect: [],
+    ranges: [],
     datas: [],
     showPrice: "",
-    select: "",
-    selected: "",
+    fromMainGroup: "",
+    toMainGroup: "",
+    storeNumber: "",
     day: "",
+    checkbox1: false,
+    radios: "",
     headers: [
       {
         text: "Article Number",
@@ -105,21 +131,16 @@ export default {
   beforeCreate() {
     (async () => {
       const data = await ky
-        .post(
-          "http://182.253.140.35/VHPWebBased/rest/vhpINV/slowMovingPrepare",
-          {
-            json: {
-              request: {
-                inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-                inputUsername: "sindata",
-                LnLProg: " "
-              }
+        .post("http://182.253.140.35/VHPWebBased/rest/vhpINV/getInvMainGroup", {
+          json: {
+            request: {
+              inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+              inputUsername: "sindata"
             }
           }
-        )
+        })
         .json();
 
-      this.showPrice = data.response.showPrice;
       const tempMainGroup = data.response.tLHauptgrp["t-l-hauptgrp"];
       for (let i = 0; i < tempMainGroup.length; i++) {
         const element = tempMainGroup[i];
@@ -127,35 +148,36 @@ export default {
           value: element["endkum"],
           label: element["bezeich"]
         });
-        // this.items.push(element["country-name"]);
       }
-      const tempStoreNumber = data.response.tLLager["t-l-lager"];
-      for (let i = 0; i < tempStoreNumber.length; i++) {
-        const element = tempStoreNumber[i];
-        this.storeNumber.push({
+
+      const store = await ky
+        .post("http://182.253.140.35/VHPWebBased/rest/vhpINV/getStorage", {
+          json: {
+            request: {
+              inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+              inputUsername: "sindata"
+            }
+          }
+        })
+        .json();
+
+      const tempStore = store.response.tLLager["t-l-lager"];
+      for (let i = 0; i < tempStore.length; i++) {
+        const element = tempStore[i];
+        this.storeselect.push({
           value: element["lager-nr"],
           label: element["bezeich"]
         });
-        // this.items.push(element["country-name"]);
       }
-      console.log(tempStoreNumber);
-      console.log(tempMainGroup);
-
-      //=> `{data: '🦄'}`
     })();
   },
   computed: {
-    // computedDateFormattedMomentjs() {
-    //   return this.date ? moment(this.date).format("dddd, MMMM Do YYYY") : "";
-    // }
     dateRangeText() {
       return this.ranges.join(" - ");
     }
   },
   methods: {
     cari() {
-      console.log(this.day, "day");
-
       (async () => {
         const parsed = await ky
           .post(
@@ -187,3 +209,10 @@ export default {
   }
 };
 </script>
+
+<style lang="sass" scoped>
+.v-input--selection-controls
+  margin-top: 0px
+  padding-top: 0px
+
+</style>
