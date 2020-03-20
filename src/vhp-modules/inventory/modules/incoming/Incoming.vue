@@ -47,8 +47,8 @@
             dense
           ></v-autocomplete>
           <v-autocomplete
-            v-model="storeNumber"
-            :items="storeselect"
+            v-model="supplier"
+            :items="supplierselect"
             item-text="label"
             item-value="value"
             label="Supplier"
@@ -102,12 +102,14 @@ export default {
     height: 450,
     mainGroup: [],
     storeselect: [],
+    supplierselect: [],
     ranges: [],
     datas: [],
     showPrice: "",
     fromMainGroup: "",
     toMainGroup: "",
     storeNumber: "",
+    supplier: "",
     day: "",
     checkbox1: false,
     radios: "",
@@ -169,6 +171,25 @@ export default {
           label: element["bezeich"]
         });
       }
+      const suppliers = await ky
+        .post("http://182.253.140.35/VHPWebBased/rest/vhpAP/getSupplierList", {
+          json: {
+            request: {
+              inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+              inputUsername: "sindata"
+            }
+          }
+        })
+        .json();
+
+      const tempSuppliers = suppliers.response.supplyList["supply-list"];
+      for (let i = 0; i < tempSuppliers.length; i++) {
+        const element = tempSuppliers[i];
+        this.supplierselect.push({
+          value: element["t-recid"],
+          label: element["firma"]
+        });
+      }
     })();
   },
   computed: {
@@ -214,5 +235,4 @@ export default {
 .v-input--selection-controls
   margin-top: 0px
   padding-top: 0px
-
 </style>
