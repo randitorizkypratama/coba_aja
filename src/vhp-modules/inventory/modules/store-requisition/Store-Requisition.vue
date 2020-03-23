@@ -6,13 +6,13 @@
     <v-container fluid>
       <v-row>
         <v-col cols="6" md="3">
+          <h5>Date</h5>
           <v-menu v-model="menu1" :close-on-content-click="false" max-width="300">
             <template v-slot:activator="{ on }">
               <v-text-field
                 class="select"
                 :value="dateRangeText"
                 clearable
-                label="Date"
                 v-on="on"
                 @click:clear="date = null"
                 dense
@@ -21,39 +21,36 @@
             </template>
             <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
           </v-menu>
-          <!-- <v-card width="190" height="49" outlined> -->
-          <h5>From Dapertemen</h5>
+          <h5>From Departemen</h5>
           <v-select
             class="select"
-            v-model="artnr"
-            :items="items"
+            v-model="fromDepartement"
+            :items="fromDept"
             item-value="value"
             item-text="label"
             dense
             outlined
           ></v-select>
-
-          <!-- </v-card> -->
-          <h5>To Dapertemen</h5>
+          <h5>To Departemen</h5>
           <v-select
             class="select"
-            v-model="artnr"
-            :items="items"
+            v-model="toDepartemen"
+            :items="toDept"
             item-value="value"
             item-text="label"
             dense
             outlined
           ></v-select>
-          <h5>Group</h5>
-          <v-select
-            v-model="select"
+          <h5>Request No</h5>
+          <v-text-field
+            v-model="requesNo"
             :items="mainGroup"
             item-text="label"
             item-value="value"
             class="select"
             dense
             outlined
-          ></v-select>
+          ></v-text-field>
           <v-btn class="button" color="primary" @click="search">
             <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search
           </v-btn>
@@ -87,6 +84,7 @@
 import NavBar from "@/components/Navbar.vue";
 import utilsIssuing from "@/../utils/api/useFetchData";
 import modalAdd from "./components/modal-add";
+import moment from "moment";
 
 export default {
   components: {
@@ -97,13 +95,32 @@ export default {
   methods: {
     open() {
       this.$refs.child.someFunction();
+    },
+    search() {
+      utilsIssuing("storeReqCreateList", {
+        fromDate: moment(this.ranges[0]).format("MM/DD/YY"),
+        toDate: moment(this.ranges[1]).format("MM/DD/YY"),
+        fromDept: this.fromDepartement,
+        toDept: this.toDepartemen,
+        currLschein: this.requesNo,
+        showPrice: "yes"
+      }).then(res => {
+        const data = res.response.tList["t-list"];
+        for (const i in data) {
+          this.CostAlloc.push(data[i]);
+        }
+      });
     }
   },
 
   data: () => {
     return {
       CostAlloc: [],
-      items: [],
+      requesNo: " ",
+      fromDepartement: [],
+      toDepartemen: [],
+      fromDept: [],
+      toDept: [],
       picker: new Date().toISOString().substr(0, 10),
       ranges: [],
       headers: [],
@@ -123,42 +140,25 @@ export default {
   },
 
   created() {
-    const header = this.$store.state.headers;
+    const header = this.$store.state.ListRequisition;
     for (const i in header) {
       this.headers.push(header[i]);
     }
   },
   beforeCreate() {
     utilsIssuing("storeReqPrepare").then(res => {
-      const data = res.response.tLLager["t-l-lager"];
+      this.ranges.push(res.response.fromDate);
+      this.ranges.push(res.response.toDate);
+      const data = res.response.tLUntergrup["t-l-untergrup"];
       for (const i in data) {
-        this.items.push({
+        this.fromDept.push({
           label: data[i].bezeich,
-          value: data[i]["lager-nr"]
+          value: data[i].zwkum
         });
-      }
-    });
-    utilsIssuing("stockOutlistList", {
-      transCode: "R190102010",
-      fromGrp: 3,
-      miAlloc: "no",
-      miArticle: "yes",
-      miDocu: "no",
-      miDate: "no",
-      mattype: 4,
-      fromLager: 1,
-      toLager: 99,
-      fromDate: "01/01/19",
-      toDate: "31/01/19",
-      fromArt: 9999999,
-      toArt: 9999999,
-      showPrice: "yes",
-      costAcct: "01026220",
-      deptNo: 0
-    }).then(res => {
-      const dataTable = res.response.stockOutlist["stock-outlist"];
-      for (const i in dataTable) {
-        this.CostAlloc.push(dataTable[i]);
+        this.toDept.push({
+          label: data[i].bezeich,
+          value: data[i].zwkum
+        });
       }
     });
   }
@@ -177,7 +177,7 @@ p.dashed {
   width: 250px !important;
 }
 #label123 {
-  height: 400px;
+  /* height: 400px; */
   margin-right: 40px;
   margin-left: -50px;
 }

@@ -118,7 +118,6 @@
                   dense
                   outlined
                 ></v-text-field>
-                <h1>tes</h1>
                 <v-text-field
                   v-model="users"
                   :items="items"
@@ -210,6 +209,7 @@ export default {
       (this.Itemz = true), (this.Header = false);
     },
     add() {
+      this.$v.$touch();
       console.log("tes", this.users);
       const errors = [];
       if (this.users !== "") {

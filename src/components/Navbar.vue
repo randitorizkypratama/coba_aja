@@ -42,11 +42,7 @@
             <router-link to="/issusing">Issuing</router-link>
           </v-list-item-title>
           <v-list-item-title>
-<<<<<<< HEAD
             <router-link to="/store-requisition">store-requisition</router-link>
-=======
-            <router-link to="/min-max-stock-on-hand">Minimum/Maximum Stock On Hand</router-link>
->>>>>>> b7225bf0e3f7fda883c8b09e4c2482b678000798
           </v-list-item-title>
         </v-list-item>
       </v-list>
