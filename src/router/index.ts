@@ -13,12 +13,8 @@ import TableTest from "../vhp-modules/inventory/reports/table-test/tablecomponen
 import IssusingData from "../vhp-modules/inventory/modules/issuing/issuing";
 import Outlet from "../vhp-modules/outlet/outlet.vue";
 import TesReport from "../vhp-modules/outlet/reports/tes-report/Tes-Report.vue";
-<<<<<<< HEAD
-import storeSequisition from "@/vhp-modules/inventory/modules/store-requisition/Store-Requisition";
-=======
 import storeSequisition from "../vhp-modules/inventory/modules/store-requisition/Store-Requisition";
 import MinMaxStockOnHand from "../vhp-modules/inventory/reports/min-max-stock-on-hand/min-max-stock-on-hand.vue";
->>>>>>> 522536a1674e8fbb4da6b7a9c447e363ecf26662
 
 Vue.use(VueRouter);
 
@@ -71,14 +67,11 @@ const routes = [
     path: "/store-requisition",
     name: "store-requisition",
     component: storeSequisition
-<<<<<<< HEAD
-=======
   },
   {
     path: "/incoming",
     name: "Incoming",
     component: Incoming
->>>>>>> 522536a1674e8fbb4da6b7a9c447e363ecf26662
   },
   {
     path: "/outlet",
@@ -89,12 +82,12 @@ const routes = [
     path: "/tes-report",
     name: "TesReport",
     component: TesReport
+  },
+  {
+    path: "/min-max-stock-on-hand",
+    name: "MinMaxStockOnHand",
+    component: MinMaxStockOnHand
   }
-  // {
-  //   path: "/min-max-stock-on-hand",
-  //   name: "MinMaxStockOnHand",
-  //   component: MinMaxStockOnHand
-  // }
 ];
 
 const router = new VueRouter({
