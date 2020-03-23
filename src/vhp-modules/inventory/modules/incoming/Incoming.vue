@@ -76,12 +76,39 @@
             :height="height"
             class="elevation-1"
             disable-pagination
+            disable-sort
             hide-default-footer
             fixed-header
             calculate-widths
             dense
           >
-            <template v-slot:item.datum="{ item }">{{ formatDate(item.datum) }}</template>
+            <template
+              v-slot:item.DATE="{ item }"
+            >{{ item.DATE != null ? formatDate(item.DATE) : " " }}</template>
+            <template v-slot:item.st="{ item }">
+              {{
+              item.st == 0 ? " " : item.st
+              }}
+            </template>
+            <template v-slot:item.artnr="{ item }">
+              {{
+              item.artnr == 0 ? " " : item.artnr
+              }}
+            </template>
+            <template v-slot:item.DESCRIPTION="{ item }">
+              {{
+              item.DESCRIPTION == "T O T A L" ? "SubTotal" : item.DESCRIPTION == "GRAND TOTAL" ? "Total" : item.DESCRIPTION
+              }}
+            </template>
+            <template
+              v-slot:item.price="{ item }"
+            >{{ item.price == "0" ? "" : formatNumber(item.price.toFixed(2)) }}</template>
+            <template
+              v-slot:item.amount="{ item }"
+            >{{ item.amount == "0" ? "" : formatNumber(item.amount.toFixed(2)) }}</template>
+            <template
+              v-slot:item.inc-qty="{ item }"
+            >{{ item["inc-qty"] == "0" ? "" : item["inc-qty"] }}</template>
           </v-data-table>
         </v-col>
       </v-row>
@@ -99,42 +126,67 @@ export default {
     NavBar
   },
   data: () => ({
-    height: 450,
+    height: 530,
     mainGroup: [],
     storeselect: [],
     supplierselect: [],
     ranges: [],
     datas: [],
-    showPrice: "",
     fromMainGroup: "",
     toMainGroup: "",
     storeNumber: "",
     supplier: "",
     day: "",
+    lKreditRecid: "",
+    longDigit: "",
+    showPriceprepare: "",
     checkbox1: false,
     radios: "",
     headers: [
       {
         text: "Date",
         align: "start",
-        value: "DATE"
+        value: "DATE",
+        width: "110"
       },
-      { text: "Storage Number", value: "st" },
-      { text: "Supplier", value: "supplier" },
-      { text: "Article Number", value: "artnr" },
-      { text: "Description", value: "DESCRIPTION" },
-      { text: "Delivery Unit", value: "d-unit" },
-      { text: "Price", value: "price" },
-      { text: "Incoming Quantity", value: "inc-qty" },
-      { text: "Amount", value: "amount" },
-      { text: "Document Number", value: "docu-no" },
+      { text: "Storage Number", value: "st", width: "70" },
+      { text: "Supplier", value: "supplier", width: 250 },
+      { text: "Article Number", value: "artnr", width: 80 },
+      { text: "Description", value: "DESCRIPTION", width: 250 },
+      { text: "Delivery Unit", value: "d-unit", width: 70 },
+      { text: "Price", value: "price", width: 100 },
+      { text: "Incoming Quantity", value: "inc-qty", width: 100 },
+      { text: "Amount", value: "amount", width: 100 },
+      { text: "Document Number", value: "docu-no", width: 120 },
       { text: "ID", value: "ID" },
-      { text: "Delivery Note", value: "deliv-note" },
+      { text: "Delivery Note", value: "deliv-note", width: 100 },
       { text: "Invoice Number", value: "invoice-nr" }
     ]
   }),
   beforeCreate() {
     (async () => {
+      const prepare = await ky
+        .post(
+          "http://182.253.140.35/VHPWebBased/rest/vhpINV/receivingReportPrepare",
+          {
+            json: {
+              request: {
+                inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+                inputUsername: "sindata",
+                userInit: "01",
+                apRecid: "0"
+              }
+            }
+          }
+        )
+        .json();
+
+      const prepareData = prepare.response;
+      console.log(prepareData, "prepare");
+      this.lKreditRecid = prepareData.lKreditRecid;
+      this.longDigit = prepareData.longDigit;
+      this.showPriceprepare = prepareData.showPrice;
+
       const data = await ky
         .post("http://182.253.140.35/VHPWebBased/rest/vhpINV/getInvMainGroup", {
           json: {
@@ -202,18 +254,17 @@ export default {
   },
   methods: {
     cari() {
-      console.log(
-        moment(this.ranges[0]).format("DD-MM-YYYY") +
-          "-" +
-          moment(this.ranges[1]).format("DD-MM-YYYY"),
-        "cari"
-      );
-      console.log(this.fromMainGroup, "cari2");
-      console.log(this.toMainGroup, "cari3");
-      console.log(this.storeNumber, "cari4");
-      console.log(this.supplier, "cari5");
-      console.log(this.checkbox1, "cari6");
-      console.log(this.radios, "cari7");
+      console.log(this.checkbox1 == true ? "0" : this.supplier, "request");
+      console.log(this.lKreditRecid, "request2");
+      console.log(this.longDigit, "request3");
+      console.log(this.showPriceprepare, "request4");
+      console.log(this.storeNumber, "request5");
+      console.log(this.checkbox1, "request6");
+      console.log(this.radios, "request7");
+      console.log(this.fromMainGroup, "request8");
+      console.log(this.toMainGroup, "request");
+      console.log(moment(this.ranges[0]).format("DD-MM-YY"), "request9");
+      console.log(moment(this.ranges[1]).format("DD-MM-YY"), "request10");
 
       (async () => {
         const parsed = await ky
@@ -226,17 +277,17 @@ export default {
                   inputUsername: "sindata",
                   pvILanguage: "1",
                   lastArtnr: "?",
-                  lieferantRecid: "1890603",
-                  lKreditRecid: "0",
-                  longDigit: true,
-                  showPrice: true,
-                  store: "1",
-                  allSupp: false,
-                  sorttype: "1",
-                  fromGrp: "1",
-                  toGrp: "2",
-                  fromDate: "01/01/19",
-                  toDate: "14/01/19",
+                  lieferantRecid: this.checkbox1 == true ? "0" : this.supplier,
+                  lKreditRecid: this.lKreditRecid,
+                  longDigit: this.longDigit,
+                  showPrice: this.showPriceprepare,
+                  store: this.storeNumber,
+                  allSupp: this.checkbox1,
+                  sorttype: this.radios,
+                  fromGrp: this.fromMainGroup,
+                  toGrp: this.toMainGroup,
+                  fromDate: moment(this.ranges[0]).format("DD/MM/YY"),
+                  toDate: moment(this.ranges[1]).format("DD/MM/YY"),
                   userInit: "01",
                   apRecid: "0",
                   taxcodeList: {
@@ -246,13 +297,41 @@ export default {
                         taxamount: "0"
                       }
                     ]
+                    // inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+                    // inputUsername: "sindata",
+                    // pvILanguage: "1",
+                    // lastArtnr: "?",
+                    // lieferantRecid: "0",
+                    // lKreditRecid: "0",
+                    // apRecid: "0",
+                    // longDigit: true,
+                    // showPrice: true,
+                    // store: "1",
+                    // allSupp: true,
+                    // sorttype: "1",
+                    // fromGrp: "1",
+                    // toGrp: "99",
+                    // fromDate: "01/01/19",
+                    // toDate: "14/01/19",
+                    // userInit: "01",
+                    // taxcodeList: {
+                    //   "taxcode-list": [
+                    //     {
+                    //       taxcode: "",
+                    //       taxamount: "0"
+                    //     }
+                    //   ]
                   }
                 }
               }
             }
           )
           .json();
+        console.log(parsed);
+
         const pbookList = parsed.response.strList["str-list"];
+        console.log(pbookList, "data");
+
         this.datas = pbookList;
       })();
     },
@@ -260,6 +339,9 @@ export default {
       console.log("tes", value);
 
       return moment(value).format("DD-MM-YYYY");
+    },
+    formatNumber(value) {
+      return value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     }
   }
 };
