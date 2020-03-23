@@ -25,13 +25,15 @@ export default {
     shoppingItems: [
       {
         name: "Slow Moving Stock On Hand",
-        photo: "FO-Reception.svg",
         url: "slow-moving-stock-on-hand"
       },
       {
         name: "Table Component",
-        photo: "FO-Reception.svg",
         url: "table-component"
+      },
+      {
+        name: "Incoming",
+        url: "incoming"
       }
     ]
   }),
