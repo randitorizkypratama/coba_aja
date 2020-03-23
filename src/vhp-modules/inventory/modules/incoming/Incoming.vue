@@ -4,11 +4,7 @@
     <v-container fluid>
       <v-row>
         <v-col cols="4" md="3">
-          <v-menu
-            v-model="menu1"
-            :close-on-content-click="false"
-            max-width="290"
-          >
+          <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
             <template v-slot:activator="{ on }">
               <v-text-field
                 :value="dateRangeText"
@@ -21,11 +17,7 @@
                 @click:clear="date = null"
               ></v-text-field>
             </template>
-            <v-date-picker
-              v-model="ranges"
-              @change="menu1 = false"
-              range
-            ></v-date-picker>
+            <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
           </v-menu>
           <v-autocomplete
             v-model="fromMainGroup"
@@ -64,15 +56,11 @@
             dense
           ></v-autocomplete>
 
-          <v-checkbox
-            v-model="checkbox1"
-            :label="`Display All Supplier`"
-            dense
-          ></v-checkbox>
+          <v-checkbox v-model="checkbox1" :label="`Display All Supplier`" dense></v-checkbox>
           <v-radio-group v-model="radios" :mandatory="false">
-            <v-radio label="By Supplier" value="radio-1"></v-radio>
-            <v-radio label="By Document" value="radio-2"></v-radio>
-            <v-radio label="By Sub Group" value="radio-2"></v-radio>
+            <v-radio label="By Supplier" value="1"></v-radio>
+            <v-radio label="By Document" value="2"></v-radio>
+            <v-radio label="By Sub Group" value="3"></v-radio>
           </v-radio-group>
 
           <v-btn color="primary" @click="cari" block depressed small>
@@ -93,9 +81,7 @@
             calculate-widths
             dense
           >
-            <template v-slot:item.datum="{ item }">{{
-              formatDate(item.datum)
-            }}</template>
+            <template v-slot:item.datum="{ item }">{{ formatDate(item.datum) }}</template>
           </v-data-table>
         </v-col>
       </v-row>
@@ -129,19 +115,22 @@ export default {
     radios: "",
     headers: [
       {
-        text: "Article Number",
+        text: "Date",
         align: "start",
-        value: "artnr"
+        value: "DATE"
       },
-      { text: "Name", value: "name" },
-      { text: "Minimum On Hand", value: "min-oh" },
-      { text: "Current On Hand", value: "curr-oh" },
-      { text: "Average Price", value: "avrgprice" },
-      { text: "Actual Price", value: "ek-aktuell" },
-      {
-        text: "Last Purchase Date",
-        value: "datum"
-      }
+      { text: "Storage Number", value: "st" },
+      { text: "Supplier", value: "supplier" },
+      { text: "Article Number", value: "artnr" },
+      { text: "Description", value: "DESCRIPTION" },
+      { text: "Delivery Unit", value: "d-unit" },
+      { text: "Price", value: "price" },
+      { text: "Incoming Quantity", value: "inc-qty" },
+      { text: "Amount", value: "amount" },
+      { text: "Document Number", value: "docu-no" },
+      { text: "ID", value: "ID" },
+      { text: "Delivery Note", value: "deliv-note" },
+      { text: "Invoice Number", value: "invoice-nr" }
     ]
   }),
   beforeCreate() {
@@ -213,26 +202,57 @@ export default {
   },
   methods: {
     cari() {
+      console.log(
+        moment(this.ranges[0]).format("DD-MM-YYYY") +
+          "-" +
+          moment(this.ranges[1]).format("DD-MM-YYYY"),
+        "cari"
+      );
+      console.log(this.fromMainGroup, "cari2");
+      console.log(this.toMainGroup, "cari3");
+      console.log(this.storeNumber, "cari4");
+      console.log(this.supplier, "cari5");
+      console.log(this.checkbox1, "cari6");
+      console.log(this.radios, "cari7");
+
       (async () => {
         const parsed = await ky
           .post(
-            "http://182.253.140.35/VHPWebBased/rest/vhpINV/slowMovingList",
+            "http://182.253.140.35/VHPWebBased/rest/vhpINV/receivingReportList",
             {
               json: {
                 request: {
                   inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
                   inputUsername: "sindata",
-                  storeNo: this.selected,
-                  mainGrp: this.select,
-                  tage: this.day != "" ? this.day : 0,
-                  showPrice: this.showPrice
+                  pvILanguage: "1",
+                  lastArtnr: "?",
+                  lieferantRecid: "1890603",
+                  lKreditRecid: "0",
+                  longDigit: true,
+                  showPrice: true,
+                  store: "1",
+                  allSupp: false,
+                  sorttype: "1",
+                  fromGrp: "1",
+                  toGrp: "2",
+                  fromDate: "01/01/19",
+                  toDate: "14/01/19",
+                  userInit: "01",
+                  apRecid: "0",
+                  taxcodeList: {
+                    "taxcode-list": [
+                      {
+                        taxcode: "",
+                        taxamount: "0"
+                      }
+                    ]
+                  }
                 }
               }
             }
           )
           .json();
-        const pbookList = parsed.response.sList["s-list"];
-
+        const pbookList = parsed.response.strList["str-list"];
         this.datas = pbookList;
       })();
     },
