@@ -4,6 +4,10 @@
     <v-container fluid>
       <v-row>
         <v-col cols="6" md="3">
+          <v-radio-group dense row>
+            <v-radio label="Minimum" v-model="selector" value="1" selected />
+            <v-radio label="Maximum" v-model="selector" value="2" />
+          </v-radio-group>
           <v-autocomplete
             v-model="fromStorage"
             :items="storage"
@@ -25,9 +29,18 @@
           <v-autocomplete
             v-model="fromMainGroup"
             :items="mainGroup"
-            item-valsue="value"
+            item-value="value"
             item-text="label"
             label="Select Main Group"
+            dense
+            outlined
+          ></v-autocomplete>
+          <v-autocomplete
+            v-model="sortBy"
+            :items="items"
+            item-value="value"
+            item-text="label"
+            label="Sort by"
             dense
             outlined
           ></v-autocomplete>
@@ -51,13 +64,35 @@
           <v-data-table
             :headers="headers"
             :items="datas"
-            item-key="docu-nr"
+            item-key="artnr"
             class="elevation-1"
             dense="true"
             hide-default-footer="true"
             rows-per-page-items="[15, 30, 50, 100]"
             pagination.sync="pagination"
-          />
+          >
+            <template v-slot:item.artnr="{ item }">
+              <div align="left">{{ item.artnr == 0 ? "" : item.artnr }}</div>
+            </template>
+            <template v-slot:item.name="{ item }">
+              <div align="left">{{ item.name }}</div>
+            </template>
+            <template v-slot:item.min-oh="{ item }">
+              <div align="right">{{ item.artnr == 0 ? "" : formatNumber(item['min-oh'].toFixed(2)) }}</div>
+            </template>
+            <template v-slot:item.curr-oh="{ item }">
+              <div align="right">{{ item.artnr == 0 ? "" : formatNumber(item['curr-oh'].toFixed(2)) }}</div>
+            </template>
+            <template v-slot:item.avrgprice="{ item }">
+              <div align="right">{{ item.artnr == 0 ? "" : formatNumber(item.avrgprice.toFixed(2)) }}</div>
+            </template>
+            <template v-slot:item.ek-aktuell="{ item }">
+              <div align="right">{{ item.artnr == 0 ? "" : formatNumber(item['ek-aktuell'].toFixed(2)) }}</div>
+            </template>
+            <template v-slot:item.datum="{ item }">
+              <div align="left">{{ item.artnr == 0 ? "" : formatDate(item.datum) }}</div>
+            </template>
+          </v-data-table>
         </v-col>
       </v-row>
     </v-container>
@@ -68,6 +103,7 @@
 // @ is an alias to /src
 import NavBar from "@/components/Navbar.vue";
 import ky from "ky";
+import moment from "moment";
 
 export default {
   components: {
@@ -89,7 +125,6 @@ export default {
           }
         })
         .json();
-      this.showPrice = this.respons.response.showPrice;
       this.loadStorage();
       this.loadMainGroup();
     })();
@@ -97,20 +132,17 @@ export default {
   data: () => {
     return {
       headers: [
-        {
-          text: "Date",
-          align: "start",
-          value: "bestelldatum"
-        },
-        { text: "Supplier Name", value: "firma" },
-        { text: "Document Number", value: "docu-nr" },
-        { text: "Delivery Unit", value: "traubensort" },
-        { text: "Content", value: "lief-einheit" },
-        { text: "Discount", value: "betriebsnr" },
-        { text: "Quantity", value: "anzahl" },
-        { text: "Unit Price", value: "einzelpreis" },
-        { text: "Value", value: "warenwert" },
-        { text: "Remark", value: "remark" }
+        { text: "Article Number", align: "center", value: "artnr" },
+        { text: "Name", align: "center", value: "name" },
+        { text: "Minimum On-Hand", align: "center", value: "min-oh" },
+        { text: "Current On-Hand", align: "center", value: "curr-oh" },
+        { text: "Average Price", align: "center", value: "avrgprice" },
+        { text: "Actual Price", align: "center", value: "ek-aktuell" },
+        { text: "Last Purchase Date", align: "center", value: "datum" }
+      ],
+      items: [
+        {value: 1, label: "By article number"},
+        {value: 2, label: "By description"}
       ],
       respons: "",
       datas: [],
@@ -119,7 +151,8 @@ export default {
       toStorage: "",
       mainGroup: [],
       fromMainGroup: "",
-      showPrice: "",
+      sortBy: 1,
+      selector: "",
       pagination: {
         rowsPerPage: 30
       },
@@ -129,21 +162,26 @@ export default {
   },
   methods: {
     search() {
-      /*(async () => {
+      console.log(this.selector);
+      (async () => {
         const parsed = await ky
-          .post("http://182.253.140.35/VHPWebBased/rest/vhpINV/purchaseBook", {
+          .post("http://182.253.140.35/VHPWebBased/rest/vhpINV/minOHList", {
             json: {
               request: {
                 inputUserkey: this.ukey,
                 inputUsername: this.uname,
-                sArtnr: this.artnr
+                sorttype: this.sortBy,
+                mainGrp: this.fromMainGroup,
+                fromStore3: this.fromStorage,
+                toStore3: this.toStorage,
+                showPrice: this.respons.response.showPrice
               }
             }
           })
           .json();
-        const pbookList = parsed.response.pchaseList["pchase-list"];
-        this.datas = pbookList;
-      })();*/
+        const ohList = parsed.response.minOnhandList["min-onhand-list"];
+        this.datas = ohList;
+      })();
     },
     loadStorage() {
       const tempStorage = this.respons.response.tLLager["t-l-lager"];
@@ -166,6 +204,19 @@ export default {
         });
       }
       return this.mainGroup;
+    },
+    changeSelector() {
+      if (this.switcher) {
+        this.switcher = "Maximum";
+      } else {
+        this.switcher = "Minimum";
+      }
+    },
+    formatDate(value) {
+      return moment(value).format("DD-MM-YYYY");
+    },
+    formatNumber(value) {
+      return value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     }
   }
 };
