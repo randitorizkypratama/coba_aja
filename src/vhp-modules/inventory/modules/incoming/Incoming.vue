@@ -4,7 +4,11 @@
     <v-container fluid>
       <v-row>
         <v-col cols="4" md="3">
-          <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
+          <v-menu
+            v-model="menu1"
+            :close-on-content-click="false"
+            max-width="290"
+          >
             <template v-slot:activator="{ on }">
               <v-text-field
                 :value="dateRangeText"
@@ -17,7 +21,11 @@
                 @click:clear="date = null"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
+            <v-date-picker
+              v-model="ranges"
+              @change="menu1 = false"
+              range
+            ></v-date-picker>
           </v-menu>
           <v-autocomplete
             v-model="fromMainGroup"
@@ -56,7 +64,11 @@
             dense
           ></v-autocomplete>
 
-          <v-checkbox v-model="checkbox1" :label="`Display All Supplier`" dense></v-checkbox>
+          <v-checkbox
+            v-model="checkbox1"
+            :label="`Display All Supplier`"
+            dense
+          ></v-checkbox>
           <v-radio-group v-model="radios" :mandatory="false">
             <v-radio label="By Supplier" value="radio-1"></v-radio>
             <v-radio label="By Document" value="radio-2"></v-radio>
@@ -81,7 +93,9 @@
             calculate-widths
             dense
           >
-            <template v-slot:item.datum="{ item }">{{ formatDate(item.datum) }}</template>
+            <template v-slot:item.datum="{ item }">{{
+              formatDate(item.datum)
+            }}</template>
           </v-data-table>
         </v-col>
       </v-row>
