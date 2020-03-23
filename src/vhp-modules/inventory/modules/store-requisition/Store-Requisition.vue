@@ -6,59 +6,67 @@
     <v-container fluid>
       <v-row>
         <v-col cols="6" md="3">
-          <h4>Date</h4>
-          <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
+          <v-menu v-model="menu1" :close-on-content-click="false" max-width="300">
             <template v-slot:activator="{ on }">
               <v-text-field
+                class="select"
                 :value="dateRangeText"
                 clearable
                 label="Date"
-                readonly
                 v-on="on"
                 @click:clear="date = null"
+                dense
+                outlined
               ></v-text-field>
             </template>
             <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
           </v-menu>
+          <!-- <v-card width="190" height="49" outlined> -->
+          <h5>From Dapertemen</h5>
+          <v-select
+            class="select"
+            v-model="artnr"
+            :items="items"
+            item-value="value"
+            item-text="label"
+            dense
+            outlined
+          ></v-select>
 
+          <!-- </v-card> -->
+          <h5>To Dapertemen</h5>
           <v-select
+            class="select"
             v-model="artnr"
             :items="items"
             item-value="value"
             item-text="label"
-            label="Select Article"
-            dense="true"
+            dense
             outlined
           ></v-select>
+          <h5>Group</h5>
           <v-select
-            v-model="artnr"
-            :items="items"
-            item-value="value"
-            item-text="label"
-            label="Select Article"
-            dense="true"
-            outlined
-          ></v-select>
-          <br />
-          <v-autocomplete
             v-model="select"
             :items="mainGroup"
             item-text="label"
             item-value="value"
-            label="Group"
-            outlined
+            class="select"
             dense
-          ></v-autocomplete>
-          <v-text-field @click="open" label="Another input"></v-text-field>
-          <ModalAcc ref="child" />
-          <v-btn class="mb-3" color="primary" @click="search" block depressed large>
+            outlined
+          ></v-select>
+          <v-btn class="button" color="primary" @click="search">
             <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search
           </v-btn>
           <v-spacer></v-spacer>
         </v-col>
 
-        <v-col cols="12" md="9">
+        <v-col cols="2" md="9">
+          <div class="my-2">
+            <v-btn @click="open" class="add" depressed small color="primary">Add</v-btn>
+          </div>
+          <modalAdd ref="child" />
           <v-data-table
+            id="label123"
             :headers="headers"
             :items="CostAlloc"
             item-key="docu-nr"
@@ -78,12 +86,12 @@
 // @ is an alias to /src
 import NavBar from "@/components/Navbar.vue";
 import utilsIssuing from "@/../utils/api/useFetchData";
-import ModalAcc from "./components/modal-alocations";
+import modalAdd from "./components/modal-add";
 
 export default {
   components: {
     NavBar,
-    ModalAcc
+    modalAdd
   },
 
   methods: {
@@ -94,25 +102,11 @@ export default {
 
   data: () => {
     return {
-      mainGroup: [],
       CostAlloc: [],
+      items: [],
       picker: new Date().toISOString().substr(0, 10),
-      ranges: ["2019-09-10", "2019-09-20"],
-      headers: [
-        {
-          text: "Date",
-          align: "start",
-          value: "datum"
-        },
-        { text: "Storage", value: "lager" },
-        { text: "Document Number", value: "docu-nr" },
-        { text: "Article", value: "art-nr" },
-        { text: "Description", value: "art-bez" },
-        { text: "Outgoing Quantity", value: "out-qty" },
-        { text: "Average Price", value: "avrg-price" },
-        { text: "Amount", value: "amount" },
-        { text: "ID", value: "id" }
-      ],
+      ranges: [],
+      headers: [],
       artnr: "",
       pagination: {
         rowsPerPage: 30
@@ -128,18 +122,19 @@ export default {
     }
   },
 
+  created() {
+    const header = this.$store.state.headers;
+    for (const i in header) {
+      this.headers.push(header[i]);
+    }
+  },
   beforeCreate() {
-    utilsIssuing("stockOutlistPrepare", {
-      LnLProg: "stock-outlist.lst"
-    }).then(res => {
-      const dataArry = res.response.tLHauptgrp["t-l-hauptgrp"];
-      const element = res.response.tParameters["t-parameters"];
-      this.$refs.child.dataAccount(element);
-
-      for (const i in dataArry) {
-        this.mainGroup.push({
-          value: dataArry[i].endkum,
-          label: dataArry[i].bezeich
+    utilsIssuing("storeReqPrepare").then(res => {
+      const data = res.response.tLLager["t-l-lager"];
+      for (const i in data) {
+        this.items.push({
+          label: data[i].bezeich,
+          value: data[i]["lager-nr"]
         });
       }
     });
@@ -172,5 +167,22 @@ export default {
 <style>
 p.dashed {
   border-style: dashed;
+}
+
+.select {
+  width: 250px;
+  margin-top: -20px;
+}
+.button {
+  width: 250px !important;
+}
+#label123 {
+  height: 400px;
+  margin-right: 40px;
+  margin-left: -50px;
+}
+.add {
+  margin-left: -50px;
+  margin-top: -20px;
 }
 </style>

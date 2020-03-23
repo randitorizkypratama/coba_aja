@@ -41,6 +41,9 @@
           <v-list-item-title>
             <router-link to="/issusing">Issuing</router-link>
           </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/store-requisition">store-requisition</router-link>
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -57,6 +60,7 @@ export default Vue.extend({
     if (!localStorage.getItem("login")) {
       next({ path: "/" });
     }
+
     next();
   },
   // data: () => ({

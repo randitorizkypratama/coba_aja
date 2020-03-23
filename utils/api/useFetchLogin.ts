@@ -17,7 +17,7 @@ export default function name(api: string, params: any) {
     const data = await ky
       .post(API_LOGIN + api, {
         json: {
-          request: language.iCase !== 0 ? users : language
+          request: language.iCase < 3 ? language : users
         }
       })
       .json();

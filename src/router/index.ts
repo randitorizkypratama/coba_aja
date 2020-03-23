@@ -12,6 +12,7 @@ import TableTest from "../vhp-modules/inventory/reports/table-test/tablecomponen
 import IssusingData from "../vhp-modules/inventory/modules/issuing/issuing";
 import Outlet from "../vhp-modules/outlet/outlet.vue";
 import TesReport from "../vhp-modules/outlet/reports/tes-report/Tes-Report.vue";
+import storeSequisition from "@/vhp-modules/inventory/modules/store-requisition/Store-Requisition";
 
 Vue.use(VueRouter);
 
@@ -59,6 +60,11 @@ const routes = [
     path: "/issusing",
     name: "issusing",
     component: IssusingData
+  },
+  {
+    path: "/store-requisition",
+    name: "store-requisition",
+    component: storeSequisition
   },
   {
     path: "/outlet",

@@ -41,7 +41,7 @@
                     name="password"
                     type="password"
                     v-model="users.password"
-                    :error-messages="passwordErrors"
+                    :error-messages="e"
                     required
                     outlined
                     @input="$v.password.$touch()"
@@ -174,7 +174,6 @@ export default {
     loginData("loadLanguages", { iCase: 0 }).then(res => {
       const lng = res.response.tLanguages["t-languages"];
       for (const i in lng) {
-        console.log("tes", lng[i]);
         this.items.push({
           value: lng[i]["country-id"],
           label: lng[i]["country-name"]

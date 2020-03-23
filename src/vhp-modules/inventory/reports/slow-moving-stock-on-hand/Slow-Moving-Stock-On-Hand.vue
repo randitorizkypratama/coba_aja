@@ -40,7 +40,7 @@
               ></v-text-field>
             </template>
             <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
-          </v-menu> -->
+          </v-menu>-->
         </v-col>
 
         <v-col cols="14" md="9">
