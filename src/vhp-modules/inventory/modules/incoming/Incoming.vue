@@ -182,7 +182,6 @@ export default {
         .json();
 
       const prepareData = prepare.response;
-      console.log(prepareData, "prepare");
       this.lKreditRecid = prepareData.lKreditRecid;
       this.longDigit = prepareData.longDigit;
       this.showPriceprepare = prepareData.showPrice;
@@ -254,18 +253,6 @@ export default {
   },
   methods: {
     cari() {
-      console.log(this.checkbox1 == true ? "0" : this.supplier, "request");
-      console.log(this.lKreditRecid, "request2");
-      console.log(this.longDigit, "request3");
-      console.log(this.showPriceprepare, "request4");
-      console.log(this.storeNumber, "request5");
-      console.log(this.checkbox1, "request6");
-      console.log(this.radios, "request7");
-      console.log(this.fromMainGroup, "request8");
-      console.log(this.toMainGroup, "request");
-      console.log(moment(this.ranges[0]).format("DD-MM-YY"), "request9");
-      console.log(moment(this.ranges[1]).format("DD-MM-YY"), "request10");
-
       (async () => {
         const parsed = await ky
           .post(
@@ -297,47 +284,19 @@ export default {
                         taxamount: "0"
                       }
                     ]
-                    // inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-                    // inputUsername: "sindata",
-                    // pvILanguage: "1",
-                    // lastArtnr: "?",
-                    // lieferantRecid: "0",
-                    // lKreditRecid: "0",
-                    // apRecid: "0",
-                    // longDigit: true,
-                    // showPrice: true,
-                    // store: "1",
-                    // allSupp: true,
-                    // sorttype: "1",
-                    // fromGrp: "1",
-                    // toGrp: "99",
-                    // fromDate: "01/01/19",
-                    // toDate: "14/01/19",
-                    // userInit: "01",
-                    // taxcodeList: {
-                    //   "taxcode-list": [
-                    //     {
-                    //       taxcode: "",
-                    //       taxamount: "0"
-                    //     }
-                    //   ]
                   }
                 }
               }
             }
           )
           .json();
-        console.log(parsed);
 
         const pbookList = parsed.response.strList["str-list"];
-        console.log(pbookList, "data");
 
         this.datas = pbookList;
       })();
     },
     formatDate(value) {
-      console.log("tes", value);
-
       return moment(value).format("DD-MM-YYYY");
     },
     formatNumber(value) {
