@@ -7,7 +7,7 @@
           <v-autocomplete
             v-model="artnr"
             :items="items"
-            item-valsue="value"
+            item-value="value"
             item-text="label"
             label="Select Article"
             dense
@@ -56,14 +56,17 @@ export default {
     NavBar
   },
   mounted() {
-    this.uname = localStorage.getItem("user");
+    const tUkey = JSON.parse(localStorage.getItem("login"));
+    this.ukey = tUkey.response.userKey;
+    this.uname = "sindata";
+    //this.uname = localStorage.getItem("user");
     (async () => {
       const parsed = await ky
-        .post("http://ws1.e1-vhp.com/VHPWebBased/rest/Common/getAllArtikel", {
+        .post("http://182.253.140.35/VHPWebBased/rest/Common/getAllArtikel", {
           json: {
             request: {
-              inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-              inputUsername: "sindata",
+              inputUserkey: this.ukey,
+              inputUsername: this.uname,
               sorttype: "2",
               lastArt: "*",
               lastArt1: "?"
@@ -112,15 +115,13 @@ export default {
   },
   methods: {
     search() {
-      console.log(this.artnr, "kuy");
-
       (async () => {
         const parsed = await ky
-          .post("http://ws1.e1-vhp.com/VHPWebBased/rest/vhpINV/purchaseBook", {
+          .post("http://182.253.140.35/VHPWebBased/rest/vhpINV/purchaseBook", {
             json: {
               request: {
-                inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-                inputUsername: "sindata",
+                inputUserkey: this.ukey,
+                inputUsername: this.uname,
                 sArtnr: this.artnr
               }
             }

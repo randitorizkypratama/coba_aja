@@ -39,7 +39,13 @@
             <router-link to="/purchase-book">Purchase Book</router-link>
           </v-list-item-title>
           <v-list-item-title>
-            <router-link to="/issuing">Issuing</router-link>
+            <router-link to="/issusing">Issuing</router-link>
+          </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/store-requisition">store-requisition</router-link>
+          </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/min-max-stock-on-hand">Minimum/Maximum Stock On Hand</router-link>
           </v-list-item-title>
         </v-list-item>
       </v-list>
@@ -49,6 +55,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { clear } from "@/../utils/local-storage";
 
 export default Vue.extend({
   name: "NavBar",
@@ -56,6 +63,7 @@ export default Vue.extend({
     if (!localStorage.getItem("login")) {
       next({ path: "/" });
     }
+
     next();
   },
   // data: () => ({
@@ -73,7 +81,7 @@ export default Vue.extend({
 
   methods: {
     submit() {
-      localStorage.clear();
+      clear();
       this.$router.push("/");
     },
     homie() {
