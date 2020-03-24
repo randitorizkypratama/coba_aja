@@ -12,13 +12,9 @@ import TableTest from "../vhp-modules/inventory/reports/table-test/tablecomponen
 // import IssusingData from "../views/issuing";
 import IssusingData from "../vhp-modules/inventory/modules/issuing/issuing";
 import Outlet from "../vhp-modules/outlet/outlet.vue";
-<<<<<<< HEAD
 import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drugstore-Report.vue";
-=======
-import TesReport from "../vhp-modules/outlet/reports/tes-report/Tes-Report.vue";
 import storeSequisition from "../vhp-modules/inventory/modules/store-requisition/Store-Requisition";
 import MinMaxStockOnHand from "../vhp-modules/inventory/reports/min-max-stock-on-hand/min-max-stock-on-hand.vue";
->>>>>>> c59367dbf68066326eb0a0fac240855cfad108a0
 
 Vue.use(VueRouter);
 
@@ -83,20 +79,14 @@ const routes = [
     component: Outlet
   },
   {
-<<<<<<< HEAD
     path: "/drugstore-report",
     name: "DrugstoreReport",
     component: DrugstoreReport
-=======
-    path: "/tes-report",
-    name: "TesReport",
-    component: TesReport
   },
   {
     path: "/min-max-stock-on-hand",
     name: "MinMaxStockOnHand",
     component: MinMaxStockOnHand
->>>>>>> c59367dbf68066326eb0a0fac240855cfad108a0
   }
 ];
 

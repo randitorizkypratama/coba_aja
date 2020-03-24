@@ -102,18 +102,18 @@ export default {
 
   methods: {
     submit() {
-<<<<<<< HEAD
-      this.$router.push("home");
+// <<<<<<< HEAD
+//       this.$router.push("home");
 
-      // this.$v.$touch();
-      // this.$store.dispatch(LOGIN, this.users);
-      // const login = JSON.parse(localStorage.getItem("login"));
-      // if (login.response.iResult == "0") {
-      //   this.$router.push("home");
-      // } else {
-      //   this.error = true;
-      // }
-=======
+//       // this.$v.$touch();
+//       // this.$store.dispatch(LOGIN, this.users);
+//       // const login = JSON.parse(localStorage.getItem("login"));
+//       // if (login.response.iResult == "0") {
+//       //   this.$router.push("home");
+//       // } else {
+//       //   this.error = true;
+//       // }
+// =======
       loginData("loginAuth", this.users).then(res => {
         if (res.response.iResult == 0) {
           setLogin(res);
@@ -124,7 +124,7 @@ export default {
           this.error = true;
         }
       });
->>>>>>> c59367dbf68066326eb0a0fac240855cfad108a0
+// >>>>>>> c59367dbf68066326eb0a0fac240855cfad108a0
     },
     clear() {
       this.$v.$reset();
