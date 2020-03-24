@@ -35,7 +35,7 @@ export default Vue.extend({
       {
         name: "Front Office Cashier",
         photo: "FO-Cashier.svg",
-        url: "front-office-reception"
+        url: "front-office-cashier"
       },
       {
         name: "Telephone Operator",

@@ -17,6 +17,8 @@ import storeSequisition from "../vhp-modules/inventory/modules/store-requisition
 import MinStockOnHand from "../vhp-modules/inventory/reports/min-stock-on-hand/min-stock-on-hand.vue";
 import MaxStockOnHand from "../vhp-modules/inventory/reports/max-stock-on-hand/max-stock-on-hand.vue";
 import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drugstore-Report.vue"
+import FrontOfficeCashier from "../vhp-modules/FOC/front-office-cashier.vue"
+import Erland from "../vhp-modules/FOC/erland/Index.vue"
 
 Vue.use(VueRouter);
 
@@ -94,6 +96,16 @@ const routes = [
     path: "/max-stock-on-hand",
     name: "MaxStockOnHand",
     component: MaxStockOnHand
+  },
+  {
+    path: "/front-office-cashier",
+    name: "FrontOfficeCashier",
+    component: FrontOfficeCashier
+  },
+  {
+    path: "/erland",
+    name: "Erland",
+    component: Erland
   }
 
 

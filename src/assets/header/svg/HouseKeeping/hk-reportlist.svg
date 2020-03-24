@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="40px" height="48px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 41 48"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil1 {fill:#2887D2}
+    .fil3 {fill:#99FFFF}
+    .fil4 {fill:#FCF685}
+    .fil2 {fill:#FF6600}
+    .fil9 {fill:#EC6B62;fill-rule:nonzero}
+    .fil8 {fill:#23A99C;fill-rule:nonzero}
+    .fil7 {fill:#2887D2;fill-rule:nonzero}
+    .fil5 {fill:#FC4D44;fill-rule:nonzero}
+    .fil6 {fill:#FCBC44;fill-rule:nonzero}
+    .fil0 {fill:black;fill-opacity:0.149020}
+   ]]>
+  </style>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_524663816">
+   <path class="fil0" d="M37 3l-32 -3c0,0 0,0 0,1l-5 43c0,1 1,1 1,1l31 3c1,0 1,0 1,0l2 -22 3 0c0,0 1,0 1,-1l1 -17c1,-1 0,-1 0,-1l-3 0 0 -3c0,0 0,-1 0,-1z"/>
+   <path class="fil1" d="M37 3l-30 -3c-1,0 -1,0 -1,1l-4 42c0,0 0,1 1,1l30 3c0,0 1,0 1,-1l2 -21 2 0c1,0 1,0 1,-1l2 -16c0,-1 -1,-1 -1,-1l-3 0 1 -3c0,0 -1,-1 -1,-1z"/>
+   <rect class="fil2" transform="matrix(0.0569915 0.00480395 -0.00502186 0.0562818 6.54349 2.11218)" width="518" height="714" rx="13" ry="13"/>
+   <rect class="fil3" transform="matrix(0.0571687 0.00168749 -0.00194382 0.056472 3.61308 2.39744)" width="518" height="714" rx="13" ry="13"/>
+   <rect class="fil4" transform="matrix(0.0566315 -0.0032209 0.00290803 0.055965 -0.0358263 3.12966)" width="518" height="714" rx="13" ry="13"/>
+   <path class="fil4" d="M1 3l28 -1c0,-1 0,0 0,0l1 4 -28 33 -2 -35c0,-1 0,-1 1,-1z"/>
+   <polygon class="fil5" points="3,17 24,15 24,13 3,15 "/>
+   <polygon class="fil6" points="4,24 25,22 25,20 4,22 "/>
+   <polygon class="fil7" points="5,31 25,29 25,27 5,30 "/>
+   <polygon class="fil8" points="6,38 26,36 26,35 5,37 "/>
+   <polygon class="fil9" points="3,9 24,7 23,6 3,8 "/>
+  </g>
+ </g>
+</svg>
