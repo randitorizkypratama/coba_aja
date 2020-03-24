@@ -43,7 +43,7 @@
   </v-form>
 </template>
 
-<script lang="ts">
+<script>
 import ky from "ky";
 import moment from "moment";
 import ProgramProperties from "@/vhp-modules/outlet/outlet-utils/OutletProgramProperties.vue";
