@@ -24,9 +24,9 @@ export default Vue.extend({
     //
   }),
   beforeCreate() {
-    (async () => {
-      const parsed = await ky.get("http://localhost:3000/gambar").json();
-    })();
+    // (async () => {
+    //   const parsed = await ky.get("http://localhost:3000/gambar").json();
+    // })();
   }
 });
 </script>

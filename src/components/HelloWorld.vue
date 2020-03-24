@@ -65,7 +65,7 @@ export default Vue.extend({
       {
         name: "Outlet",
         photo: "Outlet.svg",
-        url: "front-office-reception"
+        url: "outlet"
       },
       {
         name: "Accounts Receivable",

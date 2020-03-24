@@ -7,7 +7,7 @@ import Inventory from "../vhp-modules/inventory/inventory.vue";
 import SlowMovingStockOnHand from "../vhp-modules/inventory/reports/slow-moving-stock-on-hand/Slow-Moving-Stock-On-Hand.vue";
 
 import Outlet from "../vhp-modules/outlet/outlet.vue";
-import TesReport from "../vhp-modules/outlet/reports/tes-report/Tes-Report.vue";
+import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drugstore-Report.vue";
 
 Vue.use(VueRouter);
 
@@ -52,9 +52,9 @@ const routes = [
     component: Outlet
   },
   {
-    path: "/tes-report",
-    name: "TesReport",
-    component: TesReport
+    path: "/drugstore-report",
+    name: "DrugstoreReport",
+    component: DrugstoreReport
   }
 ];
 
