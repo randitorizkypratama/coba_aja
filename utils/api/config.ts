@@ -1,13 +1,36 @@
 /** @format */
+import { getUsername, users } from "../local-storage";
+console.log("modul12", users !== null ? users : "err");
 
-module.exports = {
-  USERNAME: "sindata",
-  PASSWORD: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-  APP_TITLE: "VHP Software",
-  HTTP: "http://",
-  WEB_SERVICE: "54.251.169.160:8080",
-  URL: "logserver/rest/loginServer/",
-  API: "",
+export const modul = {
+  USERNAME:
+    getUsername !== null
+      ? getUsername?.substring(0, getUsername.indexOf("@"))
+      : "",
+  PASSWORD: users !== null ? users.response.userKey : "",
+  APP_TITLE: users !== null ? users.response.htlName : "",
+  HTTP:
+    users !== null
+      ? users.response.htlUrl.substring(
+          0,
+          users.response.htlUrl.indexOf("//") + 2
+        )
+      : "",
+  WEB_SERVICE:
+    users !== null
+      ? users.response.htlUrl.substring(
+          7,
+          users.response.htlUrl.indexOf(".") + 1
+        )
+      : "",
+  URL:
+    users !== null
+      ? users.response.htlUrl.substring(
+          users.response.htlUrl.indexOf(".") + 1,
+          users.response.htlUrl.lastIndexOf("/") + 1
+        )
+      : "",
+  // API: "",
   JOURNAL_TYPE: {
     GL: { CODE: 0, ACCESS_NR: 27, J_TYPE: 99, MODULE: "general ledger" },
     IA: { CODE: 1, ACCESS_NR: 38, J_TYPE: 99, MODULE: "income audit" },
@@ -127,3 +150,5 @@ module.exports = {
     SYSTEM_ADMIN: 99
   }
 };
+
+export default modul;

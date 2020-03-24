@@ -44,6 +44,8 @@ export default {
       licenseNr: users.response.licNr,
       userToken: token
     }).then(res => {
+      console.log("modul12", res);
+
       if (res.response.iResult == 0) {
         setToken(res.response.newUserToken);
       } else {
