@@ -24,11 +24,6 @@
             :height="height"
             calculate-widths
             hide-default-footer>
-            <!-- <template v-slot:body="{ items }">
-              <tbody>
-                <tr :class="items.length % 2  == 0 ? 'custom-highlight-row' : ''"></tr>
-              </tbody>
-            </template> -->
           </v-data-table>
         </v-col>
       </v-row>  
@@ -100,20 +95,14 @@ export default {
           dataRow["laundry_ladies"] = dataItem["amount"][3];
           dataRow["dry_clean_ladies"] = dataItem["amount"][4];
           dataRow["pressing_laddies"] = dataItem["amount"][5];
-
           
           this.dataMainTable.push(dataRow);
         }
-        // console.log(dataMainTable, "read data table");
-        // console.log(this.dataMainTable, "this read data table");
       }
     }
   }
 };
 </script>
 
-<style lang="scss">
-.custom-highlight-row{
-  background-color: pink
-}
+<style lang="scss" scoped>
 </style>

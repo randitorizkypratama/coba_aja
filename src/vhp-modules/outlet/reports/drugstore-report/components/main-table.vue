@@ -25,7 +25,6 @@ export default {
     return {
       programProperties: [],
       dataMainTables: this.dataMainTable,
-      // dataMainTables: [{zinr: 100}],
       headers: [
       {
         text: "RmNo",

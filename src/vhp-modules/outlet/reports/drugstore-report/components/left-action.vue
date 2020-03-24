@@ -76,51 +76,91 @@ export default {
   },
   methods: {
     onClickSearch() {
+      this.getDataTable();
+    }, getDataPrepare() {
       (async () => {
-	        class HTTPError extends Error {}
+        class HTTPError extends Error {}
 
-        	const response = await fetch(this.programProperties.host + "/vhpOU/drugstoreDailyList", {
-		        method: 'POST',
-		        body: JSON.stringify({
-              request: {
-                inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-                inputUsername: "sindata",
-                usrcreated: "no",
-                dstoreDept: this.dataPrepare.dstoreDept,
-                allFlag: this.dataForm.showAllUser ? "yes" : "no",
-                ekumnr: this.dataPrepare.ekumnr,
-                zknr1: this.dataPrepare.zknr1,
-                zknr2: this.dataPrepare.zknr2,
-                zknr3: this.dataPrepare.zknr3,
-                zknr4: this.dataPrepare.zknr4,
-                zknr5: this.dataPrepare.zknr5,
-                zknr6: this.dataPrepare.zknr6,
-                fromDate: moment(this.dataForm.date).format(this.programProperties.formateDateRequest), 
-                toDate: moment(this.dataForm.date).format(this.programProperties.formateDateRequest),
-                usrInit: this.dataForm.id
-              }
-            }),
-		        headers: {
-              'content-type': 'application/json'
-		        }
-          });          
-          console.log(this.programProperties.host + "/vhpOU/drugstoreDailyList", "URL End Point ");
-
-        	if (!response.ok) {
-                this.dataMainTableID["isSuccess"] = false;
-                this.dataMainTableID["isLoading"] = false;
-                
-                throw new HTTPError('Fetch error:', response.statusText);
-    	    } else {
-            	const parsed = await response.json();
-
-                this.dataMainTableID = parsed.response;
-                this.dataMainTableID["isSuccess"] = true;
-                this.dataMainTableID["isLoading"] = true;
-
-                console.log(this.dataMainTableID, "Response /drugstoreDailyList ");
+      	const response = await fetch(this.programProperties.host + "/vhpOU/drugstoreDailyPrepare", {
+          method: 'POST',
+		      body: JSON.stringify({
+            request: {
+              inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+              inputUsername: "sindata"
             }
-        })();
+          }),
+		      headers: {
+            'content-type': 'application/json'
+		      }
+        });          
+        console.log(this.programProperties.host + "/vhpOU/drugstoreDailyPrepare", "URL End Point ");
+
+        if (!response.ok) {
+          this.dataPrepare["isSuccess"] = false;
+          this.dataPrepare["isLoading"] = false;
+                
+          throw new HTTPError('Fetch error:', response.statusText);
+    	  } else {
+          const parsed = await response.json();
+
+          this.dataPrepare = parsed.response;
+          this.dataPrepare["isSuccess"] = true;
+          this.dataPrepare["isLoading"] = true;
+
+          this.dataForm.date = (this.dataPrepare['p110']);
+          this.dataUser = this.mapDataInArray(this.dataPrepare.userList['user-list'], "usrnr", "usrname");
+          this.dataForm.id = this.dataUser[0]['value'];
+
+          console.log(this.dataPrepare, "Response /drugstoreDailyPrepare ");
+        }
+      })();
+    }, 
+    getDataTable() {
+      (async () => {
+        class HTTPError extends Error {}
+
+      	const response = await fetch(this.programProperties.host + "/vhpOU/drugstoreDailyList", {
+		      method: 'POST',
+		      body: JSON.stringify({
+            request: {
+              inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+              inputUsername: "sindata",
+              usrcreated: "no",
+              dstoreDept: this.dataPrepare.dstoreDept,
+              allFlag: this.dataForm.showAllUser ? "yes" : "no",
+              ekumnr: this.dataPrepare.ekumnr,
+              zknr1: this.dataPrepare.zknr1,
+              zknr2: this.dataPrepare.zknr2,
+              zknr3: this.dataPrepare.zknr3,
+              zknr4: this.dataPrepare.zknr4,
+              zknr5: this.dataPrepare.zknr5,
+              zknr6: this.dataPrepare.zknr6,
+              fromDate: moment(this.dataForm.date).format(this.programProperties.formateDateRequest), 
+              toDate: moment(this.dataForm.date).format(this.programProperties.formateDateRequest),
+              usrInit: this.dataForm.id
+            }
+          }),
+		      headers: {
+            'content-type': 'application/json'
+		      }
+        });          
+        console.log(this.programProperties.host + "/vhpOU/drugstoreDailyList", "URL End Point ");
+
+        if (!response.ok) {
+          this.dataMainTableID["isSuccess"] = false;
+          this.dataMainTableID["isLoading"] = false;
+                
+          throw new HTTPError('Fetch error:', response.statusText);
+    	  } else {
+          const parsed = await response.json();
+
+          this.dataMainTableID = parsed.response;
+          this.dataMainTableID["isSuccess"] = true;
+          this.dataMainTableID["isLoading"] = true;
+
+          console.log(this.dataMainTableID, "Response /drugstoreDailyList ");
+        }
+      })();
     }
   },
   watch: {
@@ -144,27 +184,7 @@ export default {
   },
   mounted() {    
     this.programProperties = ProgramProperties.data();
-
-    (async () => {
-      const parsed = await ky
-        .post(
-          this.programProperties.host + "/vhpOU/drugstoreDailyPrepare",
-          // "http://ws1.e1-vhp.com/VHPWebBased/rest/vhpOU/drugstoreDailyPrepare",
-          {
-            json: {
-              request: {
-                inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-                inputUsername: "sindata"
-              }
-            }
-          }
-        )
-        .json();
-      this.dataPrepare = parsed.response;
-      this.dataForm.date = (this.dataPrepare['p110']);
-      this.dataUser = this.mapDataInArray(this.dataPrepare.userList['user-list'], "usrnr", "usrname");
-      this.dataForm.id = this.dataUser[0]['value'];
-    })();
+    this.getDataPrepare();
   }
 };
 </script>
