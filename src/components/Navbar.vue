@@ -45,7 +45,14 @@
             <router-link to="/store-requisition">store-requisition</router-link>
           </v-list-item-title>
           <v-list-item-title>
-            <router-link to="/min-max-stock-on-hand">Minimum/Maximum Stock On Hand</router-link>
+            <router-link to="/min-stock-on-hand"
+              >Minimum Stock On Hand</router-link
+            >
+          </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/max-stock-on-hand"
+              >Maximum Stock On Hand</router-link
+            >
           </v-list-item-title>
         </v-list-item>
       </v-list>

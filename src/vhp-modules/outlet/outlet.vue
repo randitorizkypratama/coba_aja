@@ -22,7 +22,7 @@ export default {
   data: () => ({
     reportList: [
       {
-        url: `tes-report`
+        url: `drugstore-report`
       },
       { url: `tes2-report` }
     ]

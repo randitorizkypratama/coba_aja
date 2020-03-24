@@ -140,8 +140,6 @@ export default {
         });
         // this.items.push(element["country-name"]);
       }
-      console.log(tempStoreNumber);
-      console.log(tempMainGroup);
 
       //=> `{data: '🦄'}`
     })();
@@ -156,8 +154,6 @@ export default {
   },
   methods: {
     cari() {
-      console.log(this.day, "day");
-
       (async () => {
         const parsed = await ky
           .post(
@@ -182,8 +178,6 @@ export default {
       })();
     },
     formatDate(value) {
-      console.log("tes", value);
-
       return moment(value).format("DD-MM-YYYY");
     }
   }

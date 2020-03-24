@@ -58,8 +58,7 @@ export default {
   mounted() {
     const tUkey = JSON.parse(localStorage.getItem("login"));
     this.ukey = tUkey.response.userKey;
-    this.uname = "sindata";
-    //this.uname = localStorage.getItem("user");
+    this.uname = localStorage.getItem("user");
     (async () => {
       const parsed = await ky
         .post("http://182.253.140.35/VHPWebBased/rest/Common/getAllArtikel", {
