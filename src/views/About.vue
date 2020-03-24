@@ -70,7 +70,7 @@
 import loginData from "@/../utils/api/useFetchLogin";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
 import ky from "ky";
-import { setToken, setLogin } from "@/../utils/local-storage";
+import { setToken, setLogin, username } from "@/../utils/local-storage";
 export default {
   beforeRouteEnter(to, from, next) {
     const local = JSON.parse(localStorage.getItem("login"));
@@ -106,6 +106,7 @@ export default {
         if (res.response.iResult == 0) {
           setLogin(res);
           setToken(res.response.userToken);
+          username(this.users.email);
           this.$router.push("/home");
         } else {
           this.error = true;
