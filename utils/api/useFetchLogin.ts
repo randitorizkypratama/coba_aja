@@ -4,7 +4,7 @@ import { API_LOGIN } from "./api";
 import ky from "ky";
 export default function name(api: string, params: any) {
   const users = {
-    countryId: "IDN",
+    countryId: params.defaultSelected,
     userName: params.email,
     userPswd: params.password
   };

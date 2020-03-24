@@ -94,7 +94,7 @@ export default {
 
   methods: {
     open() {
-      this.$refs.child.someFunction();
+      this.$refs.child.someFunction(this.fromDept, this.dataStore, this.ranges);
     },
     search() {
       utilsIssuing("storeReqCreateList", {
@@ -121,6 +121,7 @@ export default {
       toDepartemen: [],
       fromDept: [],
       toDept: [],
+      dataStore: [],
       picker: new Date().toISOString().substr(0, 10),
       ranges: [],
       headers: [],
@@ -150,6 +151,7 @@ export default {
       this.ranges.push(res.response.fromDate);
       this.ranges.push(res.response.toDate);
       const data = res.response.tLUntergrup["t-l-untergrup"];
+      const data2 = res.response.tLLager["t-l-lager"];
       for (const i in data) {
         this.fromDept.push({
           label: data[i].bezeich,
@@ -160,6 +162,7 @@ export default {
           value: data[i].zwkum
         });
       }
+      this.dataStore = data2;
     });
   }
 };
