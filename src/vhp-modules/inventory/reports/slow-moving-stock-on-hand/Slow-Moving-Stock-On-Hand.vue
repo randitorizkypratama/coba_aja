@@ -56,7 +56,9 @@
             calculate-widths
             dense
           >
-            <template v-slot:item.datum="{ item }">{{ formatDate(item.datum) }}</template>
+            <template v-slot:item.datum="{ item }">{{
+              formatDate(item.datum)
+            }}</template>
           </v-data-table>
         </v-col>
       </v-row>

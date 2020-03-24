@@ -11,4 +11,7 @@ export const setToken = function(params: string): void {
 export const setLogin = function(params: string): void {
   localStorage.setItem("login", JSON.stringify(params));
 };
-export default { users, token, setToken, setLogin, clear };
+export const username = function username(params: string): void {
+  localStorage.setItem("username", params);
+};
+export default { users, token, setToken, setLogin, clear, username };

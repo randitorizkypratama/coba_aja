@@ -4,10 +4,6 @@
     <v-container fluid>
       <v-row>
         <v-col cols="6" md="3">
-          <v-radio-group dense row>
-            <v-radio label="Minimum" v-model="selector" value="1" selected />
-            <v-radio label="Maximum" v-model="selector" value="2" />
-          </v-radio-group>
           <v-autocomplete
             v-model="fromStorage"
             :items="storage"
@@ -66,10 +62,9 @@
             :items="datas"
             item-key="artnr"
             class="elevation-1"
-            dense="true"
-            hide-default-footer="true"
-            rows-per-page-items="[15, 30, 50, 100]"
-            pagination.sync="pagination"
+            dense
+            hide-default-footer
+            disable-pagination
           >
             <template v-slot:item.artnr="{ item }">
               <div align="left">{{ item.artnr == 0 ? "" : item.artnr }}</div>
@@ -112,8 +107,7 @@ export default {
   mounted() {
     const tUkey = JSON.parse(localStorage.getItem("login"));
     this.ukey = tUkey.response.userKey;
-    this.uname = "sindata";
-    //this.uname = localStorage.getItem("user");
+    this.uname = localStorage.getItem("user");
     (async () => {
       this.respons = await ky
         .post("http://182.253.140.35/VHPWebBased/rest/vhpINV/minOHPrepare", {
@@ -152,17 +146,12 @@ export default {
       mainGroup: [],
       fromMainGroup: "",
       sortBy: 1,
-      selector: "",
-      pagination: {
-        rowsPerPage: 30
-      },
       uname: "",
       ukey: ""
     };
   },
   methods: {
     search() {
-      console.log(this.selector);
       (async () => {
         const parsed = await ky
           .post("http://182.253.140.35/VHPWebBased/rest/vhpINV/minOHList", {
@@ -204,13 +193,6 @@ export default {
         });
       }
       return this.mainGroup;
-    },
-    changeSelector() {
-      if (this.switcher) {
-        this.switcher = "Maximum";
-      } else {
-        this.switcher = "Minimum";
-      }
     },
     formatDate(value) {
       return moment(value).format("DD-MM-YYYY");

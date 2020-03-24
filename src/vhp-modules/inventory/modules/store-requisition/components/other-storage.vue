@@ -6,47 +6,46 @@
         <v-container>
           <v-row>
             <v-col cols="6" md="3">
-              <v-select
-                v-model="artnr"
-                :items="department"
+              <h5>Delivery Number</h5>
+              <v-text-field
+                v-model="tes"
                 item-value="Delevery Number"
                 item-text="label"
-                label="Dapertement"
                 dense
                 outlined
-              ></v-select>
+              ></v-text-field>
             </v-col>
             <v-col cols="6" md="3">
-              <v-select
-                dense
-                outlined
-                v-model="artnr"
-                :items="department"
-                item-value="department"
-                item-text="label"
-                label="Dapertement"
-              ></v-select>
-            </v-col>
-            <v-col cols="6" md="3">
+              <h5>From Store</h5>
               <v-select
                 dense
                 outlined
                 v-model="artnr"
                 :items="fromStore"
-                item-value="value"
+                item-value="department"
                 item-text="label"
-                label="From Store"
               ></v-select>
             </v-col>
             <v-col cols="6" md="3">
+              <h5>To Store</h5>
               <v-select
                 dense
                 outlined
                 v-model="artnr"
-                :items="items"
+                :items="toStorage"
                 item-value="value"
                 item-text="label"
-                label="To Storage"
+              ></v-select>
+            </v-col>
+            <v-col cols="6" md="3">
+              <h5>Accounting</h5>
+              <v-select
+                dense
+                outlined
+                v-model="artnr"
+                :items="toStorage"
+                item-value="value"
+                item-text="label"
               ></v-select>
             </v-col>
           </v-row>
@@ -62,21 +61,21 @@
               </div>
             </v-col>
             <v-col cols="4" md="6" v-show="Header">
+              <h5>Departmen</h5>
               <v-select
                 v-model="artnr"
-                :items="items"
+                :items="fromDept"
                 item-value="value"
                 item-text="label"
-                label="Dapertement"
                 dense
                 outlined
               ></v-select>
+              <h5>Date</h5>
               <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
                 <template v-slot:activator="{ on }">
                   <v-text-field
                     :value="dateRangeText"
                     clearable
-                    label="Date"
                     v-on="on"
                     @click:clear="date = null"
                     dense
@@ -118,7 +117,6 @@
                   dense
                   outlined
                 ></v-text-field>
-                <h1>tes</h1>
                 <v-text-field
                   v-model="users"
                   :items="items"
@@ -160,7 +158,6 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import utilsIssuing from "@/../utils/api/useFetchData";
 import { required, maxLength, users } from "vuelidate/lib/validators";
 import modelStorage from "./modal-add-other";
 export default {
@@ -170,10 +167,13 @@ export default {
       Header: true,
       Itemz: false,
       fromStore: [],
+      toStorage: [],
       dialog: false,
       picker: new Date().toISOString().substr(0, 10),
-      ranges: ["2019-09-10", "2019-09-20"],
-      error: false
+      ranges: [],
+      error: false,
+      fromDept: [],
+      toDept: []
     };
   },
   mixins: [validationMixin],
@@ -199,9 +199,22 @@ export default {
     }
   },
   methods: {
-    someFunction() {
-      // console.log("tes", e);
+    someFunction(dept, store, dialog, date) {
+      for (const i in dept) {
+        this.fromDept.push(dept[i]);
+        for (const i in store) {
+          this.fromStore.push({
+            label: store[i].bezeich,
+            value: store[i]["lager-nr"]
+          });
+          this.toStorage.push({
+            label: store[i].bezeich,
+            value: store[i]["lager-nr"]
+          });
+        }
+      }
       this.dialog = true;
+      this.ranges = date;
     },
     bukaHeader() {
       (this.Header = true), (this.Itemz = false);
@@ -210,6 +223,7 @@ export default {
       (this.Itemz = true), (this.Header = false);
     },
     add() {
+      this.$v.$touch();
       console.log("tes", this.users);
       const errors = [];
       if (this.users !== "") {
@@ -222,17 +236,6 @@ export default {
         return errors;
       }
     }
-  },
-  beforeCreate() {
-    utilsIssuing("storeReqPrepare").then(res => {
-      const data = res.response.tLLager["t-l-lager"];
-      for (const i in data) {
-        this.fromStore.push({
-          label: data[i].bezeich,
-          value: data[i]["lager-nr"]
-        });
-      }
-    });
   }
 };
 </script>

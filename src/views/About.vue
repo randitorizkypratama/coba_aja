@@ -18,9 +18,6 @@
                 </v-col>
               </v-row>
               <v-alert v-if="error" type="error">Invalid username and password</v-alert>
-              <!-- <div>
-                <v-alert type="error">I'm an error alert.</v-alert>
-              </div>-->
               <v-card-text>
                 <v-form>
                   <v-text-field
@@ -31,33 +28,22 @@
                     :error-messages="emailErrors"
                     required
                     outlined
-                    @input="$v.email.$touch()"
-                    @blur="$v.email.$touch()"
-                    id="email"
                   />
-
                   <v-text-field
                     label="Password"
                     name="password"
                     type="password"
                     v-model="users.password"
-                    :error-messages="e"
                     required
                     outlined
-                    @input="$v.password.$touch()"
-                    @blur="$v.password.$touch()"
-                    id="password"
                   />
                   <v-select
-                    v-model="defaultSelected"
+                    v-model="users.defaultSelected"
                     :items="items"
                     item-text="label"
                     item-value="value"
-                    :error-messages="selectErrors"
                     label="Language"
                     required
-                    @change="$v.select.$touch()"
-                    @blur="$v.select.$touch()"
                   ></v-select>
                 </v-form>
               </v-card-text>
@@ -81,12 +67,10 @@
 </template>
 
 <script>
-import { validationMixin } from "vuelidate";
-import { required, maxLength, email } from "vuelidate/lib/validators";
 import loginData from "@/../utils/api/useFetchLogin";
 import backgroundUrl from "../assets/sign-in-bg.jpg";
 import ky from "ky";
-import { setToken, setLogin } from "@/../utils/local-storage";
+import { setToken, setLogin, username } from "@/../utils/local-storage";
 export default {
   beforeRouteEnter(to, from, next) {
     const local = JSON.parse(localStorage.getItem("login"));
@@ -96,29 +80,19 @@ export default {
     }
     next();
   },
-  mixins: [validationMixin],
 
   props: {
     source: String
-  },
-
-  validations: {
-    password: { required, maxLength: maxLength(10) },
-    email: { required, email },
-    select: { required }
   },
 
   data() {
     return {
       users: {
         password: "",
+        defaultSelected: "ENG",
         email: ""
       },
       select: null,
-      defaultSelected: {
-        label: "ENGLISH",
-        value: "ENG"
-      },
       items: [],
       backgroundUrl,
       backgroundC: "rgba(255, 255, 255, 0.4)",
@@ -126,37 +100,13 @@ export default {
     };
   },
 
-  computed: {
-    selectErrors() {
-      const errors = [];
-      if (!this.$v.select.$dirty) return errors;
-      !this.$v.select.required && errors.push("Item is required");
-      return errors;
-    },
-    passwordErrors() {
-      const errors = [];
-      if (!this.$v.password.$dirty) return errors;
-      !this.$v.password.maxLength &&
-        errors.push("password must be at most 10 characters long");
-      !this.$v.password.required && errors.push("password is required.");
-      return errors;
-    },
-    emailErrors() {
-      const errors = [];
-      if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push("Must be valid e-mail");
-      !this.$v.email.required && errors.push("E-mail is required");
-      return errors;
-    }
-  },
-
   methods: {
     submit() {
-      this.$v.$touch();
       loginData("loginAuth", this.users).then(res => {
         if (res.response.iResult == 0) {
           setLogin(res);
           setToken(res.response.userToken);
+          username(this.users.email);
           this.$router.push("/home");
         } else {
           this.error = true;
