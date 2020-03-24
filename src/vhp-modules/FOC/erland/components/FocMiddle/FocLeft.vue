@@ -13,7 +13,7 @@
         <v-text-field
           v-model="date"
           label="Bill Date"
-          append-icon="event"
+          append-icon="mdi-calendar"
           v-on="on"
           outlined
           dense

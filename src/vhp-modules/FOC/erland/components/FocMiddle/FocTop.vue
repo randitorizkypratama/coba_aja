@@ -158,8 +158,8 @@
 
 <script>
 export default {
-  name: 'FocMiddleFOCRight',
-  data: () => ({}),
+  name: "FocMiddleFOCRight",
+  data: () => ({})
 };
 </script>
 
