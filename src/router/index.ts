@@ -80,9 +80,9 @@ const routes = [
     component: Outlet
   },
   {
-    path: "/tes-report",
-    name: "TesReport",
-    component: TesReport
+    path: "/drugstore-report",
+    name: "DrugstoreReport",
+    component: DrugstoreReport
   },
   {
     path: "/min-stock-on-hand",
