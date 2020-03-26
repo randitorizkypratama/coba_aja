@@ -98,7 +98,7 @@ export default Vue.extend({
 
   mounted() {
     const local = JSON.parse(localStorage.getItem("login") || "{}");
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const user = JSON.parse(localStorage.getItem("username") || "{}");
 
     this.hotelname = local.response.htlName;
     this.hoteladdress = local.response.htlCity;
