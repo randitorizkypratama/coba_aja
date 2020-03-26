@@ -34,6 +34,10 @@ export default {
       {
         name: "Incoming",
         url: "incoming"
+      },
+      {
+        name: "Adjustment Result",
+        url: "adjustment-result"
       }
     ]
   }),

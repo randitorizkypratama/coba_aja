@@ -64,7 +64,7 @@
           </v-radio-group>
 
           <v-btn color="primary" @click="cari" block depressed small>
-            <v-icon right dark>mdi-magnify</v-icon>Rounded Button
+            <v-icon right dark>mdi-magnify</v-icon>Search
           </v-btn>
         </v-col>
 

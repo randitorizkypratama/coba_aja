@@ -19,6 +19,7 @@ import MaxStockOnHand from "../vhp-modules/inventory/reports/max-stock-on-hand/m
 import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drugstore-Report.vue"
 import FrontOfficeCashier from "../vhp-modules/FOC/front-office-cashier.vue"
 import Erland from "../vhp-modules/FOC/erland/Index.vue"
+import AdjustmentResult from "../vhp-modules/inventory/reports/adjustment-result/Adjustment-Result.vue"
 
 Vue.use(VueRouter);
 
@@ -106,6 +107,11 @@ const routes = [
     path: "/erland",
     name: "Erland",
     component: Erland
+  },
+  {
+    path: "/adjustment-result",
+    name: "AdjustmentResult",
+    component: AdjustmentResult
   }
 
 
