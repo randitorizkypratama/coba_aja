@@ -12,13 +12,14 @@ import TableTest from "../vhp-modules/inventory/reports/table-test/tablecomponen
 // import IssusingData from "../views/issuing";
 import IssusingData from "../vhp-modules/inventory/modules/issuing/issuing.vue";
 import Outlet from "../vhp-modules/outlet/outlet.vue";
-import TesReport from "../vhp-modules/outlet/reports/tes-report/Tes-Report.vue";
+// import TesReport from "../vhp-modules/outlet/reports/tes-report/Tes-Report.vue";
 import storeSequisition from "../vhp-modules/inventory/modules/store-requisition/Store-Requisition.vue";
 import MinStockOnHand from "../vhp-modules/inventory/reports/min-stock-on-hand/min-stock-on-hand.vue";
 import MaxStockOnHand from "../vhp-modules/inventory/reports/max-stock-on-hand/max-stock-on-hand.vue";
 import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drugstore-Report.vue"
 import FrontOfficeCashier from "../vhp-modules/FOC/front-office-cashier.vue"
 import Erland from "../vhp-modules/FOC/erland/Index.vue"
+import AdjustmentResult from "../vhp-modules/inventory/reports/adjustment-result/Adjustment-Result.vue"
 
 Vue.use(VueRouter);
 
@@ -106,6 +107,11 @@ const routes = [
     path: "/erland",
     name: "Erland",
     component: Erland
+  },
+  {
+    path: "/adjustment-result",
+    name: "AdjustmentResult",
+    component: AdjustmentResult
   }
 
 

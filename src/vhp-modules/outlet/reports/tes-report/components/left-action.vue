@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import Datepicker from "vue2-datepicker";
+// import Datepicker from "vue2-datepicker";
 // import 'vue2-datepicker/index.css';
 import ky from "ky";
 // import Vue from "vue";

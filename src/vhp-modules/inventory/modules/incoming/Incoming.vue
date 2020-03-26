@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <NavBar />
-    <v-container fluid>
-      <v-row>
-        <v-col cols="4" md="3">
+    <v-container class="py-0" fluid>
+      <v-row class="main">
+        <v-col cols="2" class="leftmenu px-5">
           <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
             <template v-slot:activator="{ on }">
               <v-text-field
@@ -64,52 +64,57 @@
           </v-radio-group>
 
           <v-btn color="primary" @click="cari" block depressed small>
-            <v-icon right dark>mdi-magnify</v-icon>Rounded Button
+            <v-icon right dark>mdi-magnify</v-icon>Search
           </v-btn>
         </v-col>
 
-        <v-col cols="14" md="9">
-          <v-data-table
-            :headers="headers"
-            :items="datas"
-            item-key="name"
-            :height="height"
-            class="elevation-1"
-            disable-pagination
-            disable-sort
-            hide-default-footer
-            fixed-header
-            calculate-widths
-            dense
-          >
-            <template
-              v-slot:item.DATE="{ item }"
-            >{{ item.DATE != null ? formatDate(item.DATE) : " " }}</template>
-            <template v-slot:item.st="{ item }">
-              {{
-              item.st == 0 ? " " : item.st
-              }}
-            </template>
-            <template v-slot:item.artnr="{ item }">
-              {{
-              item.artnr == 0 ? " " : item.artnr
-              }}
-            </template>
-            <template v-slot:item.DESCRIPTION="{ item }">
-              {{
-              item.DESCRIPTION == "T O T A L" ? "SubTotal" : item.DESCRIPTION == "GRAND TOTAL" ? "Total" : item.DESCRIPTION
-              }}
-            </template>
-            <template
-              v-slot:item.price="{ item }"
-            >{{ item.price == "0" ? "" : formatNumber(item.price.toFixed(2)) }}</template>
-            <template
-              v-slot:item.amount="{ item }"
-            >{{ item.amount == "0" ? "" : formatNumber(item.amount.toFixed(2)) }}</template>
-            <template
-              v-slot:item.inc-qty="{ item }"
-            >{{ item["inc-qty"] == "0" ? "" : item["inc-qty"] }}</template>
-          </v-data-table>
+        <v-col cols="9" class="pr-0 pl-5">
+          <div id="FocRooms">
+            <v-data-table
+              :headers="headers"
+              :items="datas"
+              item-key="name"
+              :height="height"
+              class="elevation-3"
+              disable-pagination
+              disable-sort
+              hide-default-footer
+              fixed-header
+              calculate-widths
+              dense
+            >
+              <template
+                v-slot:item.DATE="{ item }"
+              >{{ item.DATE != null ? formatDate(item.DATE) : " " }}</template>
+              <template v-slot:item.st="{ item }">
+                {{
+                item.st == 0 ? " " : item.st
+                }}
+              </template>
+              <template v-slot:item.artnr="{ item }">
+                {{
+                item.artnr == 0 ? " " : item.artnr
+                }}
+              </template>
+              <template v-slot:item.DESCRIPTION="{ item }">
+                {{
+                item.DESCRIPTION == "T O T A L" ? "SubTotal" : item.DESCRIPTION == "GRAND TOTAL" ? "Total" : item.DESCRIPTION
+                }}
+              </template>
+              <template
+                v-slot:item.price="{ item }"
+              >{{ item.price == "0" ? "" : formatNumber(item.price.toFixed(2)) }}</template>
+              <template
+                v-slot:item.amount="{ item }"
+              >{{ item.amount == "0" ? "" : formatNumber(item.amount.toFixed(2)) }}</template>
+              <template
+                v-slot:item.inc-qty="{ item }"
+              >{{ item["inc-qty"] == "0" ? "" : item["inc-qty"] }}</template>
+            </v-data-table>
+          </div>
+        </v-col>
+        <v-col cols="1" class="rightmenu">
+          <RightMenu />
         </v-col>
       </v-row>
     </v-container>
@@ -120,13 +125,15 @@
 import NavBar from "@/components/Navbar.vue";
 import ky from "ky";
 import moment from "moment";
+import RightMenu from "@/components/RightMenu.vue";
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    RightMenu
   },
   data: () => ({
-    height: 530,
+    height: 550,
     mainGroup: [],
     storeselect: [],
     supplierselect: [],
@@ -147,20 +154,26 @@ export default {
         text: "Date",
         align: "start",
         value: "DATE",
-        width: "110"
+        width: "110",
+        divider: true
       },
-      { text: "Storage Number", value: "st", width: "70" },
-      { text: "Supplier", value: "supplier", width: 250 },
-      { text: "Article Number", value: "artnr", width: 80 },
-      { text: "Description", value: "DESCRIPTION", width: 250 },
-      { text: "Delivery Unit", value: "d-unit", width: 70 },
-      { text: "Price", value: "price", width: 100 },
-      { text: "Incoming Quantity", value: "inc-qty", width: 100 },
-      { text: "Amount", value: "amount", width: 100 },
-      { text: "Document Number", value: "docu-no", width: 120 },
-      { text: "ID", value: "ID" },
-      { text: "Delivery Note", value: "deliv-note", width: 100 },
-      { text: "Invoice Number", value: "invoice-nr" }
+      { text: "Storage Number", value: "st", width: "70", divider: true },
+      { text: "Supplier", value: "supplier", width: 250, divider: true },
+      { text: "Article Number", value: "artnr", width: 80, divider: true },
+      { text: "Description", value: "DESCRIPTION", width: 250, divider: true },
+      { text: "Delivery Unit", value: "d-unit", width: 70, divider: true },
+      { text: "Price", value: "price", width: 100, divider: true },
+      {
+        text: "Incoming Quantity",
+        value: "inc-qty",
+        width: 100,
+        divider: true
+      },
+      { text: "Amount", value: "amount", width: 100, divider: true },
+      { text: "Document Number", value: "docu-no", width: 120, divider: true },
+      { text: "ID", value: "ID", divider: true },
+      { text: "Delivery Note", value: "deliv-note", width: 100, divider: true },
+      { text: "Invoice Number", value: "invoice-nr", divider: true }
     ]
   }),
   beforeCreate() {
@@ -307,7 +320,52 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.main
+  height: 100vh
+
+.leftmenu
+  border-right: 1px #2887d2 solid
+  box-shadow: 0px 0px 7px 0px #00000038
+
+.rightmenu
+  padding: 0
+  display: flex
+  flex-direction: row
+  justify-content: flex-end
+
+
 .v-input--selection-controls
   margin-top: 0px
   padding-top: 0px
+
+#FocRooms .v-data-table td
+  height: 30px
+
+
+#FocRooms .v-data-table th 
+  background: linear-gradient(#1488cc, #2b32b2)
+  color: #ffffff
+  height: 40px
+
+
+#FocRooms
+  .theme--light.v-data-table
+  .v-data-table-header
+  th.sortable.active
+  .v-data-table-header__icon
+    color: #ffffff
+    margin-left: 5px
+
+
+#FocRooms
+  .theme--light.v-data-table
+  .v-data-table-header
+  th.sortable
+  .v-data-table-header__icon
+    color: rgba(255, 255, 255, 0.4)
+    margin-left: 5px
+
+
+#FocRooms tbody tr:nth-of-type(even)
+  background-color: #c8e0f1a3
 </style>

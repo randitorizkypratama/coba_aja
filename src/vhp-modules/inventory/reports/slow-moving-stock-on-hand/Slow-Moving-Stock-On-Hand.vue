@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <NavBar />
-    <v-container fluid>
-      <v-row>
-        <v-col cols="4" md="3">
+    <v-container class="py-0" fluid>
+      <v-row class="main">
+        <v-col cols="2" class="leftmenu px-5">
           <v-autocomplete
             v-model="select"
             :items="mainGroup"
@@ -25,41 +25,34 @@
 
           <v-text-field v-model="day" label="Days" type="number" outlined dense></v-text-field>
           <v-btn color="primary" @click="cari" block depressed small>
-            <v-icon right dark>mdi-magnify</v-icon>Rounded Button
+            <v-icon right dark>mdi-magnify</v-icon>Search
           </v-btn>
-
-          <!-- <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                :value="dateRangeText"
-                clearable
-                label="Date"
-                readonly
-                v-on="on"
-                @click:clear="date = null"
-              ></v-text-field>
-            </template>
-            <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
-          </v-menu>-->
         </v-col>
 
-        <v-col cols="14" md="9">
-          <v-data-table
-            :headers="headers"
-            :items="datas"
-            item-key="name"
-            :height="height"
-            class="elevation-1"
-            disable-pagination
-            hide-default-footer
-            fixed-header
-            calculate-widths
-            dense
-          >
-            <template v-slot:item.datum="{ item }">{{
-              formatDate(item.datum)
-            }}</template>
-          </v-data-table>
+        <v-col cols="9" class="pr-0 pl-5">
+          <div id="FocRooms">
+            <v-data-table
+              :headers="headers"
+              :items="datas"
+              item-key="name"
+              :height="height"
+              class="elevation-1"
+              disable-pagination
+              hide-default-footer
+              fixed-header
+              calculate-widths
+              dense
+            >
+              <template v-slot:item.datum="{ item }">
+                {{
+                formatDate(item.datum)
+                }}
+              </template>
+            </v-data-table>
+          </div>
+        </v-col>
+        <v-col cols="1" class="rightmenu">
+          <RightMenu />
         </v-col>
       </v-row>
     </v-container>
@@ -68,15 +61,17 @@
 
 <script>
 import NavBar from "@/components/Navbar.vue";
+import RightMenu from "@/components/RightMenu.vue";
 import ky from "ky";
 import moment from "moment";
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    RightMenu
   },
   data: () => ({
-    height: 450,
+    height: 550,
     date: new Date().toISOString().substr(0, 10),
     menu1: false,
     mainGroup: [],
@@ -91,16 +86,18 @@ export default {
       {
         text: "Article Number",
         align: "start",
-        value: "artnr"
+        value: "artnr",
+        divider: true
       },
-      { text: "Name", value: "name" },
-      { text: "Minimum On Hand", value: "min-oh" },
-      { text: "Current On Hand", value: "curr-oh" },
-      { text: "Average Price", value: "avrgprice" },
-      { text: "Actual Price", value: "ek-aktuell" },
+      { text: "Name", value: "name", divider: true },
+      { text: "Minimum On Hand", value: "min-oh", divider: true },
+      { text: "Current On Hand", value: "curr-oh", divider: true },
+      { text: "Average Price", value: "avrgprice", divider: true },
+      { text: "Actual Price", value: "ek-aktuell", divider: true },
       {
         text: "Last Purchase Date",
-        value: "datum"
+        value: "datum",
+        divider: true
       }
     ]
   }),
@@ -183,3 +180,53 @@ export default {
   }
 };
 </script>
+<style lang="sass" scoped>
+.main
+  height: 100vh
+
+.leftmenu
+  border-right: 1px #2887d2 solid
+  box-shadow: 0px 0px 7px 0px #00000038
+
+.rightmenu
+  padding: 0
+  display: flex
+  flex-direction: row
+  justify-content: flex-end
+
+
+.v-input--selection-controls
+  margin-top: 0px
+  padding-top: 0px
+
+#FocRooms .v-data-table td
+  height: 30px
+
+
+#FocRooms .v-data-table th 
+  background: linear-gradient(#1488cc, #2b32b2)
+  color: #ffffff
+  height: 40px
+
+
+#FocRooms
+  .theme--light.v-data-table
+  .v-data-table-header
+  th.sortable.active
+  .v-data-table-header__icon
+    color: #ffffff
+    margin-left: 5px
+
+
+#FocRooms
+  .theme--light.v-data-table
+  .v-data-table-header
+  th.sortable
+  .v-data-table-header__icon
+    color: rgba(255, 255, 255, 0.4)
+    margin-left: 5px
+
+
+#FocRooms tbody tr:nth-of-type(even)
+  background-color: #c8e0f1a3
+</style>
