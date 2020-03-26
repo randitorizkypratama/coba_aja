@@ -86,16 +86,18 @@ export default {
       {
         text: "Article Number",
         align: "start",
-        value: "artnr"
+        value: "artnr",
+        divider: true
       },
-      { text: "Name", value: "name" },
-      { text: "Minimum On Hand", value: "min-oh" },
-      { text: "Current On Hand", value: "curr-oh" },
-      { text: "Average Price", value: "avrgprice" },
-      { text: "Actual Price", value: "ek-aktuell" },
+      { text: "Name", value: "name", divider: true },
+      { text: "Minimum On Hand", value: "min-oh", divider: true },
+      { text: "Current On Hand", value: "curr-oh", divider: true },
+      { text: "Average Price", value: "avrgprice", divider: true },
+      { text: "Actual Price", value: "ek-aktuell", divider: true },
       {
         text: "Last Purchase Date",
-        value: "datum"
+        value: "datum",
+        divider: true
       }
     ]
   }),

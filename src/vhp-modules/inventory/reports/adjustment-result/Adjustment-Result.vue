@@ -115,28 +115,33 @@ export default {
       {
         text: "Article Number",
         align: "start",
-        value: "artnr"
+        value: "artnr",
+        divider: true
       },
-      { text: "Description", value: "bezeich" },
-      { text: "Unit", value: "munit" },
-      { text: "Content", value: "inhalt" },
-      { text: "Current Quantity", value: "qty" },
-      { text: "Actual Quantity", value: "qty1" },
+      { text: "Description", value: "bezeich", divider: true },
+      { text: "Unit", value: "munit", divider: true },
+      { text: "Content", value: "inhalt", divider: true },
+      { text: "Current Quantity", value: "qty", divider: true },
+      { text: "Actual Quantity", value: "qty1", divider: true },
       {
         text: "Average Amount",
-        value: "avrg-amount"
+        value: "avrg-amount",
+        divider: true
       },
       {
         text: "Amount",
-        value: "amount"
+        value: "amount",
+        divider: true
       },
       {
         text: "Account Number",
-        value: "fibukonto"
+        value: "fibukonto",
+        divider: true
       },
       {
         text: "Cost Allocation",
-        value: "cost-center"
+        value: "cost-center",
+        divider: true
       }
     ]
   }),
