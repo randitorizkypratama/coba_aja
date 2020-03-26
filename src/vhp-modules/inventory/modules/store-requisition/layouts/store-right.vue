@@ -2,7 +2,8 @@
   <div class="foc-main-content">
     <v-tooltip left>
       <template v-slot:activator="{ on }">
-        <img src="../../../../assets/header/svg/ReportList.svg" class="foc-icon mt-3" v-on="on" />
+        <!-- <img src="../../../../assets/header/svg/ReportList.svg" class="foc-icon mt-3" v-on="on" /> -->
+        <img src="../../../../../assets/header/svg/ReportList.svg" class="foc-icon mt-3" v-on="on" />
       </template>
       <span>Menu 15</span>
     </v-tooltip>

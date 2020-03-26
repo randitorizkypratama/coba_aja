@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="500px">
+    <!-- <v-dialog v-model="dialog" persistent max-width="500px">
       <v-card>
         <v-alert color="indigo" dark></v-alert>
         <v-container>
@@ -33,7 +33,7 @@
           <v-btn depressed small @click="save" color="primary">Add</v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog>-->
   </v-row>
 </template>
 
@@ -42,36 +42,35 @@
 
 <script>
 export default {
-  data() {
-    return {
-      dialog: false,
-      editedIndex: -1,
-      editedItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
-      },
-      defaultItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
-      }
-    };
-  },
-
-  methods: {
-    fungsiAdd(item) {
-      this.dialog = true;
-    },
-    save() {
-      console.log("tes", "save");
-      this.dialog = false;
-    }
-  }
+  // data() {
+  //   return {
+  //     dialog: false,
+  //     editedIndex: -1,
+  //     editedItem: {
+  //       name: "",
+  //       calories: 0,
+  //       fat: 0,
+  //       carbs: 0,
+  //       protein: 0
+  //     },
+  //     defaultItem: {
+  //       name: "",
+  //       calories: 0,
+  //       fat: 0,
+  //       carbs: 0,
+  //       protein: 0
+  //     }
+  //   };
+  // },
+  // methods: {
+  //   fungsiAdd(item) {
+  //     this.dialog = true;
+  //   },
+  //   save() {
+  //     console.log("tes", "save");
+  //     this.dialog = false;
+  //   }
+  // }
 };
 </script>
 

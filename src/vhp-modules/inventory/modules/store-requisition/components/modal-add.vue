@@ -27,45 +27,26 @@ export default {
     return {
       dialog: false,
       Cunsumed: true,
-      dialogm1: "",
-      datatoDept: [],
-      dataStore: [],
-      date: []
+      dialogm1: ""
     };
   },
   components: {
     ModalNew
   },
   methods: {
-    someFunction(dept, store, ranges) {
-      this.datatoDept = dept;
-      this.dataStore = store;
-      this.date = ranges;
+    someFunction() {
       this.dialog = true;
     },
     next() {
       if (this.dialogm1 == this.dialogm1) {
-        this.$refs.child.someFunction(
-          this.datatoDept,
-          this.dataStore,
-          this.dialogm1,
-          this.date
-        );
+        this.$refs.child.someFunction(this.dialogm1);
         this.dialog = false;
       } else if (this.dialogm1 == this.dialogm1) {
-        this.$refs.child.someFunction(
-          this.datatoDept,
-          this.dataStore,
-          this.dialogm1,
-          this.date
-        );
+        this.$refs.child.someFunction(this.dialogm1);
         this.dialog = false;
       } else {
         console.log("err");
       }
-    },
-    dataTable(e) {
-      console.log("asuuui", e);
     }
   }
 };
