@@ -20,6 +20,8 @@ import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drug
 import FrontOfficeCashier from "../vhp-modules/FOC/front-office-cashier.vue"
 import Erland from "../vhp-modules/FOC/erland/Index.vue"
 import AdjustmentResult from "../vhp-modules/inventory/reports/adjustment-result/Adjustment-Result.vue"
+import MealCoupon from "../vhp-modules/inventory/reports/meal-coupon/Meal-Coupon.vue"
+import MaterialReconciliation from "../vhp-modules/inventory/reports/material-reconciliation/Material-Reconciliation.vue"
 
 Vue.use(VueRouter);
 
@@ -112,6 +114,16 @@ const routes = [
     path: "/adjustment-result",
     name: "AdjustmentResult",
     component: AdjustmentResult
+  },
+  {
+    path: "/meal-coupon",
+    name: "MealCoupon",
+    component: MealCoupon
+  },
+  {
+    path: "/material-reconciliation",
+    name: "Material Reconciliation",
+    component: MaterialReconciliation
   }
 
 
