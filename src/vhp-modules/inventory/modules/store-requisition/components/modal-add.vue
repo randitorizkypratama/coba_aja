@@ -20,34 +20,5 @@
   </v-row>
 </template>
 
-<script>
-import ModalNew from "./other-storage";
-export default {
-  data() {
-    return {
-      dialog: false,
-      Cunsumed: true,
-      dialogm1: ""
-    };
-  },
-  components: {
-    ModalNew
-  },
-  methods: {
-    someFunction() {
-      this.dialog = true;
-    },
-    next() {
-      if (this.dialogm1 == this.dialogm1) {
-        this.$refs.child.someFunction(this.dialogm1);
-        this.dialog = false;
-      } else if (this.dialogm1 == this.dialogm1) {
-        this.$refs.child.someFunction(this.dialogm1);
-        this.dialog = false;
-      } else {
-        console.log("err");
-      }
-    }
-  }
-};
+<script src="../utils/modal-add.ts">
 </script>
