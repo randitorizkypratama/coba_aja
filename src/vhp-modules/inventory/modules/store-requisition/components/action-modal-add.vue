@@ -33,31 +33,5 @@
   </v-row>
 </template>
 
-<script>
-import useFetchData from "@/../utils/api/useFetchData";
-export default {
-  data: () => {
-    return {
-      fromStore: [],
-      toStorage: []
-    };
-  },
-
-  beforeCreate() {
-    useFetchData("storeReqPrepare").then(res => {
-      const data = res.response.tLLager["t-l-lager"];
-
-      for (const i in data) {
-        this.fromStore.push({
-          label: data[i].bezeich,
-          value: data[i]["lager-nr"]
-        });
-        this.toStorage.push({
-          label: data[i].bezeich,
-          value: data[i]["lager-nr"]
-        });
-      }
-    });
-  }
-};
+<script src="../utils/action-modal-add.ts">
 </script>

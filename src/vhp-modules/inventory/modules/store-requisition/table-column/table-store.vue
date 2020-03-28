@@ -1,5 +1,5 @@
 <template>
-  <div id="FocRooms">
+  <div id="FocRooms2">
     <v-data-table
       hide-default-footer
       pagination.sync="pagination"
@@ -23,7 +23,6 @@ import moment from "moment";
 export default {
   name: "FocTablesFocRooms",
   data: () => ({
-    dialog: false,
     headers: [],
     dataHotel: [],
     editedIndex: -1,
@@ -104,8 +103,39 @@ export default {
 </script>
 
 <style lang="scss">
-// .table-store {
-//   margin-right: 10px;
-//   margin-left: -20px;
-// }
+$primary: #1890ff;
+
+#FocRooms2.v-data-table td {
+  height: 375px;
+}
+
+#FocRooms2 .v-data-table th {
+  background: linear-gradient(#1488cc, #2b32b2);
+  color: #ffffff;
+  //   height: 14px;
+}
+
+#FocRooms2
+  .theme--light.v-data-table
+  .v-data-table-header
+  th.sortable.active
+  .v-data-table-header__icon {
+  color: #ffffff;
+  margin-left: 5px;
+}
+
+#FocRooms2
+  .theme--light.v-data-table
+  .v-data-table-header
+  th.sortable
+  .v-data-table-header__icon {
+  color: rgba(255, 255, 255, 0.4);
+}
+.table-add {
+  width: 327px;
+  margin-left: 0px;
+}
+#FocRooms2 tbody tr:nth-of-type(even) {
+  background-color: #c8e0f1a3;
+}
 </style>

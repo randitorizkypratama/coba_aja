@@ -57,70 +57,7 @@
   </div>
 </template>
 
-<script>
-import utilsIssuing from "@/../utils/api/useFetchData";
-import moment from "moment";
-
-export default {
-  methods: {
-    open() {
-      this.$refs.child.someFunction(this.fromDept, this.dataStore, this.ranges);
-    },
-    search() {
-      this.$emit(
-        "clicked",
-        this.ranges,
-        this.fromDepartement,
-        this.toDepartemen,
-        this.requesNo,
-        this.fromDept
-      );
-    }
-  },
-
-  data: () => {
-    return {
-      requesNo: " ",
-      fromDepartement: [],
-      toDepartemen: [],
-      fromDept: [],
-      toDept: [],
-      picker: new Date().toISOString().substr(0, 10),
-      ranges: [],
-      headers: []
-    };
-  },
-
-  computed: {
-    dateRangeText() {
-      return this.ranges.join(" - ");
-    }
-  },
-
-  created() {
-    const header = this.$store.state.ListRequisition;
-    for (const i in header) {
-      this.headers.push(header[i]);
-    }
-  },
-  beforeCreate() {
-    utilsIssuing("storeReqPrepare").then(res => {
-      this.ranges.push(res.response.fromDate);
-      this.ranges.push(res.response.toDate);
-      const data = res.response.tLUntergrup["t-l-untergrup"];
-      for (const i in data) {
-        this.fromDept.push({
-          label: data[i].bezeich,
-          value: data[i].zwkum
-        });
-        this.toDept.push({
-          label: data[i].bezeich,
-          value: data[i].zwkum
-        });
-      }
-    });
-  }
-};
+<script src="../utils/action.ts">
 </script>
 
 <style lang="scss" scoped>

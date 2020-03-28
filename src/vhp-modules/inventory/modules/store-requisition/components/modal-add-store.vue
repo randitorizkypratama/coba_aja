@@ -11,19 +11,5 @@
   </v-col>
 </template>
 
-<script>
-export default {
-  components: {
-    // Header
-  },
-
-  methods: {
-    bukaHeader() {
-      this.$emit("Header");
-    },
-    bukaItem() {
-      this.$emit("Item");
-    }
-  }
-};
+<script src="../utils/modal-add-store.ts">
 </script>

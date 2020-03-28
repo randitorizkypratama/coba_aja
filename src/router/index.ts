@@ -16,10 +16,11 @@ import Outlet from "../vhp-modules/outlet/outlet.vue";
 import storeSequisition from "../vhp-modules/inventory/modules/store-requisition/Store-Requisition.vue";
 import MinStockOnHand from "../vhp-modules/inventory/reports/min-stock-on-hand/min-stock-on-hand.vue";
 import MaxStockOnHand from "../vhp-modules/inventory/reports/max-stock-on-hand/max-stock-on-hand.vue";
-import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drugstore-Report.vue"
-import FrontOfficeCashier from "../vhp-modules/FOC/front-office-cashier.vue"
-import Erland from "../vhp-modules/FOC/erland/Index.vue"
-import AdjustmentResult from "../vhp-modules/inventory/reports/adjustment-result/Adjustment-Result.vue"
+import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drugstore-Report.vue";
+import FrontOfficeCashier from "../vhp-modules/FOC/front-office-cashier.vue";
+import Erland from "../vhp-modules/FOC/erland/Index.vue";
+import AdjustmentResult from "../vhp-modules/inventory/reports/adjustment-result/Adjustment-Result.vue";
+import stokItem from "../vhp-modules/inventory/modules/stock-item/index.vue";
 
 Vue.use(VueRouter);
 
@@ -109,12 +110,15 @@ const routes = [
     component: Erland
   },
   {
+    path: "/stock-item",
+    name: "stokItem",
+    component: stokItem
+  },
+  {
     path: "/adjustment-result",
     name: "AdjustmentResult",
     component: AdjustmentResult
   }
-
-
 ];
 
 const router = new VueRouter({

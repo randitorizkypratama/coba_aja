@@ -28,46 +28,7 @@
   </div>
 </template>
 
-<script>
-import modelStorage from "./modal-add-other";
-import actionModal from "./action-modal-add";
-import modalAddStore from "./modal-add-store";
-import Header from "./Header";
-import TableItem from "./Item";
-export default {
-  data() {
-    return {
-      dialog: false
-    };
-  },
-
-  components: {
-    // modelStorage,
-    actionModal,
-    modalAddStore,
-    Header,
-    TableItem
-  },
-
-  computed: {
-    dateRangeText() {
-      return this.ranges.join(" - ");
-    }
-  },
-  methods: {
-    someFunction() {
-      this.dialog = true;
-    },
-    bukaHeader() {
-      this.$refs.header.openTable();
-      this.$refs.item.closeTable();
-    },
-    bukaItem() {
-      this.$refs.item.openTable();
-      this.$refs.header.closeTable();
-    }
-  }
-};
+<script src="../utils/other-storage.ts">
 </script>
 
 <style lang="scss">

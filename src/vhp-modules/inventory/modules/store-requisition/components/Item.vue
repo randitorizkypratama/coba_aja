@@ -56,26 +56,5 @@
   </v-col>
 </template>
 
-<script>
-import tableAdd from "../table-column'/tablle-modal-add";
-export default {
-  data: () => {
-    return {
-      items: false
-    };
-  },
-
-  components: {
-    tableAdd
-  },
-
-  methods: {
-    openTable() {
-      this.items = true;
-    },
-    closeTable() {
-      this.items = false;
-    }
-  }
-};
+<script src="../utils/item.ts">
 </script>
