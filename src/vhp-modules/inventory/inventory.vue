@@ -38,6 +38,14 @@ export default {
       {
         name: "Adjustment Result",
         url: "adjustment-result"
+      },
+      {
+        name: "Meal Coupon",
+        url: "meal-coupon"
+      },
+      {
+        name: "Material Reconciliation",
+        url: "material-reconciliation"
       }
     ]
   }),

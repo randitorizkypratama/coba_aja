@@ -16,11 +16,20 @@ import Outlet from "../vhp-modules/outlet/outlet.vue";
 import storeSequisition from "../vhp-modules/inventory/modules/store-requisition/Store-Requisition.vue";
 import MinStockOnHand from "../vhp-modules/inventory/reports/min-stock-on-hand/min-stock-on-hand.vue";
 import MaxStockOnHand from "../vhp-modules/inventory/reports/max-stock-on-hand/max-stock-on-hand.vue";
+<<<<<<< HEAD
 import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drugstore-Report.vue";
 import FrontOfficeCashier from "../vhp-modules/FOC/front-office-cashier.vue";
 import Erland from "../vhp-modules/FOC/erland/Index.vue";
 import AdjustmentResult from "../vhp-modules/inventory/reports/adjustment-result/Adjustment-Result.vue";
 import stokItem from "../vhp-modules/inventory/modules/stock-item/index.vue";
+=======
+import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drugstore-Report.vue"
+import FrontOfficeCashier from "../vhp-modules/FOC/front-office-cashier.vue"
+import Erland from "../vhp-modules/FOC/erland/Index.vue"
+import AdjustmentResult from "../vhp-modules/inventory/reports/adjustment-result/Adjustment-Result.vue"
+import MealCoupon from "../vhp-modules/inventory/reports/meal-coupon/Meal-Coupon.vue"
+import MaterialReconciliation from "../vhp-modules/inventory/reports/material-reconciliation/Material-Reconciliation.vue"
+>>>>>>> 3e28722829447724da60c248793968f26e7cc562
 
 Vue.use(VueRouter);
 
@@ -118,6 +127,16 @@ const routes = [
     path: "/adjustment-result",
     name: "AdjustmentResult",
     component: AdjustmentResult
+  },
+  {
+    path: "/meal-coupon",
+    name: "MealCoupon",
+    component: MealCoupon
+  },
+  {
+    path: "/material-reconciliation",
+    name: "Material Reconciliation",
+    component: MaterialReconciliation
   }
 ];
 
