@@ -12,7 +12,7 @@
           <div class="my-2">
             <v-btn @click="open1" depressed small color="primary">Add</v-btn>
           </div>
-          <tableItem />
+          <tableItem ref="dataTable" />
           <addnew ref="addNew" />
         </v-col>
       </v-row>

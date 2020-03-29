@@ -1,0 +1,29 @@
+$primary: #1890ff;
+
+#FocRooms1 .v-data-table td {
+    height: 375px;
+}
+
+#FocRooms1 .v-data-table th {
+    background: linear-gradient(#1488cc, #2b32b2);
+    color: #ffffff;
+    //   height: 14px;
+}
+
+#FocRooms1 .theme--light.v-data-table .v-data-table-header th.sortable.active .v-data-table-header__icon {
+    color: #ffffff;
+    margin-left: 5px;
+}
+
+#FocRooms1 .theme--light.v-data-table .v-data-table-header th.sortable .v-data-table-header__icon {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.table-add {
+    width: 327px;
+    margin-left: 0px;
+}
+
+#FocRooms1 tbody tr:nth-of-type(even) {
+    background-color: #c8e0f1a3;
+}

@@ -10,13 +10,16 @@
       dense
       outlined
     ></v-text-field>
-    <v-radio-group>
-      <v-radio :key="n" :label="`Article Number`" :value="n"></v-radio>
-      <v-radio :key="n" :label="`Description`" :value="n"></v-radio>
+    <v-radio-group v-model="radioButton" column>
+      <v-radio label="Article Number" value="1"></v-radio>
+      <v-radio label="Description" value="2"></v-radio>
     </v-radio-group>
     <v-btn color="primary" block @click="search">
-      <v-icon right dark class="mr-1">mdi-magnify</v-icon>Search
+      <v-icon @click="search" right dark class="mr-1">mdi-magnify</v-icon>Search
     </v-btn>
   </div>
 </template>
+
+<script src="../utils/action.ts">
+</script>
 
