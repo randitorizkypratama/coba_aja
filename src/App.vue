@@ -1,33 +1,19 @@
 <template>
   <v-app>
-    <!-- <div id="nav">
-        <router-link to="/home">Home</router-link>|
-        <router-link to="/">About</router-link>
-    </div>-->
+    <LayoutAppBar />
 
     <v-content>
-      <router-view />
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import ky from "ky";
+import Vue from 'vue';
 
 export default Vue.extend({
-  name: "App",
-
-  components: {},
-
-  data: () => ({
-    //
-  }),
-  beforeCreate() {
-    // (async () => {
-    //   const parsed = await ky.get("http://localhost:3000/gambar").json();
-    // })();
-  }
+  components: {
+    LayoutAppBar: () => import('@/app/layouts/components/LayoutAppBar.vue'),
+  },
 });
 </script>
-

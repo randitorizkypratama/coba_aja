@@ -1,24 +1,27 @@
-# coba_aja
+# VHP Webapp
 
-## Project setup
-```
-npm install
-```
+```bash
+# 1. Clone the repository...
+# with ssh
+git clone git@github.com:devsindata/VHP-Web.git
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+# with https
+git clone https://github.com/devsindata/VHP-Web.git
 
-### Compiles and minifies for production
-```
-npm run build
-```
+# 2. Go to the directory
+cd VHP-Web
 
-### Lints and fixes files
-```
-npm run lint
+# 3. Read the documentation linked below for  "Setup and development".
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Documentation
+
+1. [Setup and development](docs/development.md)
+1. [Architecture](docs/architecture.md)
+1. [Languages and technologies](docs/tech.md)
+1. [Routing, layouts, and views](docs/routing.md)
+1. [State management](docs/store.md)
+1. [Tests and mocking the API](docs/tests.md)
+1. [Linting and formatting](docs/linting.md)
+1. [Style Guide](docs/style-guide.md)
+1. [API](docs/api.md)

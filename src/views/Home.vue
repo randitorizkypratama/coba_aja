@@ -1,58 +1,47 @@
-<!-- @format -->
-
 <template>
-  <div class="home">
-    <NavBar />
-
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="py-12 mx-8">
+    <div class="module-grid">
+      <v-card
+        tile
+        flat
+        :to="moduleItem.path"
+        v-for="moduleItem in moduleList"
+        :key="moduleItem.path"
+        class="module-card"
+      >
+        <HomeModuleItem :item="moduleItem" />
+      </v-card>
+    </div>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-import ky from "ky";
-import NavBar from "@/components/Navbar.vue";
-import fetchData from "@/../utils/api/useFetchCommon";
-import { users, token, setToken, clear } from "@/../utils/local-storage";
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+import { moduleList } from '@/models/HomeModule';
 
-export default {
-  beforeRouteEnter(to, from, next) {
-    const local = localStorage.getItem("login");
-    if (!local) {
-      next({ path: "/" });
-    }
-    next();
+export default defineComponent({
+  setup() {
+    return {
+      moduleList,
+    };
   },
   components: {
-    HelloWorld,
-    NavBar
+    HomeModuleItem: () => import('@/app/home/components/HomeModuleItem.vue'),
   },
-  methods: {
-    submit() {
-      localStorage.removeItem("login");
-      this.$router.push("/");
-    },
-    homie() {
-      this.$router.push("/home");
-    }
-  },
-
-  beforeCreate() {
-    fetchData("verifyToken", {
-      userInit: users.response.userInit,
-      licenseNr: users.response.licNr,
-      userToken: token
-    }).then(res => {
-      console.log("modul12", res);
-
-      if (res.response.iResult == 0) {
-        setToken(res.response.newUserToken);
-      } else {
-        clear();
-        this.$router.push("/");
-      }
-    });
-  }
-};
+});
 </script>
+
+<style lang="scss" scoped>
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 160px);
+  grid-gap: 16px 5%;
+  justify-content: space-between;
+}
+
+.v-card.module-card {
+  border: 1px solid #c8c8c8;
+  border-radius: 20px;
+  height: 110px;
+}
+</style>
