@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app dark dense color="#232f3e">
+  <v-app-bar app dark dense flat height="37" color="#232f3e">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill-rule="evenodd"
@@ -19,10 +19,54 @@
 
     <v-spacer />
 
-    <h1>
-      {{ hotelHeader }}
-    </h1>
+    <h2>{{ hotelHeader }}</h2>
     <v-spacer />
+
+    <v-menu left bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn icon v-on="on" class="pr-6">
+          <v-icon>account_circle</v-icon>
+          {{ username }}
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item @click="() => {}">
+          <v-list-item-title @click="submit">Log Out</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
+    <v-menu left bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn icon v-on="on">
+          <v-icon>apps</v-icon>
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item @click="() => {}">
+          <v-list-item-title>
+            <router-link to="/home">Home</router-link>
+          </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/purchase-book">Purchase Book</router-link>
+          </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/issusing">Issuing</router-link>
+          </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/store-requisition">store-requisition</router-link>
+          </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/min-stock-on-hand">Minimum Stock On Hand</router-link>
+          </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/max-stock-on-hand">Maximum Stock On Hand</router-link>
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-app-bar>
 </template>
 
