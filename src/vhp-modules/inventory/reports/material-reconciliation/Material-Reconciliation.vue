@@ -49,7 +49,7 @@
           ></v-autocomplete>
           <v-radio-group v-model="radios" :mandatory="false">
             Order By
-            <v-radio label="By Iventory Account" value="1"></v-radio>
+            <v-radio label="By Inventory Account" value="1"></v-radio>
             <v-radio label="By Description" value="2"></v-radio>
           </v-radio-group>
           <v-btn color="primary" @click="cari" block depressed small>
