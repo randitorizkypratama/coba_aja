@@ -148,6 +148,7 @@ export default {
     longDigit: "",
     showPriceprepare: "",
     checkbox1: false,
+    menu1: false,
     radios: "",
     headers: [
       {
