@@ -181,11 +181,11 @@ export default {
                   inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
                   inputUsername: "sindata",
                   pvILanguage: "1",
-                  toDate: "2019-01-31",
-                  lagerNo: "1",
-                  fromMain: "1",
-                  toMain: "3",
-                  sortType: "1"
+                  toDate: moment(this.date).format("YYYY/MM/DD"),
+                  lagerNo: this.Store == undefined ? 0 : this.Store,
+                  fromMain: this.fromMainGroup,
+                  toMain: this.toMainGroup,
+                  sortType: this.radios
                 }
               }
             }
