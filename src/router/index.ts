@@ -27,6 +27,7 @@ import Erland from "../vhp-modules/FOC/erland/Index.vue";
 import AdjustmentResult from "../vhp-modules/inventory/reports/adjustment-result/Adjustment-Result.vue";
 import MealCoupon from "../vhp-modules/inventory/reports/meal-coupon/Meal-Coupon.vue";
 import MaterialReconciliation from "../vhp-modules/inventory/reports/material-reconciliation/Material-Reconciliation.vue";
+import InterStoreTransfer from "../vhp-modules/inventory/reports/inter-store-transfer/Inter-store-Transfer.vue";
 
 Vue.use(VueRouter);
 
@@ -134,6 +135,11 @@ const routes = [
     path: "/material-reconciliation",
     name: "Material Reconciliation",
     component: MaterialReconciliation
+  },
+  {
+    path: "/inter-store-transfer",
+    name: "Inter Store Transfer",
+    component: InterStoreTransfer
   }
 ];
 

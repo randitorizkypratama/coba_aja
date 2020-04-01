@@ -46,6 +46,10 @@ export default {
       {
         name: "Material Reconciliation",
         url: "material-reconciliation"
+      },
+      {
+        name: "Inter Store Transfer",
+        url: "inter-store-transfer"
       }
     ]
   }),
