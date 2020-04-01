@@ -66,14 +66,14 @@
             outlined
             dense
           ></v-autocomplete>
-          <v-text-field label="Transfer Code" single-line dense outlined></v-text-field>
+          <v-text-field v-model="transfer" label="Transfer Code" single-line dense outlined></v-text-field>
           <v-radio-group v-model="radios" :mandatory="false">
             Order By
             <v-radio label="By Date" value="1"></v-radio>
             <v-radio label="By Description" value="2"></v-radio>
           </v-radio-group>
           <v-checkbox v-model="checkbox1" label="User Unit Expenses"></v-checkbox>
-          <v-checkbox v-model="checkbox1" label="Print Without Amounts"></v-checkbox>
+          <v-checkbox v-model="checkbox2" label="Print Without Amounts"></v-checkbox>
           <v-btn color="primary" @click="cari" block depressed small>
             <v-icon right dark>mdi-magnify</v-icon>Search
           </v-btn>
@@ -94,9 +94,7 @@
               calculate-widths
               dense
             >
-              <template v-slot:item.datum="{ item }">
-                {{ formatDate(item.datum) }}
-              </template>
+              <template v-slot:item.datum="{ item }">{{ formatDate(item.datum) }}</template>
             </v-data-table>
           </div>
         </v-col>
@@ -134,7 +132,10 @@ export default {
     radios: "",
     menu1: false,
     datas: [],
-    checkbox1: true,
+    transfer: "",
+    checkbox1: false,
+    checkbox2: false,
+    showPriceprepare: "",
     displayList: [
       {
         label: "Material & Engineering Articles",
@@ -157,8 +158,8 @@ export default {
         divider: true
       },
       { text: "Delivery Number", value: "lscheinnr", divider: true },
-      // { text: "From Storage", value: "f-bezeich", divider: true },
-      // { text: "To Storage", value: "t-bezeich", divider: true },
+      { text: "From Storage", value: "f-bezeich", divider: true },
+      { text: "To Storage", value: "t-bezeich", divider: true },
       { text: "Article", value: "artnr", divider: true },
       { text: "Description", value: "bezeich", divider: true },
       { text: "Unit", value: "einheit", divider: true },
@@ -189,6 +190,8 @@ export default {
           }
         )
         .json();
+
+      this.showPriceprepare = data.response.showPrice;
 
       const tempMainGroup = data.response.tLHauptgrp["t-l-hauptgrp"];
       for (let i = 0; i < tempMainGroup.length; i++) {
@@ -239,6 +242,8 @@ export default {
   },
   methods: {
     cari() {
+      console.log(moment(this.ranges[1]).format("YYYY/MM/DD"), "transfer");
+
       (async () => {
         const parsed = await ky
           .post(
@@ -248,17 +253,23 @@ export default {
                 request: {
                   inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
                   inputUsername: "sindata",
-                  transCode: " ",
-                  mGrp: "1",
-                  sorttype: "1",
-                  mStr: "1",
-                  mattype: "1",
-                  fromArt: "1",
-                  toArt: "9999999",
-                  fromDate: "2019-01-01",
-                  toDate: "2019-01-14",
-                  showPrice: true,
-                  expenseAmt: true
+                  transCode: this.transfer == "" ? " " : this.transfer,
+                  mGrp:
+                    this.MainGroup == undefined || this.MainGroup.length == 0
+                      ? 0
+                      : this.MainGroup,
+                  sorttype: this.radios,
+                  mStr:
+                    this.Store === undefined || this.Store.length === 0
+                      ? 0
+                      : this.Store,
+                  mattype: this.display,
+                  fromArt: this.fromArticlegroup,
+                  toArt: this.toArticlegroup,
+                  fromDate: moment(this.ranges[0]).format("YYYY-MM-DD"),
+                  toDate: moment(this.ranges[1]).format("YYYY-MM-DD"),
+                  showPrice: this.showPriceprepare,
+                  expenseAmt: this.checkbox2
                 }
               }
             }
@@ -268,9 +279,10 @@ export default {
         const pbookList = parsed.response.tList["t-list"];
 
         this.datas = pbookList;
-        console.log(this.datas, "datas");
-        console.log(pbookList, "pbookList");
       })();
+    },
+    formatDate(value) {
+      return moment(value).format("DD-MM-YYYY");
     }
   }
 };
