@@ -62,7 +62,21 @@
               fixed-header
               calculate-widths
               dense
-            ></v-data-table>
+            >
+              <template
+                v-slot:item.datum="{ item }"
+              >{{item.datum == null? " " : formatDate(item.datum) }}</template>
+              <template v-slot:item.artnr="{ item }">{{ item.artnr == 0 ? " " : item.artnr }}</template>
+              <template v-slot:item.bezeich="{ item }">
+                {{
+                item.bezeich == "T O T A L"
+                ? "SubTotal"
+                : item.bezeich == "GRAND TOTAL"
+                ? "Total"
+                : item.bezeich
+                }}
+              </template>
+            </v-data-table>
           </div>
         </v-col>
         <v-col cols="1" class="rightmenu">
@@ -87,7 +101,7 @@ export default {
   data: () => ({
     height: 550,
     Department: [],
-    ranges: ["2019-01-13", "2019-01-13"],
+    ranges: ["2019-01-13", "2019-01-14"],
     datas: [],
     fromDate: "",
     toDate: "",
@@ -110,7 +124,7 @@ export default {
       },
       { text: "Transfer From", value: "dept1", width: "70", divider: true },
       { text: "Transfer To", value: "dept2", width: 250, divider: true },
-      { text: "From Storage", value: "artnr", width: 80, divider: true },
+      { text: "From Storage", value: " ", width: 80, divider: true },
       {
         text: "Article Number",
         value: "artnr",
@@ -124,12 +138,7 @@ export default {
         value: "b-cost",
         width: 100,
         divider: true
-      },
-      { text: "Beverage Cost", value: "amount", width: 100, divider: true },
-      { text: "Document Number", value: "docu-no", width: 120, divider: true },
-      { text: "ID", value: "ID", divider: true },
-      { text: "Delivery Note", value: "deliv-note", width: 100, divider: true },
-      { text: "Invoice Number", value: "invoice-nr", divider: true }
+      }
     ]
   }),
   beforeCreate() {
@@ -186,7 +195,7 @@ export default {
                   fromDept: "1",
                   toDept: "2",
                   fromDate: "2019-01-13",
-                  toDate: "2019-01-13"
+                  toDate: "2019-01-14"
                 }
               }
             }
