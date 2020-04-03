@@ -9,7 +9,7 @@
             @readDataMainTable="readDataMainTable" />
         </v-col>
         
-        <!-- <v-col id="FocRooms" cols="14" md="9">
+        <v-col id="FocRooms" cols="14" md="9">
           <v-data-table
             @click:row="dialog = !dialog"
             :headers="headers"
@@ -22,7 +22,7 @@
             dense
             hide-default-footer>
           </v-data-table>
-        </v-col> -->
+        </v-col>
       </v-row>  
 
       <!-- <v-row justify="center">
@@ -67,7 +67,7 @@
 <script>
 import NavBar from "@/components/Navbar.vue";
 import LeftAction from "./components/left-action.vue";
-// import header from "./table-column/table-column-main";
+import header from "./table-column/table-column-main";
 
 export default {
   name: "Join-To-Guest-Folio",
@@ -80,7 +80,7 @@ export default {
       height: window.innerHeight - 37,
       weight: window.innerWidth,
       dataMainTable: [],
-    //   headers: header(),
+      headers: header(),
       dialog: false
     };
   },
@@ -91,7 +91,7 @@ export default {
           this.dataMainTable = [];
         }
         
-        const tempDataMainTable = dataMainTable.mlist['mlist'];   
+        this.dataMainTable = dataMainTable.roomtransreportlist['roomtransreportlist'];   
       }
     }
   }

@@ -1,5 +1,13 @@
 <template>
   <v-form cols="1" md="3" ref="form" lazy-validation>
+    <v-autocomplete
+        v-model="dataForm.currDept"
+        :items="dataDept"
+        item-text="label"
+        item-value="value"
+        label="Department">
+      </v-autocomplete>
+
       <v-menu 
         :v-model="menu" 
         :close-on-content-click="false" 
@@ -15,27 +23,11 @@
             <v-date-picker v-model="dataForm.date" @change="menu = false" range></v-date-picker>
       </v-menu>
 
-      <v-autocomplete
-        v-model="dataForm.fromDepartment"
-        :items="computedFromDept"
-        item-text="label"
-        item-value="value"
-        label="From Department">
-    </v-autocomplete>
+      <v-spacer></v-spacer>
 
-    <v-autocomplete
-        v-model="dataForm.toDepartment"
-        :items="computedToDept"
-        item-text="label"
-        item-value="value"
-        label="To Department">
-    </v-autocomplete>
-
-    <v-spacer></v-spacer>
-
-    <v-btn color="primary" @click="onClickSearch" block depressed small :disabled="dataMainTableID.isLoading">
+      <v-btn color="primary" @click="onClickSearch" block depressed small :disabled="dataMainTableID.isLoading">
         <v-icon right dark>mdi-magnify</v-icon>Search
-    </v-btn>
+      </v-btn>
   </v-form>
 </template>
 
@@ -61,13 +53,10 @@ export default {
       menu: false,
       selectValidationEmpty: ProgramProperties.data().validationSelectEmpty,
       dataPrepare:[],
-      dataHotelDept:[],
-      dataFromDept:[],
-      dataToDept:[],
+      dataDept:[],
       dataForm: {
         date: [new Date().toISOString().substr(0, 10) , new Date().toISOString().substr(0, 10)],
-        fromDepartment: null,
-        toDepartment: null
+        currDept: null
       }
     };
   },
@@ -80,7 +69,7 @@ export default {
       (async () => {
         class HTTPError extends Error {}
 
-      	const response = await fetch(this.programProperties.host + "/vhpOU/fbSalesCostReportPrepare", {
+      	const response = await fetch(this.programProperties.host + "/vhpOU/roomTransferReportPrepare", {
           method: 'POST',
 		      body: JSON.stringify({
             request: {
@@ -92,7 +81,7 @@ export default {
             'content-type': 'application/json'
 		      }
         });          
-        console.log(this.programProperties.host + "/vhpOU/fbSalesCostReportPrepare", "URL End Point ");
+        console.log(this.programProperties.host + "/vhpOU/roomTransferReportPrepare", "URL End Point ");
 
         if (!response.ok) {
           this.dataPrepare["isSuccess"] = false;
@@ -108,51 +97,13 @@ export default {
 
           this.dataForm.date = [];
           this.dataForm.date[0] = this.dataPrepare.fromDate;
-          this.dataForm.date[1] = this.dataPrepare.toDate
-          
-          console.log(this.dataPrepare, "Response /fbSalesCostReportPrepare ");
+          this.dataForm.date[1] = this.dataPrepare.fromDate
 
-          this.getDataHotelDepartment();
-        }
-      })();
-    },
-    getDataHotelDepartment() {
-      (async () => {
-        class HTTPError extends Error {}
+          this.dataDept = this.mapDataInArray(this.dataPrepare.tHoteldpt['t-hoteldpt'], "num", "num", "depart");
 
-      	const response = await fetch(this.programProperties.host + "/Common/loadHotelDepartment", {
-          method: 'POST',
-		      body: JSON.stringify({
-            request: {
-              inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-              inputUsername: "sindata"
-            }
-          }),
-		      headers: {
-            'content-type': 'application/json'
-		      }
-        });          
-        console.log(this.programProperties.host + "/Common/loadHotelDepartment", "URL End Point ");
+          this.dataForm.currDept = this.dataDept[0]["value"];
 
-        if (!response.ok) {
-          this.dataHotelDept["isSuccess"] = false;
-          this.dataHotelDept["isLoading"] = false;
-                
-          throw new HTTPError('Fetch error:', response.statusText);
-    	  } else {
-          const parsed = await response.json();
-
-          this.dataHotelDept = parsed.response;
-          this.dataHotelDept["isSuccess"] = true;
-          this.dataHotelDept["isLoading"] = false;
-          
-          this.dataFromDept = this.mapDataInArray(this.dataHotelDept.tHoteldpt['t-hoteldpt'], "num", "num", "depart");
-          this.dataToDept = this.mapDataInArray(this.dataHotelDept.tHoteldpt['t-hoteldpt'], "num", "num", "depart");
-
-          this.dataForm.fromDepartment = this.dataFromDept[0]["value"];
-          this.dataForm.toDepartment = this.dataToDept[this.dataToDept.length - 1]["value"];
-
-          console.log(this.dataHotelDept, "Response /loadHotelDepartment ");
+          console.log(this.dataPrepare, "Response /roomTransferReportPrepare ");
         }
       })();
     },
@@ -165,29 +116,23 @@ export default {
       (async () => {
         class HTTPError extends Error {}
 
-      	const response = await fetch(this.programProperties.host + "/vhpOU/fbSalesCostReportList", {
+      	const response = await fetch(this.programProperties.host + "/vhpOU/roomTransferReportList", {
           method: 'POST',
 		      body: JSON.stringify({
             request: {
               inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
               inputUsername: "sindata",
-              languageCode: 1,
-              sorttype: this.dataForm.category,
-              detailed: this.dataForm.checkboxOutletSalesOnly,
-              fromDept: this.dataForm.fromDepartment,
-              toDept: this.dataForm.toDepartment,
+              currDept: this.dataForm.currDept,
               fromDate: moment(this.dataForm.date[0]).format(this.programProperties.formateDateRequest),
               toDate: moment(this.dataForm.date[1]).format(this.programProperties.formateDateRequest),
-              fact1: 1,
-              shortFlag: true,
-              miCompliChecked: this.dataForm.checkboxQtyIncAllInclusive
+              longDigit: this.dataPrepare.longDigit
             }
           }),
 		      headers: {
             'content-type': 'application/json'
 		      }
         });          
-        console.log(this.programProperties.host + "/vhpOU/fbSalesCostReportList", "URL End Point ");
+        console.log(this.programProperties.host + "/vhpOU/roomTransferReportList", "URL End Point ");
 
         if (!response.ok) {
           this.dataMainTableID["isSuccess"] = false;
@@ -201,7 +146,7 @@ export default {
           this.dataMainTableID["isSuccess"] = true;
           this.dataMainTableID["isLoading"] = false;
 
-          console.log(this.dataMainTableID, "Response /fbSalesCostReportList ");
+          console.log(this.dataMainTableID, "Response /roomTransferReportList ");
         }
       })();
     }
@@ -213,48 +158,11 @@ export default {
       dataDate[1] = moment(this.dataForm.date[1]).format(this.programProperties.formatDateRead);
       
       return dataDate.join(" - ");
-    },
-    computedFromDept() {
-      const tempDataFromDept = [];
-      const currToDept = this.dataForm.toDepartment;   
-
-      for (let i=0; i<this.dataFromDept.length; i++) {
-        const dept = this.dataFromDept[i]["value"];
-
-        if (currToDept != dept) {
-          tempDataFromDept.push(this.dataFromDept[i]);
-        } else {
-          tempDataFromDept.push(this.dataFromDept[i]);
-          break;
-        }
-      }
-      return tempDataFromDept;
-    },
-    computedToDept() {
-      const tempDataToDept = [];
-      const currFromDept = this.dataForm.fromDepartment;
-      const dataToDept = this.dataToDept;
-
-      for(let i=dataToDept.length - 1; i>=0; i--) {
-        const dept = dataToDept[i]["value"];
-
-        if (currFromDept != dept) {
-          tempDataToDept.push(dataToDept[i]);
-        } else {
-          tempDataToDept.push(dataToDept[i]);
-          break;
-        }
-      }
-
-      tempDataToDept.sort(function(a,b){
-        return parseInt(a.value)  - parseInt(b.value);
-      })
-      return tempDataToDept;
     }
   },
   mounted() {
     this.programProperties = ProgramProperties.data();
-    // this.getDataPrepare();
+    this.getDataPrepare();
   },
   watch: {
     dataMainTableID: function() {
