@@ -1,8 +1,20 @@
 <template>
   <v-app>
     <NavBar />
-    <v-container fluid>
-      <v-row>
+    <v-container class="py-0" fluid>
+      <!-- <v-row style='visibility:visible'>
+        <v-card
+        
+          :height="height"
+          :width="weight">
+          <v-progress-circular
+            indeterminate
+            color="primary">
+          </v-progress-circular>
+        </v-card>
+      </v-row> -->
+
+      <v-row style='visibility:visible'>
         <v-col cols="4" md="3">
           <LeftAction 
           :dataPrepareID="dataPrepare"
@@ -15,14 +27,16 @@
           <MainTable :dataMainTable="dataMainTable" />
         </v-col> -->
 
-        <v-col cols="14" md="9">
+        <v-col id="FocRooms" cols="14" md="9">
           <v-data-table
             :headers="headers"
             :items="dataMainTable"
-            class="elevation-1"
+            class="elevation-3"
             disable-pagination
             :height="height"
             calculate-widths
+            fixed-header
+            dense
             hide-default-footer>
           </v-data-table>
         </v-col>
@@ -48,6 +62,7 @@ export default {
   data() {
     return {
       height: window.innerHeight - 37,
+      weight: window.innerWidth,
       isLoading: false,
       dataPrepare: {},
       dataMainTable: [],
@@ -57,8 +72,6 @@ export default {
   },
   methods: {
     readDataPrepare(dataPrepareID) {
-      console.log(dataPrepareID, "read data prepare");
-
       this.headers[2]["text"] = dataPrepareID.bezeich1;
       this.headers[4]["text"] = dataPrepareID.bezeich2;
       this.headers[6]["text"] = dataPrepareID.bezeich3;
@@ -104,5 +117,45 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+$primary: #1890ff;
+
+// Override Vuetify styles only in Foc Module
+#FocLeft .theme--light.v-input input,
+.theme--light.v-input textarea {
+  color: $primary;
+  line-height: 1rem;
+}
+
+#FocRooms .v-data-table td {
+  height: 30px;
+}
+
+#FocRooms .v-data-table th {
+  background: linear-gradient(#1488cc, #2b32b2);
+  color: #ffffff;
+  height: 40px;
+}
+
+#FocRooms
+  .theme--light.v-data-table
+  .v-data-table-header
+  th.sortable.active
+  .v-data-table-header__icon {
+  color: #ffffff;
+  margin-left: 5px;
+}
+
+#FocRooms
+  .theme--light.v-data-table
+  .v-data-table-header
+  th.sortable
+  .v-data-table-header__icon {
+  color: rgba(255, 255, 255, 0.4);
+  margin-left: 5px;
+}
+
+#FocRooms tbody tr:nth-of-type(even) {
+  background-color: #c8e0f1a3;
+}
 </style>

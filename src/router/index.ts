@@ -17,6 +17,11 @@ import storeSequisition from "../vhp-modules/inventory/modules/store-requisition
 import MinStockOnHand from "../vhp-modules/inventory/reports/min-stock-on-hand/min-stock-on-hand.vue";
 import MaxStockOnHand from "../vhp-modules/inventory/reports/max-stock-on-hand/max-stock-on-hand.vue";
 import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drugstore-Report.vue"
+import OutletUserTransaction from "../vhp-modules/outlet/reports/outlet-user-transaction/Outlet-User-Transaction.vue";
+import OrderTakerReport from "../vhp-modules/outlet/reports/order-taker-report/Order-Taker-Report.vue";
+import OutletSalesAndCosts from "../vhp-modules/outlet/reports/outlet-sales-and-costs/Outlet-Sales-And-Costs.vue";
+import MealCoupon from "../vhp-modules/outlet/reports/meal-coupon/Meal-Coupon.vue";
+import JoinToGuestFolio from "../vhp-modules/outlet/reports/join-to-guest-folio/Join-To-Guest-Folio.vue";
 import FrontOfficeCashier from "../vhp-modules/FOC/front-office-cashier.vue"
 import Erland from "../vhp-modules/FOC/erland/Index.vue"
 
@@ -88,6 +93,21 @@ const routes = [
     component: DrugstoreReport
   },
   {
+    path: "/order-taker-report",
+    name: "OrderTakerReport",
+    component: OrderTakerReport
+  },
+  {
+    path: "/outlet-sales-and-costs",
+    name: "OutletSalesAndCosts",
+    component: OutletSalesAndCosts
+  },
+  {
+    path: "/outlet-user-transaction",
+    name: "OutletUserTransaction",
+    component: OutletUserTransaction
+  },
+  {
     path: "/min-stock-on-hand",
     name: "MinStockOnHand",
     component: MinStockOnHand
@@ -96,6 +116,16 @@ const routes = [
     path: "/max-stock-on-hand",
     name: "MaxStockOnHand",
     component: MaxStockOnHand
+  },
+  {
+    path: "/meal-coupon",
+    name: "MealCoupon",
+    component: MealCoupon
+  },
+  {
+    path: "/join-to-guest-folio",
+    name: "JoinToGuestFolio",
+    component: JoinToGuestFolio
   },
   {
     path: "/front-office-cashier",

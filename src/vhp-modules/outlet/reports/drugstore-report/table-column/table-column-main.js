@@ -6,103 +6,120 @@ export default function mainColumns() {
           value: "zinr",
           sortable: false,
           align: "right",
-          width: 100
+          width: 100,
+          divider: true
           }, {
           text: "Payment / Gname", 
           value: "gname",
           sortable: false,
           align: "left",
-          width: 200
+          width: 200,
+          divider: true
           }, {
           text: "", 
           value: "laundry_genttlement",
           sortable: false,
           align: "right",
-          width: 150
+          width: 150,
+          divider: true
           }, {
           text: "Qty", 
           value: "qty1",
           sortable: false,
           align: "right",
-          width: 100
+          width: 100, 
+          divider: true
           }, {
           text: "", 
           value: "dry_clean_genttlement",
           sortable: false,
           align: "right",
-          width: 150
+          width: 180,
+          divider: true
           }, {
-          text: "", 
+          text: "Qty", 
           value: "qty2",
           sortable: false,
           align: "right",
-          width: 100
+          width: 100,
+          divider: true
           },  {
           text: "", 
           value: "pressing_genttlement",
           sortable: false,
           align: "right",
-          width: 150
+          width: 150,
+          divider: true
           }, {
-          text: "", 
+          text: "Qty", 
           value: "qty3",
           sortable: false,
           align: "right",
-          width: 100
+          width: 100,
+          divider: true
           },  {
           text: "", 
           value: "laundry_ladies",
           sortable: false,
           align: "right",
-          width: 150
+          width: 150,
+          divider: true
           }, {
           text: "Qty", 
           value: "qty4",
           sortable: false,
           align: "right",
-          width: 100
+          width: 100,
+          divider: true
           },  {
           text: "", 
           value: "dry_clean_ladies",
           sortable: false,
           align: "right",
-          width: 150
+          width: 150,
+          divider: true
           }, {
           text: "Qty", 
           value: "qty5",
           sortable: false,
           align: "right",
-          width: 100
+          width: 100,
+          divider: true
           }, {
           text: "", 
           value: "pressing_laddies",
           sortable: false,
           align: "right",
-          width: 150
+          width: 150,
+          divider: true
           }, {
           text: "Qty", 
           value: "qty6",
           sortable: false,
           align: "right",
-          width: 100
+          width: 100,
+          divider: true
           },  {
           text: "Total Amount", 
           value: "totamount",
           sortable: false,
           align: "right",
-          width: 150
+          width: 150,
+          divider: true
           }, {
           text: "Qty", 
           value: "qty7",
           sortable: false,
           align: "right",
-          width: 100
+          width: 100,
+          divider: true
           }, {
           text: "ID", 
           value: "id",
           sortable: false,
           align: "left",
-          width: 80
+          width: 80,
+          divider: true
         } ];
     return columm;
 }
