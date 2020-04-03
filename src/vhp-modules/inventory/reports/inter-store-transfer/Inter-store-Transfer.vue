@@ -7,7 +7,7 @@
           <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
             <template v-slot:activator="{ on }">
               <v-text-field
-                :value="computedDateFormattedMomentjs"
+                :value="dateRangeText"
                 clearable
                 label="Date"
                 readonly
@@ -17,8 +17,18 @@
                 @click:clear="date = null"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="date" @change="menu1 = false"></v-date-picker>
+            <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
           </v-menu>
+          <v-autocomplete
+            v-model="MainGroup"
+            :items="mainGroup"
+            item-text="label"
+            item-value="value"
+            label="Main Group"
+            outlined
+            dense
+          ></v-autocomplete>
+
           <v-autocomplete
             v-model="Store"
             :items="storeselect"
@@ -30,28 +40,40 @@
           ></v-autocomplete>
 
           <v-autocomplete
-            v-model="fromMainGroup"
-            :items="mainGroup"
+            v-model="fromArticlegroup"
+            :items="Articlegroup"
             item-text="label"
             item-value="value"
-            label="From Main Group"
+            label="From Article Number"
             outlined
             dense
           ></v-autocomplete>
           <v-autocomplete
-            v-model="toMainGroup"
-            :items="mainGroup"
+            v-model="toArticlegroup"
+            :items="Articlegroup"
             item-text="label"
             item-value="value"
-            label="To Main Group"
+            label="To Article Number"
             outlined
             dense
           ></v-autocomplete>
+          <v-autocomplete
+            v-model="display"
+            :items="displayList"
+            item-text="label"
+            item-value="value"
+            label="Display"
+            outlined
+            dense
+          ></v-autocomplete>
+          <v-text-field v-model="transfer" label="Transfer Code" single-line dense outlined></v-text-field>
           <v-radio-group v-model="radios" :mandatory="false">
             Order By
-            <v-radio label="By Inventory Account" value="1"></v-radio>
+            <v-radio label="By Date" value="1"></v-radio>
             <v-radio label="By Description" value="2"></v-radio>
           </v-radio-group>
+          <v-checkbox v-model="checkbox1" label="User Unit Expenses"></v-checkbox>
+          <v-checkbox v-model="checkbox2" label="Print Without Amounts"></v-checkbox>
           <v-btn color="primary" @click="cari" block depressed small>
             <v-icon right dark>mdi-magnify</v-icon>Search
           </v-btn>
@@ -72,11 +94,9 @@
               calculate-widths
               dense
             >
-              <template v-slot:item.datum="{ item }">
-                {{
+              <template v-slot:item.datum="{ item }">{{
                 formatDate(item.datum)
-                }}
-              </template>
+              }}</template>
             </v-data-table>
           </div>
         </v-col>
@@ -102,43 +122,66 @@ export default {
   data: () => ({
     height: 550,
     date: new Date().toISOString().substr(0, 10),
-    menu1: false,
-    toMainGroup: "",
-    fromMainGroup: "",
+    ranges: [],
+    display: "",
+    toArticlegroup: "",
+    fromArticlegroup: "",
+    MainGroup: "",
     Store: "",
     mainGroup: [],
+    Articlegroup: [],
     storeselect: [],
     radios: "",
+    menu1: false,
     datas: [],
+    transfer: "",
+    checkbox1: false,
+    checkbox2: false,
+    showPriceprepare: "",
+    displayList: [
+      {
+        label: "Material & Engineering Articles",
+        value: 0
+      },
+      {
+        label: "Material Articles Only",
+        value: 1
+      },
+      {
+        label: "Engineering Articles Only",
+        value: 2
+      }
+    ],
     headers: [
       {
-        text: "Inventory Account",
+        text: "Date",
         align: "start",
-        value: "inv-acct",
+        value: "datum",
         divider: true
       },
+      { text: "Delivery Number", value: "lscheinnr", divider: true },
+      { text: "From Storage", value: "f-bezeich", divider: true },
+      { text: "To Storage", value: "t-bezeich", divider: true },
+      { text: "Article", value: "artnr", divider: true },
       { text: "Description", value: "bezeich", divider: true },
-      { text: "Opening Value", value: "prevval", divider: true },
-      { text: "Incoming Value", value: "inval", divider: true },
-      { text: "Consumed Value", value: "outval", divider: true },
-      { text: "Ending Value", value: "actval", divider: true },
-      {
-        text: "Initial On Hand Adjustment",
-        value: "adjust",
-        divider: true
-      }
+      { text: "Unit", value: "einheit", divider: true },
+      { text: "Content", value: "content", divider: true },
+      { text: "Average Price", value: "price", divider: true },
+      { text: "Quantity", value: "qty", divider: true },
+      { text: "Amount", value: "val", divider: true },
+      { text: "ID", value: "id", divider: true }
     ]
   }),
   computed: {
-    computedDateFormattedMomentjs() {
-      return this.date ? moment(this.date).format("DD-MM-YYYY") : "";
+    dateRangeText() {
+      return this.ranges.join(" - ");
     }
   },
   beforeCreate() {
     (async () => {
       const data = await ky
         .post(
-          "http://182.253.140.35/VHPWebBased/rest/vhpINV/matReconsilePrepare",
+          "http://182.253.140.35/VHPWebBased/rest/vhpINV/transValidationPrepare",
           {
             json: {
               request: {
@@ -149,6 +192,8 @@ export default {
           }
         )
         .json();
+
+      this.showPriceprepare = data.response.showPrice;
 
       const tempMainGroup = data.response.tLHauptgrp["t-l-hauptgrp"];
       for (let i = 0; i < tempMainGroup.length; i++) {
@@ -167,35 +212,79 @@ export default {
           label: element["bezeich"]
         });
       }
+
+      const article = await ky
+        .post(
+          "http://182.253.140.35/VHPWebBased/rest/vhpINV/getHelpInvArticle",
+          {
+            json: {
+              request: {
+                inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+                inputUsername: "sindata",
+                currLager: 0,
+                recipe: false,
+                sorttype: 0,
+                sArtnr: 0,
+                sBezeich: " "
+              }
+            }
+          }
+        )
+        .json();
+
+      const tempArticle = article.response.sartnrList["sartnr-list"];
+      for (let i = 0; i < tempArticle.length; i++) {
+        const element = tempArticle[i];
+        this.Articlegroup.push({
+          value: element["artnr"],
+          label: element["bezeich"]
+        });
+      }
     })();
   },
   methods: {
     cari() {
+      console.log(moment(this.ranges[1]).format("YYYY/MM/DD"), "transfer");
+
       (async () => {
         const parsed = await ky
           .post(
-            "http://182.253.140.35/VHPWebBased/rest/vhpINV/matReconsileList",
+            "http://182.253.140.35/VHPWebBased/rest/vhpINV/transValidationList",
             {
               json: {
                 request: {
                   inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
                   inputUsername: "sindata",
-                  pvILanguage: "1",
-                  toDate: moment(this.date).format("YYYY/MM/DD"),
-                  lagerNo: this.Store == undefined ? 0 : this.Store,
-                  fromMain: this.fromMainGroup,
-                  toMain: this.toMainGroup,
-                  sortType: this.radios
+                  transCode: this.transfer == "" ? " " : this.transfer,
+                  mGrp:
+                    this.MainGroup == undefined || this.MainGroup.length == 0
+                      ? 0
+                      : this.MainGroup,
+                  sorttype: this.radios,
+                  mStr:
+                    this.Store === undefined || this.Store.length === 0
+                      ? 0
+                      : this.Store,
+                  mattype: this.display,
+                  fromArt: this.fromArticlegroup,
+                  toArt: this.toArticlegroup,
+                  fromDate: moment(this.ranges[0]).format("YYYY-MM-DD"),
+                  toDate: moment(this.ranges[1]).format("YYYY-MM-DD"),
+                  showPrice: this.showPriceprepare,
+                  expenseAmt: this.checkbox2
                 }
               }
             }
           )
           .json();
 
-        const pbookList = parsed.response.artBestand["art-bestand"];
+        const pbookList = parsed.response.tList["t-list"];
 
         this.datas = pbookList;
       })();
+    },
+    formatDate(value) {
+      return moment(value).format("DD-MM-YYYY");
     }
   }
 };
@@ -219,6 +308,9 @@ export default {
 .v-input--selection-controls
   margin-top: 0px
   padding-top: 0px
+
+.v-text-field
+  height: 50px
 
 #FocRooms .v-data-table td
   height: 30px

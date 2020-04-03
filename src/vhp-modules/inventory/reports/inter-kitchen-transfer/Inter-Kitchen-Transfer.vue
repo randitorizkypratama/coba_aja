@@ -7,7 +7,7 @@
           <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
             <template v-slot:activator="{ on }">
               <v-text-field
-                :value="computedDateFormattedMomentjs"
+                :value="dateRangeText"
                 clearable
                 label="Date"
                 readonly
@@ -17,41 +17,32 @@
                 @click:clear="date = null"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="date" @change="menu1 = false"></v-date-picker>
+            <v-date-picker v-model="ranges" @change="menu1 = false" range></v-date-picker>
           </v-menu>
           <v-autocomplete
-            v-model="Store"
-            :items="storeselect"
+            v-model="fromdepartment"
+            :items="Department"
             item-text="label"
             item-value="value"
-            label="Store"
+            label="From Department"
+            outlined
+            dense
+          ></v-autocomplete>
+          <v-autocomplete
+            v-model="todepartment"
+            :items="Department"
+            item-text="label"
+            item-value="value"
+            label="To Department"
             outlined
             dense
           ></v-autocomplete>
 
-          <v-autocomplete
-            v-model="fromMainGroup"
-            :items="mainGroup"
-            item-text="label"
-            item-value="value"
-            label="From Main Group"
-            outlined
-            dense
-          ></v-autocomplete>
-          <v-autocomplete
-            v-model="toMainGroup"
-            :items="mainGroup"
-            item-text="label"
-            item-value="value"
-            label="To Main Group"
-            outlined
-            dense
-          ></v-autocomplete>
           <v-radio-group v-model="radios" :mandatory="false">
-            Order By
-            <v-radio label="By Inventory Account" value="1"></v-radio>
-            <v-radio label="By Description" value="2"></v-radio>
+            <v-radio label="From Outlet" value="1"></v-radio>
+            <v-radio label="To Outlet" value="2"></v-radio>
           </v-radio-group>
+
           <v-btn color="primary" @click="cari" block depressed small>
             <v-icon right dark>mdi-magnify</v-icon>Search
           </v-btn>
@@ -64,7 +55,7 @@
               :items="datas"
               item-key="name"
               :height="height"
-              class="elevation-1"
+              class="elevation-3"
               disable-pagination
               disable-sort
               hide-default-footer
@@ -72,9 +63,17 @@
               calculate-widths
               dense
             >
-              <template v-slot:item.datum="{ item }">
+              <template
+                v-slot:item.datum="{ item }"
+              >{{item.datum == null? " " : formatDate(item.datum) }}</template>
+              <template v-slot:item.artnr="{ item }">{{ item.artnr == 0 ? " " : item.artnr }}</template>
+              <template v-slot:item.bezeich="{ item }">
                 {{
-                formatDate(item.datum)
+                item.bezeich == "T O T A L"
+                ? "SubTotal"
+                : item.bezeich == "GRAND TOTAL"
+                ? "Total"
+                : item.bezeich
                 }}
               </template>
             </v-data-table>
@@ -90,9 +89,9 @@
 
 <script>
 import NavBar from "@/components/Navbar.vue";
-import RightMenu from "@/components/RightMenu.vue";
 import ky from "ky";
 import moment from "moment";
+import RightMenu from "@/components/RightMenu.vue";
 
 export default {
   components: {
@@ -101,101 +100,118 @@ export default {
   },
   data: () => ({
     height: 550,
-    date: new Date().toISOString().substr(0, 10),
-    menu1: false,
-    toMainGroup: "",
-    fromMainGroup: "",
-    Store: "",
-    mainGroup: [],
-    storeselect: [],
-    radios: "",
+    Department: [],
+    ranges: ["2019-01-13", "2019-01-14"],
     datas: [],
+    fromDate: "",
+    toDate: "",
+    fromdepartment: 1,
+    todepartment: 14,
+    checkbox1: false,
+    menu1: false,
+    depname1: "",
+    depname2: "",
+    fromDept: "",
+    toDept: "",
+    radios: "",
     headers: [
       {
-        text: "Inventory Account",
+        text: "Date",
         align: "start",
-        value: "inv-acct",
+        value: "datum",
+        width: "110",
         divider: true
       },
-      { text: "Description", value: "bezeich", divider: true },
-      { text: "Opening Value", value: "prevval", divider: true },
-      { text: "Incoming Value", value: "inval", divider: true },
-      { text: "Consumed Value", value: "outval", divider: true },
-      { text: "Ending Value", value: "actval", divider: true },
+      { text: "Transfer From", value: "dept1", width: "70", divider: true },
+      { text: "Transfer To", value: "dept2", width: 250, divider: true },
+      { text: "From Storage", value: " ", width: 80, divider: true },
       {
-        text: "Initial On Hand Adjustment",
-        value: "adjust",
+        text: "Article Number",
+        value: "artnr",
+        width: 120,
+        divider: true
+      },
+      { text: "Description", value: "bezeich", width: 70, divider: true },
+      { text: "Food-Cost", value: "f-cost", width: 100, divider: true },
+      {
+        text: "Beverage-Cost ",
+        value: "b-cost",
+        width: 100,
         divider: true
       }
     ]
   }),
-  computed: {
-    computedDateFormattedMomentjs() {
-      return this.date ? moment(this.date).format("DD-MM-YYYY") : "";
-    }
-  },
   beforeCreate() {
     (async () => {
-      const data = await ky
+      const prepare = await ky
         .post(
-          "http://182.253.140.35/VHPWebBased/rest/vhpINV/matReconsilePrepare",
+          "http://182.253.140.35/VHPWebBased/rest/vhpINV/ktransReportPrepare",
           {
             json: {
               request: {
                 inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-                inputUsername: "sindata"
+                inputUsername: "sindata",
+                minDept: "99",
+                maxDept: "0"
               }
             }
           }
         )
         .json();
 
-      const tempMainGroup = data.response.tLHauptgrp["t-l-hauptgrp"];
-      for (let i = 0; i < tempMainGroup.length; i++) {
-        const element = tempMainGroup[i];
-        this.mainGroup.push({
-          value: element["endkum"],
-          label: element["bezeich"]
-        });
-      }
-
-      const tempStore = data.response.tLLager["t-l-lager"];
-      for (let i = 0; i < tempStore.length; i++) {
-        const element = tempStore[i];
-        this.storeselect.push({
-          value: element["lager-nr"],
-          label: element["bezeich"]
+      this.fromDate = prepare.response.fromDate;
+      this.toDate = prepare.response.toDate;
+      this.fromDept = prepare.response.fromDept;
+      this.toDept = prepare.response.toDept;
+      this.depname1 = prepare.response.depname1;
+      this.depname2 = prepare.response.depname1;
+      const tempDepartment = prepare.response.tHoteldpt["t-hoteldpt"];
+      for (let i = 0; i < tempDepartment.length; i++) {
+        const element = tempDepartment[i];
+        this.Department.push({
+          value: element["num"],
+          label: element["depart"]
         });
       }
     })();
+  },
+  computed: {
+    dateRangeText() {
+      return this.ranges.join(" - ");
+    }
   },
   methods: {
     cari() {
       (async () => {
         const parsed = await ky
           .post(
-            "http://182.253.140.35/VHPWebBased/rest/vhpINV/matReconsileList",
+            "http://182.253.140.35/VHPWebBased/rest/vhpINV/ktransReportList",
             {
               json: {
                 request: {
                   inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
                   inputUsername: "sindata",
-                  pvILanguage: "1",
-                  toDate: moment(this.date).format("YYYY/MM/DD"),
-                  lagerNo: this.Store == undefined ? 0 : this.Store,
-                  fromMain: this.fromMainGroup,
-                  toMain: this.toMainGroup,
-                  sortType: this.radios
+                  sorttype: "1",
+                  fromDept: "1",
+                  toDept: "2",
+                  fromDate: "2019-01-13",
+                  toDate: "2019-01-14"
                 }
               }
             }
           )
           .json();
 
-        const pbookList = parsed.response.artBestand["art-bestand"];
+        const pbookList = parsed.response.cList["c-list"];
 
         this.datas = pbookList;
       })();
+    },
+    formatDate(value) {
+      return moment(value).format("DD-MM-YYYY");
+    },
+    formatNumber(value) {
+      return value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     }
   }
 };
@@ -215,6 +231,8 @@ export default {
   flex-direction: row
   justify-content: flex-end
 
+.v-text-field
+  height: 50px
 
 .v-input--selection-controls
   margin-top: 0px
