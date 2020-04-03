@@ -1,5 +1,6 @@
 <template>
   <v-container class="py-0" fluid>
+    <NavBar />
     <v-row class="foc-main">
       <v-col cols="2" class="foc-main__left px-5">
         <FocLeft />
@@ -17,7 +18,8 @@
 <script>
 import FocLeft from "../erland/layouts/FocLeft";
 import FocMiddle from "../erland/layouts/FocMiddle.vue";
-import FocRight from "../erland/layouts/FocRight.vue";
+import FocRight from "@/components/RightMenu.vue";
+import NavBar from "@/components/Navbar.vue";
 
 export default {
   name: "FOCHome",
@@ -26,7 +28,8 @@ export default {
   components: {
     FocLeft,
     FocMiddle,
-    FocRight
+    FocRight,
+    NavBar
   }
 
   // async mounted() {

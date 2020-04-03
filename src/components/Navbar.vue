@@ -45,14 +45,13 @@
             <router-link to="/store-requisition">store-requisition</router-link>
           </v-list-item-title>
           <v-list-item-title>
-            <router-link to="/min-stock-on-hand"
-              >Minimum Stock On Hand</router-link
-            >
+            <router-link to="/min-stock-on-hand">Minimum Stock On Hand</router-link>
           </v-list-item-title>
           <v-list-item-title>
-            <router-link to="/max-stock-on-hand"
-              >Maximum Stock On Hand</router-link
-            >
+            <router-link to="/max-stock-on-hand">Maximum Stock On Hand</router-link>
+          </v-list-item-title>
+          <v-list-item-title>
+            <router-link to="/stock-item">Stock Item</router-link>
           </v-list-item-title>
         </v-list-item>
       </v-list>
@@ -63,6 +62,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { clear } from "@/../utils/local-storage";
+import { logOut } from "@/../utils/helpers/helpers";
 
 export default Vue.extend({
   name: "NavBar",
@@ -98,7 +98,7 @@ export default Vue.extend({
 
   mounted() {
     const local = JSON.parse(localStorage.getItem("login") || "{}");
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const user = JSON.parse(localStorage.getItem("username") || "{}");
 
     this.hotelname = local.response.htlName;
     this.hoteladdress = local.response.htlCity;

@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <NavBar />
-    <v-container fluid>
-      <v-row>
-        <v-col cols="4" md="3">
+    <v-container class="py-0" fluid>
+      <v-row class="main">
+        <v-col cols="2" class="leftmenu px-5">
           <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
             <template v-slot:activator="{ on }">
               <v-text-field
@@ -64,11 +64,11 @@
           </v-radio-group>
 
           <v-btn color="primary" @click="cari" block depressed small>
-            <v-icon right dark>mdi-magnify</v-icon>Rounded Button
+            <v-icon right dark>mdi-magnify</v-icon>Search
           </v-btn>
         </v-col>
 
-        <v-col cols="14" md="9">
+        <v-col cols="9" class="pr-0 pl-5">
           <div id="FocRooms">
             <v-data-table
               :headers="headers"
@@ -113,6 +113,9 @@
             </v-data-table>
           </div>
         </v-col>
+        <v-col cols="1" class="rightmenu">
+          <RightMenu />
+        </v-col>
       </v-row>
     </v-container>
   </v-app>
@@ -122,13 +125,15 @@
 import NavBar from "@/components/Navbar.vue";
 import ky from "ky";
 import moment from "moment";
+import RightMenu from "@/components/RightMenu.vue";
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    RightMenu
   },
   data: () => ({
-    height: 530,
+    height: 550,
     mainGroup: [],
     storeselect: [],
     supplierselect: [],
@@ -143,6 +148,7 @@ export default {
     longDigit: "",
     showPriceprepare: "",
     checkbox1: false,
+    menu1: false,
     radios: "",
     headers: [
       {
@@ -315,6 +321,20 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.main
+  height: 100vh
+
+.leftmenu
+  border-right: 1px #2887d2 solid
+  box-shadow: 0px 0px 7px 0px #00000038
+
+.rightmenu
+  padding: 0
+  display: flex
+  flex-direction: row
+  justify-content: flex-end
+
+
 .v-input--selection-controls
   margin-top: 0px
   padding-top: 0px

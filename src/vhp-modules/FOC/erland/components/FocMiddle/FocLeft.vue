@@ -66,15 +66,15 @@
 
 <script>
 export default {
-  name: 'FocMiddleFocLeftt',
+  name: "FocMiddleFocLeftt",
   data: () => ({
-    icon: 'left',
-    items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+    icon: "left",
+    items: ["Foo", "Bar", "Fizz", "Buzz"],
     // date: new Date().toISOString().substr(0, 10),
     date: null,
     menu: false,
-    value: null,
-  }),
+    value: null
+  })
 };
 </script>
 

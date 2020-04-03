@@ -4,26 +4,54 @@
     <v-container class="py-0" fluid>
       <v-row class="main">
         <v-col cols="2" class="leftmenu px-5">
+          <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                :value="computedDateFormattedMomentjs"
+                clearable
+                label="Date"
+                readonly
+                outlined
+                dense
+                v-on="on"
+                @click:clear="date = null"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="date" @change="menu1 = false"></v-date-picker>
+          </v-menu>
           <v-autocomplete
-            v-model="select"
-            :items="mainGroup"
+            v-model="Store"
+            :items="storeselect"
             item-text="label"
             item-value="value"
-            label="Main Group"
-            outlined
-            dense
-          ></v-autocomplete>
-          <v-autocomplete
-            v-model="selected"
-            :items="storeNumber"
-            item-text="label"
-            item-value="value"
-            label="Store Number"
+            label="Store"
             outlined
             dense
           ></v-autocomplete>
 
-          <v-text-field v-model="day" label="Days" type="number" outlined dense></v-text-field>
+          <v-autocomplete
+            v-model="fromMainGroup"
+            :items="mainGroup"
+            item-text="label"
+            item-value="value"
+            label="From Main Group"
+            outlined
+            dense
+          ></v-autocomplete>
+          <v-autocomplete
+            v-model="toMainGroup"
+            :items="mainGroup"
+            item-text="label"
+            item-value="value"
+            label="To Main Group"
+            outlined
+            dense
+          ></v-autocomplete>
+          <v-radio-group v-model="radios" :mandatory="false">
+            Order By
+            <v-radio label="By Inventory Account" value="1"></v-radio>
+            <v-radio label="By Description" value="2"></v-radio>
+          </v-radio-group>
           <v-btn color="primary" @click="cari" block depressed small>
             <v-icon right dark>mdi-magnify</v-icon>Search
           </v-btn>
@@ -38,6 +66,7 @@
               :height="height"
               class="elevation-1"
               disable-pagination
+              disable-sort
               hide-default-footer
               fixed-header
               calculate-widths
@@ -74,51 +103,53 @@ export default {
     height: 550,
     date: new Date().toISOString().substr(0, 10),
     menu1: false,
+    toMainGroup: "",
+    fromMainGroup: "",
+    Store: "",
     mainGroup: [],
-    storeNumber: [],
-    ranges: ["2019-09-10", "2019-09-20"],
+    storeselect: [],
+    radios: "",
     datas: [],
-    showPrice: "",
-    select: "",
-    selected: "",
-    day: "",
     headers: [
       {
-        text: "Article Number",
+        text: "Inventory Account",
         align: "start",
-        value: "artnr",
+        value: "inv-acct",
         divider: true
       },
-      { text: "Name", value: "name", divider: true },
-      { text: "Minimum On Hand", value: "min-oh", divider: true },
-      { text: "Current On Hand", value: "curr-oh", divider: true },
-      { text: "Average Price", value: "avrgprice", divider: true },
-      { text: "Actual Price", value: "ek-aktuell", divider: true },
+      { text: "Description", value: "bezeich", divider: true },
+      { text: "Opening Value", value: "prevval", divider: true },
+      { text: "Incoming Value", value: "inval", divider: true },
+      { text: "Consumed Value", value: "outval", divider: true },
+      { text: "Ending Value", value: "actval", divider: true },
       {
-        text: "Last Purchase Date",
-        value: "datum",
+        text: "Initial On Hand Adjustment",
+        value: "adjust",
         divider: true
       }
     ]
   }),
+  computed: {
+    computedDateFormattedMomentjs() {
+      return this.date ? moment(this.date).format("DD-MM-YYYY") : "";
+    }
+  },
   beforeCreate() {
     (async () => {
       const data = await ky
         .post(
-          "http://182.253.140.35/VHPWebBased/rest/vhpINV/slowMovingPrepare",
+          "http://182.253.140.35/VHPWebBased/rest/vhpINV/matReconsilePrepare",
           {
             json: {
               request: {
                 inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
-                inputUsername: "sindata",
-                LnLProg: " "
+                inputUsername: "sindata"
               }
             }
           }
         )
         .json();
 
-      this.showPrice = data.response.showPrice;
       const tempMainGroup = data.response.tLHauptgrp["t-l-hauptgrp"];
       for (let i = 0; i < tempMainGroup.length; i++) {
         const element = tempMainGroup[i];
@@ -126,60 +157,50 @@ export default {
           value: element["endkum"],
           label: element["bezeich"]
         });
-        // this.items.push(element["country-name"]);
       }
-      const tempStoreNumber = data.response.tLLager["t-l-lager"];
-      for (let i = 0; i < tempStoreNumber.length; i++) {
-        const element = tempStoreNumber[i];
-        this.storeNumber.push({
+
+      const tempStore = data.response.tLLager["t-l-lager"];
+      for (let i = 0; i < tempStore.length; i++) {
+        const element = tempStore[i];
+        this.storeselect.push({
           value: element["lager-nr"],
           label: element["bezeich"]
         });
-        // this.items.push(element["country-name"]);
       }
-
-      //=> `{data: '🦄'}`
     })();
-  },
-  computed: {
-    // computedDateFormattedMomentjs() {
-    //   return this.date ? moment(this.date).format("dddd, MMMM Do YYYY") : "";
-    // }
-    dateRangeText() {
-      return this.ranges.join(" - ");
-    }
   },
   methods: {
     cari() {
       (async () => {
         const parsed = await ky
           .post(
-            "http://182.253.140.35/VHPWebBased/rest/vhpINV/slowMovingList",
+            "http://182.253.140.35/VHPWebBased/rest/vhpINV/matReconsileList",
             {
               json: {
                 request: {
                   inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
                   inputUsername: "sindata",
-                  storeNo: this.selected,
-                  mainGrp: this.select,
-                  tage: this.day != "" ? this.day : 0,
-                  showPrice: this.showPrice
+                  pvILanguage: "1",
+                  toDate: moment(this.date).format("YYYY/MM/DD"),
+                  lagerNo: this.Store == undefined ? 0 : this.Store,
+                  fromMain: this.fromMainGroup,
+                  toMain: this.toMainGroup,
+                  sortType: this.radios
                 }
               }
             }
           )
           .json();
-        const pbookList = parsed.response.sList["s-list"];
+
+        const pbookList = parsed.response.artBestand["art-bestand"];
 
         this.datas = pbookList;
       })();
-    },
-    formatDate(value) {
-      return moment(value).format("DD-MM-YYYY");
     }
   }
 };
 </script>
+
 <style lang="sass" scoped>
 .main
   height: 100vh

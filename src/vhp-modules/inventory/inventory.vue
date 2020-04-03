@@ -34,6 +34,26 @@ export default {
       {
         name: "Incoming",
         url: "incoming"
+      },
+      {
+        name: "Adjustment Result",
+        url: "adjustment-result"
+      },
+      {
+        name: "Meal Coupon",
+        url: "meal-coupon"
+      },
+      {
+        name: "Material Reconciliation",
+        url: "material-reconciliation"
+      },
+      {
+        name: "Inter Store Transfer",
+        url: "inter-store-transfer"
+      },
+      {
+        name: "Inter Kitchen Transfer",
+        url: "inter-kitchen-transfer"
       }
     ]
   }),

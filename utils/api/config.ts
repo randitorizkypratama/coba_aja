@@ -1,7 +1,5 @@
 /** @format */
 import { getUsername, users } from "../local-storage";
-console.log("modul12", users !== null ? users : "err");
-
 export const modul = {
   USERNAME:
     getUsername !== null

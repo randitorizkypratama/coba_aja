@@ -24,6 +24,11 @@ import MealCoupon from "../vhp-modules/outlet/reports/meal-coupon/Meal-Coupon.vu
 import JoinToGuestFolio from "../vhp-modules/outlet/reports/join-to-guest-folio/Join-To-Guest-Folio.vue";
 import FrontOfficeCashier from "../vhp-modules/FOC/front-office-cashier.vue"
 import Erland from "../vhp-modules/FOC/erland/Index.vue"
+import AdjustmentResult from "../vhp-modules/inventory/reports/adjustment-result/Adjustment-Result.vue";
+import stokItem from "../vhp-modules/inventory/modules/stock-item/index.vue";
+import MaterialReconciliation from "../vhp-modules/inventory/reports/material-reconciliation/Material-Reconciliation.vue";
+import InterStoreTransfer from "../vhp-modules/inventory/reports/inter-store-transfer/Inter-store-Transfer.vue";
+import InterKitchenTransfer from "../vhp-modules/inventory/reports/inter-kitchen-transfer/Inter-Kitchen-Transfer.vue";
 
 Vue.use(VueRouter);
 
@@ -136,9 +141,37 @@ const routes = [
     path: "/erland",
     name: "Erland",
     component: Erland
+  },
+  {
+    path: "/stock-item",
+    name: "stokItem",
+    component: stokItem
+  },
+  {
+    path: "/adjustment-result",
+    name: "AdjustmentResult",
+    component: AdjustmentResult
+  },
+  {
+    path: "/meal-coupon",
+    name: "MealCoupon",
+    component: MealCoupon
+  },
+  {
+    path: "/material-reconciliation",
+    name: "Material Reconciliation",
+    component: MaterialReconciliation
+  },
+  {
+    path: "/inter-store-transfer",
+    name: "Inter Store Transfer",
+    component: InterStoreTransfer
+  },
+  {
+    path: "/inter-kitchen-transfer",
+    name: "Inter Kitchen Transfer",
+    component: InterKitchenTransfer
   }
-
-
 ];
 
 const router = new VueRouter({
