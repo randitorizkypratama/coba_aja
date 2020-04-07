@@ -29,6 +29,7 @@ import MealCoupon from "../vhp-modules/inventory/reports/meal-coupon/Meal-Coupon
 import MaterialReconciliation from "../vhp-modules/inventory/reports/material-reconciliation/Material-Reconciliation.vue";
 import InterStoreTransfer from "../vhp-modules/inventory/reports/inter-store-transfer/Inter-store-Transfer.vue";
 import InterKitchenTransfer from "../vhp-modules/inventory/reports/inter-kitchen-transfer/Inter-Kitchen-Transfer.vue";
+import AnnualIssuing from "../vhp-modules/inventory/reports/annual-issuing/Annual-Issuing.vue";
 
 Vue.use(VueRouter);
 
@@ -146,6 +147,11 @@ const routes = [
     path: "/inter-kitchen-transfer",
     name: "Inter Kitchen Transfer",
     component: InterKitchenTransfer
+  },
+  {
+    path: "/annual-issuing",
+    name: "Annual Issuing",
+    component: AnnualIssuing
   }
 ];
 
