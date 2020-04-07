@@ -2,12 +2,15 @@
 
 import Vue from "vue";
 import { tableItem } from "../header/header-table-item";
+import useFetchData from "@/../utils/api/useFetchData";
 export default Vue.extend({
   name: "FocTablesFocRooms",
   data: () => ({
     headers: [],
     dataHotel: [],
-    editedIndex: -1
+    editedIndex: -1,
+    dataArticle: ""
+    // arrtcNumber: ""
   }),
   computed: {
     formTitle() {
@@ -29,6 +32,7 @@ export default Vue.extend({
   },
   methods: {
     getData(data: any, arrtcNumber: any) {
+      this.dataArticle = data;
       const dataTable = data.response.tLArtikel["t-l-artikel"];
       const hasilFilter = dataTable.filter((hasil: any) => {
         return hasil.artnr.toString().includes(arrtcNumber.toString());
@@ -55,7 +59,6 @@ export default Vue.extend({
         this.editedIndex = -1;
       }, 300);
     },
-
     save() {
       if (this.editedIndex > -1) {
         Object.assign(this.dataHotel[this.editedIndex], this.$data.editedItem);
@@ -63,6 +66,21 @@ export default Vue.extend({
         this.$data.dataHotel.push(this.$data.editedItem);
       }
       this.close();
+    },
+
+    handleScroll: function() {
+      // console.log("sukses1234", this.$data.dataArticle.response.currArt1);
+      useFetchData("getInvArticleList", {
+        sorttype: 1,
+        lastArt: this.$data.dataArticle.response.firstArtnr,
+        lastArt1: this.$data.dataArticle.response.currArt1
+      }).then((res: any) => {
+        console.log("sukses123", res);
+      });
     }
+  },
+
+  beforeUpdate() {
+    window.addEventListener("scroll", this.handleScroll);
   }
 });

@@ -1,13 +1,12 @@
 <template>
   <div id="FocRooms2">
     <v-data-table
-      hide-default-footer
-      pagination.sync="pagination"
       :headers="headers"
       :items="dataHotel"
       item-key="docu-nr"
       sort-by="article"
       class="elevation-1"
+      attribute
     >
       <template v-slot:item.action="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>

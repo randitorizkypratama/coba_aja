@@ -24,7 +24,21 @@ export default {
       {
         url: `drugstore-report`
       },
-      { url: `tes2-report` }
+      { 
+        url: `order-taker-report`
+      },
+      {
+        url: `outlet-sales-and-costs`
+      },
+      {
+        url: `outlet-user-transaction`
+      },
+      {
+        url: `meal-coupon`
+      },
+      {
+        url: `join-to-guest-folio`
+      }
     ]
   }),
   methods: {

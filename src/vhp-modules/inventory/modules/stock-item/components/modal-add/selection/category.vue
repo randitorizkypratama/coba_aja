@@ -37,12 +37,15 @@ import Vue from "vue";
 export default Vue.extend({
   data() {
     return {
-      Header: false
+      Header: true
     };
   },
   methods: {
     openHeader() {
       this.Header = true;
+    },
+    close() {
+      this.Header = false;
     }
   }
 });

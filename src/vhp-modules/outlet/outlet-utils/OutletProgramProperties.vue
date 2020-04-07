@@ -3,16 +3,16 @@ import Vue from "vue";
 
 Vue.mixin({
   methods: {
-    mapDataInArray(data, valuekey, labelkey) {
+    mapDataInArray(data, valuekey, labelkey1, labelkey2) {
         const dataMap = [];
         for(let i = 0; i < data.length; i++) {
             const dataobj = data[i];
             dataMap.push({
                 value: dataobj[valuekey],
-                label: dataobj[labelkey]
+                label: dataobj[labelkey1] + " - " + dataobj[labelkey2]
             });
         }
-    return dataMap;
+        return dataMap;
     },
     getData(endpoint, bodyvalue) {
         const dataPayload = {
@@ -66,7 +66,8 @@ export default {
             },
             formatDateRead: "DD/MM/YYYY",
             formateDateRequest: "MM/DD/YY",
-            host: "http://182.253.140.35/VHPWebBased/rest"
+            host: "http://182.253.140.35/VHPWebBased/rest",
+            validationSelectEmpty: [v => !!v || 'Select One']
         }
     }
 }
