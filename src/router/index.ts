@@ -20,7 +20,7 @@ import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drug
 import OutletUserTransaction from "../vhp-modules/outlet/reports/outlet-user-transaction/Outlet-User-Transaction.vue";
 import OrderTakerReport from "../vhp-modules/outlet/reports/order-taker-report/Order-Taker-Report.vue";
 import OutletSalesAndCosts from "../vhp-modules/outlet/reports/outlet-sales-and-costs/Outlet-Sales-And-Costs.vue";
-import MealCoupon from "../vhp-modules/outlet/reports/meal-coupon/Meal-Coupon.vue";
+import MealCoupon from "../vhp-modules/inventory/reports/meal-coupon/Meal-Coupon.vue";
 import JoinToGuestFolio from "../vhp-modules/outlet/reports/join-to-guest-folio/Join-To-Guest-Folio.vue";
 import FrontOfficeCashier from "../vhp-modules/FOC/front-office-cashier.vue"
 import Erland from "../vhp-modules/FOC/erland/Index.vue"
@@ -30,6 +30,7 @@ import MaterialReconciliation from "../vhp-modules/inventory/reports/material-re
 import InterStoreTransfer from "../vhp-modules/inventory/reports/inter-store-transfer/Inter-store-Transfer.vue";
 import InterKitchenTransfer from "../vhp-modules/inventory/reports/inter-kitchen-transfer/Inter-Kitchen-Transfer.vue";
 import AnnualIssuing from "../vhp-modules/inventory/reports/annual-issuing/Annual-Issuing.vue";
+import CancelledIncoming from "../vhp-modules/inventory/reports/cancelled-incoming/Cancelled-Incoming.vue";
 
 Vue.use(VueRouter);
 
@@ -177,6 +178,11 @@ const routes = [
     path: "/annual-issuing",
     name: "Annual Issuing",
     component: AnnualIssuing
+  },
+  {
+    path: "/cancelled-incoming",
+    name: "Cancelled Incoming",
+    component: CancelledIncoming
   }
 ];
 

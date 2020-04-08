@@ -7,14 +7,14 @@
           <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
             <template v-slot:activator="{ on }">
               <v-text-field
-                :value="computedDateFormattedMomentjs"
+                :value="computedfromDateFormattedMomentjs"
                 clearable
-                label="From Date"
+                label="Date"
                 readonly
                 outlined
                 dense
                 v-on="on"
-                @click:clear="date = null"
+                @click:clear="fromdate = null"
               ></v-text-field>
             </template>
             <v-date-picker v-model="fromdate" @change="menu1 = false"></v-date-picker>
@@ -22,22 +22,22 @@
           <v-menu v-model="menu2" :close-on-content-click="false" max-width="290">
             <template v-slot:activator="{ on }">
               <v-text-field
-                :value="computedDateFormattedMomentjs"
+                :value="computedtoDateFormattedMomentjs"
                 clearable
                 label="To Date"
                 readonly
                 outlined
                 dense
                 v-on="on"
-                @click:clear="date = null"
+                @click:clear="todate = null"
               ></v-text-field>
             </template>
             <v-date-picker v-model="todate" @change="menu2 = false"></v-date-picker>
           </v-menu>
 
           <v-autocomplete
-            v-model="fromMainGroup"
-            :items="[]"
+            v-model="fromdepartment"
+            :items="department"
             item-text="label"
             item-value="value"
             label="From Main Group"
@@ -45,8 +45,8 @@
             dense
           ></v-autocomplete>
           <v-autocomplete
-            v-model="toMainGroup"
-            :items="[]"
+            v-model="todepartment"
+            :items="department"
             item-text="label"
             item-value="value"
             label="To Main Group"
@@ -73,9 +73,18 @@
               calculate-widths
               dense
             >
-              <template v-slot:item.datum="{ item }">
+              <template
+                v-slot:item.datum="{ item }"
+              >{{item.datum == null? " " : formatDate(item.datum) }}</template>
+              <template v-slot:item.rechnr="{ item }">{{ item.rechnr == 0 ? " " : item.rechnr }}</template>
+              <template v-slot:item.pax="{ item }">{{ item.pax == 0 ? " " : item.pax }}</template>
+              <template v-slot:item.bezeich="{ item }">
                 {{
-                formatDate(item.datum)
+                item.bezeich == "T O T A L"
+                ? "SubTotal"
+                : item.bezeich == "GRAND TOTAL"
+                ? "Total"
+                : item.bezeich
                 }}
               </template>
             </v-data-table>
@@ -88,6 +97,7 @@
     </v-container>
   </v-app>
 </template>
+
 
 <script>
 import NavBar from "@/components/Navbar.vue";
@@ -106,55 +116,147 @@ export default {
     todate: new Date().toISOString().substr(0, 10),
     menu1: false,
     menu2: false,
-    toMainGroup: [],
-    fromMainGroup: [],
+    department: [],
+    datas: [],
+    billdate: "",
+    doubleCurrency: "",
+    foreignNr: "",
+    exchgRate: "",
+    zugriff: "",
+    todepartment: [],
+    fromdepartment: [],
     headers: [
       {
         text: "Date",
         align: "start",
-        value: "artnr",
-        divider: true
+        value: "datum",
+        divider: true,
+        width: 120
       },
-      { text: "Department", value: "name", divider: true },
-      { text: "Bill Number", value: "min-oh", divider: true },
-      { text: "Pax", value: "curr-oh", divider: true },
-      { text: "Description", value: "avrgprice", divider: true },
-      { text: "Food Amount", value: "ek-aktuell", divider: true },
+      { text: "Department", value: "deptname", divider: true },
+      { text: "Bill Number", value: "rechnr", divider: true },
+      { text: "Pax", value: "pax", divider: true },
+      { text: "Description", value: "bezeich", divider: true },
+      { text: "Food Amount", value: "f-betrag", divider: true },
       {
         text: "Food Cost",
-        value: "datum",
+        value: "f-cost",
         divider: true
       },
       {
         text: "Beverage Amount",
-        value: "datum",
+        value: "b-betrag",
         divider: true
       },
       {
         text: "Beverage Cost",
-        value: "datum",
+        value: "b-cost",
         divider: true
       },
       {
         text: "Bill Amount",
-        value: "datum",
+        value: "betrag",
         divider: true
       },
       {
         text: "Cost of Sales",
-        value: "datum",
+        value: "t-cost",
         divider: true
       },
       {
         text: "User ID",
-        value: "datum",
+        value: "usr-id",
         divider: true
       }
     ]
   }),
+  beforeCreate() {
+    (async () => {
+      const permission = await ky
+        .post("http://182.253.140.35/VHPWebBased/rest/Common/checkPermission", {
+          json: {
+            request: {
+              inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+              inputUsername: "sindata",
+              userInit: "01",
+              arrayNr: "41",
+              expectedNr: "1"
+            }
+          }
+        })
+        .json();
+
+      this.zugriff = permission.response.zugriff;
+
+      const prepare = await ky
+        .post(
+          "http://182.253.140.35/VHPWebBased/rest/vhpINV/mealCouponPrepare",
+          {
+            json: {
+              request: {
+                inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+                inputUsername: "sindata"
+              }
+            }
+          }
+        )
+        .json();
+
+      this.billdate = prepare.response.billdate;
+      this.doubleCurrency = prepare.response.doubleCurrency;
+      this.foreignNr = prepare.response.foreignNr;
+      this.exchgRate = prepare.response.exchgRate;
+
+      const tempDepartment = prepare.response.tHoteldpt["t-hoteldpt"];
+      for (let i = 0; i < tempDepartment.length; i++) {
+        const element = tempDepartment[i];
+        this.department.push({
+          value: element["num"],
+          label: element["depart"]
+        });
+      }
+    })();
+  },
+  methods: {
+    cari() {
+      (async () => {
+        const parsed = await ky
+          .post(
+            "http://182.253.140.35/VHPWebBased/rest/vhpINV/mealCouponList",
+            {
+              json: {
+                request: {
+                  inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+                  inputUsername: "sindata",
+                  doubleCurrency: this.doubleCurrency,
+                  foreignNr: this.foreignNr,
+                  exchgRate: this.exchgRate,
+                  billdate: this.billdate,
+                  fromDept: this.fromdepartment,
+                  toDept: this.todepartment,
+                  fromDate: moment(this.fromdate).format("YYYY-MM-DD"),
+                  toDate: moment(this.to).format("YYYY-MM-DD")
+                }
+              }
+            }
+          )
+          .json();
+
+        const pbookList = parsed.response.cList["c-list"];
+
+        this.datas = pbookList;
+      })();
+    },
+    formatDate(value) {
+      return moment(value).format("DD-MM-YYYY");
+    }
+  },
   computed: {
-    computedDateFormattedMomentjs() {
-      return this.date ? moment(this.date).format("DD-MM-YYYY") : "";
+    computedfromDateFormattedMomentjs() {
+      return this.fromdate ? moment(this.fromdate).format("DD-MM-YYYY") : "";
+    },
+    computedtoDateFormattedMomentjs() {
+      return this.todate ? moment(this.todate).format("DD-MM-YYYY") : "";
     }
   }
 };
