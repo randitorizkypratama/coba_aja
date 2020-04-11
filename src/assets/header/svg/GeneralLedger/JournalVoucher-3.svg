@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="49px" height="46px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 49 46"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:#FEFEFE}
+    .fil2 {fill:#00A859}
+    .fil7 {fill:#2887D2}
+    .fil3 {fill:white}
+    .fil4 {fill:#FEFEFE;fill-rule:nonzero}
+    .fil1 {fill:#00A859;fill-rule:nonzero}
+    .fil6 {fill:#2887D2;fill-rule:nonzero}
+    .fil5 {fill:#FC4D44;fill-rule:nonzero}
+   ]]>
+  </style>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_783029560">
+   <g>
+    <g>
+     <polygon class="fil0" points="0,5 32,5 32,29 0,29 "/>
+     <path id="1" class="fil1" d="M32 5l-32 0 0 -1 32 0 0 1 0 0zm0 -1l0 0 0 1 0 -1zm0 25l0 -24 0 0 0 24 0 0 0 0zm0 0l0 0 0 0 0 0zm-32 -1l32 0 0 1 -32 0 0 0 0 -1zm0 1l0 0 0 0 0 0zm1 -24l0 24 -1 0 0 -24 0 -1 1 1zm-1 0l0 -1 0 0 0 1z"/>
+    </g>
+    <path class="fil2" d="M32 4c0,0 0,0 0,0l0 -3c0,-1 0,-1 -1,-1l-30 0c0,0 -1,0 -1,1l0 3c0,0 0,0 0,0l32 0z"/>
+    <circle class="fil3" cx="24" cy="2" r="1"/>
+    <circle class="fil3" cx="27" cy="2" r="1"/>
+    <circle class="fil3" cx="30" cy="2" r="1"/>
+    <g>
+     <g>
+      <polygon class="fil2" points="3,10 6,10 6,14 3,14 "/>
+      <path id="1" class="fil4" d="M6 10l-3 0 0 0 3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-3 0l3 0 0 0 -3 0 -1 0 1 0zm0 0l-1 0 0 0 1 0zm0 -4l0 4 -1 0 0 -4 1 0 0 0zm-1 0l0 0 1 0 -1 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="6,10 9,10 9,14 6,14 "/>
+      <path id="1" class="fil4" d="M9 10l-3 0 0 0 3 0 1 0 -1 0zm0 0l1 0 0 0 -1 0zm0 4l0 -4 1 0 0 4 -1 0 0 0zm1 0l0 0 -1 0 1 0zm-4 0l3 0 0 0 -3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 -4l0 4 0 0 0 -4 0 0 0 0zm0 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="9,10 13,10 13,14 9,14 "/>
+      <path id="1" class="fil4" d="M13 10l-4 0 0 0 4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-4 0l4 0 0 0 -4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm1 -4l0 4 -1 0 0 -4 0 0 1 0zm-1 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="3,14 6,14 6,18 3,18 "/>
+      <path id="1" class="fil4" d="M6 14l-3 0 0 0 3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-3 0l3 0 0 0 -3 0 -1 0 1 0zm0 0l-1 0 0 0 1 0zm0 -4l0 4 -1 0 0 -4 1 0 0 0zm-1 0l0 0 1 0 -1 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="6,14 9,14 9,18 6,18 "/>
+      <path id="1" class="fil4" d="M9 14l-3 0 0 0 3 0 1 0 -1 0zm0 0l1 0 0 0 -1 0zm0 4l0 -4 1 0 0 4 -1 0 0 0zm1 0l0 0 -1 0 1 0zm-4 0l3 0 0 0 -3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 -4l0 4 0 0 0 -4 0 0 0 0zm0 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="9,14 13,14 13,18 9,18 "/>
+      <path id="1" class="fil4" d="M13 14l-4 0 0 0 4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-4 0l4 0 0 0 -4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm1 -4l0 4 -1 0 0 -4 0 0 1 0zm-1 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="3,18 6,18 6,22 3,22 "/>
+      <path id="1" class="fil4" d="M6 18l-3 0 0 0 3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-3 0l3 0 0 0 -3 0 -1 0 1 0zm0 0l-1 0 0 0 1 0zm0 -4l0 4 -1 0 0 -4 1 0 0 0zm-1 0l0 0 1 0 -1 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="6,18 9,18 9,22 6,22 "/>
+      <path id="1" class="fil4" d="M9 18l-3 0 0 0 3 0 1 0 -1 0zm0 0l1 0 0 0 -1 0zm0 4l0 -4 1 0 0 4 -1 0 0 0zm1 0l0 0 -1 0 1 0zm-4 0l3 0 0 0 -3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 -4l0 4 0 0 0 -4 0 0 0 0zm0 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="9,18 13,18 13,22 9,22 "/>
+      <path id="1" class="fil4" d="M13 18l-4 0 0 0 4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-4 0l4 0 0 0 -4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm1 -4l0 4 -1 0 0 -4 0 0 1 0zm-1 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="13,10 16,10 16,14 13,14 "/>
+      <path id="1" class="fil4" d="M16 10l-3 0 0 0 3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-3 0l3 0 0 0 -3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 -4l0 4 0 0 0 -4 0 0 0 0zm0 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="16,10 20,10 20,14 16,14 "/>
+      <path id="1" class="fil4" d="M20 10l-4 0 0 0 4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm-1 4l0 -4 1 0 0 4 0 0 -1 0zm1 0l0 0 0 0 0 0zm-4 0l4 0 0 0 -4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 -4l0 4 0 0 0 -4 0 0 0 0zm0 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="20,10 23,10 23,14 20,14 "/>
+      <path id="1" class="fil4" d="M23 10l-3 0 0 0 3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-3 0l3 0 0 0 -3 0 -1 0 1 0zm0 0l-1 0 0 0 1 0zm0 -4l0 4 -1 0 0 -4 1 0 0 0zm-1 0l0 0 1 0 -1 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="13,14 16,14 16,18 13,18 "/>
+      <path id="1" class="fil4" d="M16 14l-3 0 0 0 3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-3 0l3 0 0 0 -3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 -4l0 4 0 0 0 -4 0 0 0 0zm0 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="16,14 20,14 20,18 16,18 "/>
+      <path id="1" class="fil4" d="M20 14l-4 0 0 0 4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm-1 4l0 -4 1 0 0 4 0 0 -1 0zm1 0l0 0 0 0 0 0zm-4 0l4 0 0 0 -4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 -4l0 4 0 0 0 -4 0 0 0 0zm0 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="20,14 23,14 23,18 20,18 "/>
+      <path id="1" class="fil4" d="M23 14l-3 0 0 0 3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-3 0l3 0 0 0 -3 0 -1 0 1 0zm0 0l-1 0 0 0 1 0zm0 -4l0 4 -1 0 0 -4 1 0 0 0zm-1 0l0 0 1 0 -1 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="13,18 16,18 16,22 13,22 "/>
+      <path id="1" class="fil4" d="M16 18l-3 0 0 0 3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-3 0l3 0 0 0 -3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 -4l0 4 0 0 0 -4 0 0 0 0zm0 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="16,18 20,18 20,22 16,22 "/>
+      <path id="1" class="fil4" d="M20 18l-4 0 0 0 4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm-1 4l0 -4 1 0 0 4 0 0 -1 0zm1 0l0 0 0 0 0 0zm-4 0l4 0 0 0 -4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 -4l0 4 0 0 0 -4 0 0 0 0zm0 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="20,18 23,18 23,22 20,22 "/>
+      <path id="1" class="fil4" d="M23 18l-3 0 0 0 3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-3 0l3 0 0 0 -3 0 -1 0 1 0zm0 0l-1 0 0 0 1 0zm0 -4l0 4 -1 0 0 -4 1 0 0 0zm-1 0l0 0 1 0 -1 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="23,10 26,10 26,14 23,14 "/>
+      <path id="1" class="fil4" d="M26 10l-3 0 0 0 3 0 1 0 -1 0zm0 0l1 0 0 0 -1 0zm0 4l0 -4 1 0 0 4 -1 0 0 0zm1 0l0 0 -1 0 1 0zm-4 0l3 0 0 0 -3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 -4l0 4 0 0 0 -4 0 0 0 0zm0 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="26,10 30,10 30,14 26,14 "/>
+      <path id="1" class="fil4" d="M30 10l-4 0 0 0 4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-4 0l4 0 0 0 -4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm1 -4l0 4 -1 0 0 -4 0 0 1 0zm-1 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="23,14 26,14 26,18 23,18 "/>
+      <path id="1" class="fil4" d="M26 14l-3 0 0 0 3 0 1 0 -1 0zm0 0l1 0 0 0 -1 0zm0 4l0 -4 1 0 0 4 -1 0 0 0zm1 0l0 0 -1 0 1 0zm-4 0l3 0 0 0 -3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 -4l0 4 0 0 0 -4 0 0 0 0zm0 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="26,14 30,14 30,18 26,18 "/>
+      <path id="1" class="fil4" d="M30 14l-4 0 0 0 4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-4 0l4 0 0 0 -4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm1 -4l0 4 -1 0 0 -4 0 0 1 0zm-1 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="23,18 26,18 26,22 23,22 "/>
+      <path id="1" class="fil4" d="M26 18l-3 0 0 0 3 0 1 0 -1 0zm0 0l1 0 0 0 -1 0zm0 4l0 -4 1 0 0 4 -1 0 0 0zm1 0l0 0 -1 0 1 0zm-4 0l3 0 0 0 -3 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 -4l0 4 0 0 0 -4 0 0 0 0zm0 0l0 0 0 0 0 0z"/>
+     </g>
+     <g>
+      <polygon class="fil2" points="26,18 30,18 30,22 26,22 "/>
+      <path id="1" class="fil4" d="M30 18l-4 0 0 0 4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm0 4l0 -4 0 0 0 4 0 0 0 0zm0 0l0 0 0 0 0 0zm-4 0l4 0 0 0 -4 0 0 0 0 0zm0 0l0 0 0 0 0 0zm1 -4l0 4 -1 0 0 -4 0 0 1 0zm-1 0l0 0 0 0 0 0z"/>
+     </g>
+    </g>
+   </g>
+   <path class="fil5" d="M43 18l-4 -9c0,0 0,0 0,-1l0 0c0,0 0,0 -1,0 0,0 0,1 -1,1l-1 2 -2 -1c-6,-3 -12,-1 -15,5 0,0 0,0 0,1 0,0 0,0 0,0 1,0 1,0 1,0l1 -1c3,-1 6,-2 9,0l3 2 -1 2c0,1 0,1 0,1 0,1 1,1 1,1l10 -2c0,0 0,0 0,0 0,-1 1,-1 0,-1z"/>
+   <g>
+    <g>
+     <g>
+      <polygon class="fil0" points="25,26 49,26 49,45 25,45 "/>
+      <path id="1" class="fil6" d="M49 26l-24 0 0 -1 24 0 0 1 0 0zm0 -1l0 0 0 1 0 -1zm-1 20l0 -19 1 0 0 19 0 1 -1 -1zm1 0l0 1 0 0 0 -1zm-24 0l24 0 0 1 -24 0 0 -1 0 0zm0 1l0 0 0 -1 0 1zm1 -20l0 19 -1 0 0 -19 0 -1 1 1zm-1 0l0 -1 0 0 0 1z"/>
+     </g>
+     <path class="fil7" d="M49 25c0,0 0,0 0,0l0 -2c0,-1 -1,-1 -1,-1l-22 0c0,0 -1,0 -1,1l0 2c0,0 1,0 1,0l23 0z"/>
+     <circle class="fil3" cx="28" cy="24" r="1"/>
+     <circle class="fil3" cx="30" cy="24" r="1"/>
+     <circle class="fil3" cx="32" cy="24" r="1"/>
+    </g>
+    <g>
+     <polygon class="fil6" points="45,33 28,33 28,33 45,33 "/>
+    </g>
+    <g>
+     <polygon class="fil6" points="36,44 36,33 37,33 37,44 "/>
+    </g>
+    <path class="fil6" d="M31 32l0 -3 1 0c0,0 1,0 1,0 0,0 0,0 0,0 0,1 1,1 1,1l0 0c0,1 -1,1 -1,1 0,0 0,1 0,1 0,0 -1,0 -1,0l-1 0zm1 -3l0 2 0 0c0,0 1,0 1,0 0,0 0,0 0,-1l0 0c0,0 0,0 0,0 0,-1 -1,-1 -1,-1l0 0z"/>
+    <path class="fil6" d="M42 31c0,0 0,1 0,1 0,0 0,0 -1,0 0,0 -1,0 -1,0 0,-1 0,-1 0,-2l0 0c0,0 0,0 0,-1 0,0 0,0 0,0 1,0 1,0 1,0 1,0 1,0 1,0 0,0 0,0 0,1l0 0c0,0 0,-1 0,-1 0,0 -1,0 -1,0 0,0 0,0 0,0 0,1 0,1 0,1l0 0c0,1 0,1 0,1 0,0 0,0 0,0 0,0 1,0 1,0 0,0 0,0 0,0l0 0z"/>
+    <rect class="fil7" x="28" y="35" width="7.24319" height="0.918569"/>
+    <rect class="fil7" x="38" y="35" width="7.24319" height="0.918569"/>
+    <rect class="fil7" x="28" y="38" width="7.24319" height="0.918569"/>
+    <rect class="fil7" x="38" y="38" width="7.24319" height="0.918569"/>
+    <rect class="fil7" x="28" y="40" width="7.24319" height="0.918569"/>
+    <rect class="fil7" x="38" y="40" width="7.24319" height="0.918569"/>
+    <rect class="fil7" x="28" y="43" width="7.24319" height="0.918569"/>
+    <rect class="fil7" x="38" y="43" width="7.24319" height="0.918569"/>
+   </g>
+  </g>
+ </g>
+</svg>

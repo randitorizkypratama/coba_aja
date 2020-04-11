@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="48px" height="31px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 48 31"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:#FEFEFE}
+    .fil4 {fill:#2887D2}
+    .fil2 {fill:#2887D2}
+    .fil6 {fill:#E32210}
+    .fil5 {fill:#FCBC44}
+    .fil3 {fill:white}
+    .fil1 {fill:#2887D2;fill-rule:nonzero}
+    .fil7 {fill:url(#id0)}
+   ]]>
+  </style>
+  <linearGradient id="id0" gradientUnits="userSpaceOnUse" x1="38.9622" y1="15.0957" x2="23.3303" y2="12.763">
+   <stop offset="0" style="stop-opacity:1; stop-color:#FC4D44"/>
+   <stop offset="1" style="stop-opacity:1; stop-color:#C73538"/>
+  </linearGradient>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_461252592">
+   <g>
+    <g>
+     <polygon class="fil0" points="48,4 25,4 25,24 48,24 "/>
+     <path id="1" class="fil1" d="M25 4l0 0 0 0 23 0 0 0 -23 0zm0 0l0 0 0 0 0 0zm0 20l0 0 0 0 0 -20 0 0 0 20zm0 0l0 0 0 0 0 0zm23 -1l0 1 0 0 -23 0 0 -1 23 0zm0 1l0 0 0 0 0 0zm0 -20l0 0 0 0 0 20 0 0 0 -20zm0 0l0 0 0 0 0 0z"/>
+    </g>
+    <path class="fil2" d="M25 4c0,0 0,-1 0,-1l0 -2c0,-1 0,-1 1,-1l21 0c1,0 1,0 1,1l0 2c0,0 0,1 0,1l-23 0z"/>
+    <circle class="fil3" cx="46" cy="2" r="1"/>
+    <circle class="fil3" cx="44" cy="2" r="1"/>
+    <circle class="fil3" cx="41" cy="2" r="1"/>
+    <g>
+     <g>
+      <rect class="fil4" x="42" y="6" width="3.42846" height="3.28557"/>
+      <rect class="fil4" x="36" y="6" width="3.42846" height="3.28557"/>
+      <rect class="fil4" x="28" y="6" width="3.42846" height="3.28557"/>
+     </g>
+     <g>
+      <rect class="fil4" x="42" y="19" width="3.42846" height="3.28557"/>
+      <rect class="fil4" x="36" y="19" width="3.42846" height="3.28557"/>
+      <rect class="fil4" x="42" y="12" width="3.42846" height="3.28557"/>
+      <rect class="fil4" x="27" y="19" width="3.42846" height="3.28557"/>
+     </g>
+    </g>
+   </g>
+   <g id="_461253048">
+    <rect class="fil5" y="12" width="23.0993" height="19.5168"/>
+    <path class="fil6" d="M23 11c0,0 0,0 0,0l0 -3c0,0 0,0 -1,0l-21 0c-1,0 -1,0 -1,0l0 3c0,0 0,0 0,0l23 0z"/>
+    <circle class="fil3" cx="2" cy="9" r="1"/>
+    <circle class="fil3" cx="4" cy="9" r="1"/>
+    <circle class="fil3" cx="7" cy="9" r="1"/>
+    <g>
+     <g>
+      <rect class="fil4" x="3" y="16" width="3.42846" height="3.28557"/>
+      <rect class="fil4" x="10" y="16" width="3.42846" height="3.28557"/>
+      <rect class="fil4" x="17" y="16" width="3.42846" height="3.28557"/>
+     </g>
+     <g>
+      <rect class="fil4" x="3" y="24" width="3.42846" height="3.28557"/>
+      <rect class="fil4" x="10" y="24" width="3.42846" height="3.28557"/>
+      <rect class="fil4" x="17" y="24" width="3.42846" height="3.28557"/>
+     </g>
+    </g>
+   </g>
+   <path class="fil7" d="M23 12c0,0 5,-1 7,-1 2,0 2,-1 2,-1l0 -3 7 6 -7 8 0 -4c0,0 -6,0 -7,0 -1,0 -2,0 -2,0l0 -5z"/>
+  </g>
+ </g>
+</svg>

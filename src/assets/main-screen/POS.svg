@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="163px" height="190px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 163 191"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#373435;stroke-width:0.902765}
+    .fil11 {fill:none}
+    .fil10 {fill:#E6E7E8}
+    .fil3 {fill:#D2D3D5}
+    .fil5 {fill:#BDBFC1}
+    .fil4 {fill:#96989A}
+    .fil1 {fill:#848688}
+    .fil0 {fill:#606062}
+    .fil7 {fill:#4B4B4D}
+    .fil6 {fill:#373435}
+    .fil9 {fill:#2094C7}
+    .fil8 {fill:url(#id0)}
+    .fil2 {fill:url(#id1)}
+   ]]>
+  </style>
+  <linearGradient id="id0" gradientUnits="userSpaceOnUse" x1="112.259" y1="43.6715" x2="114.254" y2="63.9103">
+   <stop offset="0" style="stop-opacity:1; stop-color:#25A6D9"/>
+   <stop offset="1" style="stop-opacity:1; stop-color:#1672A5"/>
+  </linearGradient>
+  <linearGradient id="id1" gradientUnits="userSpaceOnUse" xlink:href="#id0" x1="113.648" y1="4.40009" x2="115.657" y2="24.7798">
+  </linearGradient>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_655071760">
+   <g>
+    <rect class="fil0" x="97" y="26" width="7.90981" height="13.2609"/>
+    <rect class="fil0" x="124" y="26" width="7.90981" height="13.2609"/>
+    <rect class="fil1" x="89" y="1" width="51.1824" height="26.289" rx="2" ry="2"/>
+    <rect class="fil2" x="93" y="6" width="42.8071" height="18.1464"/>
+    <path class="fil3" d="M21 39l119 0c4,0 6,3 6,6l0 26 -130 0 0 -26c0,-3 2,-6 5,-6z"/>
+    <polygon class="fil4" points="16,71 146,71 158,107 5,107 "/>
+    <rect class="fil5" x="5" y="107" width="153.314" height="6.04872"/>
+    <path class="fil6 str0" d="M5 139l153 0 0 5c0,3 -2,6 -6,6l-141 0c-4,0 -6,-3 -6,-6l0 -5z"/>
+    <path class="fil7 str0" d="M11 145l141 0c4,0 6,-3 6,-6l0 -26 -153 0 0 26c0,3 2,6 6,6z"/>
+    <rect class="fil8" x="87" y="45" width="53.0435" height="16.9833"/>
+    <rect class="fil9" x="87" y="62" width="53.0435" height="2.44279"/>
+    <rect class="fil10 str0" x="25" y="53" width="50.4844" height="5.11832" rx="3" ry="3"/>
+    <circle class="fil6 str0" cx="82" cy="129" r="4"/>
+    <path class="fil6 str0" d="M31 76l6 0c0,0 1,0 1,1l-1 4c0,0 0,1 -1,1l-6 0c0,0 -1,-1 -1,-1l1 -4c1,-1 1,-1 1,-1z"/>
+    <path class="fil6 str0" d="M29 85l6 0c0,0 1,1 1,1l-1 4c0,1 -1,1 -1,1l-6 0c-1,0 -1,0 -1,-1l1 -4c0,0 1,-1 1,-1z"/>
+    <path class="fil6 str0" d="M27 95l6 0c1,0 1,1 1,1l-1 5c0,0 0,1 -1,1l-7 0c0,0 -1,-1 -1,-1l2 -5c0,0 0,-1 1,-1z"/>
+    <path class="fil6 str0" d="M47 76l6 0c0,0 1,1 1,1l-1 4c0,0 0,1 -1,1l-6 0c0,0 -1,-1 -1,-1l1 -4c0,-1 0,-1 1,-1z"/>
+    <path class="fil6 str0" d="M45 85l7 0c0,0 1,1 1,1l-1 4c0,1 0,1 -1,1l-6 0c0,0 -1,0 -1,-1l0 -4c0,0 1,-1 1,-1z"/>
+    <path class="fil6 str0" d="M44 95l6 0c1,0 1,1 1,1l0 5c-1,0 -1,1 -1,1l-7 0c-1,0 -1,-1 -1,-1l1 -5c0,0 0,-1 1,-1z"/>
+    <path class="fil6 str0" d="M63 76l5 0c1,0 1,1 1,1l0 4c0,0 0,1 -1,1l-6 0c0,0 -1,-1 0,-1l0 -4c0,-1 0,-1 1,-1z"/>
+    <path class="fil6 str0" d="M62 85l6 0c0,0 1,1 1,1l-1 4c0,1 0,1 -1,1l-6 0c0,0 -1,0 0,-1l0 -4c0,0 0,-1 1,-1z"/>
+    <path class="fil6 str0" d="M61 95l6 0c1,0 1,1 1,1l0 5c0,0 0,1 -1,1l-7 0c0,0 -1,-1 -1,-1l1 -5c0,0 1,-1 1,-1z"/>
+    <rect class="fil6 str0" x="78" y="76" width="7.41951" height="5.8921" rx="1" ry="1"/>
+    <rect class="fil6 str0" x="77" y="85" width="8.12459" height="6.45203" rx="1" ry="1"/>
+    <rect class="fil6 str0" x="77" y="95" width="8.12459" height="6.45203" rx="1" ry="1"/>
+    <path class="fil6 str0" d="M131 76l-6 0c0,0 -1,0 0,1l0 4c0,0 1,1 1,1l6 0c1,0 1,-1 1,-1l-1 -4c0,-1 0,-1 -1,-1z"/>
+    <path class="fil6 str0" d="M133 85l-5 0c-1,0 -1,1 -1,1l1 4c0,1 0,1 0,1l6 0c1,0 2,0 1,-1l-1 -4c0,0 0,-1 -1,-1z"/>
+    <path class="fil6 str0" d="M136 95l-7 0c0,0 -1,1 -1,1l1 5c0,0 1,1 1,1l7 0c1,0 1,-1 1,-1l-1 -5c0,0 -1,-1 -1,-1z"/>
+    <path class="fil6 str0" d="M116 76l-6 0c-1,0 -1,1 -1,1l0 4c0,0 1,1 1,1l6 0c1,0 1,-1 1,-1l-1 -4c0,-1 0,-1 0,-1z"/>
+    <path class="fil6 str0" d="M117 85l-6 0c-1,0 -1,1 -1,1l0 4c1,1 1,1 1,1l6 0c1,0 1,0 1,-1l0 -4c0,0 0,-1 -1,-1z"/>
+    <path class="fil6 str0" d="M119 95l-7 0c0,0 -1,1 -1,1l1 5c0,0 0,1 1,1l6 0c1,0 2,-1 1,-1l0 -5c0,0 -1,-1 -1,-1z"/>
+    <path class="fil6 str0" d="M100 76l-6 0c-1,0 -1,1 -1,1l0 4c0,0 1,1 1,1l6 0c0,0 1,-1 1,-1l-1 -4c0,-1 0,-1 0,-1z"/>
+    <path class="fil6 str0" d="M101 85l-6 0c-1,0 -1,1 -1,1l0 4c0,1 1,1 1,1l6 0c1,0 1,0 1,-1l0 -4c0,0 -1,-1 -1,-1z"/>
+    <path class="fil6 str0" d="M101 95l-6 0c0,0 -1,1 -1,1l0 5c0,0 1,1 1,1l7 0c1,0 1,-1 1,-1l-1 -5c0,0 0,-1 -1,-1z"/>
+   </g>
+   <rect class="fil11" width="163" height="191"/>
+  </g>
+ </g>
+</svg>

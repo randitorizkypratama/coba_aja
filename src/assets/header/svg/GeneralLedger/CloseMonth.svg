@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="120px" height="120px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 120 120"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:none}
+    .fil2 {fill:#FEFEFE}
+    .fil4 {fill:black}
+    .fil3 {fill:#1CC8EB}
+    .fil1 {fill:#2887D2}
+    .fil12 {fill:#FC4D44}
+    .fil9 {fill:#0083FD;fill-rule:nonzero}
+    .fil8 {fill:#0094FD;fill-rule:nonzero}
+    .fil10 {fill:#22A7FF;fill-rule:nonzero}
+    .fil6 {fill:#60B8FF;fill-rule:nonzero}
+    .fil5 {fill:#B4DBFF;fill-rule:nonzero}
+    .fil7 {fill:#D9EDFF;fill-rule:nonzero}
+    .fil11 {fill:url(#id0);fill-rule:nonzero}
+   ]]>
+  </style>
+  <linearGradient id="id0" gradientUnits="userSpaceOnUse" x1="50.6608" y1="69.8258" x2="75.8235" y2="42.4556">
+   <stop offset="0" style="stop-opacity:1; stop-color:#FCE550"/>
+   <stop offset="1" style="stop-opacity:1; stop-color:#F9FFAB"/>
+  </linearGradient>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="120" height="120"/>
+  <g id="_647549568">
+   <g>
+    <g>
+     <path class="fil1" d="M28 115l70 0c3,0 6,-2 6,-5l0 -90c0,-3 -3,-6 -6,-6l-70 0 0 0 -7 0 0 101 7 0z"/>
+     <rect class="fil2" x="28" y="17" width="72.7968" height="95.274"/>
+     <path class="fil3" d="M28 14l63 -9c3,0 6,3 6,6l0 85c0,3 -3,5 -6,5l-63 9 0 -96z"/>
+     <g>
+      <path class="fil4" d="M113 110l0 0c0,0 0,1 0,1l0 4 1 1c0,-1 0,-1 0,-1l0 -4c0,-1 -1,-1 -1,-1z"/>
+      <path class="fil5" d="M115 112c0,0 -1,1 -1,1l-1 0c0,0 -1,-1 -1,-1l-2 -10c0,1 1,1 1,1l5 0c0,0 1,0 1,-1l-2 10z"/>
+      <path class="fil6" d="M115 108l-1 -5 -3 0c0,0 -1,0 -1,-1l2 10c0,0 1,1 1,1l1 0c0,0 1,-1 1,-1 0,-2 0,-3 0,-3 0,-1 0,0 0,-1z"/>
+      <path class="fil5" d="M117 17l-5 0c-1,0 -1,0 -1,0l0 -6c0,-1 0,-2 1,-2l4 0c1,0 1,1 1,2l0 7c0,-1 0,-1 0,-1z"/>
+      <path class="fil6" d="M115 13c0,0 0,0 0,0 0,0 -1,-1 -1,-1l0 -3 -2 0c-1,0 -1,1 -1,2l0 6c0,0 0,0 1,0l5 0c0,0 0,0 0,1l0 -5 -2 0z"/>
+      <path class="fil7" d="M116 104l-5 0c-1,0 -1,-1 -1,-3l0 -81c0,-2 1,-3 2,-3l5 0c0,0 1,1 1,3l0 81c0,2 -1,3 -2,3z"/>
+      <path class="fil5" d="M115 100c-1,0 -2,-1 -2,-3l0 -80 -1 0c-1,0 -2,1 -2,3l0 81c0,2 0,3 1,3l5 0c1,0 2,-1 2,-3l0 -1 -3 0z"/>
+      <polygon class="fil8" points="110,78 118,78 118,91 110,91 "/>
+      <polygon class="fil9" points="110,91 110,78 113,78 113,91 "/>
+      <polygon class="fil6" points="110,18 118,18 118,78 110,78 "/>
+      <polygon class="fil10" points="110,18 110,77 110,78 113,78 113,18 "/>
+     </g>
+    </g>
+    <path class="fil11" d="M49 55l3 0c1,0 3,0 3,-1 1,0 1,-1 1,-3 0,-1 0,-2 -1,-2 0,-1 -1,-1 -3,-1 -1,0 -2,0 -2,1 -1,0 -2,1 -2,2l-5 0c0,-2 0,-3 1,-4 1,-1 2,-2 3,-3 2,-1 3,-1 5,-1 3,0 6,1 7,2 2,2 3,4 3,6 0,2 0,3 -1,4 -1,1 -2,2 -3,3 1,0 3,1 3,2 1,1 2,3 2,4 0,3 -1,5 -3,7 -2,1 -5,2 -8,2 -3,0 -5,-1 -7,-2 -2,-2 -3,-4 -3,-6l6 0c0,1 1,2 1,2 1,1 2,1 3,1 2,0 3,0 4,-1 0,-1 1,-2 1,-3 0,-3 -2,-4 -5,-4l-3 0 0 -5zm35 2c0,4 -1,7 -2,9 -2,2 -4,3 -8,3 -3,0 -5,-1 -7,-3 -2,-2 -3,-5 -3,-9l0 -5c0,-4 1,-7 3,-10 2,-2 4,-3 7,-3 3,0 6,1 8,3 1,3 2,6 2,9l0 6zm-6 -6c0,-2 0,-4 -1,-5 0,-1 -1,-2 -3,-2 -1,0 -2,1 -3,2 0,1 -1,2 -1,5l0 7c0,2 1,4 1,5 1,1 2,2 3,2 2,0 3,-1 3,-2 1,-1 1,-3 1,-5l0 -7z"/>
+   </g>
+   <path class="fil12" d="M20 74c-17,-9 -23,-31 -13,-49 9,-17 30,-23 47,-14l4 -7 5 19 -18 4 4 -7c-12,-6 -27,-2 -33,10 -7,13 -8,37 5,44l-1 0z"/>
+  </g>
+ </g>
+</svg>
