@@ -10,7 +10,7 @@ import SlowMovingStockOnHand from "../vhp-modules/inventory/reports/slow-moving-
 import Incoming from "../vhp-modules/inventory/modules/incoming/Incoming.vue";
 import TableTest from "../vhp-modules/inventory/reports/table-test/tablecomponent.vue";
 // import IssusingData from "../views/issuing";
-import IssusingData from "../vhp-modules/inventory/modules/issuing/issuing.vue";
+import Issuing from "../vhp-modules/inventory/reports/issuing/Issuing.vue";
 import Outlet from "../vhp-modules/outlet/outlet.vue";
 // import TesReport from "../vhp-modules/outlet/reports/tes-report/Tes-Report.vue";
 import storeSequisition from "../vhp-modules/inventory/modules/store-requisition/Store-Requisition.vue";
@@ -20,7 +20,7 @@ import DrugstoreReport from "../vhp-modules/outlet/reports/drugstore-report/Drug
 import OutletUserTransaction from "../vhp-modules/outlet/reports/outlet-user-transaction/Outlet-User-Transaction.vue";
 import OrderTakerReport from "../vhp-modules/outlet/reports/order-taker-report/Order-Taker-Report.vue";
 import OutletSalesAndCosts from "../vhp-modules/outlet/reports/outlet-sales-and-costs/Outlet-Sales-And-Costs.vue";
-import MealCoupon from "../vhp-modules/outlet/reports/meal-coupon/Meal-Coupon.vue";
+import MealCoupon from "../vhp-modules/inventory/reports/meal-coupon/Meal-Coupon.vue";
 import JoinToGuestFolio from "../vhp-modules/outlet/reports/join-to-guest-folio/Join-To-Guest-Folio.vue";
 import FrontOfficeCashier from "../vhp-modules/FOC/front-office-cashier.vue"
 import Erland from "../vhp-modules/FOC/erland/Index.vue"
@@ -33,6 +33,8 @@ import CancellationJournal from "../vhp-modules/outlet/reports/cancellation-jour
 import OutletActualAndRecipeCost from "../vhp-modules/outlet/reports/outlet-actual-and-recipe-cost/Outlet-Actual-And-Recipe-Cost.vue";
 import OutletTurnover from "../vhp-modules/outlet/reports/outlet-turnover/Outlet-Turnover.vue";
 import OutletBillTransaction from "../vhp-modules/outlet/reports/outlet-bill-transaction/Outlet-Bill-Transaction.vue";
+import AnnualIssuing from "../vhp-modules/inventory/reports/annual-issuing/Annual-Issuing.vue";
+import CancelledIncoming from "../vhp-modules/inventory/reports/cancelled-incoming/Cancelled-Incoming.vue";
 
 Vue.use(VueRouter);
 
@@ -76,11 +78,11 @@ const routes = [
     name: "TableTest",
     component: TableTest
   },
-  {
-    path: "/issusing",
-    name: "issusing",
-    component: IssusingData
-  },
+  // {
+  //   path: "/issusing",
+  //   name: "issusing",
+  //   component: IssusingData
+  // },
   {
     path: "/store-requisition",
     name: "store-requisition",
@@ -195,6 +197,21 @@ const routes = [
     path: "/outlet-bill-transaction",
     name: "OuletBillTransaction",
     component: OutletBillTransaction
+  },
+  {
+    path: "/issuing",
+    name: "Issuing",
+    component: Issuing
+  },
+  {
+    path: "/annual-issuing",
+    name: "Annual Issuing",
+    component: AnnualIssuing
+  },
+  {
+    path: "/cancelled-incoming",
+    name: "Cancelled Incoming",
+    component: CancelledIncoming
   }
 ];
 
