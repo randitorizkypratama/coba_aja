@@ -11,7 +11,6 @@
         
         <v-col id="FocRooms" cols="14" md="9">
           <v-data-table
-            @click:row="dialog = !dialog"
             :headers="headers"
             :items="dataMainTable"
             class="elevation-3"
@@ -32,58 +31,52 @@
 import NavBar from "@/components/Navbar.vue";
 import LeftAction from "./components/left-action.vue";
 import header from "./table-column/table-column-main";
-import moment from "moment";
-import ProgramProperties from "@/vhp-modules/outlet/outlet-utils/OutletProgramProperties.vue";
 
 export default {
-  name: "Meal-Coupon",
+  name: "Outlet-Actual-And-Cost",
   components: {
     NavBar,
     LeftAction
   },
   data() {
     return {
-      programProperties:[],
       height: window.innerHeight - 37,
       weight: window.innerWidth,
       dataMainTable: [],
-      headers: header(),
-      dialog: false
+      headers: header()
     };
   },
   methods: {
     readDataMainTable(dataMainTable) {
       if (dataMainTable != undefined) {
+
         if (dataMainTable.isSuccess && !dataMainTable.isLoading) {
           this.dataMainTable = [];
         }
-        
-        const tempDataMainTable = dataMainTable.mlist['mlist'];   
- 
-        for (let i = 0; i<tempDataMainTable.length; i++) {
-            const dataRow = {};
-            const dataItem = tempDataMainTable[i];
+        const salecostlist = dataMainTable.sList["s-list"];
 
-            dataRow["resnr"] = dataItem["resnr"];
-            dataRow["zinr"] = dataItem["zinr"];
-            dataRow["name"] = dataItem["name"];
-            dataRow["anzahl"] = dataItem["anzahl"];
-            dataRow["ankunft"] = moment(dataItem["ankunft"]).format(this.programProperties.formatDateRead);
-            dataRow["abreise"] = moment(dataItem["abreise"]).format(this.programProperties.formatDateRead);
-            dataRow["resnr"] = dataItem["resnr"];
-            dataRow["used"] = dataItem["verbrauch"][31];
-            
+        for(let i = 0; i<salecostlist.length; i++) {
+          const dataRow = {};
+          const dataItem = salecostlist[i];
 
-            for (let x = 0; x<32; x++) {
-                dataRow['verbrauch' + (x + 1)] = dataItem['verbrauch'][x];
-            }
-            this.dataMainTable.push(dataRow);
+          dataRow["artnr"] = dataItem["artnr"];
+          dataRow["bezeich"] = dataItem["bezeich"];
+          dataRow["d-qty"] = dataItem["d-qty"];
+          dataRow["d-val"] = dataItem["d-val"];
+          dataRow["munit"] = dataItem["munit"];
+          dataRow["qty1"] = dataItem["qty1"];
+          dataRow["qty2"] = dataItem["qty2"];
+          dataRow["sQty1"] = dataItem["s-qty1"];
+          dataRow["sQty2"] = dataItem["s-qty2"];
+          dataRow["sQty3"] = dataItem["s-qty3"];
+          dataRow["mcost"] = dataItem["m-cost"];
+          dataRow["val1"] = dataItem["val1"];
+          dataRow["val2"] = dataItem["val2"];
+          
+          this.dataMainTable.push(dataRow);
         }
       }
     }
-  },
-  mounted() {
-    this.programProperties = ProgramProperties.data();
   }
 }
 </script>

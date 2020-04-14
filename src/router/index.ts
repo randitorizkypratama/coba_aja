@@ -29,6 +29,10 @@ import stokItem from "../vhp-modules/inventory/modules/stock-item/index.vue";
 import MaterialReconciliation from "../vhp-modules/inventory/reports/material-reconciliation/Material-Reconciliation.vue";
 import InterStoreTransfer from "../vhp-modules/inventory/reports/inter-store-transfer/Inter-store-Transfer.vue";
 import InterKitchenTransfer from "../vhp-modules/inventory/reports/inter-kitchen-transfer/Inter-Kitchen-Transfer.vue";
+import CancellationJournal from "../vhp-modules/outlet/reports/cancellation-journal/Cancellation-Journal.vue";
+import OutletActualAndRecipeCost from "../vhp-modules/outlet/reports/outlet-actual-and-recipe-cost/Outlet-Actual-And-Recipe-Cost.vue";
+import OutletTurnover from "../vhp-modules/outlet/reports/outlet-turnover/Outlet-Turnover.vue";
+import OutletBillTransaction from "../vhp-modules/outlet/reports/outlet-bill-transaction/Outlet-Bill-Transaction.vue";
 
 Vue.use(VueRouter);
 
@@ -171,6 +175,26 @@ const routes = [
     path: "/inter-kitchen-transfer",
     name: "Inter Kitchen Transfer",
     component: InterKitchenTransfer
+  },
+  {
+    path: "/cancellation-journal",
+    name: "CancellationJournal",
+    component: CancellationJournal
+  },
+  {
+    path: "/outlet-actual-and-recipe-cost",
+    name: "OutletActualAndRecipeCost",
+    component: OutletActualAndRecipeCost
+  },
+  {
+    path: "/outlet-turnover",
+    name: "OuletTurnover",
+    component: OutletTurnover
+  },
+  {
+    path: "/outlet-bill-transaction",
+    name: "OuletBillTransaction",
+    component: OutletBillTransaction
   }
 ];
 

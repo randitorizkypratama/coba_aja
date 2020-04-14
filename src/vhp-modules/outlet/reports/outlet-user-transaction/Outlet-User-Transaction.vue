@@ -31,6 +31,8 @@
 import NavBar from "@/components/Navbar.vue";
 import LeftAction from "./components/left-action.vue";
 import header from "./table-column/table-column-main";
+import moment from "moment";
+import ProgramProperties from "@/vhp-modules/outlet/outlet-utils/OutletProgramProperties.vue";
 
 export default {
   name: "Outlet-User-Transaction",
@@ -40,6 +42,7 @@ export default {
   },
   data() {
     return {
+      programProperties : [],
       height: window.innerHeight - 37,
       weight: window.innerWidth,
       dataMainTable: [],
@@ -52,9 +55,20 @@ export default {
         if (dataMainTable.isSuccess && !dataMainTable.isLoading) {
           this.dataMainTable = [];
         }
-        this.dataMainTable = dataMainTable.restJourList['rest-jour-list'];    
+
+        const dataTable = dataMainTable.restJourList['rest-jour-list']
+        for (let i = 0; i<dataTable.length; i++) {
+          dataTable[i]["datum"] = dataTable[i]["datum"] == null ? "" : moment(dataTable[i]["datum"]).format(this.programProperties.formatDateRead);
+          dataTable[i]["billno"] = dataTable[i]["datum"] == "" ? "" : dataTable[i]["billno"]
+          dataTable[i]["artno"] = dataTable[i]["datum"] == "" ? "" : dataTable[i]["artno"]
+          dataTable[i]["amount"] = this.formatterMoney(dataTable[i]["amount"]);
+        }
+        this.dataMainTable = dataTable;
       }
     }
+  },
+  mounted() {
+    this.programProperties = ProgramProperties.data();
   }
 }
 </script>

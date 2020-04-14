@@ -60,17 +60,17 @@ export default {
           const dataItem = salecostlist[i];
 
           dataRow["department"] = dataItem["departement"];
-          dataRow["qty"] = dataItem["qty"];
+          dataRow["qty"] = dataItem["departement"] == "" ? "" : dataItem["qty"];
           dataRow["sales"] = dataItem["sales"];
-          dataRow["qty"] = dataItem["qty2"];
+          dataRow["qty2"] = dataItem["departement"] == "" ? "" : dataItem["qty2"];
           dataRow["cost"] = dataItem["cost"];
           dataRow["comp"] = dataItem["compliment"];
           dataRow["tcost"] = dataItem["t-cost"];
           dataRow["ratio"] = dataItem["ratio"];
-          dataRow["mqty"] = dataItem["m-qty"];
+          dataRow["mqty"] = dataItem["departement"] == "" ? "" : dataItem["m-qty"];
           dataRow["msales"] = dataItem["m-sales"];
           dataRow["mcost"] = dataItem["m-cost"];
-          dataRow["mqty2"] = dataItem["m-qty2"];
+          dataRow["mqty2"] = dataItem["departement"] == "" ? "" : dataItem["m-qty2"];
           dataRow["comp2"] = dataItem["compliment2"];
           dataRow["tcost2"] = dataItem["t-cost2"];
           dataRow["ratio2"] = dataItem["ratio2"];

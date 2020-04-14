@@ -31,6 +31,8 @@
 import NavBar from "@/components/Navbar.vue";
 import LeftAction from "./components/left-action.vue";
 import header from "./table-column/table-column-main";
+import moment from "moment";
+import ProgramProperties from "@/vhp-modules/outlet/outlet-utils/OutletProgramProperties.vue";
 
 export default {
   name: "Order-Taker-Report",
@@ -40,6 +42,7 @@ export default {
   },
   data() {
     return {
+      programProperties: [],
       height: window.innerHeight - 37,
       weight: window.innerWidth,
       dataMainTable: [],
@@ -58,13 +61,13 @@ export default {
                 const dataRow = {};
                 const dataItem = orderTakerList[i];
 
-                dataRow["datum"] = dataItem["datum"] == null ? "" : dataItem["datum"];
+                dataRow["datum"] = dataItem["datum"] == null ? "" : moment(dataItem["datum"]).format(this.programProperties.formatDateRead);
                 dataRow["tableno"] = dataItem["tableno"];
-                dataRow["billno"] = dataItem["billno"];
-                dataRow["artno"] = dataItem["artno"];
+                dataRow["billno"] = dataItem["billno"] == 0 ? "" : dataItem["billno"];
+                dataRow["artno"] = dataItem["artno"] == 0 ? "" : dataItem["artno"];
                 dataRow["bezeich"] = dataItem["bezeich"];
                 dataRow["qty"] = dataItem["qty"];
-                dataRow["amount"] = dataItem["amount"];
+                dataRow["amount"] = this.formatterMoney(dataItem["amount"]);
                 dataRow["department"] = dataItem["departement"];
                 dataRow["zeit"] = dataItem["zeit"];
                 dataRow["id"] = dataItem["id"];
@@ -73,6 +76,9 @@ export default {
               }
           }          
       }
+  }, 
+  mounted() {
+    this.programProperties = ProgramProperties.data();
   }
 }
 </script>

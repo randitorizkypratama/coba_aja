@@ -8,7 +8,7 @@ export default function mainColumns() {
                 text: "RmNo",
                 value: "zinr",
                 sortable: false,
-                align: "left",
+                align: "right",
                 width: 120,
                 divider: true                
             }); 
@@ -54,7 +54,7 @@ export default function mainColumns() {
                 value: "used",
                 sortable: false,
                 align: "right",
-                width: 100,
+                width: 80,
                 divider: true
             });
         } else {

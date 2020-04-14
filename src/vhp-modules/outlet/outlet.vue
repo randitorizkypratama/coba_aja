@@ -38,6 +38,18 @@ export default {
       },
       {
         url: `join-to-guest-folio`
+      },
+      {
+        url : `cancellation-journal`
+      },
+      {
+        url : `outlet-actual-and-recipe-cost`
+      },
+      {
+        url : `outlet-turnover`
+      },
+      {
+        url : `outlet-bill-transaction`
       }
     ]
   }),

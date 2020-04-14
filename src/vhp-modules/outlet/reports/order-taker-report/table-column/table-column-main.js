@@ -5,14 +5,14 @@ export default function mainColumns() {
           text: "Date",
           value: "datum",
           sortable: false,
-          align: "LEFT",
+          align: "left",
           width: 120,
           divider: true
           }, {
           text: "TbNo", 
           value: "tableno",
           sortable: false,
-          align: "CENTER",
+          align: "right",
           width: 100,
           divider: true
           }, {
@@ -55,7 +55,7 @@ export default function mainColumns() {
           value: "department",
           sortable: false,
           align: "left",
-          width: 200,
+          width: 240,
           divider: true
           }, {
           text: "Time", 

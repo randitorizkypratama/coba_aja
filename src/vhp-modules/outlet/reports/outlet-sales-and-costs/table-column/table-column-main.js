@@ -32,7 +32,7 @@ export default function mainColumns() {
             text: "Qty", 
             value: "qty2",
             sortable: false,
-            align: "left",
+            align: "right",
             width: 100,
             divider: true
             },{

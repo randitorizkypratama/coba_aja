@@ -11,8 +11,7 @@
         
         <v-col id="FocRooms" cols="14" md="9">
           <v-data-table
-            @click:row="dialog = !dialog"
-            :headers="headers"
+            :headers="headersMainTable"
             :items="dataMainTable"
             class="elevation-3"
             disable-pagination
@@ -32,23 +31,22 @@
 import NavBar from "@/components/Navbar.vue";
 import LeftAction from "./components/left-action.vue";
 import header from "./table-column/table-column-main";
-import moment from "moment";
 import ProgramProperties from "@/vhp-modules/outlet/outlet-utils/OutletProgramProperties.vue";
+import moment from "moment";
 
 export default {
-  name: "Meal-Coupon",
+  name: "OutletTurnover",
   components: {
     NavBar,
     LeftAction
   },
   data() {
     return {
-      programProperties:[],
+      programProperties: [],
       height: window.innerHeight - 37,
       weight: window.innerWidth,
       dataMainTable: [],
-      headers: header(),
-      dialog: false
+      headersMainTable: header(),
     };
   },
   methods: {
@@ -58,30 +56,16 @@ export default {
           this.dataMainTable = [];
         }
         
-        const tempDataMainTable = dataMainTable.mlist['mlist'];   
- 
-        for (let i = 0; i<tempDataMainTable.length; i++) {
-            const dataRow = {};
-            const dataItem = tempDataMainTable[i];
-
-            dataRow["resnr"] = dataItem["resnr"];
-            dataRow["zinr"] = dataItem["zinr"];
-            dataRow["name"] = dataItem["name"];
-            dataRow["anzahl"] = dataItem["anzahl"];
-            dataRow["ankunft"] = moment(dataItem["ankunft"]).format(this.programProperties.formatDateRead);
-            dataRow["abreise"] = moment(dataItem["abreise"]).format(this.programProperties.formatDateRead);
-            dataRow["resnr"] = dataItem["resnr"];
-            dataRow["used"] = dataItem["verbrauch"][31];
-            
-
-            for (let x = 0; x<32; x++) {
-                dataRow['verbrauch' + (x + 1)] = dataItem['verbrauch'][x];
-            }
-            this.dataMainTable.push(dataRow);
+        const dataTable = dataMainTable.bookingJournbillList['booking-journbill-list'];
+        for (let i=0; i<dataTable.length; i++) {
+            dataTable[i]["datum"] = moment(dataTable[i]["datum"]).format(this.programProperties.formatDateRead)
+            dataTable[i]["sales"] = this.formatterMoney(dataTable[i]["sales"]);
+            dataTable[i]["payment"] = this.formatterMoney(dataTable[i]["payment"]);
         }
+        this.dataMainTable = dataTable;
       }
     }
-  },
+  }, 
   mounted() {
     this.programProperties = ProgramProperties.data();
   }
@@ -128,5 +112,16 @@ $primary: #1890ff;
 
 #FocRooms tbody tr:nth-of-type(even) {
   background-color: #c8e0f1a3;
+}
+
+.header-modal {
+  background : #2b32b2;
+  color: #ffffff;
+}
+
+>>>.v-table__overflow {
+    height:99.9%;
+    max-height:99.9%;
+    overflow-x: auto !important;
 }
 </style>

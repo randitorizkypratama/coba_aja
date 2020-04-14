@@ -50,6 +50,8 @@
 import NavBar from "@/components/Navbar.vue";
 import LeftAction from "./components/left-action.vue";
 import header from "./table-column/table-column-main";
+import ProgramProperties from "@/vhp-modules/outlet/outlet-utils/OutletProgramProperties.vue";
+
 // import MainTable from "./components/main-table.vue";
 
 export default {
@@ -61,6 +63,7 @@ export default {
   },
   data() {
     return {
+      programProperties: [],
       height: window.innerHeight - 37,
       weight: window.innerWidth,
       isLoading: false,
@@ -100,19 +103,22 @@ export default {
           dataRow["qty5"] = dataItem["anzahl"][4];
           dataRow["qty6"] = dataItem["anzahl"][5];
           dataRow["qty7"] = dataItem["tanz"];
-          dataRow["totamount"] = dataItem["tamount"];
+          dataRow["totamount"] = this.formatterMoney(dataItem["tamount"]);
           dataRow["id"] = dataItem["userinit"];
-          dataRow["laundry_genttlement"] = dataItem["amount"][0];
-          dataRow["dry_clean_genttlement"] = dataItem["amount"][1];
-          dataRow["pressing_genttlement"] = dataItem["amount"][2];
-          dataRow["laundry_ladies"] = dataItem["amount"][3];
-          dataRow["dry_clean_ladies"] = dataItem["amount"][4];
-          dataRow["pressing_laddies"] = dataItem["amount"][5];
+          dataRow["laundry_genttlement"] = this.formatterMoney(dataItem["amount"][0]);
+          dataRow["dry_clean_genttlement"] = this.formatterMoney(dataItem["amount"][1]);
+          dataRow["pressing_genttlement"] = this.formatterMoney(dataItem["amount"][2]);
+          dataRow["laundry_ladies"] = this.formatterMoney(dataItem["amount"][3]);
+          dataRow["dry_clean_ladies"] = this.formatterMoney(dataItem["amount"][4]);
+          dataRow["pressing_laddies"] = this.formatterMoney(dataItem["amount"][5]);
           
           this.dataMainTable.push(dataRow);
         }
       }
     }
+  }, 
+  mounted() {
+    this.programProperties = ProgramProperties.data();
   }
 };
 </script>

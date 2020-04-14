@@ -64,7 +64,7 @@
           </v-card-actions>
           </v-card>
         </v-dialog>
-      </v-row>
+      </v-row> 
     </v-container>
   </v-app>
 </template>
@@ -79,7 +79,7 @@ import moment from "moment";
 import ky from "ky";
 
 export default {
-  name: "Join-To-Guest-Folio",
+  name: "CancellationJournal",
   components: {
     NavBar,
     LeftAction
@@ -100,10 +100,7 @@ export default {
   },
   methods: {
     openDetail(item) {
-      console.log(item.ddatum), "dsa";
-      console.log(item.datum), "dsa";
-
-this.dataRowDetail = item;
+      this.dataRowDetail = item;
       this.getDataDetail();
     },
     readDataMainTable(dataMainTable) {
@@ -111,16 +108,15 @@ this.dataRowDetail = item;
         if (dataMainTable.isSuccess && !dataMainTable.isLoading) {
           this.dataMainTable = [];
         }
-
-        const dataTable = dataMainTable.roomtransreportlist['roomtransreportlist'];
-        for(let i = 0; i<dataTable.length; i++) {
-          dataTable[i]["ddatum"] = dataTable[i]["datum"];
-          dataTable[i]["datum"] = dataTable[i]["datum"] == null ? "" : moment(dataTable[i]["datum"]).format(this.programProperties.formatDateRead);
-          dataTable[i]["saldo"] = this.formatterMoney(dataTable[i]["saldo"]);
-          dataTable[i]["foreign"] = this.formatterMoney(dataTable[i]["foreign"]);
-          dataTable[i]["rechnr"] = dataTable[i]["datum"] == "" ? "" : dataTable[i]["rechnr"];
+        
+        const dataTable = dataMainTable.cancelJournal['cancel-journal'];
+        for (let i=0; i<dataTable.length; i++) {
+            dataTable[i]["dbilldate"] = dataTable[i]["billdate"],
+            dataTable[i]["billdate"] = moment(dataTable[i]["billdate"]).format(this.programProperties.formatDateRead);
+            dataTable[i]["amount"] = this.formatterMoney(dataTable[i]["amount"]);
         }
-        this.dataMainTable = dataTable;   
+        this.dataMainTable = dataMainTable.cancelJournal['cancel-journal'];
+           
       }
     },
     getDataDetail() {
@@ -132,22 +128,22 @@ this.dataRowDetail = item;
       (async () => {
         class HTTPError extends Error {}
 
-      	const response = await fetch(this.programProperties.host + "/vhpOU/roomTransferReportDetail", {
+      	const response = await fetch(this.programProperties.host + "/vhpOU/cancelJournDispBill", {
           method: 'POST',
 		      body: JSON.stringify({
             request: {
               inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
               inputUsername: "sindata",
               dept: this.dataRowDetail.dept,
-              datum: moment(this.dataRowDetail.ddatum).format(this.programProperties.formateDateRequest),
-              billno: this.dataRowDetail.rechnr
+              billdate: moment(this.dataRowDetail.dbilldate).format(this.programProperties.formateDateRequest),
+              rechNo: this.dataRowDetail.rechnr
             }
           }),
 		      headers: {
             'content-type': 'application/json'
 		      }
         });          
-        console.log(this.programProperties.host + "/vhpOU/roomTransferReportDetail", "URL End Point ");
+        console.log(this.programProperties.host + "/vhpOU/cancelJournDispBill", "URL End Point ");
 
         if (!response.ok) {
           this.dataDetailMainTable["isSuccess"] = false;
@@ -161,16 +157,17 @@ this.dataRowDetail = item;
           this.dataDetailMainTable["isSuccess"] = true;
           this.dataDetailMainTable["isLoading"] = false;
 
-          const dataTable = parsed.response.tHJournal["t-h-journal"];
-          for(let i = 0; i<dataTable.length; i++) {
-            dataTable[i]["epreis"] = this.formatterMoney(dataTable[i]["epreis"]);
-            dataTable[i]["betrag"] = this.formatterMoney(dataTable[i]["betrag"]);
-            dataTable[i]["bill-datum"] = moment(dataTable[i]["bill-datum"]).format(this.programProperties.formatDateRead);
-          }
-          this.dataDetailMainTable["data"] = parsed.response.tHJournal["t-h-journal"];
+          const dataTableDetail = parsed.response.hjBuff["hj-buff"];
+          for (let i=0; i<dataTableDetail.length; i++) {
+              dataTableDetail[i]["epreis"] = this.formatterMoney(dataTableDetail[i]["epreis"]);
+              dataTableDetail[i]["betrag"] = this.formatterMoney(dataTableDetail[i]["betrag"]);
+              dataTableDetail[i]["bill-datum"] = moment(dataTableDetail[i]["bill-datum"]).format(this.programProperties.formatDateRead);
+              dataTableDetail[i]["zeit"] = this.displayTime(dataTableDetail[i]["zeit"]);
+          } 
+          this.dataDetailMainTable["data"] = dataTableDetail;
 
           this.dialog = true;
-          console.log(this.dataDetailMainTable, "Response /roomTransferReportDetail ");
+          console.log(this.dataDetailMainTable, "Response /cancelJournDispBill ");
         }
       })();
     }

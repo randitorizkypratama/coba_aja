@@ -19,14 +19,14 @@ export default function mainColumns() {
             value: "gname",
             sortable: false,
             align: "left",
-            width: 180,
+            width: 250,
             divider: true
         }, {
             text: "Bill-No", 
             value: "rechnr",
             sortable: false,
             align: "right",
-            width: 150, 
+            width: 120, 
             divider: true
         }, {
             text: "Description", 
@@ -70,6 +70,10 @@ export default function mainColumns() {
             align: "center",
             width: 100,
             divider: true
+        }, {
+            text: " ", 
+            value: "actions",
+            sortable: false
         }
     ];
     return columm;

@@ -1,80 +1,66 @@
 export default function mainColumns() {
     const columm = [
         {
-            text: "Date",
-            value: "datum",
+            text: "ArtNo",
+            value: "artnr",
             sortable: false,
-            align: "left",
+            align: "right",
             width: 120,
             divider: true
         },{
-            text: "TbNo", 
-            value: "tb",
+            text: "Qty", 
+            value: "anzahl",
             sortable: false,
             align: "right",
             width: 100,
-            divider: true
-        }, {
-            text: "Bill-No", 
-            value: "billno",
-            sortable: false,
-            align: "right",
-            width: 120,
-            divider: true
-        }, {
-            text: "ArtNo", 
-            value: "artno",
-            sortable: false,
-            align: "right",
-            width: 120, 
             divider: true
         }, {
             text: "Description", 
-            value: "descr",
+            value: "bezeich",
             sortable: false,
             align: "left",
-            width: 220,
+            width: 250,
+            divider: true
+        }, {
+            text: "Price", 
+            value: "epreis",
+            sortable: false,
+            align: "right",
+            width: 150, 
+            divider: true
+        }, {
+            text: "Description", 
+            value: "bezeich",
+            sortable: false,
+            align: "left",
+            width: 180,
             divider: true
             },{
-            text: "Qty", 
-            value: "qty",
+            text: "Balance", 
+            value: "betrag",
+            sortable: false,
+            align: "right",
+            width: 150,
+            divider: true
+        }, {
+            text: "No", 
+            value: "waehrungsnr",
             sortable: false,
             align: "right",
             width: 100,
             divider: true
-        }, {
-            text: "Amount", 
-            value: "amount",
-            sortable: false,
-            align: "right",
-            width: 180,
-            divider: true
         },  {
-            text: "Department", 
-            value: "depart",
+            text: "Bill Date", 
+            value: "bill-datum",
             sortable: false,
             align: "left",
-            width: 180,
+            width: 100,
             divider: true
         }, {
             text: "Time", 
             value: "zeit",
             sortable: false,
-            align: "center",
-            width: 100,
-            divider: true
-        },  {
-            text: "ID", 
-            value: "id",
-            sortable: false,
-            align: "center",
-            width: 100,
-            divider: true
-        }, {
-            text: "TB", 
-            value: "tb",
-            sortable: false,
-            align: "right",
+            align: "left",
             width: 100,
             divider: true
         }
