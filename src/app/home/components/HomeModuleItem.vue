@@ -1,18 +1,20 @@
 <template>
   <div
-    class="d-flex flex-column align-center justify-center fill-height"
+    class="column items-center justify-center full-height cursor-pointer"
     @mouseenter="isHover = true"
     @mouseleave="isHover = false"
+    @click="$router.push(item.path)"
   >
     <img
       :src="
         isHover
-          ? require(`@/app/icons/Icon-${item.logo}-Hover.svg`)
-          : require(`@/app/icons/Icon-${item.logo}.svg`)
+          ? require(`~/app/icons/Icon-${item.logo}-Hover.svg`)
+          : require(`~/app/icons/Icon-${item.logo}.svg`)
       "
       class="img-icon"
     />
-    <span class="mt-2">{{ item.name }}</span>
+
+    <span class="q-mt-md">{{ item.name }}</span>
   </div>
 </template>
 

@@ -1,33 +1,11 @@
 <template>
-  <v-app>
-    <!-- <div id="nav">
-        <router-link to="/home">Home</router-link>|
-        <router-link to="/">About</router-link>
-    </div>-->
-
-    <v-content>
-      <router-view />
-    </v-content>
-  </v-app>
+  <div id="q-app">
+    <router-view />
+  </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import ky from "ky";
+import Vue from 'vue';
 
-export default Vue.extend({
-  name: "App",
-
-  components: {},
-
-  data: () => ({
-    //
-  }),
-  beforeCreate() {
-    // (async () => {
-    //   const parsed = await ky.get("http://localhost:3000/gambar").json();
-    // })();
-  }
-});
+export default Vue.extend({});
 </script>
-
