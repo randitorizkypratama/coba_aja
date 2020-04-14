@@ -56,6 +56,10 @@ export default {
         url: "inter-kitchen-transfer"
       },
       {
+        name: "Issuing",
+        url: "issuing"
+      },
+      {
         name: "Annual Issuing",
         url: "annual-issuing"
       },

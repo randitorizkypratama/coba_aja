@@ -10,7 +10,7 @@ import SlowMovingStockOnHand from "../vhp-modules/inventory/reports/slow-moving-
 import Incoming from "../vhp-modules/inventory/modules/incoming/Incoming.vue";
 import TableTest from "../vhp-modules/inventory/reports/table-test/tablecomponent.vue";
 // import IssusingData from "../views/issuing";
-import IssusingData from "../vhp-modules/inventory/modules/issuing/issuing.vue";
+import Issuing from "../vhp-modules/inventory/reports/issuing/Issuing.vue";
 import Outlet from "../vhp-modules/outlet/outlet.vue";
 // import TesReport from "../vhp-modules/outlet/reports/tes-report/Tes-Report.vue";
 import storeSequisition from "../vhp-modules/inventory/modules/store-requisition/Store-Requisition.vue";
@@ -74,11 +74,11 @@ const routes = [
     name: "TableTest",
     component: TableTest
   },
-  {
-    path: "/issusing",
-    name: "issusing",
-    component: IssusingData
-  },
+  // {
+  //   path: "/issusing",
+  //   name: "issusing",
+  //   component: IssusingData
+  // },
   {
     path: "/store-requisition",
     name: "store-requisition",
@@ -173,6 +173,11 @@ const routes = [
     path: "/inter-kitchen-transfer",
     name: "Inter Kitchen Transfer",
     component: InterKitchenTransfer
+  },
+  {
+    path: "/issuing",
+    name: "Issuing",
+    component: Issuing
   },
   {
     path: "/annual-issuing",
