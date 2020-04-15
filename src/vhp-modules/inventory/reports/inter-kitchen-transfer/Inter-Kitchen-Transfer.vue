@@ -55,7 +55,7 @@
               :items="datas"
               item-key="name"
               :height="height"
-              class="elevation-3"
+              class="elevation-1"
               disable-pagination
               disable-sort
               hide-default-footer
@@ -63,6 +63,45 @@
               calculate-widths
               dense
             >
+              <template v-slot:top>
+                <v-dialog v-model="dialog" max-width="500px">
+                  <v-card>
+                    <v-card-title>
+                      <span class="headline">Question</span>
+                    </v-card-title>
+
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <span class="headline">{{ formMessage(test) }}</span>
+                        </v-row>
+                      </v-container>
+                    </v-card-text>
+
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                      <v-btn color="red darken-1" text @click="deleteItem(test)">Delete</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </template>
+
+              <template v-slot:item.actions="{ item }">
+                <v-menu bottom offset-y>
+                  <template v-slot:activator="{ on }">
+                    <v-btn icon v-on="on">
+                      <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-list>
+                    <v-list-item v-for="(item, i) in items" :key="i" @click="() => {}">
+                      <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item>
+                    <v-icon small @click="checkpermission(item)">mdi-delete</v-icon>DELETE
+                  </v-list>
+                </v-menu>
+              </template>
               <template
                 v-slot:item.datum="{ item }"
               >{{item.datum == null? " " : formatDate(item.datum) }}</template>
@@ -84,6 +123,12 @@
         </v-col>
       </v-row>
     </v-container>
+    <div class="text-center ma-2">
+      <v-snackbar v-model="snackbar">
+        {{ messStr }}
+        <v-btn color="pink" text @click="snackbar = false">Close</v-btn>
+      </v-snackbar>
+    </div>
   </v-app>
 </template>
 
@@ -100,6 +145,11 @@ export default {
   },
   data: () => ({
     height: 550,
+    items: [],
+    snackbar: false,
+    fdate: "",
+    zugriff: "",
+    messStr: "",
     Department: [],
     ranges: ["2019-01-13", "2019-01-14"],
     datas: [],
@@ -114,6 +164,9 @@ export default {
     fromDept: "",
     toDept: "",
     radios: "",
+    dialog: false,
+    editedIndex: -1,
+    test: "",
     headers: [
       {
         text: "Date",
@@ -138,7 +191,8 @@ export default {
         value: "b-cost",
         width: 100,
         divider: true
-      }
+      },
+      { text: " ", value: "actions", sortable: false, width: 30 }
     ]
   }),
   beforeCreate() {
@@ -173,6 +227,36 @@ export default {
           label: element["depart"]
         });
       }
+
+      const permission = await ky
+        .post("http://182.253.140.35/VHPWebBased/rest/Common/checkPermission", {
+          json: {
+            request: {
+              inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+              inputUsername: "sindata",
+              userInit: "01",
+              arrayNr: "41",
+              expectedNr: "2"
+            }
+          }
+        })
+        .json();
+      this.zugriff = permission.response.zugriff;
+      this.messStr = permission.response.messStr;
+
+      const Param0 = await ky
+        .post("http://182.253.140.35/VHPWebBased/rest/Common/getHTParam0", {
+          json: {
+            request: {
+              inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+              inputUsername: "sindata",
+              casetype: "2",
+              inpParam: "1035"
+            }
+          }
+        })
+        .json();
+      this.fdate = Param0.response.fdate;
     })();
   },
   computed: {
@@ -191,11 +275,11 @@ export default {
                 request: {
                   inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
                   inputUsername: "sindata",
-                  sorttype: "1",
-                  fromDept: "1",
-                  toDept: "2",
-                  fromDate: "2019-01-13",
-                  toDate: "2019-01-14"
+                  sorttype: this.radios,
+                  fromDept: this.fromdepartment,
+                  toDept: this.todepartment,
+                  fromDate: moment(this.ranges[0]).format("YYYY-MM-DD"),
+                  toDate: moment(this.ranges[1]).format("YYYY-MM-DD")
                 }
               }
             }
@@ -212,6 +296,56 @@ export default {
     },
     formatNumber(value) {
       return value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    },
+    formMessage(test) {
+      return test.datum <= this.fdate
+        ? "Inventory transferred to G/L - Cancel no longer possible."
+        : "Do you really want to cancel the transfer records ?";
+    },
+    checkpermission(item) {
+      console.log(this.zugriff, "masuk");
+
+      if (this.zugriff == "true") {
+        console.log("udah");
+        this.test = item;
+        console.log(item, "item");
+        this.editedIndex = this.datas.indexOf(item);
+        this.dialog = true;
+      } else {
+        this.snackbar = true;
+      }
+    },
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedIndex = -1;
+      }, 300);
+    },
+    deleteItem(test) {
+      console.log(test["s-recid"], "test");
+
+      (async () => {
+        const delet = await ky
+          .post(
+            "http://182.253.140.35/VHPWebBased/rest/vhpINV/ktransReportDelete",
+            {
+              json: {
+                request: {
+                  inputUserkey: "6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD",
+                  inputUsername: "sindata",
+                  cListSRecid: "1"
+                }
+              }
+            }
+          )
+          .json();
+        console.log(delet.response.successFlag, "berhasil?");
+
+        this.dialog = false;
+        setTimeout(() => {
+          this.editedIndex = -1;
+        }, 300);
+      })();
     }
   }
 };
