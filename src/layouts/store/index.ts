@@ -51,6 +51,43 @@ const getters: GetterTree<LayoutState, any> = {
           icon: 'GL/Icon-Closing',
         },
       ],
+      Inventory: [
+        {
+          path: '/inventory/supplier-profile',
+          name: 'Supplier Profile',
+          icon: 'Inventory/Icon-SupplierProfile',
+        },
+        {
+          path: '/inventory/stock-item',
+          name: 'Stock Item',
+          icon: 'Inventory/Icon-StockItem',
+        },
+        {
+          path: '/inventory/initial-stock',
+          name: 'Initial Stock',
+          icon: 'Inventory/Icon-InitialStock',
+        },
+        {
+          path: '/inventory/store-requisition',
+          name: 'Store Requisition',
+          icon: 'Inventory/Icon-StoreRequisition',
+        },
+        {
+          path: '/inventory/adjustment',
+          name: 'Adjustment',
+          icon: 'Inventory/Icon-Adjustment',
+        },
+        {
+          path: '/inventory/journal',
+          name: 'Journal',
+          icon: 'Inventory/Icon-GeneralJournal',
+        },
+        {
+          path: '/inventory/ledger',
+          name: 'Ledger',
+          icon: 'Inventory/Icon-GeneralLedger',
+        }
+      ]
     };
 
     if (state.currentModule) {

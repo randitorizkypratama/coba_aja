@@ -15,6 +15,11 @@ const routes: RouteConfig[] = [
       generateModulePath('GL', 'general-journal', 'PageGLGeneralJournal'),
       generateModulePath('GL', 'general-ledger', 'PageGLGeneralLedger'),
       generateModulePath('GL', 'posting', 'PageGLPosting'),
+      generateModulePath(
+        'Inventory',
+        'chart-of-accounts',
+        'PageGLChartOfAccounts'
+      ),
     ],
   },
 ];

@@ -56,7 +56,7 @@ export const moduleList: HomeModule[] = [
     logo: 'Purchasing',
   },
   {
-    path: '/inventory',
+    path: '/inventory/chart-of-accounts',
     name: 'Inventory',
     logo: 'Inventory',
   },
