@@ -8,7 +8,7 @@ import useFetchData from "@/../utils/api/useFetchData";
 export default Vue.extend({
   data() {
     return {
-      data: "hello"
+      data: "hello",
     };
   },
 
@@ -16,39 +16,37 @@ export default Vue.extend({
     Navbar,
     Actions,
     tableItem,
-    addnew
+    addnew,
   },
 
   methods: {
     open1(): any {
-      (this.$refs.addNew as Vue & { open: (data: string) => void }).open(
-        this.data
-      );
+      (this.$refs.addNew as Vue & { open: () => void }).open();
     },
     search(radioButton: number, arrtcNumber: any) {
       if (radioButton == 1) {
         useFetchData("getInvArticleList", {
           sorttype: radioButton,
           lastArt: "*",
-          lastArt1: ""
+          lastArt1: "",
         }).then((res: any) => {
           (this.$refs.dataTable as Vue & {
-            getData: (res: any, arrtcNumber: any) => void;
-          }).getData(res, arrtcNumber);
+            getData: (res: any, arrtcNumber: any, radioButton: any) => void;
+          }).getData(res, arrtcNumber, radioButton);
         });
       } else if (radioButton == 2) {
         useFetchData("getInvArticleList", {
           sorttype: radioButton,
           lastArt: "*",
-          lastArt1: ""
+          lastArt1: "",
         }).then((res: any) => {
           (this.$refs.dataTable as Vue & {
-            getData: (res: any, arrtcNumber: any) => void;
-          }).getData(res, arrtcNumber);
+            getData: (res: any, arrtcNumber: any, radioButton: any) => void;
+          }).getData(res, arrtcNumber, radioButton);
         });
       } else {
         console.log("err");
       }
-    }
-  }
+    },
+  },
 });

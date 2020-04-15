@@ -1,7 +1,6 @@
 <template>
   <div id="FocRooms2">
     <v-data-table
-      hide-default-footer
       pagination.sync="pagination"
       :headers="headers"
       :items="dataHotel"
