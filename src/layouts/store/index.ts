@@ -86,6 +86,11 @@ const getters: GetterTree<LayoutState, any> = {
           path: '/inventory/ledger',
           name: 'Ledger',
           icon: 'Inventory/Icon-GeneralLedger',
+        },
+        {
+          path: '/inventory/meal-coupon',
+          name: 'Meal Coupon',
+          icon: 'Inventory/Icon-InitialStock',
         }
       ]
     };

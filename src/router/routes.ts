@@ -1,5 +1,5 @@
 import { RouteConfig } from 'vue-router';
-import { generateModulePath } from './mapPath.helpers';
+import { generateModulePath, generateModuleINV } from './mapPath.helpers';
 
 const routes: RouteConfig[] = [
   {
@@ -20,6 +20,7 @@ const routes: RouteConfig[] = [
         'chart-of-accounts',
         'PageGLChartOfAccounts'
       ),
+      generateModuleINV('Inventory', 'meal-coupon', 'PageINVMealCoupon'),
     ],
   },
 ];
