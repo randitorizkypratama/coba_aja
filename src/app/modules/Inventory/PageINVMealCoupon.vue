@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <SearchMealCoupon />
+      <searchMealCoupon :searches="searches" :selected="selectedAccount" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -14,159 +14,172 @@
         </q-btn>
       </div>
 
-      <q-table title="Treats" :data="data" :columns="columns" row-key="name" />
+      <q-table
+        dense
+        :columns="tableHeaders"
+        :data="[]"
+        separator="cell"
+        :rows-per-page-options="[10, 13, 16]"
+        :pagination.sync="pagination"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-export default {
-  data() {
+import {
+  defineComponent,
+  onMounted,
+  toRefs,
+  reactive,
+} from '@vue/composition-api';
+import { mapWithMeal } from '~/app/helpers/mapSelectItems.helpers';
+
+export default defineComponent({
+  setup(_, { root: { $api } }) {
+    let charts;
+
+    const state = reactive({
+      isFetching: true,
+      selectedAccount: 'Select a row',
+      accounts: [],
+      accountId: null,
+      searches: {
+        mains: [],
+        categories: [],
+        departments: [],
+      },
+      dialog: false,
+    });
+
+    onMounted(async () => {
+      const [resDepart] = await Promise.all([$api.mealCoupon.getINVprepare()]);
+      state.searches.departments = mapWithMeal(resDepart, 'num');
+      state.isFetching = false;
+    });
+
+    const tableHeaders = [
+      {
+        label: 'Date',
+        field: '',
+        name: '',
+        align: 'right',
+        sortable: false,
+      },
+      {
+        label: 'Department',
+        field: '',
+        name: '',
+        align: 'left',
+        sortable: false,
+      },
+      {
+        label: 'Bill Number',
+        field: '',
+        name: '',
+        sortable: false,
+      },
+      {
+        label: 'Pax',
+        field: '',
+        name: '',
+        align: 'right',
+        sortable: false,
+      },
+      {
+        label: 'Description',
+        field: '',
+        name: '',
+        sortable: false,
+      },
+      {
+        label: 'Food Amount',
+        field: '',
+        name: '',
+        sortable: false,
+      },
+      {
+        label: 'Food Cost',
+        field: '',
+        name: '',
+        sortable: false,
+      },
+      {
+        label: 'Beverage Amount',
+        field: '',
+        name: '',
+        sortable: false,
+      },
+      {
+        label: 'Beverage Cost',
+        field: '',
+        name: '',
+        sortable: false,
+      },
+      {
+        label: 'Bill Amount',
+        field: '',
+        name: '',
+        sortable: false,
+      },
+      {
+        label: 'Cost of Sales',
+        field: '',
+        name: '',
+        sortable: false,
+      },
+      {
+        label: 'User Id',
+        field: '',
+        name: '',
+        sortable: false,
+      },
+    ];
+
+    const onChangeSelectedAccount = (selected) => {
+      state.selectedAccount = selected;
+    };
+
+    const onSearch = ({ accountNumber, main, category, department }) => {
+      state.accounts = charts.filter((account: any) => {
+        if (
+          (accountNumber && accountNumber !== account.fibukonto) ||
+          (main && main.value !== account['glmain-bezeich']) ||
+          (category && category.value !== account['glfstype-bezeich']) ||
+          (department && department.value !== account['gldepartment-bezeich'])
+        ) {
+          return false;
+        }
+
+        return true;
+      });
+    };
+
+    const onDialog = (val) => {
+      state.dialog = val;
+    };
+
+    const selectAccount = (accountId) => {
+      state.accountId = accountId;
+      onDialog(true);
+    };
+
     return {
-      columns: [
-        {
-          name: 'name',
-          required: true,
-          label: 'Dessert (100g serving)',
-          align: 'left',
-          field: (row) => row.name,
-          format: (val) => `${val}`,
-          sortable: true,
-        },
-        {
-          name: 'calories',
-          align: 'center',
-          label: 'Calories',
-          field: 'calories',
-          sortable: true,
-        },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-        { name: 'protein', label: 'Protein (g)', field: 'protein' },
-        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        {
-          name: 'calcium',
-          label: 'Calcium (%)',
-          field: 'calcium',
-          sortable: true,
-          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
-        },
-        {
-          name: 'iron',
-          label: 'Iron (%)',
-          field: 'iron',
-          sortable: true,
-          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
-        },
-      ],
-      data: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          sodium: 87,
-          calcium: '14%',
-          iron: '1%',
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          sodium: 129,
-          calcium: '8%',
-          iron: '1%',
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          sodium: 337,
-          calcium: '6%',
-          iron: '7%',
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          sodium: 413,
-          calcium: '3%',
-          iron: '8%',
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          sodium: 327,
-          calcium: '7%',
-          iron: '16%',
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          sodium: 50,
-          calcium: '0%',
-          iron: '0%',
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          sodium: 38,
-          calcium: '0%',
-          iron: '2%',
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          sodium: 562,
-          calcium: '0%',
-          iron: '45%',
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          sodium: 326,
-          calcium: '2%',
-          iron: '22%',
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          sodium: 54,
-          calcium: '12%',
-          iron: '6%',
-        },
-      ],
+      ...toRefs(state),
+      tableHeaders,
+      onChangeSelectedAccount,
+      onSearch,
+      onDialog,
+      selectAccount,
+      pagination: {
+        rowsPerPage: 10,
+      },
     };
   },
   components: {
-    SearchMealCoupon: () => import('./components/SearchMealCoupon.vue'),
+    searchMealCoupon: () => import('./components/SearchMealCoupon.vue'),
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>
