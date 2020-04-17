@@ -8,7 +8,6 @@ interface ApiEndpoints {
   accountReceivable: AccountReceivableEndpoints;
   mealCoupon: MealCouponEndpoints;
   stockItem: Stockitem;
-
 }
 
 declare module 'vue/types/vue' {

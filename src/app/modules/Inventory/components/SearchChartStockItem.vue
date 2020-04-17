@@ -29,11 +29,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-export default Vue.extend({
-  data() {
+import { defineComponent, reactive, toRefs, ref } from '@vue/composition-api';
+export default defineComponent({
+  props: {},
+  setup(_, { emit }) {
+    const state = reactive({
+      shape: ref(null),
+      articleNumber: ref(null),
+    });
+    const onSearch = () => {
+      emit('onSearch', { ...state });
+    };
     return {
-      shape: 'art',
+      onSearch,
+      ...toRefs(state),
     };
   },
 });

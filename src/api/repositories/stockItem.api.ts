@@ -9,7 +9,7 @@ export interface StockItemEndpoints {
 const defaultBodies = {
   params: {
     sorttype: 1,
-    lastArt: '*',
+    lastArt: '',
     lastArt1: '',
   },
 };
@@ -17,6 +17,6 @@ const defaultBodies = {
 export default (doFetch: DoRequest): StockItemEndpoints => ({
   getInvArticleList: (body = defaultBodies.params) =>
     doFetch({ url: `${INV_URL}/getInvArticleList`, body }).then(
-      ([, res]) => res
+      ([, res]) => res?.tLArtikel?.['t-l-artikel']
     ),
 });
