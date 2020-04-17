@@ -1,29 +1,31 @@
 <template>
   <section class="mt-7">
     <div class="q-pa-md">
-      <q-form @submit="onSearch">
-        <v-date-picker mode="range" v-model="date" :columns="2" :popover="{ visibility: 'click' }">
-          <SInput
-            label-text="Date"
-            slot-scope="{ inputProps }"
-            placeholder="From - Until"
-            readonly
-            v-bind="inputProps"
-            clearable
-            @clear="date = null"
-          />
-        </v-date-picker>
+      <v-date-picker mode="range" v-model="date" :columns="2" :popover="{ visibility: 'click' }">
+        <SInput
+          label-text="Date"
+          slot-scope="{ inputProps }"
+          placeholder="From - Until"
+          readonly
+          v-bind="inputProps"
+          clearable
+          @clear="date = null"
+        />
+      </v-date-picker>
 
-        <SSelect
-          label-text="From Department"
-          :options="searches.departments"
-          v-model="fromdepartment"
+      <SSelect
+        label-text="From Department"
+        :options="searches.departments"
+        v-model="fromdepartment"
         />
 
-        <SSelect label-text="To Department" :options="searches.departments" v-model="todepartment" />
+      <SSelect
+        label-text="To Department"
+        :options="searches.departments"
+        v-model="todepartment"
+      />
 
-        <q-btn dense color="primary" icon="search" label="Search" class="q-mt-md full-width" />
-      </q-form>
+      <q-btn dense color="primary" icon="search" label="Search" class="q-mt-md full-width" />
     </div>
   </section>
 </template>

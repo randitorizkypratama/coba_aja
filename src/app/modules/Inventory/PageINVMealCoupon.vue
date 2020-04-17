@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchMealCoupon :searches="searches" :selected="selectedAccount" @onSearch="onSearch" />
+      <searchMealCoupon :searches="searches" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -17,7 +17,7 @@
       <q-table
         dense
         :columns="tableHeaders"
-        :data="[]"
+        :data="accounts"
         separator="cell"
         :rows-per-page-options="[10, 13, 16]"
         :pagination.sync="pagination"
@@ -41,9 +41,7 @@ export default defineComponent({
 
     const state = reactive({
       isFetching: true,
-      selectedAccount: 'Select a row',
       accounts: [],
-      accountId: null,
       searches: {
         mains: [],
         categories: [],
@@ -61,84 +59,80 @@ export default defineComponent({
     const tableHeaders = [
       {
         label: 'Date',
-        field: '',
-        name: '',
+        field: 'datum',
+        name: 'datum',
         align: 'right',
         sortable: false,
       },
       {
         label: 'Department',
-        field: '',
-        name: '',
+        field: 'deptname',
+        name: 'deptname',
         align: 'left',
         sortable: false,
       },
       {
         label: 'Bill Number',
-        field: '',
-        name: '',
+        field: 'rechnr',
+        name: 'rechnr',
         sortable: false,
       },
       {
         label: 'Pax',
-        field: '',
-        name: '',
+        field: 'pax',
+        name: 'pax',
         align: 'right',
         sortable: false,
       },
       {
         label: 'Description',
-        field: '',
-        name: '',
+        field: 'bezeich',
+        name: 'bezeich',
         sortable: false,
       },
       {
         label: 'Food Amount',
-        field: '',
-        name: '',
+        field: 'f-betrag',
+        name: 'f-betrag',
         sortable: false,
       },
       {
         label: 'Food Cost',
-        field: '',
-        name: '',
+        field: 'f-cost',
+        name: 'f-cost',
         sortable: false,
       },
       {
         label: 'Beverage Amount',
-        field: '',
-        name: '',
+        field: 'b-betrag',
+        name: 'b-betrag',
         sortable: false,
       },
       {
         label: 'Beverage Cost',
-        field: '',
-        name: '',
+        field: 'b-cost',
+        name: 'b-cost',
         sortable: false,
       },
       {
         label: 'Bill Amount',
-        field: '',
-        name: '',
+        field: 'betrag',
+        name: 'betrag',
         sortable: false,
       },
       {
         label: 'Cost of Sales',
-        field: '',
-        name: '',
+        field: 't-cost',
+        name: 't-cost',
         sortable: false,
       },
       {
         label: 'User Id',
-        field: '',
-        name: '',
+        field: 'usr-id',
+        name: 'usr-id',
         sortable: false,
       },
     ];
-
-    const onChangeSelectedAccount = (selected) => {
-      state.selectedAccount = selected;
-    };
 
     const onSearch = ({ accountNumber, main, category, department }) => {
       state.accounts = charts.filter((account: any) => {
@@ -155,22 +149,10 @@ export default defineComponent({
       });
     };
 
-    const onDialog = (val) => {
-      state.dialog = val;
-    };
-
-    const selectAccount = (accountId) => {
-      state.accountId = accountId;
-      onDialog(true);
-    };
-
     return {
       ...toRefs(state),
       tableHeaders,
-      onChangeSelectedAccount,
       onSearch,
-      onDialog,
-      selectAccount,
       pagination: {
         rowsPerPage: 10,
       },

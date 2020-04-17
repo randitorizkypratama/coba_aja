@@ -6,7 +6,7 @@ export interface MealCouponEndpoints {
     // getChartOfAccount: any;
     // getGLMainAccount: any;
     // getGLFSType: any;
-    getINVprepare: any;
+  getINVprepare: any;
     // getViewBudgetValue: any;
     // getViewActualValue: any;
 }
@@ -34,10 +34,10 @@ export interface MealCouponEndpoints {
 // };
 
 export default (doFetch: DoRequest): MealCouponEndpoints => ({
-    getINVprepare: () =>
+  getINVprepare: () =>
     doFetch({ url: `${INV_URL}/mealCouponPrepare` }).then(
-            ([, res]) => res?.tHoteldpt?.['t-hoteldpt']
-        ),
+      ([, res]) => res?.tHoteldpt?.['t-hoteldpt']
+    ),
 });
 
 // getChartOfAccount: (body = defaultBodies.chart) =>

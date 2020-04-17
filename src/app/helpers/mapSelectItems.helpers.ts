@@ -10,7 +10,7 @@ export const mapWithBezeich = (items, prefix) =>
 export const mapWithMeal = (items, prefix) =>
   items
     ? items.map((item) => ({
-      label: `${item[prefix]} - ${item.depart}`,
-      value: item.num,
-    }))
+        label: `${item[prefix]} - ${item.depart}`,
+        value: item.num,
+      }))
     : [];
