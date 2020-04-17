@@ -51,7 +51,12 @@ export default defineComponent({
     });
 
     onMounted(async () => {
-      const [resDepart] = await Promise.all([$api.mealCoupon.getINVprepare()]);
+      const [resChart, resDepart] = await Promise.all([
+        $api.mealCoupon.getINVtable(),
+        $api.mealCoupon.getINVprepare(),
+      ]);
+      charts = resChart || [];
+      state.accounts = charts;
       state.searches.departments = mapWithMeal(resDepart, 'num');
       state.isFetching = false;
     });
