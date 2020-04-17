@@ -1,6 +1,6 @@
 {
   "name": "coba_aja",
- "version": "0.0.1",
+  "version": "0.0.1",
   "description": "A Quasar Framework app",
   "productName": "VHP Software",
   "cordovaId": "org.cordova.quasar.app",
@@ -44,5 +44,8 @@
   },
   "resolutions": {
     "@babel/parser": "7.7.5"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/randitorizkypratama/coba_aja.git",
+  "license": "MIT"
 }

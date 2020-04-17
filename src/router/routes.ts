@@ -1,5 +1,5 @@
 import { RouteConfig } from 'vue-router';
-import { generateModulePath } from './mapPath.helpers';
+import { generateModulePath, inventoryModulePath } from './mapPath.helpers';
 
 const routes: RouteConfig[] = [
   {
@@ -20,6 +20,7 @@ const routes: RouteConfig[] = [
         'chart-of-accounts',
         'PageGLChartOfAccounts'
       ),
+      inventoryModulePath('Inventory', 'stock-item', 'PageInvStockItem'),
     ],
   },
 ];
