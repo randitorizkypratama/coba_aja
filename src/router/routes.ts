@@ -21,6 +21,7 @@ const routes: RouteConfig[] = [
         'PageGLChartOfAccounts'
       ),
       generateModuleINV('Inventory', 'meal-coupon', 'PageINVMealCoupon'),
+      generateModuleINV('Inventory', 'stock-item', 'PageInvStockItem'),
     ],
   },
 ];
