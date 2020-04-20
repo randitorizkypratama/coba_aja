@@ -1,11 +1,7 @@
 <template>
   <div>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <SearchChartOfAccounts
-        :searches="searches"
-        :selected="selectedAccount"
-        @onSearch="onSearch"
-      />
+      <SearchChartOfAccounts :searches="searches" :selected="selectedAccount" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -30,19 +26,25 @@
       >
         <template #header-cell-fibukonto="props">
           <q-th :props="props" class="fixed-col left">
-            {{ props.col.label }}
+            {{
+            props.col.label
+            }}
           </q-th>
         </template>
 
         <template #body-cell-fibukonto="props">
           <q-td :props="props" class="fixed-col left">
-            {{ props.row.fibukonto }}
+            {{
+            props.row.fibukonto
+            }}
           </q-td>
         </template>
 
         <template #header-cell-actions="props">
           <q-th :props="props" class="fixed-col right">
-            {{ props.col.label }}
+            {{
+            props.col.label
+            }}
           </q-th>
         </template>
 
@@ -51,11 +53,7 @@
             <q-icon name="more_vert" size="16px">
               <q-menu auto-close anchor="bottom right" self="top right">
                 <q-list>
-                  <q-item
-                    clickable
-                    v-ripple
-                    @click="selectAccount(props.row.fibukonto)"
-                  >
+                  <q-item clickable v-ripple @click="selectAccount(props.row.fibukonto)">
                     <q-item-section>Show Account Budget</q-item-section>
                   </q-item>
                 </q-list>
@@ -66,11 +64,7 @@
       </q-table>
     </div>
 
-    <DialogChartOfAccounts
-      :dialog="dialog"
-      @onDialog="onDialog"
-      :account-id="accountId"
-    />
+    <DialogChartOfAccounts :dialog="dialog" @onDialog="onDialog" :account-id="accountId" />
   </div>
 </template>
 
@@ -107,6 +101,7 @@ export default defineComponent({
         $api.generalLedger.getGLFSType(),
         $api.generalLedger.getGLDeptAccount(),
       ]);
+
       charts = resChart || [];
       state.accounts = charts;
       state.searches.mains = mapWithBezeich(resMain, 'code');
@@ -182,7 +177,6 @@ export default defineComponent({
         ) {
           return false;
         }
-
         return true;
       });
     };

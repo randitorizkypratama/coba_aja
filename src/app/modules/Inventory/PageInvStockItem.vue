@@ -1,11 +1,7 @@
 <template>
   <div>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchChart
-        :searches="searches"
-        :selected="selectedAccount"
-        @onSearch="onSearch"
-      />
+      <searchChart :searches="searches" :selected="selectedAccount" @onSearch="onSearch" />
     </q-drawer>
     <div class="q-pa-lg">
       <div class="q-mb-md">
@@ -32,12 +28,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import {
   defineComponent,
   onMounted,
   toRefs,
   reactive,
+  onBeforeUpdate,
 } from '@vue/composition-api';
 import searchChart from './components/SearchChartStockItem.vue';
 export default defineComponent({
@@ -50,14 +46,32 @@ export default defineComponent({
     const state = reactive({
       data: [],
     });
-    onMounted(async () => {
-      const resArtcl = await Promise.all([$api.stockItem.getInvArticleList()]);
-      charts = resArtcl || [];
-      state.data = charts[0];
-    });
     const onSearch = ({ shape, articleNumber }) => {
-      console.log('asuku', shape);
-      console.log('asuku', articleNumber);
+      if (articleNumber == undefined) {
+        if (shape == undefined) {
+          console.log('error button');
+        } else {
+          async function asyncCall() {
+            const resArtcl = await Promise.all([
+              $api.stockItem.getInvArticleList({
+                sorttype: shape,
+                lastArt: '*',
+                lastArt1: '',
+              }),
+            ]);
+            charts = resArtcl[0] || [];
+            state.data = charts;
+          }
+          asyncCall();
+        }
+      } else {
+        state.data = charts.filter((account: any) => {
+          if (articleNumber && articleNumber !== account.artnr.toString()) {
+            return false;
+          }
+          return true;
+        });
+      }
     };
     const tableHeaders = [
       {
