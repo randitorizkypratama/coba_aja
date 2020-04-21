@@ -28,27 +28,15 @@
         @row-click="onRowClick"
       >
         <template #header-cell-fibukonto="props">
-          <q-th :props="props" class="fixed-col left">
-            {{
-            props.col.label
-            }}
-          </q-th>
+          <q-th :props="props" class="fixed-col left">{{ props.col.label }}</q-th>
         </template>
 
         <template #body-cell-fibukonto="props">
-          <q-td :props="props" class="fixed-col left">
-            {{
-            props.row.fibukonto
-            }}
-          </q-td>
+          <q-td :props="props" class="fixed-col left">{{ props.row.fibukonto }}</q-td>
         </template>
 
         <template #header-cell-actions="props">
-          <q-th :props="props" class="fixed-col right">
-            {{
-            props.col.label
-            }}
-          </q-th>
+          <q-th :props="props" class="fixed-col right">{{ props.col.label }}</q-th>
         </template>
 
         <template #body-cell-actions="props">
@@ -111,6 +99,7 @@ export default defineComponent({
       state.searches.categories = mapWithBezeich(resTypes, 'nr');
       state.searches.departments = mapWithBezeich(resDepart, 'nr');
       state.isFetching = false;
+      console.log(state.accounts, 'coba');
     });
 
     const tableHeaders = [
@@ -182,6 +171,8 @@ export default defineComponent({
         }
         return true;
       });
+      console.log(state.accounts, 'coba1');
+      console.log(onSearch, 'coba2');
     };
 
     const onDialog = (val) => {

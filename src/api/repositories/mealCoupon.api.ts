@@ -3,41 +3,50 @@ import { DoRequest } from '../config/repository';
 const INV_URL = 'vhpINV';
 
 export interface MealCouponEndpoints {
-    // getChartOfAccount: any;
+    getINVtable: any;
     // getGLMainAccount: any;
     // getGLFSType: any;
-  getINVprepare: any;
+    getINVprepare: any;
     // getViewBudgetValue: any;
     // getViewActualValue: any;
 }
 
-// const defaultBodies = {
-//   chart: {
-//     fibukonto: 0,
-//     fromDepart: 0,
-//     fromFstype: 0,
-//     fromMain: 0,
-//   },
-//   main: {
-//     caseType: 4,
-//     char1: '',
-//     char2: '',
-//     int1: 0,
-//     int2: 0,
-//   },
-//   fsType: {
-//     caseType: 2,
-//     char1: '',
-//     char2: '',
-//     int1: 0,
-//   },
-// };
+const defaultBodies = {
+    chart: {
+        doubleCurrency: false,
+        foreignNr: 0,
+        exchgRate: 1,
+        billdate: "2019-01-14",
+        fromDept: 1,
+        toDept: 20,
+        fromDate: "2019-01-01",
+        toDate: "2019-01-20"
+
+    },
+    //   main: {
+    //     caseType: 4,
+    //     char1: '',
+    //     char2: '',
+    //     int1: 0,
+    //     int2: 0,
+    //   },
+    //   fsType: {
+    //     caseType: 2,
+    //     char1: '',
+    //     char2: '',
+    //     int1: 0,
+    //   },
+};
 
 export default (doFetch: DoRequest): MealCouponEndpoints => ({
-  getINVprepare: () =>
-    doFetch({ url: `${INV_URL}/mealCouponPrepare` }).then(
-      ([, res]) => res?.tHoteldpt?.['t-hoteldpt']
-    ),
+    getINVtable: (body = defaultBodies.chart) =>
+        doFetch({ url: `${INV_URL}/mealCouponList`, body }).then(
+            ([, res]) => res?.cList?.['c-list']
+        ),
+    getINVprepare: () =>
+        doFetch({ url: `${INV_URL}/mealCouponPrepare` }).then(
+            ([, res]) => res?.tHoteldpt?.['t-hoteldpt']
+        ),
 });
 
 // getChartOfAccount: (body = defaultBodies.chart) =>
