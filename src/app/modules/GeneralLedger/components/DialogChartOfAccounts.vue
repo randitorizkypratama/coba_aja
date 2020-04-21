@@ -2,9 +2,7 @@
   <q-dialog v-model="dialogModel">
     <q-card style="width: 500px;">
       <q-toolbar>
-        <q-toolbar-title class="text-white text-weight-medium">
-          Account's
-        </q-toolbar-title>
+        <q-toolbar-title class="text-white text-weight-medium">Account's</q-toolbar-title>
       </q-toolbar>
 
       <q-card-section>
