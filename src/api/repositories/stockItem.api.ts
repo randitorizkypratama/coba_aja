@@ -7,8 +7,8 @@ export interface StockItemEndpoints {
 }
 
 export default (doFetch: DoRequest): StockItemEndpoints => ({
-  getInvArticleList: (api, body) =>
-    doFetch({ url: `${INV_URL}/${api}`, body }).then(
+  getInvArticleList: (body) =>
+    doFetch({ url: `${INV_URL}/$getInvArticleList`, body }).then(
       ([, res]) => res?.tLArtikel?.['t-l-artikel']
     ),
 });

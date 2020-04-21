@@ -1,11 +1,11 @@
 <template>
   <div>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchChart :searches="searches" :selected="selectedAccount" @onSearch="onSearch" />
+      <SearchChartOfAccounts :searches="searches" :selected="selectedAccount" @onSearch="onSearch" />
     </q-drawer>
     <div class="q-pa-lg">
       <div class="q-mb-md">
-        <q-btn flat round class="q-mr-lg">
+        <q-btn @click="dialog = true" flat round class="q-mr-lg">
           <img :src="require('~/app/icons/Icon-Add.svg')" height="30" />
         </q-btn>
         <q-btn flat round class="q-mr-lg">
@@ -17,13 +17,54 @@
       </div>
       <q-table
         dense
-        :data="data"
+        :loading="isFetching"
         :columns="tableHeaders"
+        :data="data"
         separator="cell"
         :rows-per-page-options="[10, 13, 16]"
         :pagination.sync="pagination"
-      />
+        @row-click="onRowClick"
+      >
+        <template #header-cell-fibukonto="props">
+          <q-th :props="props" class="fixed-col left">
+            {{
+            props.col.label
+            }}
+          </q-th>
+        </template>
+
+        <template #body-cell-fibukonto="props">
+          <q-td :props="props" class="fixed-col left">
+            {{
+            props.row.fibukonto
+            }}
+          </q-td>
+        </template>
+
+        <template #header-cell-actions="props">
+          <q-th :props="props" class="fixed-col right">
+            {{
+            props.col.label
+            }}
+          </q-th>
+        </template>
+
+        <template #body-cell-actions="props">
+          <q-td :props="props" class="fixed-col right">
+            <q-icon name="more_vert" size="16px">
+              <q-menu auto-close anchor="bottom right" self="top right">
+                <q-list>
+                  <q-item clickable v-ripple @click="selectAccount(props.row.fibukonto)">
+                    <q-item-section>edit</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-icon>
+          </q-td>
+        </template>
+      </q-table>
     </div>
+    <DialogChartOfAccounts :dialog="dialog" @onDialog="onDialog" />
   </div>
 </template>
 
@@ -33,46 +74,18 @@ import {
   onMounted,
   toRefs,
   reactive,
-  onBeforeUpdate,
 } from '@vue/composition-api';
-import searchChart from './components/SearchChartStockItem.vue';
-export default defineComponent({
-  components: {
-    searchChart,
-  },
+import { mapWithBezeich } from '~/app/helpers/mapSelectItems.helpers';
 
+export default defineComponent({
   setup(_, { root: { $api } }) {
     let charts;
+
     const state = reactive({
       data: [],
+      dialog: false,
     });
-    const onSearch = ({ shape, articleNumber }) => {
-      if (articleNumber == undefined) {
-        if (shape == undefined) {
-          console.log('error button');
-        } else {
-          async function asyncCall() {
-            const resArtcl = await Promise.all([
-              $api.stockItem.getInvArticleList('getInvArticleList', {
-                sorttype: shape,
-                lastArt: '*',
-                lastArt1: '',
-              }),
-            ]);
-            charts = resArtcl[0] || [];
-            state.data = charts;
-          }
-          asyncCall();
-        }
-      } else {
-        state.data = charts.filter((account: any) => {
-          if (articleNumber && articleNumber !== account.artnr.toString()) {
-            return false;
-          }
-          return true;
-        });
-      }
-    };
+
     const tableHeaders = [
       {
         label: 'Article Number',
@@ -143,16 +156,61 @@ export default defineComponent({
         name: 'fibukonto',
         sortable: true,
       },
-      { name: 'Actions', field: 'actions' },
+      { name: 'actions', field: 'actions' },
     ];
+
+    const onSearch = ({ shape, articleNumber }) => {
+      if (articleNumber == undefined) {
+        if (shape == undefined) {
+          console.log('error button');
+        } else {
+          async function asyncCall() {
+            const resArtcl = await Promise.all([
+              $api.stockItem.getInvArticleList({
+                sorttype: shape,
+                lastArt: '*',
+                lastArt1: '',
+              }),
+            ]);
+            charts = resArtcl[0] || [];
+            state.data = charts;
+          }
+          asyncCall();
+        }
+      } else {
+        state.data = charts.filter((account: any) => {
+          if (articleNumber && articleNumber !== account.artnr.toString()) {
+            return false;
+          }
+          return true;
+        });
+      }
+    };
+
+    const onDialog = (val) => {
+      state.dialog = val;
+    };
+
     return {
       ...toRefs(state),
       tableHeaders,
       onSearch,
+      onDialog,
       pagination: {
         rowsPerPage: 10,
       },
     };
   },
+  components: {
+    SearchChartOfAccounts: () =>
+      import('./components/SearchChartStockItem.vue'),
+    DialogChartOfAccounts: () => import('./components/ModalNewStockItem.vue'),
+  },
 });
 </script>
+
+<style lang="scss" scoped>
+h1 {
+  background: $primary-grad;
+}
+</style>

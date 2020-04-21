@@ -6,6 +6,9 @@
 
     <div class="q-pa-lg">
       <div class="q-mb-md">
+        <q-btn @click="dialog = true" flat round class="q-mr-lg">
+          <img :src="require('~/app/icons/Icon-Add.svg')" height="30" />
+        </q-btn>
         <q-btn flat round class="q-mr-lg">
           <img :src="require('~/app/icons/Icon-Refresh.svg')" height="30" />
         </q-btn>
