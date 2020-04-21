@@ -26,7 +26,7 @@ const routes: RouteConfig[] = [
       ),
       generateModuleINV('Inventory', 'meal-coupon', 'PageINVMealCoupon'),
       generateModuleINV('Inventory', 'stock-item', 'PageInvStockItem'),
-      generateModuleOU('Outlet', 'meal-coupon', 'PageOUMealCoupon'),
+      generateModuleOU('Outlet', 'order-taker', 'PageOUOrderTakerReport'),
     ],
   },
 ];

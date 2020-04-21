@@ -24,6 +24,8 @@
         :pagination.sync="pagination"
       />
     </div>
+  
+    {{data}}
   </div>
 </template>
 
@@ -61,17 +63,19 @@ export default defineComponent({
             ]);
             charts = resArtcl[0] || [];
             state.data = charts;
+            console.log(state, 'build');
           }
           asyncCall();
         }
-      } else {
-        state.data = charts.filter((account: any) => {
-          if (articleNumber && articleNumber !== account.artnr.toString()) {
-            return false;
-          }
-          return true;
-        });
       }
+      // else {
+      //   state.data = charts.filter((account: any) => {
+      //     if (articleNumber && articleNumber !== account.artnr.toString()) {
+      //       return false;
+      //     }
+      //     return true;
+      //   });
+      // }
     };
     const tableHeaders = [
       {

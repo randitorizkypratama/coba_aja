@@ -56,6 +56,7 @@ export default defineComponent({
         $api.mealCoupon.getINVprepare(),
       ]);
       charts = resChart || [];
+      console.log($api.mealCoupon.getINVprepare(),"huhu");
       state.accounts = charts;
       state.searches.departments = mapWithMeal(resDepart, 'num');
       state.isFetching = false;
