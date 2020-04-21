@@ -9,8 +9,8 @@
           unmasked-value
         />
         <div id="radio">
-          <q-radio size="xs" v-model="shape" val="art" label="Article Number" />
-          <q-radio size="xs" v-model="shape" val="desc" label="Description" />
+          <q-radio size="xs" v-model="shape" val="1" label="Article Number" />
+          <q-radio size="xs" v-model="shape" val="2" label="Description" />
         </div>
         <q-btn
           block

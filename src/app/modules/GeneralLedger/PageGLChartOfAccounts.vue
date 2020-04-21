@@ -89,6 +89,7 @@ export default defineComponent({
         $api.generalLedger.getGLFSType(),
         $api.generalLedger.getGLDeptAccount(),
       ]);
+
       charts = resChart || [];
       state.accounts = charts;
       state.searches.mains = mapWithBezeich(resMain, 'code');
@@ -165,7 +166,6 @@ export default defineComponent({
         ) {
           return false;
         }
-
         return true;
       });
       console.log(state.accounts, 'coba1');
