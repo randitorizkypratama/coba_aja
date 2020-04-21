@@ -92,7 +92,15 @@ const getters: GetterTree<LayoutState, any> = {
           name: 'Meal Coupon',
           icon: 'Inventory/Icon-InitialStock',
         }
-      ]
+      ],
+      Outlet: [
+        {
+          path: '/outlet/meal-coupon',
+          name: 'Meal Coupon',
+          icon: 'Inventory/Icon-InitialStock',
+        }
+      ],
+
     };
 
     if (state.currentModule) {

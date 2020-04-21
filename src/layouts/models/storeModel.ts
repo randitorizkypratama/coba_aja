@@ -11,4 +11,5 @@ interface Submodule {
 export interface SubmoduleList {
   GL: Submodule[];
   Inventory: Submodule[];
+  Outlet: Submodule[];
 }

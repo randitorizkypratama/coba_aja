@@ -41,7 +41,7 @@ export const moduleList: HomeModule[] = [
     logo: 'Banquet',
   },
   {
-    path: '/outlet',
+    path: '/outlet/meal-coupon',
     name: 'Outlet',
     logo: 'Outlet',
   },

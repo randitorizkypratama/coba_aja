@@ -1,5 +1,9 @@
 import { RouteConfig } from 'vue-router';
-import { generateModulePath, generateModuleINV } from './mapPath.helpers';
+import {
+  generateModulePath,
+  generateModuleINV,
+  generateModuleOU,
+} from './mapPath.helpers';
 
 const routes: RouteConfig[] = [
   {
@@ -22,6 +26,7 @@ const routes: RouteConfig[] = [
       ),
       generateModuleINV('Inventory', 'meal-coupon', 'PageINVMealCoupon'),
       generateModuleINV('Inventory', 'stock-item', 'PageInvStockItem'),
+      generateModuleOU('Outlet', 'meal-coupon', 'PageOUMealCoupon'),
     ],
   },
 ];
