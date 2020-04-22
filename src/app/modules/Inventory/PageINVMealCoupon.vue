@@ -17,7 +17,7 @@
       <q-table
         dense
         :columns="tableHeaders"
-        :data="accounts"
+        :data="data"
         separator="cell"
         :rows-per-page-options="[10, 13, 16]"
         :pagination.sync="pagination"
@@ -34,6 +34,7 @@ import {
   reactive,
 } from '@vue/composition-api';
 import { mapWithMeal } from '~/app/helpers/mapSelectItems.helpers';
+import { date } from 'quasar';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -41,23 +42,16 @@ export default defineComponent({
 
     const state = reactive({
       isFetching: true,
-      accounts: [],
+      data: [],
       searches: {
-        mains: [],
-        categories: [],
         departments: [],
       },
       dialog: false,
     });
 
     onMounted(async () => {
-      const [resChart, resDepart] = await Promise.all([
-        $api.mealCoupon.getINVtable(),
-        $api.mealCoupon.getINVprepare(),
-      ]);
-      charts = resChart || [];
-      console.log($api.mealCoupon.getINVprepare(),"huhu");
-      state.accounts = charts;
+      const [resDepart] = await Promise.all([$api.mealCoupon.getINVprepare()]);
+      console.log($api.mealCoupon.getINVprepare(), 'huhu');
       state.searches.departments = mapWithMeal(resDepart, 'num');
       state.isFetching = false;
     });
@@ -139,20 +133,28 @@ export default defineComponent({
         sortable: false,
       },
     ];
+    const onSearch = (state) => {
+      console.log('true');
+      async function asyncCall() {
+        const response = await Promise.all([
+          $api.mealCoupon.getINVtable({
+            doubleCurrency: false,
+            foreignNr: 0,
+            exchgRate: 1,
+            billdate: '2019-01-14',
+            fromDept: 1,
+            toDept: 20,
+            fromDate: '2019-01-01',
+            toDate: '2019-01-20',
+          }),
+        ]);
 
-    const onSearch = ({ accountNumber, main, category, department }) => {
-      state.accounts = charts.filter((account: any) => {
-        if (
-          (accountNumber && accountNumber !== account.fibukonto) ||
-          (main && main.value !== account['glmain-bezeich']) ||
-          (category && category.value !== account['glfstype-bezeich']) ||
-          (department && department.value !== account['gldepartment-bezeich'])
-        ) {
-          return false;
-        }
+        charts = response || [];
+        state.data = charts;
 
-        return true;
-      });
+        console.log(response, 'charts');
+      }
+      asyncCall();
     };
 
     return {

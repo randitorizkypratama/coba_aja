@@ -133,7 +133,7 @@ export default defineComponent({
     ];
 
     const onSearch = (state) => {
-      console.log(date.formatDate(state.date.end, 'MM/DD/YYYY'));
+      console.log('true');
       async function asyncCall() {
         const dataOrderTakerList = await Promise.all([
           $api.outlet.getOUOrderTakerReport('getOrderTakerList', {
