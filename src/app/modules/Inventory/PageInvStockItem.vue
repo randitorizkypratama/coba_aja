@@ -165,7 +165,7 @@ export default defineComponent({
         } else {
           async function asyncCall() {
             const resArtcl = await Promise.all([
-              $api.stockItem.getInvArticleList({
+              $api.stockItem.getInvArticleList('getInvArticleList', {
                 sorttype: shape,
                 lastArt: '*',
                 lastArt1: '',
