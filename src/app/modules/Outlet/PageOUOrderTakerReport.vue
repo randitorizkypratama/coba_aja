@@ -59,6 +59,25 @@ export default defineComponent({
       state.isFetching = false;
     });
 
+    const onSearch = (state2) => {
+      console.log(date.formatDate(state2.date.end, 'MM/DD/YYYY'));
+      async function asyncCall() {
+        const dataOrderTakerList = await Promise.all([
+          $api.outlet.getOUOrderTakerReport('getOrderTakerList', {
+            usrNr: state2.userID.value,
+            fromDate: date.formatDate(state2.date.start, 'MM/DD/YYYY'),
+            toDate: date.formatDate(state2.date.end, 'MM/DD/YYYY'),
+          }),
+        ]);
+
+        charts = dataOrderTakerList[0] || [];
+        state.build = charts;
+
+        console.log(state, 'data');
+      }
+      asyncCall();
+    };
+
     const tableHeaders = [
       {
         label: 'Date',
@@ -131,25 +150,6 @@ export default defineComponent({
         sortable: false,
       },
     ];
-
-    const onSearch = (state) => {
-      console.log('true');
-      async function asyncCall() {
-        const dataOrderTakerList = await Promise.all([
-          $api.outlet.getOUOrderTakerReport('getOrderTakerList', {
-            usrNr: state.userID.value,
-            fromDate: date.formatDate(state.date.start, 'MM/DD/YYYY'),
-            toDate: date.formatDate(state.date.end, 'MM/DD/YYYY'),
-          }),
-        ]);
-
-        charts = dataOrderTakerList[0] || [];
-        state.build = charts;
-
-        console.log(state, 'data');
-      }
-      asyncCall();
-    };
 
     return {
       ...toRefs(state),
