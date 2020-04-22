@@ -25,7 +25,7 @@
         v-model="todepartment"
       />
 
-      <q-btn dense color="primary" icon="search" label="Search" class="q-mt-md full-width" />
+      <q-btn dense color="primary" icon="search" label="Search" class="q-mt-md full-width" @click="onSearch"/>
     </div>
   </section>
 </template>

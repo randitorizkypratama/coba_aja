@@ -95,8 +95,8 @@ const getters: GetterTree<LayoutState, any> = {
       ],
       Outlet: [
         {
-          path: '/outlet/meal-coupon',
-          name: 'Meal Coupon',
+          path: '/outlet/order-taker',
+          name: 'Order Taker',
           icon: 'Inventory/Icon-InitialStock',
         }
       ],

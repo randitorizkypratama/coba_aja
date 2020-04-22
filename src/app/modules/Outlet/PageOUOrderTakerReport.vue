@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchMealCoupon :searches="searches" @onSearch="onSearch" />
+      <searchOrderTaker :searches="searches" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -16,8 +16,8 @@
 
       <q-table
         dense
+        :data="build"
         :columns="tableHeaders"
-        :data="data"
         separator="cell"
         :rows-per-page-options="[10, 13, 16]"
         :pagination.sync="pagination"
@@ -33,26 +33,29 @@ import {
   toRefs,
   reactive,
 } from '@vue/composition-api';
-import { mapWithMeal } from '~/app/helpers/mapSelectItems.helpers';
+import { mapOU } from '~/app/helpers/mapSelectItems.helpers';
 import { date } from 'quasar';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
+    let responsePrepare;
     let charts;
 
     const state = reactive({
       isFetching: true,
-      data: [],
+      build: [],
       searches: {
-        departments: [],
+        userList: [],
       },
-      dialog: false,
     });
 
     onMounted(async () => {
-      const [resDepart] = await Promise.all([$api.mealCoupon.getINVprepare()]);
-      console.log($api.mealCoupon.getINVprepare(), 'huhu');
-      state.searches.departments = mapWithMeal(resDepart, 'num');
+      const [data] = await Promise.all([
+        $api.outlet.getOUPrepareOrderTakerReport('getOrderTaker', {}),
+      ]);
+
+      responsePrepare = data || [];
+      state.searches.userList = mapOU(responsePrepare, 'number1', 'char2');
       state.isFetching = false;
     });
 
@@ -65,23 +68,24 @@ export default defineComponent({
         sortable: false,
       },
       {
-        label: 'Department',
-        field: 'deptname',
-        name: 'deptname',
-        align: 'left',
+        label: 'TbNo',
+        field: 'tableno',
+        name: 'tableno',
+        align: 'center',
         sortable: false,
       },
       {
-        label: 'Bill Number',
-        field: 'rechnr',
-        name: 'rechnr',
-        sortable: false,
-      },
-      {
-        label: 'Pax',
-        field: 'pax',
-        name: 'pax',
+        label: 'Bill-No',
+        field: 'billno',
+        name: 'billno',
         align: 'right',
+        sortable: false,
+      },
+
+      {
+        label: 'ArtNo',
+        field: 'artno',
+        name: 'artno',
         sortable: false,
       },
       {
@@ -91,68 +95,58 @@ export default defineComponent({
         sortable: false,
       },
       {
-        label: 'Food Amount',
-        field: 'f-betrag',
-        name: 'f-betrag',
+        label: 'Qty',
+        field: 'qty',
+        name: 'qty',
         sortable: false,
       },
       {
-        label: 'Food Cost',
-        field: 'f-cost',
-        name: 'f-cost',
+        label: 'Amount',
+        field: 'amount',
+        name: 'amount',
         sortable: false,
       },
       {
-        label: 'Beverage Amount',
-        field: 'b-betrag',
-        name: 'b-betrag',
+        label: 'Department',
+        field: 'departement',
+        name: 'departement',
         sortable: false,
       },
       {
-        label: 'Beverage Cost',
-        field: 'b-cost',
-        name: 'b-cost',
+        label: 'Time',
+        field: 'zeit',
+        name: 'zeit',
         sortable: false,
       },
       {
-        label: 'Bill Amount',
-        field: 'betrag',
-        name: 'betrag',
+        label: 'ID',
+        field: 'id',
+        name: 'id',
         sortable: false,
       },
       {
-        label: 'Cost of Sales',
-        field: 't-cost',
-        name: 't-cost',
-        sortable: false,
-      },
-      {
-        label: 'User Id',
-        field: 'usr-id',
-        name: 'usr-id',
+        label: 'TB',
+        field: 'tb',
+        name: 'tb',
         sortable: false,
       },
     ];
+
     const onSearch = (state) => {
       console.log('true');
       async function asyncCall() {
-        const response = await Promise.all([
-          $api.mealCoupon.getINVtable({
-            doubleCurrency: false,
-            foreignNr: 0,
-            exchgRate: 1,
-            billdate: '2019-01-14',
-            fromDept: 1,
-            toDept: 20,
-            fromDate: '2019-01-01',
-            toDate: '2019-01-20',
+        const dataOrderTakerList = await Promise.all([
+          $api.outlet.getOUOrderTakerReport('getOrderTakerList', {
+            usrNr: state.userID.value,
+            fromDate: date.formatDate(state.date.start, 'MM/DD/YYYY'),
+            toDate: date.formatDate(state.date.end, 'MM/DD/YYYY'),
           }),
         ]);
 
-        charts = response || [];
-        state.data = charts;
+        charts = dataOrderTakerList[0] || [];
+        state.build = charts;
 
-        console.log(response, 'charts');
+        console.log(state, 'data');
       }
       asyncCall();
     };
@@ -167,7 +161,7 @@ export default defineComponent({
     };
   },
   components: {
-    searchMealCoupon: () => import('./components/SearchMealCoupon.vue'),
+    searchOrderTaker: () => import('./components/SearchOrderTakerReport.vue'),
   },
 });
 </script>

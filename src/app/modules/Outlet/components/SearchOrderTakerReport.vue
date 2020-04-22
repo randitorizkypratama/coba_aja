@@ -1,6 +1,12 @@
 <template>
   <section class="mt-7">
     <div class="q-pa-md">
+      <SSelect
+        label-text="User ID"
+        :options="searches.userList"
+        v-model="userID"
+      />
+
       <v-date-picker mode="range" v-model="date" :columns="2" :popover="{ visibility: 'click' }">
         <SInput
           label-text="Date"
@@ -8,24 +14,11 @@
           placeholder="From - Until"
           readonly
           v-bind="inputProps"
-          clearable
           @clear="date = null"
         />
       </v-date-picker>
 
-      <SSelect
-        label-text="From Department"
-        :options="searches.departments"
-        v-model="fromdepartment"
-        />
-
-      <SSelect
-        label-text="To Department"
-        :options="searches.departments"
-        v-model="todepartment"
-      />
-
-      <q-btn dense color="primary" icon="search" label="Search" class="q-mt-md full-width" />
+      <q-btn dense color="primary" icon="search" label="Search" class="q-mt-md full-width" @click="onSearch"/>
     </div>
   </section>
 </template>
@@ -33,6 +26,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, toRefs } from '@vue/composition-api';
 import { setupCalendar, DatePicker } from 'v-calendar';
+import { watch } from 'fs';
 
 setupCalendar({
   firstDayOfWeek: 2,
@@ -45,9 +39,8 @@ export default defineComponent({
 
   setup(_, { emit }) {
     const state = reactive({
-      date: null,
-      fromdepartment: ref(null),
-      todepartment: ref(null),
+      userID: ref(null),
+      date: ref(null)
     });
 
     const onSearch = () => {
@@ -61,7 +54,7 @@ export default defineComponent({
   },
   components: {
     'v-date-picker': DatePicker,
-  },
+  }
 });
 </script>
 
