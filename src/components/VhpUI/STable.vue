@@ -7,6 +7,10 @@
       </div>
     </template>
 
+    <template v-slot:loading>
+      <q-inner-loading showing color="primary" />
+    </template>
+
     <slot v-for="slot in Object.keys($slots)" :name="slot" :slot="slot" />
 
     <template
@@ -18,13 +22,3 @@
     </template>
   </q-table>
 </template>
-
-<script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-
-export default defineComponent({
-  setup() {
-    return {};
-  },
-});
-</script>

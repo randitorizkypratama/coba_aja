@@ -55,8 +55,8 @@ export default defineComponent({
 
     onMounted(async () => {
       const [resZugriff, resDepart] = await Promise.all([
-        $api.mealCoupon.getINVzugriff(),
-        $api.mealCoupon.getINVprepare(),
+        $api.inventory.getMealCouponzugriff(),
+        $api.inventory.getMealCouponprepare(),
       ]);
       console.log(resZugriff, 'huhu');
 
@@ -151,7 +151,7 @@ export default defineComponent({
     const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([
-          $api.mealCoupon.getINVtable({
+          $api.inventory.getMealCoupontable({
             doubleCurrency: state2.doubleCurrency,
             foreignNr: state2.foreignNr,
             exchgRate: state2.exchgRate,
