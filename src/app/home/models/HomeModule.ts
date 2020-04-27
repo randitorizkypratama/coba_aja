@@ -21,7 +21,7 @@ export const moduleList: HomeModule[] = [
     logo: 'TO',
   },
   {
-    path: '/housekeeping',
+    path: '/hk/overview',
     name: 'Housekeeping',
     logo: 'HK',
   },
@@ -41,7 +41,7 @@ export const moduleList: HomeModule[] = [
     logo: 'Banquet',
   },
   {
-    path: '/outlet/order-taker',
+    path: '/ou/order-taker-report',
     name: 'Outlet',
     logo: 'Outlet',
   },
@@ -56,7 +56,7 @@ export const moduleList: HomeModule[] = [
     logo: 'Purchasing',
   },
   {
-    path: '/inventory/meal-coupon',
+    path: '/inv/stock-item',
     name: 'Inventory',
     logo: 'Inventory',
   },

@@ -1,9 +1,14 @@
 import { RouteConfig } from 'vue-router';
-import {
-  generateModulePath,
-  generateModuleINV,
-  generateModuleOU,
-} from './mapPath.helpers';
+import { SUBMODULE_LIST } from '~/app/constants/submoduleList.constant';
+
+const MODULE_ROUTES = Object.values(SUBMODULE_LIST)
+  .flat()
+  .map(({ path, pageName, componentName, meta }) => ({
+    path,
+    name: pageName,
+    component: () => import(`../app/modules/${componentName}`),
+    meta,
+  }));
 
 const routes: RouteConfig[] = [
   {
@@ -15,18 +20,7 @@ const routes: RouteConfig[] = [
         name: 'PageHome',
         component: () => import('~/app/home/PageHome.vue'),
       },
-      generateModulePath('GL', 'chart-of-accounts', 'PageGLChartOfAccounts'),
-      generateModulePath('GL', 'general-journal', 'PageGLGeneralJournal'),
-      generateModulePath('GL', 'general-ledger', 'PageGLGeneralLedger'),
-      generateModulePath('GL', 'posting', 'PageGLPosting'),
-      generateModulePath(
-        'Inventory',
-        'chart-of-accounts',
-        'PageGLChartOfAccounts'
-      ),
-      generateModuleINV('Inventory', 'meal-coupon', 'PageINVMealCoupon'),
-      generateModuleINV('Inventory', 'stock-item', 'PageInvStockItem'),
-      generateModuleOU('Outlet', 'order-taker', 'PageOUOrderTakerReport'),
+      ...MODULE_ROUTES,
     ],
   },
 ];

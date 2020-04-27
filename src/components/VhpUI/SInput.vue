@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label class="inline-block q-mb-xs">
+    <label v-if="labelText" class="inline-block q-mb-xs">
       {{ labelText }}
     </label>
     <q-input
@@ -10,8 +10,16 @@
       v-on="$listeners"
       :value="value"
       @change="onChange"
-      class="q-mb-md"
-    />
+      :class="inputClasses"
+    >
+      <template
+        v-for="slot in Object.keys($scopedSlots)"
+        :slot="slot"
+        slot-scope="scope"
+      >
+        <slot :name="slot" v-bind="scope" />
+      </template>
+    </q-input>
   </div>
 </template>
 
@@ -23,6 +31,7 @@ export default defineComponent({
   props: {
     value: { required: false },
     labelText: { type: String, default: null },
+    inputClasses: { type: String, default: 'q-mb-md' },
   },
   setup(_, { emit }) {
     const onChange = (event) => {

@@ -164,7 +164,11 @@ export default defineComponent({
         } else {
           async function asyncCall() {
             const resArtcl = await Promise.all([
+<<<<<<< HEAD:src/app/modules/Inventory/PageInvStockItem.vue
               $api.stockItem.getInvArticleList({
+=======
+              $api.inventory.getInvArticleList('getInvArticleList', {
+>>>>>>> 6deb0d92a64dfc3fc6548d47968b9aa6fc9e5654:src/app/modules/INV/PageINVStockItem.vue
                 sorttype: shape,
                 lastArt: '*',
                 lastArt1: '',

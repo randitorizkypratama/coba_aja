@@ -9,6 +9,10 @@ export interface GeneralLedgerEndpoints {
   getGLDeptAccount: any;
   getViewBudgetValue: any;
   getViewActualValue: any;
+  glCOABudgetCreateList: any;
+  glCOABudgetUpdateBudget: any;
+  getGLHtparam: any;
+  getGLHtpCheck: any;
 }
 
 const defaultBodies = {
@@ -56,4 +60,21 @@ export default (doFetch: DoRequest): GeneralLedgerEndpoints => ({
     doFetch({ url: `${GL_URL}/getViewActualValue`, body: { fibukonto } }).then(
       ([, res]) => res?.bList?.['b-list']
     ),
+  glCOABudgetCreateList: () =>
+    doFetch({ url: `${GL_URL}/glCOABudgetCreateList` }).then(
+      ([, res]) => res?.coaList?.['coa-list']
+    ),
+  glCOABudgetUpdateBudget: (body, sorttype) =>
+    doFetch({
+      url: `${GL_URL}/glCOABudgetUpdateBudget`,
+      body: {
+        coaList: { 'coa-list': body },
+        sorttype,
+      },
+    }),
+  getGLHtparam: () =>
+    doFetch({ url: `${GL_URL}/getGLHtparam`, body: { grpnr: '38' } }).then(
+      ([, res]) => res?.tHtparam?.['t-htparam']
+    ),
+  getGLHtpCheck: (body) => doFetch({ url: `${GL_URL}/getGLHtpCheck`, body }),
 });

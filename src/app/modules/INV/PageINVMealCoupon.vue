@@ -21,7 +21,7 @@
         separator="cell"
         :rows-per-page-options="[10, 13, 16]"
         :pagination.sync="pagination"
-      />
+      ></q-table>
     </div>
   </div>
 </template>
@@ -43,6 +43,10 @@ export default defineComponent({
     const state = reactive({
       isFetching: true,
       data: [],
+      billdate: '',
+      exchgRate: '',
+      foreignNr: '',
+      doubleCurrency: '',
       searches: {
         departments: [],
       },
@@ -50,9 +54,20 @@ export default defineComponent({
     });
 
     onMounted(async () => {
-      const [resDepart] = await Promise.all([$api.mealCoupon.getINVprepare()]);
-      console.log($api.mealCoupon.getINVprepare(), 'huhu');
-      state.searches.departments = mapWithMeal(resDepart, 'num');
+      const [resZugriff, resDepart] = await Promise.all([
+        $api.inventory.getMealCouponzugriff(),
+        $api.inventory.getMealCouponprepare(),
+      ]);
+      console.log(resZugriff, 'huhu');
+
+      state.billdate = resDepart.billdate;
+      state.exchgRate = resDepart.exchgRate;
+      state.foreignNr = resDepart.foreignNr;
+      state.doubleCurrency = resDepart.doubleCurrency;
+      state.searches.departments = mapWithMeal(
+        resDepart.tHoteldpt['t-hoteldpt'],
+        'num'
+      );
       state.isFetching = false;
     });
 
@@ -133,15 +148,19 @@ export default defineComponent({
         sortable: false,
       },
     ];
+<<<<<<< HEAD:src/app/modules/Inventory/PageINVMealCoupon.vue
     const onSearch = () => {
       console.log('true');
+=======
+    const onSearch = (state2) => {
+>>>>>>> 6deb0d92a64dfc3fc6548d47968b9aa6fc9e5654:src/app/modules/INV/PageINVMealCoupon.vue
       async function asyncCall() {
         const response = await Promise.all([
-          $api.mealCoupon.getINVtable({
-            doubleCurrency: false,
-            foreignNr: 0,
-            exchgRate: 1,
-            billdate: '2019-01-14',
+          $api.inventory.getMealCoupontable({
+            doubleCurrency: state2.doubleCurrency,
+            foreignNr: state2.foreignNr,
+            exchgRate: state2.exchgRate,
+            billdate: state2.billdate,
             fromDept: 1,
             toDept: 20,
             fromDate: '2019-01-01',
