@@ -157,7 +157,6 @@ export default defineComponent({
       },
       { name: 'actions', field: 'actions' },
     ];
-
     const onSearch = ({ shape, articleNumber }) => {
       if (articleNumber == undefined) {
         if (shape == undefined) {
@@ -165,13 +164,15 @@ export default defineComponent({
         } else {
           async function asyncCall() {
             const resArtcl = await Promise.all([
-              $api.stockItem.getInvArticleList('getInvArticleList', {
+              $api.stockItem.getInvArticleList({
                 sorttype: shape,
                 lastArt: '*',
                 lastArt1: '',
               }),
             ]);
             charts = resArtcl[0] || [];
+            console.log('sukses', charts);
+
             state.data = charts;
           }
           asyncCall();

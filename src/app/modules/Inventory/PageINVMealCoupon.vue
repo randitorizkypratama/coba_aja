@@ -133,7 +133,7 @@ export default defineComponent({
         sortable: false,
       },
     ];
-    const onSearch = (state) => {
+    const onSearch = () => {
       console.log('true');
       async function asyncCall() {
         const response = await Promise.all([
@@ -149,10 +149,10 @@ export default defineComponent({
           }),
         ]);
 
-        charts = response || [];
+        charts = response[0] || [];
         state.data = charts;
 
-        console.log(response, 'charts');
+        console.log(charts, 'charts');
       }
       asyncCall();
     };

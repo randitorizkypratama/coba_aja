@@ -15,9 +15,14 @@ export const mapWithMeal = (items, prefix) =>
     : [];
 
 export const mapOU = (items, prefix, name) =>
-    items
-      ? items.map((item) => ({
-          label: `${item[prefix]} - ${item[name]}`,
-          value: item[prefix],
-        }))
-      : [];
+  items
+    ? items.map((item) => ({
+        label: `${item[prefix]} - ${item[name]}`,
+        value: item[prefix],
+      }))
+    : [];
+
+export const mapGroup = (items, name, prefix) =>
+  items
+    ? items.map((item) => ({ label: item[name], value: item[prefix] }))
+    : [];
