@@ -3,6 +3,7 @@ import { AccountReceivableEndpoints } from '~/api/repositories/accountReceivable
 import { HousekeepingEndpoints } from '~/api/repositories/housekeeping.api';
 import { InventoryEndpoints } from '~/api/repositories/inventory.api';
 import { OutletEndpoints } from '~/api/repositories/outlet.api';
+import { StockItemEndpoints } from '~/api/repositories/stockItem.api';
 
 interface ApiEndpoints {
   generalLedger: GeneralLedgerEndpoints;
@@ -10,6 +11,7 @@ interface ApiEndpoints {
   housekeeping: HousekeepingEndpoints;
   inventory: InventoryEndpoints;
   outlet: OutletEndpoints;
+  stockItem: StockItemEndpoints;
 }
 
 declare module 'vue/types/vue' {

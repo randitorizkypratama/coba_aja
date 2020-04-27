@@ -6,6 +6,7 @@ import AccountReceivableApi from '../repositories/accountReceivable.api';
 import HousekeepingApi from '../repositories/housekeeping.api';
 import InventoryEndpoints from '../repositories/inventory.api';
 import OutletEndpoints from '../repositories/outlet.api';
+import stockItemEndPoint from '../repositories/stockItem.api';
 
 export default {
   generalLedger: GeneralLedgerAPI(repository),
@@ -13,4 +14,5 @@ export default {
   housekeeping: HousekeepingApi(repository),
   inventory: InventoryEndpoints(repository),
   outlet: OutletEndpoints(repository),
+  stockItem: stockItemEndPoint(repository),
 };

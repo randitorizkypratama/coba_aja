@@ -148,12 +148,8 @@ export default defineComponent({
         sortable: false,
       },
     ];
-<<<<<<< HEAD:src/app/modules/Inventory/PageINVMealCoupon.vue
     const onSearch = () => {
       console.log('true');
-=======
-    const onSearch = (state2) => {
->>>>>>> 6deb0d92a64dfc3fc6548d47968b9aa6fc9e5654:src/app/modules/INV/PageINVMealCoupon.vue
       async function asyncCall() {
         const response = await Promise.all([
           $api.inventory.getMealCoupontable({
