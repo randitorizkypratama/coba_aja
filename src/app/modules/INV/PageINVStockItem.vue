@@ -21,12 +21,14 @@
       </div>
       <q-table
         dense
-        :loading="isFetching"
+        class="my-sticky-virtscroll-table"
         :columns="tableHeaders"
         :data="data"
         separator="cell"
         :rows-per-page-options="[10, 13, 16]"
+        :virtual-scroll-sticky-size-start="48"
         :pagination.sync="pagination"
+        hide-bottom
         @row-click="onRowClick"
       >
         <template #header-cell-fibukonto="props">
@@ -197,7 +199,8 @@ export default defineComponent({
       onSearch,
       onDialog,
       pagination: {
-        rowsPerPage: 10,
+        page: 1,
+        rowsPerPage: 0,
       },
     };
   },
@@ -212,5 +215,27 @@ export default defineComponent({
 <style lang="scss" scoped>
 h1 {
   background: $primary-grad;
+}
+.my-sticky-virtscroll-table {
+  height: 410px;
+}
+
+.my-sticky-virtscroll-table .q-table__top .q-table__bottom {
+}
+
+.my-sticky-virtscroll-table thead tr:first-child th {
+  background-color: #fff;
+}
+
+.my-sticky-virtscroll-table thead tr th {
+  position: sticky;
+  // z-index: 1
+}
+.my-sticky-virtscroll-table thead tr:last-child th {
+  top: 48px;
+}
+
+.my-sticky-virtscroll-table thead tr:first-child th {
+  top: 0;
 }
 </style>
