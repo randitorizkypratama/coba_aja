@@ -55,7 +55,6 @@ export default defineComponent({
       searches: {
         departments: [],
       },
-      dialog: false,
     });
 
     onMounted(async () => {
