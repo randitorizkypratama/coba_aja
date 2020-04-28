@@ -77,7 +77,7 @@ import {
 } from '@vue/composition-api';
 import { CardItems } from './models/overview.model';
 import { cardItems, setTableData, TableData } from './tables/overview.table';
-// import Highcharts from 'highcharts';
+import Highcharts from 'highcharts';
 
 interface State {
   isFetching: boolean;

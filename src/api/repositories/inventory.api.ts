@@ -7,7 +7,7 @@ const defaultBodies = {
     zugriff: {
         userInit: '01',
         arrayNr: '41',
-        expectedNr: '1',
+        expectedNr: '3',
     },
 };
 export interface InventoryEndpoints {
