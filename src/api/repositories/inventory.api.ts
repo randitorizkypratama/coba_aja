@@ -11,10 +11,16 @@ const defaultBodies = {
     },
 };
 export interface InventoryEndpoints {
+    //meal coupon
     getMealCoupontable: any;
     getMealCouponprepare: any;
     getMealCouponzugriff: any;
     getInvArticleList: any;
+    //adjustment result
+
+    getAdjustmentResultprepare: any;
+    getAdjustmentResulttable: any;
+
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
@@ -33,5 +39,13 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
     getInvArticleList: (api, body) =>
         doFetch({ url: `${INV_URL}/${api}`, body }).then(
             ([, res]) => res?.tLArtikel?.['t-l-artikel']
+        ),
+    getAdjustmentResultprepare: () =>
+        doFetch({ url: `${INV_URL}/invAdjustlistPrepare` }).then(
+            ([, res]) => res
+        ),
+        getAdjustmentResulttable: (body) =>
+        doFetch({ url: `${INV_URL}/invAdjustlistList`, body }).then(
+            ([, res]) => res
         ),
 });
