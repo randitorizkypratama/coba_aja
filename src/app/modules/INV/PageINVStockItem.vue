@@ -1,11 +1,7 @@
 <template>
   <div>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <SearchChartOfAccounts
-        :searches="searches"
-        :selected="selectedAccount"
-        @onSearch="onSearch"
-      />
+      <SearchChartOfAccounts :searches="searches" :selected="selectedAccount" @onSearch="onSearch" />
     </q-drawer>
     <div class="q-pa-lg">
       <div class="q-mb-md">
@@ -32,21 +28,15 @@
         @row-click="onRowClick"
       >
         <template #header-cell-fibukonto="props">
-          <q-th :props="props" class="fixed-col left">
-            {{ props.col.label }}
-          </q-th>
+          <q-th :props="props" class="fixed-col left">{{ props.col.label }}</q-th>
         </template>
 
         <template #body-cell-fibukonto="props">
-          <q-td :props="props" class="fixed-col left">
-            {{ props.row.fibukonto }}
-          </q-td>
+          <q-td :props="props" class="fixed-col left">{{ props.row.fibukonto }}</q-td>
         </template>
 
         <template #header-cell-actions="props">
-          <q-th :props="props" class="fixed-col right">
-            {{ props.col.label }}
-          </q-th>
+          <q-th :props="props" class="fixed-col right">{{ props.col.label }}</q-th>
         </template>
 
         <template #body-cell-actions="props">
@@ -54,12 +44,11 @@
             <q-icon name="more_vert" size="16px">
               <q-menu auto-close anchor="bottom right" self="top right">
                 <q-list>
-                  <q-item
-                    clickable
-                    v-ripple
-                    @click="selectAccount(props.row.fibukonto)"
-                  >
+                  <q-item clickable v-ripple @click="editItem">
                     <q-item-section>edit</q-item-section>
+                  </q-item>
+                  <q-item clickable v-ripple @click="confirm = true">
+                    <q-item-section>delete</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -68,7 +57,20 @@
         </template>
       </q-table>
     </div>
-    <DialogChartOfAccounts :dialog="dialog" @onDialog="onDialog" />
+    <DialogChartOfAccounts :dialog="dialog" @onDialog="onDialog" :prepare="prepare" />
+    <q-dialog v-model="confirm" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="warning" color="primary" text-color="white" />
+          <span class="q-ml-sm">Are you sure delete the stock article {{1101002}} - Avocado ?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn @click="deleteData" flat label="Ok" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -88,6 +90,8 @@ export default defineComponent({
     const state = reactive({
       data: [],
       dialog: false,
+      confirm: false,
+      prepare: '',
     });
     const tableHeaders = [
       {
@@ -193,9 +197,37 @@ export default defineComponent({
       state.dialog = val;
     };
 
+    function deleteData() {
+      async function asyncCall() {
+        await Promise.all([
+          $api.stockItem.delInvArticle({
+            pvILanguage: 1,
+            artnr: '1101001',
+          }),
+        ]);
+      }
+      asyncCall();
+    }
+
+    function editItem() {
+      state.dialog = true;
+      async function asyncCall() {
+        const editItem = await Promise.all([
+          $api.stockItem.chgInvArticlePrepare({
+            artnr: 1101001,
+            changed: 'no',
+          }),
+        ]);
+        console.log('sukses12345', editItem);
+        state.prepare = editItem;
+      }
+      asyncCall();
+    }
     return {
       ...toRefs(state),
+      editItem,
       tableHeaders,
+      deleteData,
       onSearch,
       onDialog,
       pagination: {

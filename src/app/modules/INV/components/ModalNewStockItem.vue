@@ -2,30 +2,16 @@
   <q-dialog v-model="dialogModel">
     <q-card style="width: 1100px; max-width: 90vw;">
       <q-toolbar>
-        <q-toolbar-title class="text-white text-weight-medium"
-          >New</q-toolbar-title
-        >
+        <q-toolbar-title class="text-white text-weight-medium">New</q-toolbar-title>
       </q-toolbar>
+      <!-- <q-form @submit="inputan"> -->
       <q-card-section style="height: 480px;">
         <template>
-          <SInput
-            class="inputName"
-            label-text="Name"
-            v-model="articleNumber"
-            unmasked-value
-          />
+          <SInput class="inputName" label-text="Name" v-model="inputName" unmasked-value />
         </template>
-        <q-splitter
-          v-model="splitterModel"
-          style="height: 380px; width: 1000px;"
-        >
+        <q-splitter v-model="splitterModel" style="height: 380px; width: 1000px;">
           <template v-slot:before>
-            <q-tabs
-              v-model="tab"
-              vertical
-              active-color="primary"
-              indicator-color="primary"
-            >
+            <q-tabs v-model="tab" vertical active-color="primary" indicator-color="primary">
               <q-tab name="category" label="Category" />
               <q-tab name="UnitPrice" label="Unit & Price" />
               <q-tab name="Additional" label="Additional Info" />
@@ -76,24 +62,21 @@
                   <SInput
                     style="width: 150px;"
                     label-text="Delivery Unit"
-                    v-model="articleNumber"
-                    mask="##-##-####"
+                    v-model="unitPrice.DeliveryUnit"
                     unmasked-value
                     placeholder="Box"
                   />
                   <SInput
                     style="width: 150px;"
                     label-text="Mess Unit"
-                    v-model="articleNumber"
-                    mask="##-##-####"
+                    v-model="unitPrice.messUnit"
                     unmasked-value
                     placeholder="Kg"
                   />
                   <SInput
                     style="width: 150px;"
                     label-text="Recipe Unit"
-                    v-model="articleNumber"
-                    mask="##-##-####"
+                    v-model="unitPrice.recipeUnit"
                     unmasked-value
                     placeholder="Gram"
                   />
@@ -111,14 +94,16 @@
                     <SInput
                       style="width: 150px;"
                       label-text="Language.Delivery_unit_conv"
-                      v-model="articleNumber"
+                      v-model="unitPrice.UnitConvertion1"
                       unmasked-value
+                      placeholder="30"
                     />
                     <SInput
                       style="width: 150px;"
                       label-text="Language.Delivery_unit_conv"
-                      v-model="articleNumber"
+                      v-model="unitPrice.UnitConvertion2"
                       unmasked-value
+                      placeholder="100"
                     />
                   </div>
                   <div class="col">
@@ -126,19 +111,19 @@
                     <SInput
                       style="width: 150px;"
                       label-text="Actual Purchase Price"
-                      v-model="articleNumber"
+                      v-model="unitPrice.unitPrice1"
                       unmasked-value
                     />
                     <SInput
                       style="width: 150px;"
                       label-text="Last Price"
-                      v-model="articleNumber"
+                      v-model="unitPrice.unitPrice2"
                       unmasked-value
                     />
                     <SInput
                       style="width: 150px;"
                       label-text="Average Purchase Price"
-                      v-model="articleNumber"
+                      v-model="unitPrice.unitPrice3"
                       unmasked-value
                     />
                   </div>
@@ -149,13 +134,13 @@
                 <SInput
                   style="width: 150px;"
                   label-text="Min Stock"
-                  v-model="articleNumber"
+                  v-model="additional.minStock"
                   unmasked-value
                 />
                 <SInput
                   style="width: 150px;"
                   label-text="Max Stock"
-                  v-model="articleNumber"
+                  v-model="additional.maxStock"
                   unmasked-value
                 />
                 <SInput
@@ -184,17 +169,10 @@
         <q-btn flat label="cencel" v-close-popup />
         <q-btn @click="saveData" flat label="OK" v-close-popup />
       </q-card-actions>
+      <!-- </q-form> -->
     </q-card>
-    <ModalRecipeNumber
-      :dialog="dialogArticel"
-      @onDialog="onDialog1"
-      @onRowRecipe="onRowRecipe"
-    />
-    <dialogAcountNumber
-      :dialog="dialogAcount"
-      @onDialog="onDialog2"
-      @onRowAccount="onRowAccount"
-    />
+    <ModalRecipeNumber :dialog="dialogArticel" @onDialog="onDialog1" @onRowRecipe="onRowRecipe" />
+    <dialogAcountNumber :dialog="dialogAcount" @onDialog="onDialog2" @onRowAccount="onRowAccount" />
   </q-dialog>
 </template>
 
@@ -222,10 +200,14 @@ interface State {
   dialogAcount: boolean;
   modelRecipeNumber: any;
   modelAccountNumber: any;
+  inputName: any;
+  unitPrice: any;
+  additional: any;
 }
 export default defineComponent({
   props: {
     dialog: { type: Boolean, required: true },
+    prepare: { type: Object, required: true },
   },
 
   setup(props, { emit, root: { $api } }) {
@@ -241,15 +223,31 @@ export default defineComponent({
       modelAccountNumber: '',
       subMain: {
         main: '',
-        mains: null,
+        mains: '',
       },
       subGroup: {
         sub: '',
-        subs: null,
+        subs: '',
+      },
+
+      unitPrice: {
+        DeliveryUnit: '',
+        messUnit: '',
+        recipeUnit: '',
+        UnitConvertion1: '',
+        UnitConvertion2: '',
+        unitPrice1: '',
+        unitPrice2: '',
+        unitPrice3: '',
+      },
+      additional: {
+        minStock: '',
+        maxStock: '',
       },
       article: '',
       dialogArticel: false,
       dialogAcount: false,
+      inputName: '',
     });
     const dialogModel = computed({
       get: () => props.dialog,
@@ -268,16 +266,65 @@ export default defineComponent({
       asyncCall();
     }
     function saveData() {
-      console.log('sukses1234', 'sukses');
+      async function saveData() {
+        const saveData = await Promise.all([
+          $api.stockItem.addInvArticle({
+            artnr: state.totalBudget.toString(),
+            bezAend: state.model,
+            dmlArt: state.model2,
+            fibukonto: state.modelAccountNumber,
+            pvILanguage: 1,
+            sUnit: state.unitPrice.recipeUnit,
+            lArt: {
+              'l-art': [
+                {
+                  alkoholgrad: undefined,
+                  anzverbrauch: state.additional.maxStock,
+                  artnr: state.totalBudget.toString(),
+                  betriebsnr: state.modelRecipeNumber,
+                  bezeich: state.inputName,
+                  'ek-aktuell': state.unitPrice.unitPrice1,
+                  'ek-letzter': state.unitPrice.unitPrice2,
+                  endkum: state.subMain.mains.value,
+                  fibukonto: state.modelAccountNumber,
+                  inhalt: state.unitPrice.UnitConvertion2,
+                  jahrgang: state.model == 'no' ? '0' : '1',
+                  'lief-artnr[1]': '?',
+                  'lief-artnr[2]': '?',
+                  'lief-artnr[3]': '?',
+                  'lief-einheit': state.unitPrice.UnitConvertion1,
+                  'lief-nr1': '?',
+                  'lief-nr2': '?',
+                  'lief-nr3': '?',
+                  masseinheit: state.unitPrice.messUnit,
+                  'min-bestand': state.additional.minStock,
+                  traubensorte: state.unitPrice.DeliveryUnit,
+                  'vk-preis': state.unitPrice.unitPrice3,
+                  'wert-verbrau': '0',
+                  zwkum: state.subGroup.subs.value,
+                },
+              ],
+            },
+            ttArtnr: {
+              'tt-artnr': [],
+            },
+            ttContent: {
+              'tt-content': [],
+            },
+          }),
+        ]);
+      }
+      saveData();
     }
+
     function clickSubGroup() {
       async function asyncCall() {
         const dataArticle = await Promise.all([
           $api.stockItem.getInvArtNo({
             pvILanguage: 1, // buat default value = 1
             caseType: 2, // buat default value = 2
-            inpInt: state.subMain.mains.value, // zwkum - SUB GROUP
-            inpInt2: state.subGroup.subs.value, // endkum - MAIN GROUP
+            inpInt: state.subGroup.subs.value, // zwkum - SUB GROUP
+            inpInt2: state.subMain.mains.value, // endkum - MAIN GROUP
             inpChar: ' ', // buat default value = “ ”
           }),
         ]);

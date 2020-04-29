@@ -10,6 +10,9 @@ export interface StockItemEndpoints {
   getInvArtNo: any;
   getInvRecipe: any;
   getPrepareSelectGLAcct: any;
+  addInvArticle: any;
+  delInvArticle: any;
+  chgInvArticlePrepare: any;
 }
 
 export default (doFetch: DoRequest): StockItemEndpoints => ({
@@ -38,5 +41,19 @@ export default (doFetch: DoRequest): StockItemEndpoints => ({
   getPrepareSelectGLAcct: (body) =>
     doFetch({ url: `${INV_AR}/getPrepareSelectGLAcct`, body }).then(
       (res) => res[1].glacctList['glacct-list']
+    ),
+
+  addInvArticle: (body) =>
+    doFetch({ url: `${INV_URL}/addInvArticle`, body }).then((res) => {
+      console.log('sukses12345', res);
+    }),
+
+  delInvArticle: (body) =>
+    doFetch({ url: `${INV_URL}/delInvArticle`, body }).then((res) => {
+      console.log('sukses12345', res);
+    }),
+  chgInvArticlePrepare: (body) =>
+    doFetch({ url: `${INV_URL}/chgInvArticlePrepare`, body }).then(
+      (res) => res[1]
     ),
 });
