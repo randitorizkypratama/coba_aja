@@ -28,6 +28,7 @@ const SUBMODULES: Submodule = {
     'Stock Item',
     'Meal Coupon',
     'Adjustment Result',
+    'Incoming',
   ],
   OU: [
     'Order Taker Report',
