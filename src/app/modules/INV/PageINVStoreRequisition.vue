@@ -1,7 +1,11 @@
 <template>
   <div>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <SearchChartOfAccounts :searches="searches" :selected="selectedAccount" @onSearch="onSearch" />
+      <SearchChartOfAccounts
+        :searches="searches"
+        :selected="selectedAccount"
+        @onSearch="onSearch"
+      />
     </q-drawer>
     <div class="q-pa-lg">
       <div class="q-mb-md">
@@ -28,15 +32,21 @@
         @row-click="onRowClick"
       >
         <template #header-cell-fibukonto="props">
-          <q-th :props="props" class="fixed-col left">{{ props.col.label }}</q-th>
+          <q-th :props="props" class="fixed-col left">{{
+            props.col.label
+          }}</q-th>
         </template>
 
         <template #body-cell-fibukonto="props">
-          <q-td :props="props" class="fixed-col left">{{ props.row.fibukonto }}</q-td>
+          <q-td :props="props" class="fixed-col left">{{
+            props.row.fibukonto
+          }}</q-td>
         </template>
 
         <template #header-cell-actions="props">
-          <q-th :props="props" class="fixed-col right">{{ props.col.label }}</q-th>
+          <q-th :props="props" class="fixed-col right">{{
+            props.col.label
+          }}</q-th>
         </template>
 
         <template #body-cell-actions="props">
@@ -57,17 +67,30 @@
         </template>
       </q-table>
     </div>
-    <DialogChartOfAccounts :dialog="dialog" @onDialog="onDialog" :selected="prepare" />
+    <DialogChartOfAccounts
+      :dialog="dialog"
+      @onDialog="onDialog"
+      :selected="prepare"
+    />
     <q-dialog v-model="confirm" persistent>
       <q-card>
         <q-card-section class="row items-center">
           <q-avatar icon="warning" color="primary" text-color="white" />
-          <span class="q-ml-sm">Are you sure delete the stock article {{1101002}} - Avocado ?</span>
+          <span class="q-ml-sm"
+            >Are you sure delete the stock article {{ 1101002 }} - Avocado
+            ?</span
+          >
         </q-card-section>
 
         <q-card-actions align="right">
           <q-btn flat label="Cancel" color="primary" v-close-popup />
-          <q-btn @click="deleteData" flat label="Ok" color="primary" v-close-popup />
+          <q-btn
+            @click="deleteData"
+            flat
+            label="Ok"
+            color="primary"
+            v-close-popup
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>

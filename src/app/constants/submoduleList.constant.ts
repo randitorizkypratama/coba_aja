@@ -1,4 +1,5 @@
 import { reportList } from '~/router/reportList';
+console.log('asuteles12345', reportList);
 
 interface Submodule {
   [key: string]: string[];
@@ -24,14 +25,8 @@ const SUBMODULES: Submodule = {
     'Guest Preference List',
     'Trace',
   ],
-  INV: [
-    'Stock Item',
-    'Meal Coupon',
-    'Adjustment Result',
-  ],
-  OU: [
-    'Order Taker Report',
-  ],
+  INV: ['Stock Item', 'Meal Coupon', 'Adjustment Result', 'Store Requisition'],
+  OU: ['Order Taker Report'],
 };
 
 export const generateModulePath = (moduleAbbr: string, name: string) => {
