@@ -1,12 +1,9 @@
 <template>
-  <div>
+  <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <SearchChartOfAccounts
-        :searches="searches"
-        :selected="selectedAccount"
-        @onSearch="onSearch"
-      />
+      <searchIncoming :searches="searches" @onSearch="onSearch" />
     </q-drawer>
+
     <div class="q-pa-lg">
       <div class="q-mb-md">
         <q-btn @click="dialog = true" flat round class="q-mr-lg">
@@ -19,8 +16,8 @@
           <img :src="require('~/app/icons/Icon-Print.svg')" height="30" />
         </q-btn>
       </div>
+
       <q-table
-        dense
         class="my-sticky-virtscroll-table"
         :columns="tableHeaders"
         :data="data"
@@ -30,70 +27,9 @@
         :pagination.sync="pagination"
         hide-bottom
         @row-click="onRowClick"
-      >
-        <template #header-cell-fibukonto="props">
-          <q-th :props="props" class="fixed-col left">{{
-            props.col.label
-          }}</q-th>
-        </template>
-
-        <template #body-cell-fibukonto="props">
-          <q-td :props="props" class="fixed-col left">{{
-            props.row.fibukonto
-          }}</q-td>
-        </template>
-
-        <template #header-cell-actions="props">
-          <q-th :props="props" class="fixed-col right">{{
-            props.col.label
-          }}</q-th>
-        </template>
-
-        <template #body-cell-actions="props">
-          <q-td :props="props" class="fixed-col right">
-            <q-icon name="more_vert" size="16px">
-              <q-menu auto-close anchor="bottom right" self="top right">
-                <q-list>
-                  <q-item clickable v-ripple @click="editItem">
-                    <q-item-section>edit</q-item-section>
-                  </q-item>
-                  <q-item clickable v-ripple @click="confirm = true">
-                    <q-item-section>delete</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-icon>
-          </q-td>
-        </template>
-      </q-table>
+      />
+      <dialogTypeStoreRequisition />
     </div>
-    <DialogChartOfAccounts
-      :dialog="dialog"
-      @onDialog="onDialog"
-      :selected="prepare"
-    />
-    <q-dialog v-model="confirm" persistent>
-      <q-card>
-        <q-card-section class="row items-center">
-          <q-avatar icon="warning" color="primary" text-color="white" />
-          <span class="q-ml-sm"
-            >Are you sure delete the stock article {{ 1101002 }} - Avocado
-            ?</span
-          >
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="primary" v-close-popup />
-          <q-btn
-            @click="deleteData"
-            flat
-            label="Ok"
-            color="primary"
-            v-close-popup
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </div>
 </template>
 
@@ -103,167 +39,135 @@ import {
   onMounted,
   toRefs,
   reactive,
-  ref,
 } from '@vue/composition-api';
-import { mapWithBezeich } from '~/app/helpers/mapSelectItems.helpers';
+import {
+  mapWithadjustmain,
+  mapWithadjuststore,
+} from '~/app/helpers/mapSelectItems.helpers';
+import { date } from 'quasar';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
     let charts;
+
     const state = reactive({
-      data: [],
-      dialog: false,
-      confirm: false,
-      prepare: '',
+      isFetching: true,
+      searches: {
+        departments: [],
+        store: [],
+      },
     });
+
     const tableHeaders = [
       {
-        label: 'Article Number',
+        label: 'Date',
+        field: 'DATE',
+        name: 'DATE',
+        align: 'left',
+        sortable: false,
+      },
+      {
+        label: 'Delivery Number',
+        field: 'st',
+        name: 'st',
+        align: 'left',
+        sortable: false,
+      },
+      {
+        label: 'From Storage',
+        field: 'supplier',
+        name: 'supplier',
+        sortable: false,
+      },
+      {
+        label: 'To Storage',
         field: 'artnr',
         name: 'artnr',
         align: 'right',
-        sortable: true,
+        sortable: false,
+      },
+      {
+        label: 'Articel',
+        field: 'DESCRIPTION',
+        name: 'DESCRIPTION',
+        align: 'right',
+        sortable: false,
       },
       {
         label: 'Description',
-        field: 'bezeich',
-        name: 'bezeich',
-        align: 'left',
-        sortable: true,
-      },
-      {
-        label: 'Unit',
-        field: 'masseinheit',
-        name: 'masseinheit',
-        sortable: true,
-      },
-      {
-        label: 'Content',
-        field: 'inhalt',
-        name: 'inhalt',
+        field: 'd-unit',
+        name: 'd-unit',
         align: 'right',
-        sortable: true,
+        sortable: false,
       },
       {
         label: 'Unit',
-        field: 'traubensorte',
-        name: 'traubensorte',
-        sortable: true,
+        field: 'price',
+        name: 'price',
+        align: 'right',
+        sortable: false,
       },
       {
         label: 'Content',
-        field: 'lief-einheit',
-        name: 'lief-einheit',
-        sortable: true,
+        field: 'inc-qty',
+        name: 'inc-qty',
+        align: 'right',
+        sortable: false,
       },
       {
-        label: 'Minumum Stock (Mess)',
-        field: 'min-bestand',
-        name: 'min-bestand',
-        sortable: true,
+        label: 'Average Price',
+        field: 'amount',
+        name: 'amount',
+        sortable: false,
       },
       {
-        label: 'Actual',
-        field: 'ek-aktuell',
-        name: 'ek-aktuell',
-        sortable: true,
+        label: 'Quantity',
+        field: 'docu-no',
+        name: 'docu-no',
+        sortable: false,
       },
       {
-        label: 'Last',
-        field: 'ek-letzter',
-        name: 'ek-letzter',
-        sortable: true,
+        label: 'Outgoing Quantity',
+        field: 'ID',
+        name: 'ID',
+        sortable: false,
       },
       {
-        label: 'Average',
-        field: 'vk-preis',
-        name: 'vk-preis',
-        sortable: true,
+        label: 'Account Number',
+        field: 'deliv-note',
+        name: 'deliv-note',
+        sortable: false,
       },
       {
-        label: 'Purchase Frequency',
-        field: 'fibukonto',
-        name: 'fibukonto',
-        sortable: true,
+        label: 'ID',
+        field: 'invoice-nr',
+        name: 'invoice-nr',
+        sortable: false,
       },
-      { name: 'actions', field: 'actions' },
+      {
+        label: 'Approved',
+        field: 'invoice-nr',
+        name: 'invoice-nr',
+        sortable: false,
+      },
     ];
-    const onSearch = ({ shape, articleNumber }) => {
-      if (articleNumber == undefined) {
-        if (shape == undefined) {
-          console.log('error button');
-        } else {
-          async function asyncCall() {
-            const resArtcl = await Promise.all([
-              $api.stockItem.getInvArticleList({
-                sorttype: shape,
-                lastArt: '*',
-                lastArt1: '',
-              }),
-            ]);
-            charts = resArtcl[0] || [];
-            state.data = charts;
-          }
-          asyncCall();
-        }
-      } else {
-        state.data = charts.filter((account: any) => {
-          if (articleNumber && articleNumber !== account.artnr.toString()) {
-            return false;
-          }
-          return true;
-        });
-      }
+    const onSearch = () => {
+      state;
     };
 
-    const onDialog = (val) => {
-      state.dialog = val;
-    };
-
-    function deleteData() {
-      async function asyncCall() {
-        await Promise.all([
-          $api.stockItem.delInvArticle({
-            pvILanguage: 1,
-            artnr: '1101001',
-          }),
-        ]);
-      }
-      asyncCall();
-    }
-
-    function editItem() {
-      state.dialog = true;
-      state.prepare = 'tes';
-      // console.log('sukses12345', state.prepare);
-      async function asyncCall() {
-        const editItem = await Promise.all([
-          $api.stockItem.chgInvArticlePrepare({
-            artnr: 1101001,
-            changed: 'no',
-          }),
-        ]);
-        // console.log('sukses12345', editItem);
-      }
-      asyncCall();
-    }
     return {
       ...toRefs(state),
-      editItem,
       tableHeaders,
-      deleteData,
       onSearch,
-      onDialog,
       pagination: {
-        page: 1,
-        rowsPerPage: 0,
+        rowsPerPage: 10,
       },
     };
   },
   components: {
-    SearchChartOfAccounts: () =>
-      import('./components/SearchChartStockItem.vue'),
-    DialogChartOfAccounts: () => import('./components/ModalNewStockItem.vue'),
+    searchIncoming: () => import('./components/SearchStoreRequisition.vue'),
+    dialogTypeStoreRequisition: () =>
+      import('./components/DialogTypeStoreRequisition.vue'),
   },
 });
 </script>
@@ -271,27 +175,5 @@ export default defineComponent({
 <style lang="scss" scoped>
 h1 {
   background: $primary-grad;
-}
-.my-sticky-virtscroll-table {
-  height: 410px;
-}
-
-.my-sticky-virtscroll-table .q-table__top .q-table__bottom {
-}
-
-.my-sticky-virtscroll-table thead tr:first-child th {
-  background-color: #fff;
-}
-
-.my-sticky-virtscroll-table thead tr th {
-  position: sticky;
-  // z-index: 1
-}
-.my-sticky-virtscroll-table thead tr:last-child th {
-  top: 48px;
-}
-
-.my-sticky-virtscroll-table thead tr:first-child th {
-  top: 0;
 }
 </style>
