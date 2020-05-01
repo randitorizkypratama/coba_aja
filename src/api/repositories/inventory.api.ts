@@ -21,6 +21,12 @@ export interface InventoryEndpoints {
     getAdjustmentResultprepare: any;
     getAdjustmentResulttable: any;
 
+    //incoming
+    getIncomingprepare: any;
+    getIncomingmaingroup: any;
+    getIncomingstore: any;
+    getIncomingtable: any;
+
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
@@ -44,8 +50,24 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
         doFetch({ url: `${INV_URL}/invAdjustlistPrepare` }).then(
             ([, res]) => res
         ),
-        getAdjustmentResulttable: (body) =>
+    getAdjustmentResulttable: (body) =>
         doFetch({ url: `${INV_URL}/invAdjustlistList`, body }).then(
             ([, res]) => res
+        ),
+    getIncomingprepare: (body) =>
+        doFetch({ url: `${INV_URL}/receivingReportPrepare`, body }).then(
+            ([, res]) => res
+        ),
+    getIncomingmaingroup: () =>
+        doFetch({ url: `${INV_URL}/getInvMainGroup` }).then(
+            ([, res]) => res?.tLHauptgrp?.['t-l-hauptgrp']
+        ),
+    getIncomingstore: () =>
+        doFetch({ url: `${INV_URL}/getStorage` }).then(
+            ([, res]) => res?.tLLager?.["t-l-lager"]
+        ),
+    getIncomingtable: () =>
+        doFetch({ url: `${INV_URL}/receivingReportList` }).then(
+            ([, res]) => res?.strList?.["str-list"]
         ),
 });

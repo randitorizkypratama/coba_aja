@@ -25,7 +25,13 @@ const SUBMODULES: Submodule = {
     'Guest Preference List',
     'Trace',
   ],
-  INV: ['Stock Item', 'Meal Coupon', 'Adjustment Result', 'Store Requisition'],
+  INV: [
+    'Stock Item',
+    'Meal Coupon',
+    'Adjustment Result',
+    'Store Requisition',
+    'Incoming',
+  ],
   OU: ['Order Taker Report'],
 };
 
