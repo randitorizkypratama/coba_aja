@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchIncoming :searches="searches" @onSearch="onSearch" />
+      <searchIncoming
+        :searches="searches"
+        :dialogTransfer="dialogTransfer"
+        @onSearch="onSearch"
+      />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -28,7 +32,13 @@
         hide-bottom
         @row-click="onRowClick"
       />
-      <dialogTypeStoreRequisition />
+      <dialogTypeStoreRequisition
+        :dialogTransfer="dialogTransfer"
+        :dialog="dialog"
+        @select="select"
+        @close="close"
+        @select1="select1"
+      />
     </div>
   </div>
 </template>
@@ -56,6 +66,8 @@ export default defineComponent({
         departments: [],
         store: [],
       },
+      dialog: false,
+      dialogTransfer: false,
     });
 
     const tableHeaders = [
@@ -154,11 +166,27 @@ export default defineComponent({
     const onSearch = () => {
       state;
     };
+    const select = (val, group) => {
+      if (group == '1') {
+        state.dialogTransfer = true;
+      }
+      state.dialog = val;
+    };
+    const close = (val) => {
+      state.dialog = val;
+      state.dialogTransfer = val;
+    };
 
+    function select1() {
+      state.dialogTransfer = false;
+    }
     return {
       ...toRefs(state),
+      select1,
       tableHeaders,
       onSearch,
+      close,
+      select,
       pagination: {
         rowsPerPage: 10,
       },
