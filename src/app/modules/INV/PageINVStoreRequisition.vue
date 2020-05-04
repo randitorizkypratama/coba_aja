@@ -30,7 +30,8 @@
       />
       <dialogTypeStoreRequisition
         :dialogTransfer="dialogTransfer"
-        :Outgoing="Outgoing"
+        :disableToStore="disableToStore"
+        :disableAccount="disableAccount"
         :dialog="dialog"
         @select="select"
         @close="close"
@@ -58,6 +59,8 @@ export default defineComponent({
     let charts;
 
     const state = reactive({
+      disableToStore: true,
+      disableAccount: true,
       isFetching: true,
       searches: {
         departments: [],
@@ -65,7 +68,7 @@ export default defineComponent({
       },
       dialog: false,
       dialogTransfer: false,
-      Outgoing: false,
+      transfer: null,
     });
 
     const tableHeaders = [
@@ -167,23 +170,24 @@ export default defineComponent({
     const select = (val, group) => {
       if (group == '1') {
         state.dialogTransfer = true;
+        state.disableToStore = false;
       }
       if (group == '2') {
-        state.Outgoing = true;
+        state.dialogTransfer = true;
+        state.disableAccount = false;
       }
       state.dialog = val;
     };
     const close = (val) => {
-      if (val == '1') {
-        state.dialogTransfer = false;
-      }
-      if (val == '2') {
-        state.Outgoing = false;
-      }
+      state.disableAccount = true;
+      state.disableToStore = true;
+      state.dialogTransfer = val;
       state.dialog = val;
     };
 
     function select1() {
+      state.disableAccount = true;
+      state.disableToStore = true;
       state.dialogTransfer = false;
     }
     return {

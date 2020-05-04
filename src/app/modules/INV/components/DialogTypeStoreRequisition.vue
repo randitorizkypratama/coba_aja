@@ -48,11 +48,13 @@
                 style="margin-right: 10px; width: 180px"
                 label-text="To Store"
                 v-model="main"
+                :disabled="disableToStore"
               />
               <SSelect
                 style="margin-right: 10px; width: 180px"
                 label-text="Account"
                 v-model="main"
+                :disabled="disableAccount"
               />
             </div>
             <div>
@@ -169,21 +171,6 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
-      <q-dialog v-model="Outgoing">
-        <q-card style="width: 820px; max-width: 90vw;">
-          <q-toolbar>
-            <q-toolbar-title class="text-white text-weight-medium">Inter Store Transfer</q-toolbar-title>
-          </q-toolbar>
-          <q-card-section>
-            <h1>tes</h1>
-          </q-card-section>
-          <q-separator />
-          <q-card-actions align="right">
-            <q-btn @click="close('2')" label="cencel" />
-            <q-btn @click="select1" color="primary" label="Select" />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
     </div>
   </div>
 </template>
@@ -213,7 +200,8 @@ export default defineComponent({
   props: {
     dialog: { type: Boolean, required: true },
     dialogTransfer: { type: Boolean, required: true },
-    Outgoing: { type: Boolean, required: true },
+    disableAccount: { type: Boolean, required: true },
+    disableToStore: { type: Boolean, required: true },
   },
   components: {
     'v-date-picker': DatePicker,
@@ -268,8 +256,8 @@ export default defineComponent({
     function select() {
       emit('select', false, state.group);
     }
-    function close(val) {
-      emit('close', val);
+    function close() {
+      emit('close', false);
     }
     function select1() {
       emit('select1', false);
