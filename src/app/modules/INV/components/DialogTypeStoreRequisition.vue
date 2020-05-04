@@ -77,12 +77,28 @@
                       <div class="row">
                         <SSelect
                           style="margin-right: 20px; width: 200px"
-                          label-text="Account"
+                          label-text="Department"
                           v-model="main"
                         />
-                        <q-checkbox size="md" v-model="shape" val="xs" label="Size 'xs'" />
+                        <q-checkbox top-label label="Approve" v-model="val" />
                       </div>
-                      <SSelect style="width: 200px" label-text="Account" v-model="main" />
+                      <v-date-picker
+                        mode="range"
+                        v-model="date"
+                        :columns="2"
+                        :popover="{ visibility: 'click' }"
+                      >
+                        <SInput
+                          style="width: 200px"
+                          label-text="Date"
+                          slot-scope="{ inputProps }"
+                          placeholder="From - Until"
+                          readonly
+                          v-bind="inputProps"
+                          clearable
+                          @clear="date = null"
+                        />
+                      </v-date-picker>
                     </q-tab-panel>
 
                     <q-tab-panel name="alarms">
@@ -90,32 +106,32 @@
                         <div class="col">
                           <SSelect
                             style="margin-right: 20px; width: 200px"
-                            label-text="Account"
+                            label-text="Stock Articel Name"
                             v-model="main"
                           />
                           <SInput
                             style="margin-right: 10px; width: 200px"
-                            label-text="Delivery Number"
+                            label-text="Unit And Content Per Unit"
                             v-model="inputName"
                           />
                           <SInput
                             style="margin-right: 10px; width: 200px"
-                            label-text="Delivery Number"
+                            label-text="Stock Onhand"
                             v-model="inputName"
                           />
                           <SInput
                             style="margin-right: 10px; width: 200px"
-                            label-text="Delivery Number"
+                            label-text="Quantity Mess Unit"
                             v-model="inputName"
                           />
                           <SInput
                             style="margin-right: 10px; width: 200px"
-                            label-text="Delivery Number"
+                            label-text="Price"
                             v-model="inputName"
                           />
                           <SInput
                             style="margin-right: 10px; width: 200px"
-                            label-text="Delivery Number"
+                            label-text="Amount"
                             v-model="inputName"
                           />
                         </div>
@@ -158,21 +174,30 @@ import {
   onMounted,
   toRefs,
 } from '@vue/composition-api';
+import { setupCalendar, DatePicker } from 'v-calendar';
 interface State {
   pagination: any;
   options: any;
   group: any;
   tab: any;
   splitterModel: any;
+  val: Boolean;
+  date: any;
 }
+setupCalendar({
+  firstDayOfWeek: 2,
+});
 export default defineComponent({
   props: {
     dialog: { type: Boolean, required: true },
     dialogTransfer: { type: Boolean, required: true },
   },
-
+  components: {
+    'v-date-picker': DatePicker,
+  },
   setup(props, { emit, root: { $api } }) {
     const state = reactive<State>({
+      date: null,
       options: [
         { label: 'Transfer To Other Storage', value: '1' },
         { label: 'Outgoing / Consumed', value: '2', color: 'bat' },
@@ -183,6 +208,7 @@ export default defineComponent({
       },
       tab: 'mails',
       splitterModel: 20,
+      val: true,
     });
 
     const tableHeaders = [
