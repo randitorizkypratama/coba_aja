@@ -135,7 +135,7 @@
                             v-model="inputName"
                           />
                           <q-btn
-                            style="width: 200px"
+                            style="width: 200px; marginTop: -10px "
                             dense
                             color="primary"
                             label="Add"
@@ -164,7 +164,22 @@
           </q-card-section>
           <q-separator />
           <q-card-actions align="right">
-            <q-btn @click="close" label="cencel" />
+            <q-btn @click="close('1')" label="cencel" />
+            <q-btn @click="select1" color="primary" label="Select" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+      <q-dialog v-model="Outgoing">
+        <q-card style="width: 820px; max-width: 90vw;">
+          <q-toolbar>
+            <q-toolbar-title class="text-white text-weight-medium">Inter Store Transfer</q-toolbar-title>
+          </q-toolbar>
+          <q-card-section>
+            <h1>tes</h1>
+          </q-card-section>
+          <q-separator />
+          <q-card-actions align="right">
+            <q-btn @click="close('2')" label="cencel" />
             <q-btn @click="select1" color="primary" label="Select" />
           </q-card-actions>
         </q-card>
@@ -188,7 +203,7 @@ interface State {
   group: any;
   tab: any;
   splitterModel: any;
-  val: Boolean;
+  val: boolean;
   date: any;
 }
 setupCalendar({
@@ -198,6 +213,7 @@ export default defineComponent({
   props: {
     dialog: { type: Boolean, required: true },
     dialogTransfer: { type: Boolean, required: true },
+    Outgoing: { type: Boolean, required: true },
   },
   components: {
     'v-date-picker': DatePicker,
@@ -252,8 +268,8 @@ export default defineComponent({
     function select() {
       emit('select', false, state.group);
     }
-    function close() {
-      emit('close', false);
+    function close(val) {
+      emit('close', val);
     }
     function select1() {
       emit('select1', false);
@@ -279,7 +295,7 @@ export default defineComponent({
 }
 
 .my-sticky-virtscroll-table {
-  height: 410px;
+  height: auto;
 }
 
 .my-sticky-virtscroll-table .q-table__top .q-table__bottom {
