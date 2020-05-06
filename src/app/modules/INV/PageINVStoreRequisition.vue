@@ -1,11 +1,7 @@
 <template>
   <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchIncoming
-        :searches="searches"
-        :dialogTransfer="dialogTransfer"
-        @onSearch="onSearch"
-      />
+      <searchIncoming :searches="searches" :dialogTransfer="dialogTransfer" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -22,7 +18,8 @@
       </div>
 
       <q-table
-        class="my-sticky-virtscroll-table"
+        dense
+        :class="{mystickyvirtscrolltable : trueAndFalse}"
         :columns="tableHeaders"
         :data="data"
         separator="cell"
@@ -31,14 +28,58 @@
         :pagination.sync="pagination"
         hide-bottom
         @row-click="onRowClick"
-      />
+      >
+        <template #header-cell-fibukonto="props">
+          <q-th :props="props" class="fixed-col left">{{ props.col.label }}</q-th>
+        </template>
+
+        <template #body-cell-fibukonto="props">
+          <q-td :props="props" class="fixed-col left">{{ props.row.fibukonto }}</q-td>
+        </template>
+
+        <template #header-cell-actions="props">
+          <q-th :props="props" class="fixed-col right">{{ props.col.label }}</q-th>
+        </template>
+
+        <template #body-cell-actions="props">
+          <q-td :props="props" class="fixed-col right">
+            <q-icon name="more_vert" size="16px">
+              <q-menu auto-close anchor="bottom right" self="top right">
+                <q-list>
+                  <q-item clickable v-ripple @click="editItem">
+                    <q-item-section>edit</q-item-section>
+                  </q-item>
+                  <q-item clickable v-ripple @click="confirm = true">
+                    <q-item-section>delete</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-icon>
+          </q-td>
+        </template>
+      </q-table>
       <dialogTypeStoreRequisition
         :dialogTransfer="dialogTransfer"
+        :disableToStore="disableToStore"
+        :disableAccount="disableAccount"
         :dialog="dialog"
         @select="select"
         @close="close"
         @select1="select1"
       />
+      <q-dialog v-model="confirm" persistent>
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar icon="warning" color="primary" text-color="white" />
+            <span class="q-ml-sm">Are you sure delete the stock article {{1101002}} - Avocado ?</span>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat label="Cancel" color="primary" v-close-popup />
+            <q-btn @click="deleteData" flat label="Ok" color="primary" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </div>
 </template>
@@ -54,13 +95,16 @@ import {
   mapWithadjustmain,
   mapWithadjuststore,
 } from '~/app/helpers/mapSelectItems.helpers';
-import { date } from 'quasar';
+import { tableHeaders } from './tables/storeRequisition';
+import { mapGroup } from '~/app/helpers/mapSelectItems.helpers';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
     let charts;
 
     const state = reactive({
+      disableToStore: true,
+      disableAccount: true,
       isFetching: true,
       searches: {
         departments: [],
@@ -68,122 +112,67 @@ export default defineComponent({
       },
       dialog: false,
       dialogTransfer: false,
+      transfer: null,
+      data: [],
+      trueAndFalse: false,
+      confirm: false
     });
 
-    const tableHeaders = [
-      {
-        label: 'Date',
-        field: 'DATE',
-        name: 'DATE',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Delivery Number',
-        field: 'st',
-        name: 'st',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'From Storage',
-        field: 'supplier',
-        name: 'supplier',
-        sortable: false,
-      },
-      {
-        label: 'To Storage',
-        field: 'artnr',
-        name: 'artnr',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Articel',
-        field: 'DESCRIPTION',
-        name: 'DESCRIPTION',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Description',
-        field: 'd-unit',
-        name: 'd-unit',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Unit',
-        field: 'price',
-        name: 'price',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Content',
-        field: 'inc-qty',
-        name: 'inc-qty',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Average Price',
-        field: 'amount',
-        name: 'amount',
-        sortable: false,
-      },
-      {
-        label: 'Quantity',
-        field: 'docu-no',
-        name: 'docu-no',
-        sortable: false,
-      },
-      {
-        label: 'Outgoing Quantity',
-        field: 'ID',
-        name: 'ID',
-        sortable: false,
-      },
-      {
-        label: 'Account Number',
-        field: 'deliv-note',
-        name: 'deliv-note',
-        sortable: false,
-      },
-      {
-        label: 'ID',
-        field: 'invoice-nr',
-        name: 'invoice-nr',
-        sortable: false,
-      },
-      {
-        label: 'Approved',
-        field: 'invoice-nr',
-        name: 'invoice-nr',
-        sortable: false,
-      },
-    ];
-    const onSearch = () => {
-      state;
+    onMounted(async () => {
+      const data = await Promise.all([$api.inventory.storeReqPrepare()]);
+      state.searches.departments = mapGroup(
+        data[0].tLUntergrup['t-l-untergrup'],
+        'bezeich',
+        'zwkum'
+      );
+    });
+
+    const onSearch = (val) => {
+      async function getData() {
+        const GET_DATA = await Promise.all([
+          $api.inventory.storeReqCreateList({
+            fromDate: '01/14/19',
+            toDate: '01/14/19',
+            fromDept: val.fromDept.value,
+            toDept: val.toDept.value,
+            currLschein: val.ReqNumber,
+            showPrice: 'yes',
+          }),
+        ]);
+        state.data = GET_DATA[0].tList['t-list'];
+        if (GET_DATA[0].itExist == 'true') {
+          state.trueAndFalse = true;
+        }
+      }
+      getData();
     };
     const select = (val, group) => {
       if (group == '1') {
         state.dialogTransfer = true;
+        state.disableToStore = false;
+      }
+      if (group == '2') {
+        state.dialogTransfer = true;
+        state.disableAccount = false;
       }
       state.dialog = val;
     };
     const close = (val) => {
-      state.dialog = val;
+      state.disableAccount = true;
+      state.disableToStore = true;
       state.dialogTransfer = val;
+      state.dialog = val;
     };
 
     function select1() {
+      state.disableAccount = true;
+      state.disableToStore = true;
       state.dialogTransfer = false;
     }
     return {
       ...toRefs(state),
-      select1,
       tableHeaders,
+      select1,
       onSearch,
       close,
       select,
@@ -201,7 +190,26 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  background: $primary-grad;
+.mystickyvirtscrolltable {
+  height: 410px;
+}
+
+.my-sticky-virtscroll-table .q-table__top .q-table__bottom {
+}
+
+.my-sticky-virtscroll-table thead tr:first-child th {
+  background-color: #fff;
+}
+
+.my-sticky-virtscroll-table thead tr th {
+  position: sticky;
+  // z-index: 1
+}
+.my-sticky-virtscroll-table thead tr:last-child th {
+  top: 48px;
+}
+
+.my-sticky-virtscroll-table thead tr:first-child th {
+  top: 0;
 }
 </style>

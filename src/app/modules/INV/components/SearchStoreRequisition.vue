@@ -1,12 +1,7 @@
 <template>
   <section class="mt-7">
     <div class="q-pa-md">
-      <v-date-picker
-        mode="range"
-        v-model="date"
-        :columns="2"
-        :popover="{ visibility: 'click' }"
-      >
+      <v-date-picker mode="range" v-model="date" :columns="2" :popover="{ visibility: 'click' }">
         <SInput
           label-text="Date"
           slot-scope="{ inputProps }"
@@ -18,23 +13,11 @@
         />
       </v-date-picker>
 
-      <SSelect
-        label-text="From Department"
-        :options="searches.departments"
-        v-model="fromMain"
-      />
+      <SSelect label-text="From Department" :options="searches.departments" v-model="fromDept" />
 
-      <SSelect
-        label-text="To Department"
-        :options="searches.departments"
-        v-model="toMain"
-      />
+      <SSelect label-text="To Department" :options="searches.departments" v-model="toDept" />
 
-      <SInput
-        label-text="To Department"
-        :options="searches.store"
-        v-model="store"
-      />
+      <SInput label-text="Request Number" :options="searches.store" v-model="ReqNumber" />
       <q-btn
         dense
         color="primary"
@@ -50,6 +33,8 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, toRefs } from '@vue/composition-api';
 import { setupCalendar, DatePicker } from 'v-calendar';
+import { date } from 'quasar';
+import { log } from 'util';
 
 setupCalendar({
   firstDayOfWeek: 2,
@@ -63,11 +48,9 @@ export default defineComponent({
   setup(_, { emit }) {
     const state = reactive({
       date: null,
-      store: ref(null),
-      fromMain: ref(null),
-      toMain: ref(null),
-      shape: ref('1'),
-      all: ref(false),
+      fromDept: ref(null),
+      toDept: ref(null),
+      ReqNumber: ref(' '),
     });
 
     const onSearch = () => {

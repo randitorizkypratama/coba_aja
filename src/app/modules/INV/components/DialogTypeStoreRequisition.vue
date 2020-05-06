@@ -28,7 +28,7 @@
     </div>
     <div>
       <q-dialog v-model="dialogTransfer">
-        <q-card style="width: 800px; max-width: 90vw;">
+        <q-card style="width: 820px; max-width: 90vw;">
           <q-toolbar>
             <q-toolbar-title class="text-white text-weight-medium">Inter Store Transfer</q-toolbar-title>
           </q-toolbar>
@@ -48,15 +48,17 @@
                 style="margin-right: 10px; width: 180px"
                 label-text="To Store"
                 v-model="main"
+                :disabled="disableToStore"
               />
               <SSelect
                 style="margin-right: 10px; width: 180px"
                 label-text="Account"
                 v-model="main"
+                :disabled="disableAccount"
               />
             </div>
             <div>
-              <q-splitter v-model="splitterModel" style="height: 250px">
+              <q-splitter v-model="splitterModel" style="height: auto">
                 <template v-slot:before>
                   <q-tabs v-model="tab" vertical active-color="primary" indicator-color="primary">
                     <q-tab name="mails" label="Header" />
@@ -76,7 +78,7 @@
                     <q-tab-panel name="mails">
                       <div class="row">
                         <SSelect
-                          style="margin-right: 20px; width: 200px"
+                          style="margin-right: 20px; width: 300px"
                           label-text="Department"
                           v-model="main"
                         />
@@ -89,7 +91,7 @@
                         :popover="{ visibility: 'click' }"
                       >
                         <SInput
-                          style="width: 200px"
+                          style="width: 300px"
                           label-text="Date"
                           slot-scope="{ inputProps }"
                           placeholder="From - Until"
@@ -102,7 +104,7 @@
                     </q-tab-panel>
 
                     <q-tab-panel name="alarms">
-                      <div class="row">
+                      <div style="marginTop: -20px" class="row">
                         <div class="col">
                           <SSelect
                             style="margin-right: 20px; width: 200px"
@@ -110,29 +112,36 @@
                             v-model="main"
                           />
                           <SInput
-                            style="margin-right: 10px; width: 200px"
+                            style="margin-right: 10px; width: 200px; marginTop: -10px"
                             label-text="Unit And Content Per Unit"
                             v-model="inputName"
                           />
                           <SInput
-                            style="margin-right: 10px; width: 200px"
+                            style="margin-right: 10px; width: 200px; marginTop: -10px"
                             label-text="Stock Onhand"
                             v-model="inputName"
                           />
                           <SInput
-                            style="margin-right: 10px; width: 200px"
+                            style="margin-right: 10px; width: 200px; marginTop: -10px"
                             label-text="Quantity Mess Unit"
                             v-model="inputName"
                           />
                           <SInput
-                            style="margin-right: 10px; width: 200px"
+                            style="margin-right: 10px; width: 200px; marginTop: -10px"
                             label-text="Price"
                             v-model="inputName"
                           />
                           <SInput
-                            style="margin-right: 10px; width: 200px"
+                            style="margin-right: 10px; width: 200px; marginTop: -10px"
                             label-text="Amount"
                             v-model="inputName"
+                          />
+                          <q-btn
+                            style="width: 200px; marginTop: -10px "
+                            dense
+                            color="primary"
+                            label="Add"
+                            @click="onSearch"
                           />
                         </div>
                         <div class="col" style="marginLeft: -100px">
@@ -181,7 +190,7 @@ interface State {
   group: any;
   tab: any;
   splitterModel: any;
-  val: Boolean;
+  val: boolean;
   date: any;
 }
 setupCalendar({
@@ -191,6 +200,8 @@ export default defineComponent({
   props: {
     dialog: { type: Boolean, required: true },
     dialogTransfer: { type: Boolean, required: true },
+    disableAccount: { type: Boolean, required: true },
+    disableToStore: { type: Boolean, required: true },
   },
   components: {
     'v-date-picker': DatePicker,
@@ -272,7 +283,7 @@ export default defineComponent({
 }
 
 .my-sticky-virtscroll-table {
-  height: 410px;
+  height: auto;
 }
 
 .my-sticky-virtscroll-table .q-table__top .q-table__bottom {
