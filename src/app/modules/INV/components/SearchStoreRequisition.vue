@@ -17,7 +17,7 @@
 
       <SSelect label-text="To Department" :options="searches.departments" v-model="toDept" />
 
-      <SInput label-text="Request Number" :options="searches.store" v-model="store" />
+      <SInput label-text="Request Number" :options="searches.store" v-model="ReqNumber" />
       <q-btn
         dense
         color="primary"
@@ -48,13 +48,9 @@ export default defineComponent({
   setup(_, { emit }) {
     const state = reactive({
       date: null,
-      store: ref(null),
-      fromMain: ref(null),
-      toMain: ref(null),
-      shape: ref('1'),
-      all: ref(false),
       fromDept: ref(null),
       toDept: ref(null),
+      ReqNumber: ref(' '),
     });
 
     const onSearch = () => {

@@ -91,4 +91,5 @@ export const tableHeaders: TableHeader[] = [
     name: 'invoice-nr',
     sortable: false,
   },
+  { name: 'actions', field: 'actions' },
 ];

@@ -18,6 +18,7 @@
       </div>
 
       <q-table
+        dense
         :class="{mystickyvirtscrolltable : trueAndFalse}"
         :columns="tableHeaders"
         :data="data"
@@ -27,7 +28,36 @@
         :pagination.sync="pagination"
         hide-bottom
         @row-click="onRowClick"
-      />
+      >
+        <template #header-cell-fibukonto="props">
+          <q-th :props="props" class="fixed-col left">{{ props.col.label }}</q-th>
+        </template>
+
+        <template #body-cell-fibukonto="props">
+          <q-td :props="props" class="fixed-col left">{{ props.row.fibukonto }}</q-td>
+        </template>
+
+        <template #header-cell-actions="props">
+          <q-th :props="props" class="fixed-col right">{{ props.col.label }}</q-th>
+        </template>
+
+        <template #body-cell-actions="props">
+          <q-td :props="props" class="fixed-col right">
+            <q-icon name="more_vert" size="16px">
+              <q-menu auto-close anchor="bottom right" self="top right">
+                <q-list>
+                  <q-item clickable v-ripple @click="editItem">
+                    <q-item-section>edit</q-item-section>
+                  </q-item>
+                  <q-item clickable v-ripple @click="confirm = true">
+                    <q-item-section>delete</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-icon>
+          </q-td>
+        </template>
+      </q-table>
       <dialogTypeStoreRequisition
         :dialogTransfer="dialogTransfer"
         :disableToStore="disableToStore"
@@ -37,6 +67,19 @@
         @close="close"
         @select1="select1"
       />
+      <q-dialog v-model="confirm" persistent>
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar icon="warning" color="primary" text-color="white" />
+            <span class="q-ml-sm">Are you sure delete the stock article {{1101002}} - Avocado ?</span>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat label="Cancel" color="primary" v-close-popup />
+            <q-btn @click="deleteData" flat label="Ok" color="primary" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </div>
 </template>
@@ -72,6 +115,7 @@ export default defineComponent({
       transfer: null,
       data: [],
       trueAndFalse: false,
+      confirm: false
     });
 
     onMounted(async () => {
@@ -91,12 +135,12 @@ export default defineComponent({
             toDate: '01/14/19',
             fromDept: val.fromDept.value,
             toDept: val.toDept.value,
-            currLschein: ' ',
+            currLschein: val.ReqNumber,
             showPrice: 'yes',
           }),
         ]);
         state.data = GET_DATA[0].tList['t-list'];
-        if (GET_DATA[0].tList['t-list'] !== undefined) {
+        if (GET_DATA[0].itExist == 'true') {
           state.trueAndFalse = true;
         }
       }
