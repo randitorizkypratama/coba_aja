@@ -166,7 +166,7 @@
           </q-card-section>
           <q-separator />
           <q-card-actions align="right">
-            <q-btn @click="close('1')" label="cencel" />
+            <q-btn @click="close" label="cencel" />
             <q-btn @click="select1" color="primary" label="Select" />
           </q-card-actions>
         </q-card>

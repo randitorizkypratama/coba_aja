@@ -18,7 +18,7 @@
       </div>
 
       <q-table
-        class="my-sticky-virtscroll-table"
+        :class="{mystickyvirtscrolltable : trueAndFalse}"
         :columns="tableHeaders"
         :data="data"
         separator="cell"
@@ -52,7 +52,8 @@ import {
   mapWithadjustmain,
   mapWithadjuststore,
 } from '~/app/helpers/mapSelectItems.helpers';
-import { date } from 'quasar';
+import { tableHeaders } from './tables/storeRequisition';
+import { mapGroup } from '~/app/helpers/mapSelectItems.helpers';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -69,103 +70,37 @@ export default defineComponent({
       dialog: false,
       dialogTransfer: false,
       transfer: null,
+      data: [],
+      trueAndFalse: false,
     });
 
-    const tableHeaders = [
-      {
-        label: 'Date',
-        field: 'DATE',
-        name: 'DATE',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Delivery Number',
-        field: 'st',
-        name: 'st',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'From Storage',
-        field: 'supplier',
-        name: 'supplier',
-        sortable: false,
-      },
-      {
-        label: 'To Storage',
-        field: 'artnr',
-        name: 'artnr',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Articel',
-        field: 'DESCRIPTION',
-        name: 'DESCRIPTION',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Description',
-        field: 'd-unit',
-        name: 'd-unit',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Unit',
-        field: 'price',
-        name: 'price',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Content',
-        field: 'inc-qty',
-        name: 'inc-qty',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Average Price',
-        field: 'amount',
-        name: 'amount',
-        sortable: false,
-      },
-      {
-        label: 'Quantity',
-        field: 'docu-no',
-        name: 'docu-no',
-        sortable: false,
-      },
-      {
-        label: 'Outgoing Quantity',
-        field: 'ID',
-        name: 'ID',
-        sortable: false,
-      },
-      {
-        label: 'Account Number',
-        field: 'deliv-note',
-        name: 'deliv-note',
-        sortable: false,
-      },
-      {
-        label: 'ID',
-        field: 'invoice-nr',
-        name: 'invoice-nr',
-        sortable: false,
-      },
-      {
-        label: 'Approved',
-        field: 'invoice-nr',
-        name: 'invoice-nr',
-        sortable: false,
-      },
-    ];
-    const onSearch = () => {
-      state;
+    onMounted(async () => {
+      const data = await Promise.all([$api.inventory.storeReqPrepare()]);
+      state.searches.departments = mapGroup(
+        data[0].tLUntergrup['t-l-untergrup'],
+        'bezeich',
+        'zwkum'
+      );
+    });
+
+    const onSearch = (val) => {
+      async function getData() {
+        const GET_DATA = await Promise.all([
+          $api.inventory.storeReqCreateList({
+            fromDate: '01/14/19',
+            toDate: '01/14/19',
+            fromDept: val.fromDept.value,
+            toDept: val.toDept.value,
+            currLschein: ' ',
+            showPrice: 'yes',
+          }),
+        ]);
+        state.data = GET_DATA[0].tList['t-list'];
+        if (GET_DATA[0].tList['t-list'] !== undefined) {
+          state.trueAndFalse = true;
+        }
+      }
+      getData();
     };
     const select = (val, group) => {
       if (group == '1') {
@@ -192,8 +127,8 @@ export default defineComponent({
     }
     return {
       ...toRefs(state),
-      select1,
       tableHeaders,
+      select1,
       onSearch,
       close,
       select,
@@ -211,7 +146,26 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  background: $primary-grad;
+.mystickyvirtscrolltable {
+  height: 410px;
+}
+
+.my-sticky-virtscroll-table .q-table__top .q-table__bottom {
+}
+
+.my-sticky-virtscroll-table thead tr:first-child th {
+  background-color: #fff;
+}
+
+.my-sticky-virtscroll-table thead tr th {
+  position: sticky;
+  // z-index: 1
+}
+.my-sticky-virtscroll-table thead tr:last-child th {
+  top: 48px;
+}
+
+.my-sticky-virtscroll-table thead tr:first-child th {
+  top: 0;
 }
 </style>

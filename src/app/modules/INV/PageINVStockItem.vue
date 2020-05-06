@@ -17,7 +17,7 @@
       </div>
       <q-table
         dense
-        class="my-sticky-virtscroll-table"
+        :class="{mystickyvirtscrolltable : trueandfalse}"
         :columns="tableHeaders"
         :data="data"
         separator="cell"
@@ -92,6 +92,7 @@ export default defineComponent({
       dialog: false,
       confirm: false,
       prepare: '',
+      trueandfalse: false,
     });
     const tableHeaders = [
       {
@@ -180,6 +181,7 @@ export default defineComponent({
             ]);
             charts = resArtcl[0] || [];
             state.data = charts;
+            state.trueandfalse = true;
           }
           asyncCall();
         }
@@ -249,7 +251,7 @@ export default defineComponent({
 h1 {
   background: $primary-grad;
 }
-.my-sticky-virtscroll-table {
+.mystickyvirtscrolltable {
   height: 410px;
 }
 
