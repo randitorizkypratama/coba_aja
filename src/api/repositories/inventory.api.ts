@@ -31,6 +31,7 @@ export interface InventoryEndpoints {
   storeReqPrepare: any;
   storeReqCreateList: any;
   storeReqDelete: any;
+  storeRequestPrepare: any;
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
@@ -74,12 +75,19 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
   //Store Requisition
   storeReqPrepare: () =>
     doFetch({ url: `${INV_URL}/storeReqPrepare` }).then(([, res]) => res),
+
   storeReqCreateList: (body) =>
     doFetch({ url: `${INV_URL}/storeReqCreateList`, body }).then(
       ([, res]) => res
     ),
+
   storeReqDelete: (body) =>
     doFetch({ url: `${INV_URL}/storeReqDelete`, body }).then((res) => {
-      console.log('sukses123', res);
+      console.log('sukses3', res);
     }),
+
+  storeRequestPrepare: (body) =>
+    doFetch({ url: `${INV_URL}/storeRequestPrepare`, body }).then(
+      ([, res]) => res
+    ),
 });

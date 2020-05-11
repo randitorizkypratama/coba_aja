@@ -93,3 +93,87 @@ export const tableHeaders: TableHeader[] = [
   },
   { name: 'actions', field: 'actions' },
 ];
+
+export const tableDialogNew: TableHeader[] = [
+  {
+    label: 'Storage Number',
+    field: 'datum',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Articel Number',
+    field: 'datum',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Description',
+    field: 'datum',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Unit Price',
+    field: 'datum',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: '',
+    field: 'datum',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Quantity',
+    field: 'datum',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Amount',
+    field: 'datum',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Date',
+    field: 'datum',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Type Of Moving',
+    field: 'datum',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Created By',
+    field: 'datum',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Mess Unit',
+    field: 'datum',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    name: 'actions',
+    field: 'actions',
+  },
+];

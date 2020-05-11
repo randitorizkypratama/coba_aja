@@ -115,7 +115,10 @@ export default defineComponent({
       transfer: null,
       data: [],
       trueAndFalse: false,
-      confirm: false
+      confirm: false,
+      rowClick: '',
+      fromDept: '',
+      toDept: '',
     });
 
     onMounted(async () => {
@@ -128,6 +131,8 @@ export default defineComponent({
     });
 
     const onSearch = (val) => {
+      state.fromDept = val.fromDept.value;
+      state.toDept = val.toDept.value;
       async function getData() {
         const GET_DATA = await Promise.all([
           $api.inventory.storeReqCreateList({
@@ -139,6 +144,8 @@ export default defineComponent({
             showPrice: 'yes',
           }),
         ]);
+        console.log('sukses1', GET_DATA);
+
         state.data = GET_DATA[0].tList['t-list'];
         if (GET_DATA[0].itExist == 'true') {
           state.trueAndFalse = true;
@@ -169,15 +176,39 @@ export default defineComponent({
       state.disableToStore = true;
       state.dialogTransfer = false;
     }
+
+    function onRowClick(e, rowClick) {
+      state.rowClick = rowClick;
+    }
+
+    function deleteData() {
+      console.log('sukses2', state.rowClick['s-recid']);
+      async function asyncCall() {
+        $api.inventory.storeReqDelete({
+          tListSrecid: state.rowClick['s-recid'],
+          bedienerNr: '01',
+          fromDate: '01/14/19',
+          toDate: '01/14/19',
+          fromDept: state.fromDept,
+          toDept: state.toDept,
+          currLschein: ' ',
+          showPrice: 'yes',
+        });
+      }
+      asyncCall();
+    }
     return {
       ...toRefs(state),
       tableHeaders,
+      onRowClick,
+      deleteData,
       select1,
       onSearch,
       close,
       select,
       pagination: {
-        rowsPerPage: 10,
+        rowsPerPage: 0,
+        // rowsNumber: state.GET_DATA.length,
       },
     };
   },

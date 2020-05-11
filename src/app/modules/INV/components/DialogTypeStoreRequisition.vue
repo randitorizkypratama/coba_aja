@@ -42,12 +42,14 @@
               <SSelect
                 style="margin-right: 10px; width: 180px"
                 label-text="From Store"
-                v-model="main"
+                :options="header.fromStore"
+                v-model="header.fromStore1"
               />
               <SSelect
                 style="margin-right: 10px; width: 180px"
                 label-text="To Store"
-                v-model="main"
+                :options="header.fromStore"
+                v-model="header.toStore"
                 :disabled="disableToStore"
               />
               <SSelect
@@ -80,7 +82,8 @@
                         <SSelect
                           style="margin-right: 20px; width: 300px"
                           label-text="Department"
-                          v-model="main"
+                          v-model="header.department1"
+                          :options="header.department"
                         />
                         <q-checkbox top-label label="Approve" v-model="val" />
                       </div>
@@ -147,7 +150,7 @@
                         <div class="col" style="marginLeft: -100px">
                           <q-table
                             class="my-sticky-virtscroll-table"
-                            :columns="tableHeaders"
+                            :columns="tableDialogNew"
                             :data="data"
                             separator="cell"
                             :rows-per-page-options="[10, 13, 16]"
@@ -184,6 +187,8 @@ import {
   toRefs,
 } from '@vue/composition-api';
 import { setupCalendar, DatePicker } from 'v-calendar';
+import {tableDialogNew} from '../tables/storeRequisition'
+import { mapGroup } from '~/app/helpers/mapSelectItems.helpers';
 interface State {
   pagination: any;
   options: any;
@@ -192,6 +197,7 @@ interface State {
   splitterModel: any;
   val: boolean;
   date: any;
+  header: any;
 }
 setupCalendar({
   firstDayOfWeek: 2,
@@ -220,38 +226,34 @@ export default defineComponent({
       tab: 'mails',
       splitterModel: 20,
       val: true,
+      header: {
+        department: [],
+        fromStore: [],
+        fromStore1: '',
+        toStore: '',
+        department1: '',
+      },
     });
 
-    const tableHeaders = [
-      {
-        label: 'Date',
-        field: 'DATE',
-        name: 'DATE',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Delivery Number',
-        field: 'st',
-        name: 'st',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Delivery Number',
-        field: 'st',
-        name: 'st',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Delivery Number',
-        field: 'st',
-        name: 'st',
-        align: 'left',
-        sortable: false,
-      },
-    ];
+    onMounted(async () => {
+      const data = await Promise.all([
+        $api.inventory.storeRequestPrepare({
+          userInit: '01',
+        }),
+      ]);
+
+      state.header.department = mapGroup(
+        data[0].tParameters['t-parameters'],
+        'vstring',
+        'varname'
+      );
+      state.header.fromStore = mapGroup(
+        data[0].tLLager['t-l-lager'],
+        'bezeich',
+        'lager-nr'
+      );
+      console.log('sukses123', data);
+    });
 
     function select() {
       emit('select', false, state.group);
@@ -264,7 +266,7 @@ export default defineComponent({
     }
 
     return {
-      tableHeaders,
+      tableDialogNew,
       select1,
       select,
       close,
