@@ -120,7 +120,7 @@
                       v-model="unitPrice.unitPrice2"
                       unmasked-value
                     />
-                  npm install core-js  <SInput
+                    <SInput
                       style="width: 150px;"
                       label-text="Average Purchase Price"
                       v-model="unitPrice.unitPrice3"
