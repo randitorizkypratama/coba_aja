@@ -57,6 +57,6 @@ export const tableHeaders: TableHeader[] = [
     field: 'ek-letzter',
     name: 'ek-letzter',
     sortable: true,
-  }
+  },
   { name: 'actions', field: 'actions' },
 ];
