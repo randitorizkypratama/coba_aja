@@ -184,7 +184,7 @@ export default defineComponent({
   },
   components: {
     SearchChartOfAccounts: () => import('./components/SearchRecipe.vue'),
-    DialogChartOfAccounts: () => import('./components/ModalNewStockItem.vue'),
+    DialogChartOfAccounts: () => import('./components/DialogRecipe.vue'),
   },
 });
 </script>
