@@ -4,25 +4,80 @@
       <q-toolbar>
         <q-toolbar-title class="text-white text-weight-medium">New</q-toolbar-title>
       </q-toolbar>
-      <q-card-section style="height: 400px;">
+      <q-card-section style="height: auto; marginTop: -10px">
         <div class="row">
           <div class="col">
             <div class="row">
-              <div class="col-12 col-md-4">
-                <SInput style="width: 150px;" label-text="Category Number" v-model="inputName" />
-                <SInput style="width: 150px;" label-text="Recipe Number" v-model="inputName" />
-                <SInput style="width: 150px;" label-text="Portion" v-model="inputName" />
-                <SInput style="width: 150px;" label-text="Article Number" v-model="inputName" />
-                <SInput style="width: 150px;" label-text="Loss_factor" v-model="inputName" />
+              <div class="col-5">
+                <SInput
+                  style="width: 180px; marginTop: -5px"
+                  label-text="Category Number"
+                  v-model="inputName"
+                />
+                <SInput
+                  style="width: 180px; marginTop: -5px"
+                  label-text="Recipe Number"
+                  v-model="inputName"
+                />
+                <SInput
+                  style="width: 180px; marginTop: -5px"
+                  label-text="Portion"
+                  v-model="inputName"
+                />
+                <SInput
+                  style="width: 180px; marginTop: -5px"
+                  label-text="Article Number"
+                  v-model="inputName"
+                />
+                <SInput
+                  style="width: 180px; marginTop: -5px"
+                  label-text="Loss_factor"
+                  v-model="inputName"
+                />
               </div>
-              <div class="col-12 col-md-8">
-                <SInput style="width: 270px;" label-text="Category Number" v-model="inputName" />
-                <SInput style="width: 270px;" label-text="Category Number" v-model="inputName" />
+              <div class="col-7">
+                <SInput style=" marginTop: -5px" label-text="Category Number" v-model="inputName" />
+                <div class="column" style="height: 152px">
+                  <div class="col">
+                    <SInput
+                      style=" marginTop: -5px"
+                      label-text="Category Number"
+                      v-model="inputName"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <SInput
+                      style=" width: 150px; marginTop: -5px"
+                      label-text="Category Number"
+                      v-model="inputName"
+                    />
+                  </div>
+                  <div class="col">
+                    <SInput
+                      style=" width: 150px; marginTop: -5px"
+                      label-text="Category Number"
+                      v-model="inputName"
+                    />
+                  </div>
+                </div>
+                <SInput style="marginTop: -5px" label-text="Category Number" v-model="inputName" />
               </div>
             </div>
+            <q-btn
+              style="marginTop: -7px"
+              dense
+              color="primary"
+              icon="plus"
+              label="ADD"
+              class="q-mt-md full-width"
+              @click="onSearch"
+            />
           </div>
           <div class="col">
             <q-table
+              style="marginLeft: 10px"
               :class="{ mystickyvirtscrolltable: trueandfalse }"
               :columns="tableHeaders"
               :data="data"
