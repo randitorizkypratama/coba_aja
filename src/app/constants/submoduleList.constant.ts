@@ -29,6 +29,11 @@ const SUBMODULES: Submodule = {
     'Meal Coupon',
     'Adjustment Result',
     'Incoming',
+    'Material Reconciliation',
+    'Slow Moving Stock On Hand',
+    'Inter Kitchen Transfer',
+    'Yearly Issuing',
+    'FB Outlet Flash',
   ],
   OU: [
     'Order Taker Report',

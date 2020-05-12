@@ -41,3 +41,11 @@ export const mapGroup = (items, name, prefix) =>
   items
     ? items.map((item) => ({ label: item[name], value: item[prefix] }))
     : [];
+
+export const mapInterkitchen = (items, prefix) =>
+  items
+    ? items.map((item) => ({
+      label: `${item.num} - ${item.depart}`,
+      value: item.num,
+    }))
+    : [];

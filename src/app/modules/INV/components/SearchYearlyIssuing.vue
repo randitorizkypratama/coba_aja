@@ -1,14 +1,13 @@
 <template>
   <section class="mt-7">
     <div class="q-pa-md">
-      <SSelect label-text="Store Number" :options="searches.store" v-model="store" />
 
       <SSelect label-text="Main Group" :options="searches.departments" v-model="departments" />
 
       <div id="radio">
-        <q-radio size="xs" v-model="shape" val="1" label="Article Number" />
-        <q-radio size="xs" v-model="shape" val="2" label="Description" />
-        <q-radio size="xs" v-model="shape" val="3" label="Sub Group" />
+        <q-radio size="xs" v-model="shape" val="0" label="Quantity" />
+        <q-radio size="xs" v-model="shape" val="1" label="Average Price" />
+        <q-radio size="xs" v-model="shape" val="2" label="Amount" />
       </div>
       <q-btn
         dense

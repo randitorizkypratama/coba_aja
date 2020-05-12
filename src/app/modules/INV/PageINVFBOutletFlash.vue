@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchAdjustmentResult :searches="searches" @onSearch="onSearch" />
+      <searchFBOutletFlash :searches="searches" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -46,9 +46,14 @@ export default defineComponent({
     const state = reactive({
       isFetching: true,
       data: [],
-      matGrp: '',
-      p221: '',
-      p224: '',
+      food: '',
+      bev: '',
+      date2: '',
+      date1: '',
+      billDate: '',
+      doubleCurrency: '',
+      foreignNr: '',
+      exchgRate: '',
       searches: {
         departments: [],
         store: [],
@@ -57,12 +62,18 @@ export default defineComponent({
 
     onMounted(async () => {
       const [resDepart] = await Promise.all([
-        $api.inventory.getAdjustmentResultprepare(),
+        $api.inventory.getFBOutletFlashprepare(),
       ]);
 
-      state.matGrp = resDepart.matGrp;
-      state.p221 = resDepart.p221;
-      state.p224 = resDepart.p224;
+      state.food = resDepart.food;
+      state.bev = resDepart.bev;
+      state.date2 = resDepart.date2;
+      state.date1 = resDepart.date1;
+      state.billDate = resDepart.billDate;
+      state.doubleCurrency = resDepart.doubleCurrency;
+      state.foreignNr = resDepart.foreignNr;
+      state.exchgRate = resDepart.exchgRate;
+
       state.searches.departments = mapWithadjustmain(
         resDepart.tLHauptgrp['t-l-hauptgrp'],
         'endkum'
@@ -77,82 +88,38 @@ export default defineComponent({
 
     const tableHeaders = [
       {
-        label: 'Article Number',
-        field: 'artnr',
-        name: 'artnr',
-        align: 'left',
-        sortable: false,
-      },
-      {
         label: 'Description',
-        field: 'bezeich',
-        name: 'bezeich',
+        field: 'descr',
+        name: 'descr',
         align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Unit',
-        field: 'munit',
-        name: 'munit',
-        sortable: false,
-      },
-      {
-        label: 'Content',
-        field: 'inhalt',
-        name: 'inhalt',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Current Quantity',
-        field: 'qty',
-        name: 'qty',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Actual Quantity',
-        field: 'qty1',
-        name: 'qty1',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Average Amount',
-        field: 'avrg-amount',
-        name: 'avrg-amount',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Amount',
-        field: 'amount',
-        name: 'amount',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Account Number',
-        field: 'fibukonto',
-        name: 'fibukonto',
         sortable: false,
       },
       {
         label: 'Cost Allocation',
-        field: 'cost-center',
-        name: 'cost-center',
+        field: 'cost-alloc',
+        name: 'cost-alloc',
+        sortable: false,
+      },
+      {
+        label: 'Today Consumed',
+        field: 'today-consume',
+        name: 'today-consume',
+        align: 'right',
+        sortable: false,
+      },
+      {
+        label: 'MTD Consumed',
+        field: 'mtd-consume',
+        name: 'mtd-consume',
+        align: 'right',
         sortable: false,
       },
     ];
     const onSearch = (state2) => {
-
       async function asyncCall() {
         const response = await Promise.all([
           $api.inventory.getAdjustmentResulttable({
-            sorttype: state2.shape,
-            currLager: state2.store.value,
-            fromGrp: state2.departments.value,
-            transdate: state.matGrp == state2.shape ? state.p221 : state.p224,
+           
           }),
         ]);
 
@@ -189,8 +156,7 @@ export default defineComponent({
     };
   },
   components: {
-    searchAdjustmentResult: () =>
-      import('./components/SearchAdjustmentResult.vue'),
+    searchFBOutletFlash: () => import('./components/SearchFBOutletFlash.vue'),
   },
 });
 </script>

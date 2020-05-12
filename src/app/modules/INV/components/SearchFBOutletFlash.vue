@@ -1,15 +1,24 @@
 <template>
   <section class="mt-7">
     <div class="q-pa-md">
-      <SSelect label-text="Store Number" :options="searches.store" v-model="store" />
+      <v-date-picker v-model="date" :columns="2" :popover="{ visibility: 'click' }">
+        <SInput
+          label-text="Date"
+          slot-scope="{ inputProps }"
+          placeholder="Date"
+          readonly
+          v-bind="inputProps"
+          clearable
+          @clear="date = null"
+        />
+      </v-date-picker>
+
+      <SSelect label-text="From Store Number" :options="searches.store" v-model="fromstore" />
+
+      <SSelect label-text="To Store Number" :options="searches.store" v-model="tostore" />
 
       <SSelect label-text="Main Group" :options="searches.departments" v-model="departments" />
 
-      <div id="radio">
-        <q-radio size="xs" v-model="shape" val="1" label="Article Number" />
-        <q-radio size="xs" v-model="shape" val="2" label="Description" />
-        <q-radio size="xs" v-model="shape" val="3" label="Sub Group" />
-      </div>
       <q-btn
         dense
         color="primary"
@@ -24,6 +33,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, toRefs } from '@vue/composition-api';
+import { DatePicker } from 'v-calendar';
 
 export default defineComponent({
   props: {
@@ -32,9 +42,10 @@ export default defineComponent({
 
   setup(_, { emit }) {
     const state = reactive({
-      store: ref(null),
+      date: ref(null),
+      fromstore: ref(null),
+      tostore: ref(null),
       departments: ref(null),
-      shape: ref(null),
     });
 
     const onSearch = () => {
@@ -45,6 +56,9 @@ export default defineComponent({
       ...toRefs(state),
       onSearch,
     };
+  },
+  components: {
+    'v-date-picker': DatePicker,
   },
 });
 </script>

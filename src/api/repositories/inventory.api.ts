@@ -9,6 +9,13 @@ const defaultBodies = {
         arrayNr: '41',
         expectedNr: '1',
     },
+    slowmoving: {
+        LnLProg: " "
+    },
+    interkitchentransfer: {
+        minDept: '99',
+        maxDept: '0',
+    },
 };
 export interface InventoryEndpoints {
     //meal coupon
@@ -16,8 +23,8 @@ export interface InventoryEndpoints {
     getMealCouponprepare: any;
     getMealCouponzugriff: any;
     getInvArticleList: any;
-    //adjustment result
 
+    //adjustment result
     getAdjustmentResultprepare: any;
     getAdjustmentResulttable: any;
 
@@ -26,6 +33,21 @@ export interface InventoryEndpoints {
     getIncomingmaingroup: any;
     getIncomingstore: any;
     getIncomingtable: any;
+
+    //materialreconciliation
+    getMaterialReconciliationprepare: any;
+    getMaterialReconciliationtable: any;
+
+    //slowmoving
+    getSlowMovingprepare: any;
+    getSlowMovingtable: any;
+
+    //InterKitchenTransfer
+    getInterKitchenTransferprepare: any;
+    getInterKitchenTransfertable: any;
+
+    //FBOutletFlash
+    getFBOutletFlashprepare: any;
 
 }
 
@@ -69,5 +91,33 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
     getIncomingtable: () =>
         doFetch({ url: `${INV_URL}/receivingReportList` }).then(
             ([, res]) => res?.strList?.["str-list"]
+        ),
+    getMaterialReconciliationprepare: () =>
+        doFetch({ url: `${INV_URL}/matReconsilePrepare` }).then(
+            ([, res]) => res
+        ),
+    getMaterialReconciliationtable: (body) =>
+        doFetch({ url: `${INV_URL}/matReconsileList`, body }).then(
+            ([, res]) => res?.artBestand?.["art-bestand"]
+        ),
+    getSlowMovingprepare: (body = defaultBodies.slowmoving) =>
+        doFetch({ url: `${INV_URL}/slowMovingPrepare`, body }).then(
+            ([, res]) => res
+        ),
+    getSlowMovingtable: (body) =>
+        doFetch({ url: `${INV_URL}/slowMovingList`, body }).then(
+            ([, res]) => res?.sList?.["s-list"]
+        ),
+    getInterKitchenTransferprepare: (body = defaultBodies.interkitchentransfer) =>
+        doFetch({ url: `${INV_URL}/ktransReportPrepare`, body }).then(
+            ([, res]) => res
+        ),
+    getInterKitchenTransfertable: (body) =>
+        doFetch({ url: `${INV_URL}/ktransReportList`, body }).then(
+            ([, res]) => res?.cList?.["c-list"]
+        ),
+    getFBOutletFlashprepare: () =>
+        doFetch({ url: `${INV_URL}/fbFlash1Prepare` }).then(
+            ([, res]) => res
         ),
 });

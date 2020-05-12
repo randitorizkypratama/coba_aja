@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchAdjustmentResult :searches="searches" @onSearch="onSearch" />
+      <SearchSlowMovingStockOnHand :searches="searches" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -46,9 +46,7 @@ export default defineComponent({
     const state = reactive({
       isFetching: true,
       data: [],
-      matGrp: '',
-      p221: '',
-      p224: '',
+      showPrice: '',
       searches: {
         departments: [],
         store: [],
@@ -57,12 +55,10 @@ export default defineComponent({
 
     onMounted(async () => {
       const [resDepart] = await Promise.all([
-        $api.inventory.getAdjustmentResultprepare(),
+        $api.inventory.getSlowMovingprepare(),
       ]);
+      state.showPrice = resDepart.showPrice;
 
-      state.matGrp = resDepart.matGrp;
-      state.p221 = resDepart.p221;
-      state.p224 = resDepart.p224;
       state.searches.departments = mapWithadjustmain(
         resDepart.tLHauptgrp['t-l-hauptgrp'],
         'endkum'
@@ -84,97 +80,61 @@ export default defineComponent({
         sortable: false,
       },
       {
-        label: 'Description',
-        field: 'bezeich',
-        name: 'bezeich',
+        label: 'Name',
+        field: 'name',
+        name: 'name',
         align: 'left',
         sortable: false,
       },
       {
-        label: 'Unit',
-        field: 'munit',
-        name: 'munit',
+        label: 'Minimum On Hand',
+        field: 'min-oh',
+        name: 'min-oh',
         sortable: false,
       },
       {
-        label: 'Content',
-        field: 'inhalt',
-        name: 'inhalt',
+        label: 'Current On Hand',
+        field: 'curr-oh',
+        name: 'curr-oh',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'Current Quantity',
-        field: 'qty',
-        name: 'qty',
+        label: 'Average Price',
+        field: 'avrgprice',
+        name: 'avrgprice',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'Actual Quantity',
-        field: 'qty1',
-        name: 'qty1',
+        label: 'Actual Price',
+        field: 'ek-aktuell',
+        name: 'ek-aktuell',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'Average Amount',
-        field: 'avrg-amount',
-        name: 'avrg-amount',
+        label: 'Last Purchase Date',
+        field: 'datum',
+        name: 'datum',
         align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Amount',
-        field: 'amount',
-        name: 'amount',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Account Number',
-        field: 'fibukonto',
-        name: 'fibukonto',
-        sortable: false,
-      },
-      {
-        label: 'Cost Allocation',
-        field: 'cost-center',
-        name: 'cost-center',
         sortable: false,
       },
     ];
     const onSearch = (state2) => {
-
       async function asyncCall() {
         const response = await Promise.all([
-          $api.inventory.getAdjustmentResulttable({
-            sorttype: state2.shape,
-            currLager: state2.store.value,
-            fromGrp: state2.departments.value,
-            transdate: state.matGrp == state2.shape ? state.p221 : state.p224,
+          $api.inventory.getSlowMovingtable({
+            storeNo: state2.store.value,
+            mainGrp: state2.departments.value,
+            tage: state2.day != '' ? state2.day : 0,
+            showPrice: state.showPrice,
           }),
         ]);
 
         charts = response[0] || [];
 
-        const pbookList = charts.cList['c-list'];
-        const Amount = charts.totAmount;
-        const Average = charts.totAvrgAmount;
-        const listData = {
-          key: Number.MAX_VALUE,
-          artnr: '',
-          bezeich: 'Total',
-          munit: '',
-          inhalt: '',
-          qty: '',
-          qty1: '',
-          ['avrg-amount']: Average,
-          amount: Amount,
-          fibukonto: '',
-          ['cost-center']: '',
-        };
-        state.data = pbookList.concat(listData);
+        state.data = charts;
       }
       asyncCall();
     };
@@ -189,8 +149,8 @@ export default defineComponent({
     };
   },
   components: {
-    searchAdjustmentResult: () =>
-      import('./components/SearchAdjustmentResult.vue'),
+    SearchSlowMovingStockOnHand: () =>
+      import('./components/SearchSlowMovingStockOnHand.vue'),
   },
 });
 </script>

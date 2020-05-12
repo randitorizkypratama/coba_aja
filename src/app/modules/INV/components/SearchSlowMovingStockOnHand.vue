@@ -1,15 +1,11 @@
 <template>
   <section class="mt-7">
     <div class="q-pa-md">
-      <SSelect label-text="Store Number" :options="searches.store" v-model="store" />
-
       <SSelect label-text="Main Group" :options="searches.departments" v-model="departments" />
 
-      <div id="radio">
-        <q-radio size="xs" v-model="shape" val="1" label="Article Number" />
-        <q-radio size="xs" v-model="shape" val="2" label="Description" />
-        <q-radio size="xs" v-model="shape" val="3" label="Sub Group" />
-      </div>
+      <SSelect label-text="Store Number" :options="searches.store" v-model="store" />
+     
+      <SInput label-text="Days" v-model="day" />
       <q-btn
         dense
         color="primary"
@@ -34,7 +30,7 @@ export default defineComponent({
     const state = reactive({
       store: ref(null),
       departments: ref(null),
-      shape: ref(null),
+      day: ref(null),
     });
 
     const onSearch = () => {
