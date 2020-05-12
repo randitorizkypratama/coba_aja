@@ -7,7 +7,12 @@
       <!-- <q-form @submit="inputan"> -->
       <q-card-section style="height: 480px;">
         <template>
-          <SInput class="inputName" label-text="Name" v-model="inputName" unmasked-value />
+          <SInput
+            class="inputName"
+            label-text="Name"
+            v-model="inputName"
+            unmasked-value
+          />
         </template>
         <q-splitter v-model="splitterModel" style="height: 380px; width: 1000px;">
           <template v-slot:before>
