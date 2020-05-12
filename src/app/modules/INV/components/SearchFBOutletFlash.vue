@@ -13,11 +13,23 @@
         />
       </v-date-picker>
 
-      <SSelect label-text="From Store Number" :options="searches.store" v-model="fromstore" />
+      <SSelect
+        label-text="From Store Number"
+        :options="searches.store"
+        v-model="fromstore"
+      />
 
-      <SSelect label-text="To Store Number" :options="searches.store" v-model="tostore" />
+      <SSelect
+        label-text="To Store Number"
+        :options="searches.store"
+        v-model="tostore"
+      />
 
-      <SSelect label-text="Main Group" :options="searches.departments" v-model="departments" />
+      <SSelect
+        label-text="Main Group"
+        :options="searches.departments"
+        v-model="departments"
+      />
 
       <q-btn
         dense
