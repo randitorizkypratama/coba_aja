@@ -110,7 +110,7 @@ import {
   reactive,
   toRefs,
 } from '@vue/composition-api';
-import { tableHeaders } from '../tables/recipe';
+import { tableHeaders, data } from '../tables/recipe';
 import { watch } from 'fs';
 interface State {
   isLoading: boolean;
@@ -128,6 +128,7 @@ export default defineComponent({
 
     return {
       tableHeaders,
+      data,
       ...toRefs(state),
       pagination: { page: 1, rowsPerPage: 0 },
     };
