@@ -93,12 +93,10 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right" class="bg-white text-teal">
-        <q-btn flat label="cencel" v-close-popup />
-        <q-btn @click="saveData" flat label="OK" v-close-popup />
+        <q-btn @click="$emit('cencel')" flat label="cencel" />
+        <q-btn @click="saveData" flat label="OK" />
       </q-card-actions>
     </q-card>
-    <ModalRecipeNumber :dialog="dialogArticel" @onDialog="onDialog1" @onRowRecipe="onRowRecipe" />
-    <dialogAcountNumber :dialog="dialogAcount" @onDialog="onDialog2" @onRowAccount="onRowAccount" />
   </q-dialog>
 </template>
 
@@ -112,6 +110,7 @@ import {
 } from '@vue/composition-api';
 import { tableHeaders, data } from '../tables/recipe';
 import { watch } from 'fs';
+import { Dialog } from 'quasar';
 interface State {
   isLoading: boolean;
 }
@@ -125,8 +124,11 @@ export default defineComponent({
     const state = reactive<State>({
       isLoading: false,
     });
-
+    const saveData = () => {
+      emit('saveData');
+    };
     return {
+      saveData,
       tableHeaders,
       data,
       ...toRefs(state),

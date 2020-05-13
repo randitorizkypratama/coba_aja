@@ -69,7 +69,12 @@
         </template>
       </q-table>
     </div>
-    <DialogChartOfAccounts :dialog="dialog" @onDialog="onDialog" :selected="prepare" />
+    <DialogChartOfAccounts
+      :dialog="dialog"
+      @saveData="saveData"
+      @cencel="dialog = false"
+      :selected="prepare"
+    />
     <q-dialog v-model="confirm" persistent>
       <q-card>
         <q-card-section class="row items-center">
@@ -109,73 +114,14 @@ export default defineComponent({
       prepare: '',
       trueandfalse: false,
     });
-    const onSearch = ({ shape, articleNumber }) => {
-      if (articleNumber == undefined) {
-        if (shape == undefined) {
-          console.log('error button');
-        } else {
-          async function asyncCall() {
-            const resArtcl = await Promise.all([
-              $api.stockItem.getInvArticleList({
-                sorttype: shape,
-                lastArt: '*',
-                lastArt1: '',
-              }),
-            ]);
-            charts = resArtcl[0] || [];
-            state.data = charts;
-            state.trueandfalse = true;
-          }
-          asyncCall();
-        }
-      } else {
-        state.data = charts.filter((account: any) => {
-          if (articleNumber && articleNumber !== account.artnr.toString()) {
-            return false;
-          }
-          return true;
-        });
-      }
+
+    const saveData = () => {
+      state.dialog = false;
     };
-
-    const onDialog = (val) => {
-      state.dialog = val;
-    };
-
-    function deleteData() {
-      async function asyncCall() {
-        await Promise.all([
-          $api.stockItem.delInvArticle({
-            pvILanguage: 1,
-            artnr: '1101001',
-          }),
-        ]);
-      }
-      asyncCall();
-    }
-
-    function editItem() {
-      state.dialog = true;
-      state.prepare = 'tes';
-      // console.log('sukses12345', state.prepare);
-      async function asyncCall() {
-        const editItem = await Promise.all([
-          $api.stockItem.chgInvArticlePrepare({
-            artnr: 1101001,
-            changed: 'no',
-          }),
-        ]);
-        // console.log('sukses12345', editItem);
-      }
-      asyncCall();
-    }
     return {
       ...toRefs(state),
-      editItem,
+      saveData,
       tableHeaders,
-      deleteData,
-      onSearch,
-      onDialog,
       pagination: {
         page: 1,
         rowsPerPage: 0,
