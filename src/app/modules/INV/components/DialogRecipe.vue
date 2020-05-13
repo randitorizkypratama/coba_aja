@@ -2,7 +2,7 @@
   <q-dialog v-model="dialog">
     <q-card style="width: 1100px; max-width: 90vw;">
       <q-toolbar>
-        <q-toolbar-title class="text-white text-weight-medium">New</q-toolbar-title>
+        <q-toolbar-title class="text-white text-weight-medium">Recipe</q-toolbar-title>
       </q-toolbar>
       <q-card-section style="height: auto; marginTop: -10px">
         <div class="row">
@@ -36,33 +36,29 @@
                 />
               </div>
               <div class="col-7">
-                <SInput style=" marginTop: -5px" label-text="Category Number" v-model="inputName" />
+                <SInput style=" marginTop: -5px" label-text="Category Name" v-model="inputName" />
                 <div class="column" style="height: 152px">
                   <div class="col">
-                    <SInput
-                      style=" marginTop: -5px"
-                      label-text="Category Number"
-                      v-model="inputName"
-                    />
+                    <SInput style=" marginTop: -5px" label-text="Description" v-model="inputName" />
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
                     <SInput
                       style=" width: 150px; marginTop: -5px"
-                      label-text="Category Number"
+                      label-text="Content"
                       v-model="inputName"
                     />
                   </div>
                   <div class="col">
                     <SInput
                       style=" width: 150px; marginTop: -5px"
-                      label-text="Category Number"
+                      label-text="Quantity"
                       v-model="inputName"
                     />
                   </div>
                 </div>
-                <SInput style="marginTop: -5px" label-text="Category Number" v-model="inputName" />
+                <SInput style="marginTop: -5px" label-text="Recipe Cost" v-model="inputName" />
               </div>
             </div>
             <q-btn
@@ -77,6 +73,7 @@
           </div>
           <div class="col">
             <q-table
+              dense
               style="marginLeft: 10px"
               :class="{ mystickyvirtscrolltable: trueandfalse }"
               :columns="tableHeaders"
@@ -87,7 +84,48 @@
               :pagination.sync="pagination"
               hide-bottom
               @row-click="onRowClick"
-            />
+            >
+              <template #header-cell-fibukonto="props">
+                <q-th :props="props" class="fixed-col left">
+                  {{
+                  props.col.label
+                  }}
+                </q-th>
+              </template>
+
+              <template #body-cell-fibukonto="props">
+                <q-td :props="props" class="fixed-col left">
+                  {{
+                  props.row.fibukonto
+                  }}
+                </q-td>
+              </template>
+
+              <template #header-cell-actions="props">
+                <q-th :props="props" class="fixed-col right">
+                  {{
+                  props.col.label
+                  }}
+                </q-th>
+              </template>
+
+              <template #body-cell-actions="props">
+                <q-td :props="props" class="fixed-col right">
+                  <q-icon name="more_vert" size="16px">
+                    <q-menu auto-close anchor="bottom right" self="top right">
+                      <q-list>
+                        <q-item clickable v-ripple @click="editItem">
+                          <q-item-section>edit</q-item-section>
+                        </q-item>
+                        <q-item clickable v-ripple @click="confirm = true">
+                          <q-item-section>delete</q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-icon>
+                </q-td>
+              </template>
+            </q-table>
           </div>
         </div>
       </q-card-section>

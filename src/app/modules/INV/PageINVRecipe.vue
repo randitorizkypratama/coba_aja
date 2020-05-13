@@ -103,12 +103,11 @@ import {
   ref,
 } from '@vue/composition-api';
 import { mapWithBezeich } from '~/app/helpers/mapSelectItems.helpers';
-import { tableHeaders } from './tables/recipe';
+import { tableHeaders, data } from './tables/recipe';
 export default defineComponent({
   setup(_, { root: { $api } }) {
     let charts;
     const state = reactive({
-      data: [],
       dialog: false,
       confirm: false,
       prepare: '',
@@ -120,6 +119,7 @@ export default defineComponent({
     };
     return {
       ...toRefs(state),
+      data,
       saveData,
       tableHeaders,
       pagination: {

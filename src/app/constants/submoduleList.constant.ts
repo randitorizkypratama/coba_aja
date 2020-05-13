@@ -1,5 +1,4 @@
 import { reportList } from '~/router/reportList';
-console.log('asuteles12345', reportList);
 
 interface Submodule {
   [key: string]: string[];
