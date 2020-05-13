@@ -42,6 +42,11 @@ export const reportList: ReportList = {
         name: 'Order Taker',
         keyword: 'Outlet',
       },
+      {
+        path: '/ou/summary-restaurant-report',
+        name: 'Summary Restaurant',
+        keyword: 'Outlet',
+      },
     ],
   },
 };
