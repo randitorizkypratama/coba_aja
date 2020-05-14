@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <SearchChartOfAccounts :searches="searches" :selected="selectedAccount" @onSearch="onSearch" />
+      <SearchChartOfAccounts @onSearch="onSearch" />
     </q-drawer>
     <div class="q-pa-lg">
       <div class="q-mb-md">
@@ -17,7 +17,7 @@
       </div>
       <q-table
         dense
-        :class="{ mystickyvirtscrolltable: trueandfalse }"
+        :class="{ mystickyvirtscrolltable : page }"
         :columns="tableHeaders"
         :data="data"
         separator="cell"
@@ -102,8 +102,8 @@ import {
   reactive,
   ref,
 } from '@vue/composition-api';
-import { mapWithBezeich } from '~/app/helpers/mapSelectItems.helpers';
-import { tableHeaders, data } from './tables/recipe';
+import { tableHeaders } from './tables/recipe';
+import { log } from 'util';
 export default defineComponent({
   setup(_, { root: { $api } }) {
     let charts;
@@ -111,19 +111,81 @@ export default defineComponent({
       dialog: false,
       confirm: false,
       prepare: '',
-      trueandfalse: false,
+      data: [],
+      page: false,
     });
-
+    onMounted(async () => {
+      const data1 = await Promise.all([$api.inventory.recipeListPrepare()]);
+      state.data = data1[0].tHRezept['t-h-rezept'].map((item, i) =>
+        Object.assign({}, item, data1[0].costList['cost-list'][i])
+      );
+      if (state.data !== undefined) {
+        state.page = true;
+      }
+    });
     const saveData = () => {
       state.dialog = false;
     };
+
+    const onSearch = (val, input) => {
+      async function asyncCall() {
+        const data1 = await Promise.all([$api.inventory.recipeListPrepare()]);
+        const data = data1[0].tHRezept['t-h-rezept'].map((item, i) =>
+          Object.assign({}, item, data1[0].costList['cost-list'][i])
+        );
+
+        // state.data = data2.map((item) => ({
+        //   artnrrezept: item.artnrrezept,
+        //   betriebsnr: item.betriebsnr,
+        //   bezeich1: item.bezeich.substring(0, 25),
+        //   bezeich2: item.bezeich.substring(25),
+        // }));
+
+        // console.log('sukses123', data);
+        // console.log('sukses1234', data2);
+
+        if (val == '1') {
+          state.data = data.filter((data: any) => {
+            return data.artnrrezept.toString().includes(input.toString());
+          });
+          if (state.data.length < 14) {
+            state.page = false;
+          }
+          if (state.data.length > 14) {
+            state.page = true;
+          }
+        }
+        if (val == '2') {
+          state.data = data.filter((data: any) => {
+            return data.bezeich.toLowerCase().includes(input.toLowerCase());
+          });
+          if (state.data.length < 14) {
+            state.page = false;
+          }
+          if (state.data.length > 14) {
+            state.page = true;
+          }
+        }
+        if (val == '3') {
+          state.data = data.filter((data: any) => {
+            return data.kategorie.toString().includes(input.toString())
+          })
+           if (state.data.length < 14) {
+            state.page = false;
+          }
+          if (state.data.length > 14) {
+            state.page = true;
+          }
+        }
+      }
+      asyncCall();
+    };
     return {
       ...toRefs(state),
-      data,
+      onSearch,
       saveData,
       tableHeaders,
       pagination: {
-        page: 1,
         rowsPerPage: 0,
       },
     };
@@ -141,9 +203,6 @@ h1 {
 }
 .mystickyvirtscrolltable {
   height: 410px;
-}
-
-.my-sticky-virtscroll-table .q-table__top .q-table__bottom {
 }
 
 .my-sticky-virtscroll-table thead tr:first-child th {

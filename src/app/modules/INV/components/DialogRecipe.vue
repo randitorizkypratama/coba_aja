@@ -146,7 +146,7 @@ import {
   reactive,
   toRefs,
 } from '@vue/composition-api';
-import { tableHeaders, data } from '../tables/recipe';
+import { tableHeaders } from '../tables/recipe';
 import { watch } from 'fs';
 import { Dialog } from 'quasar';
 interface State {
@@ -168,7 +168,6 @@ export default defineComponent({
     return {
       saveData,
       tableHeaders,
-      data,
       ...toRefs(state),
       pagination: { page: 1, rowsPerPage: 0 },
     };

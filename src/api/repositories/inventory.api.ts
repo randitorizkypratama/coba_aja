@@ -32,6 +32,9 @@ export interface InventoryEndpoints {
   storeReqCreateList: any;
   storeReqDelete: any;
   storeRequestPrepare: any;
+
+  // Recipe
+  recipeListPrepare: any
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
@@ -90,4 +93,8 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
     doFetch({ url: `${INV_URL}/storeRequestPrepare`, body }).then(
       ([, res]) => res
     ),
+
+    // Recipe
+    recipeListPrepare: () =>
+    doFetch({ url: `${INV_URL}/recipeListPrepare`}).then(([,res]) => res)
 });

@@ -2,7 +2,8 @@
   <section class="mt-7">
     <div id="input" class="q-pa-md">
       <q-form @submit="onSearch">
-        <SInput label-text="Description" v-model="articleNumber" unmasked-value />
+        <SInput label-text="Description" v-model="inputan" unmasked-value />
+        <q-option-group size="xs" v-model="group" :options="options" color="primary" />
         <q-btn
           block
           color="primary"
@@ -25,10 +26,25 @@ export default defineComponent({
   props: {},
   setup(_, { emit }) {
     const state = reactive({
-      articleNumber: ref(null),
+      inputan: ref(null),
+      group: '1',
+      options: [
+        {
+          label: 'Recipe Number',
+          value: '1',
+        },
+        {
+          label: 'Description',
+          value: '2',
+        },
+        {
+          label: 'Category',
+          value: '3',
+        },
+      ],
     });
     const onSearch = () => {
-      emit('onSearch', { ...state });
+      emit('onSearch', state.group, state.inputan);
     };
     return {
       onSearch,
