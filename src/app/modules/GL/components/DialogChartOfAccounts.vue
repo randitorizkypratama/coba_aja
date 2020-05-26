@@ -2,9 +2,7 @@
   <q-dialog v-model="dialogModel">
     <q-card style="width: 500px;">
       <q-toolbar>
-        <q-toolbar-title class="text-white text-weight-medium">
-          Account's
-        </q-toolbar-title>
+        <q-toolbar-title class="text-white text-weight-medium">Account's</q-toolbar-title>
       </q-toolbar>
 
       <q-card-section>
@@ -73,7 +71,6 @@ export default defineComponent({
         $api.generalLedger.getViewBudgetValue(accountId),
         $api.generalLedger.getViewActualValue(accountId),
       ]);
-
       if (resBudget) {
         resBudget.bList['b-list'].forEach((budget, idx) => {
           state.columns.push({

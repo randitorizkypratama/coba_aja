@@ -34,7 +34,16 @@ export interface InventoryEndpoints {
   storeRequestPrepare: any;
 
   // Recipe
-  recipeListPrepare: any
+  recipeListPrepare: any;
+  addRecipePrepare: any;
+  addRecipeSave: any;
+  addRecipeCreateRezlin: any;
+  addRecipeCalCost: any;
+  chgRecipePrepareL: any;
+  chgRecipeRetKatnr: any;
+  chgRecipeDelete: any;
+  checkTime: any;
+  chgRecipeSave: any;
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
@@ -94,7 +103,43 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
       ([, res]) => res
     ),
 
-    // Recipe
-    recipeListPrepare: () =>
-    doFetch({ url: `${INV_URL}/recipeListPrepare`}).then(([,res]) => res)
+  // Recipe
+  recipeListPrepare: () =>
+    doFetch({ url: `${INV_URL}/recipeListPrepare` }).then(([, res]) => res),
+
+  addRecipePrepare: () =>
+    doFetch({ url: `${INV_URL}/addRecipePrepare` }).then(([, res]) => res),
+
+  addRecipeSave: (body) =>
+    doFetch({ url: `${INV_URL}/addRecipeSave`, body }).then((res) => {
+      console.log('sukses123', res);
+    }),
+  addRecipeCreateRezlin: (body) =>
+    doFetch({ url: `${INV_URL}/addRecipeCreateRezlin`, body }).then((res) => {
+      console.log('sukses123', res);
+    }),
+  addRecipeCalCost: (body) =>
+    doFetch({ url: `${INV_URL}/addRecipeCalCost`, body }).then((res) => {
+      console.log('sukses123', res);
+    }),
+  chgRecipePrepareL: (body) =>
+    doFetch({ url: `${INV_URL}/chgRecipePrepare`, body }).then(
+      ([, res]) => res
+    ),
+  chgRecipeRetKatnr: (body) =>
+    doFetch({ url: `${INV_URL}/chgRecipeRetKatnr`, body }).then(
+      ([, res]) => res
+    ),
+  chgRecipeDelete: (body) =>
+    doFetch({ url: `${INV_URL}/chgRecipeDelete`, body }).then((res) => {
+      console.log('sukses12', res);
+    }),
+  checkTime: (body) =>
+    doFetch({ url: `${Common_URL}/checkTime`, body }).then((res) => {
+      console.log('sukses123', res);
+    }),
+  chgRecipeSave: (body) =>
+    doFetch({ url: `${INV_URL}/chgRecipeSave`, body }).then((res) => {
+      console.log('sukses12', res);
+    }),
 });

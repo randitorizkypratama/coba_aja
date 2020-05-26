@@ -5,7 +5,7 @@
     </q-drawer>
     <div class="q-pa-lg">
       <div class="q-mb-md">
-        <q-btn @click="dialog = true" flat round class="q-mr-lg">
+        <q-btn @click="openDialog" flat round class="q-mr-lg">
           <img :src="require('~/app/icons/Icon-Add.svg')" height="30" />
         </q-btn>
         <q-btn flat round class="q-mr-lg">
@@ -25,7 +25,6 @@
         :virtual-scroll-sticky-size-start="48"
         :pagination.sync="pagination"
         hide-bottom
-        @row-click="onRowClick"
       >
         <template #header-cell-fibukonto="props">
           <q-th :props="props" class="fixed-col left">
@@ -38,7 +37,7 @@
         <template #body-cell-fibukonto="props">
           <q-td :props="props" class="fixed-col left">
             {{
-            props.row.fibukonto
+            props.row
             }}
           </q-td>
         </template>
@@ -56,7 +55,7 @@
             <q-icon name="more_vert" size="16px">
               <q-menu auto-close anchor="bottom right" self="top right">
                 <q-list>
-                  <q-item clickable v-ripple @click="editItem">
+                  <q-item clickable v-ripple @click="editItem(props.row)">
                     <q-item-section>edit</q-item-section>
                   </q-item>
                   <q-item clickable v-ripple @click="confirm = true">
@@ -71,9 +70,11 @@
     </div>
     <DialogChartOfAccounts
       :dialog="dialog"
-      @saveData="saveData"
+      @save="dialog = false"
       @cencel="dialog = false"
       :selected="prepare"
+      :account-id="accountId"
+      :idDialog="idDialog"
     />
     <q-dialog v-model="confirm" persistent>
       <q-card>
@@ -113,12 +114,15 @@ export default defineComponent({
       prepare: '',
       data: [],
       page: false,
+      accountId: '',
+      idDialog: '',
     });
     onMounted(async () => {
       const data1 = await Promise.all([$api.inventory.recipeListPrepare()]);
       state.data = data1[0].tHRezept['t-h-rezept'].map((item, i) =>
         Object.assign({}, item, data1[0].costList['cost-list'][i])
       );
+      // console.log('sukses12', data1);
       if (state.data !== undefined) {
         state.page = true;
       }
@@ -128,11 +132,12 @@ export default defineComponent({
     };
 
     const onSearch = (val, input) => {
-      async function asyncCall() {
+      const asyncCal = async () => {
         const data1 = await Promise.all([$api.inventory.recipeListPrepare()]);
         const data = data1[0].tHRezept['t-h-rezept'].map((item, i) =>
           Object.assign({}, item, data1[0].costList['cost-list'][i])
         );
+        console.log('sukses12', data);
 
         // state.data = data2.map((item) => ({
         //   artnrrezept: item.artnrrezept,
@@ -168,20 +173,33 @@ export default defineComponent({
         }
         if (val == '3') {
           state.data = data.filter((data: any) => {
-            return data.kategorie.toString().includes(input.toString())
-          })
-           if (state.data.length < 14) {
+            return data.kategorie.toString().includes(input.toString());
+          });
+          if (state.data.length < 14) {
             state.page = false;
           }
           if (state.data.length > 14) {
             state.page = true;
           }
         }
-      }
-      asyncCall();
+      };
     };
+
+    const editItem = (accountId) => {
+      state.accountId = accountId;
+      state.dialog = true;
+      state.idDialog = '2';
+    };
+
+    const openDialog = () => {
+      state.dialog = true;
+      state.idDialog = '1';
+    };
+
     return {
       ...toRefs(state),
+      editItem,
+      openDialog,
       onSearch,
       saveData,
       tableHeaders,

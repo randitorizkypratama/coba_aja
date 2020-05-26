@@ -1,11 +1,7 @@
 <template>
   <q-page>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <SearchChartOfAccounts
-        :searches="searches"
-        :selected="selectedAccount"
-        @onSearch="onSearch"
-      />
+      <SearchChartOfAccounts :searches="searches" :selected="selectedAccount" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -29,21 +25,15 @@
         @row-click="onRowClick"
       >
         <template #header-cell-fibukonto="props">
-          <q-th :props="props" class="fixed-col left">
-            {{ props.col.label }}
-          </q-th>
+          <q-th :props="props" class="fixed-col left">{{ props.col.label }}</q-th>
         </template>
 
         <template #body-cell-fibukonto="props">
-          <q-td :props="props" class="fixed-col left">
-            {{ props.row.fibukonto }}
-          </q-td>
+          <q-td :props="props" class="fixed-col left">{{ props.row.fibukonto }}</q-td>
         </template>
 
         <template #header-cell-actions="props">
-          <q-th :props="props" class="fixed-col right">
-            {{ props.col.label }}
-          </q-th>
+          <q-th :props="props" class="fixed-col right">{{ props.col.label }}</q-th>
         </template>
 
         <template #body-cell-actions="props">
@@ -51,11 +41,7 @@
             <q-icon name="more_vert" size="16px">
               <q-menu auto-close anchor="bottom right" self="top right">
                 <q-list>
-                  <q-item
-                    clickable
-                    v-ripple
-                    @click="selectAccount(props.row.fibukonto)"
-                  >
+                  <q-item clickable v-ripple @click="selectAccount(props.row.fibukonto)">
                     <q-item-section>Show Account Budget</q-item-section>
                   </q-item>
                 </q-list>
@@ -66,11 +52,7 @@
       </q-table>
     </div>
 
-    <DialogChartOfAccounts
-      :dialog="dialog"
-      @onDialog="onDialog"
-      :account-id="accountId"
-    />
+    <DialogChartOfAccounts :dialog="dialog" @onDialog="onDialog" :account-id="accountId" />
   </q-page>
 </template>
 
@@ -117,6 +99,7 @@ export default defineComponent({
     });
 
     const onRowClick = (_, { bemerk }) => {
+      console.log('sukses12', bemerk);
       state.selectedAccount = bemerk;
     };
 
