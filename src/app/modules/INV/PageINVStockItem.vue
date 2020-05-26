@@ -11,7 +11,7 @@
         <q-btn flat round class="q-mr-lg">
           <img :src="require('~/app/icons/Icon-Refresh.svg')" height="30" />
         </q-btn>
-        <q-btn flat round>
+        <q-btn flat @click="doPrint" round>
           <img :src="require('~/app/icons/Icon-Print.svg')" height="30" />
         </q-btn>
       </div>
@@ -223,6 +223,12 @@ export default defineComponent({
       }
       asyncCall();
     }
+
+    function doPrint() {
+      window.open('/gl/param-print', '_blank');
+      //localStorage.setItem('printData',JSON.stringify(state.tableData));
+    }
+
     return {
       ...toRefs(state),
       editItem,
@@ -234,6 +240,7 @@ export default defineComponent({
         page: 1,
         rowsPerPage: 0,
       },
+      doPrint,
     };
   },
   components: {

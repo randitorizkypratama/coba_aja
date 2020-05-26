@@ -34,6 +34,7 @@ const SUBMODULES: Submodule = {
     'Inter Kitchen Transfer',
     'Yearly Issuing',
     'FB Outlet Flash',
+    'Monthly Incoming',
   ],
   OU: [
     'Order Taker Report',

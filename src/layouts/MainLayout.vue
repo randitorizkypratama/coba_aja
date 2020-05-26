@@ -20,6 +20,35 @@
             </g>
           </svg>
 
+          <div>{{ htlname }} - {{ htlcity }}</div>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div>
+            <q-btn flat round :label="username">
+              <q-menu>
+                <q-list>
+                  <q-item clickable v-close-popup>
+                    <q-item-section>Change Password</q-item-section>
+                  </q-item>
+                  <q-item clickable v-close-popup>
+                    <q-item-section @click="doLogout">Log out</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </div>
+
           <q-btn flat round icon="apps">
             <q-menu content-class="menu-submodule" :offset="[0, 5]" auto-close>
               <ul class="q-pa-md">
@@ -124,9 +153,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref } from '@vue/composition-api';
+import { defineComponent, watch, ref, onMounted } from '@vue/composition-api';
 import storeModule from '~/store';
 import { tableHeaders } from './tables/reportList.table';
+import { getUsername, clear, getHtlname, getHtlcity } from '~/app/helpers/getCredentials.helpers';
 
 export default defineComponent({
   setup(_, { root }) {
@@ -137,6 +167,9 @@ export default defineComponent({
     const { submoduleMenu } = storeModule('layout').useGetters([
       'submoduleMenu',
     ]);
+    const username = ref('');
+    const htlname = ref('');
+    const htlcity = ref('');
 
     watch(
       () => root.$route,
@@ -155,6 +188,17 @@ export default defineComponent({
       root.$router.push(row.path);
     };
 
+    onMounted( () => {
+      username.value = getUsername.substring(0, getUsername.indexOf("@"));
+      htlname.value = getHtlname;
+      htlcity.value = getHtlcity;
+    });
+
+    const doLogout = () => {
+      clear();
+      root.$router.push('/');
+    };
+
     return {
       submoduleMenu,
       rightDrawer,
@@ -163,12 +207,19 @@ export default defineComponent({
       reportFilter,
       tableHeaders,
       onRowClick,
+      username,
+      htlname,
+      htlcity,
+      doLogout,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+h8 {
+  color: rgba(255, 255, 255, 255);
+}
 .menu-submodule {
   li {
     list-style: none;
