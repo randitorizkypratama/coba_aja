@@ -98,7 +98,9 @@ import {
   tableHeaders,
   tableColumns,
 } from './tables/accountingDateParameter.table';
+import { date } from 'quasar';
 import print from 'print-js';
+import { getHtlName, getHtlAdr, getHtlTel } from '~/app/helpers/getCredentials.helpers';
 //import print from 'vue-print-nb';
 export default defineComponent({
   /*directives: {
@@ -139,6 +141,24 @@ export default defineComponent({
       onDialog(false);
     };
 
+    const today = Date.now()
+    const formattedToday = date.formatDate(today, 'DD/MM/YYYY')
+    const rawHeader = `
+        <table style=width:100%>
+        <tr>
+        <td align=left>` + getHtlName + `</td>
+        <td align=right>Date: ` + formattedToday + `</td>
+        </tr>
+        <tr>
+        <td align=left>` + getHtlAdr + `</td>
+        </tr>
+        <tr>
+        <td align=left>Tel ` + getHtlTel + `</td>
+        </tr>
+        </table>
+        <center><h3 class="custom-h3">Accounting Parameter</h3></center>
+    `
+
     function doPrint() {
       print({
         printable: state.tableData,
@@ -150,7 +170,7 @@ export default defineComponent({
           { field: 'lupdate', displayName: 'Changed Date'},
           { field: 'fdefault', displayName: 'Changed By'},
         ],
-        header: '<center><h3 class="custom-h3">Accounting Parameter</h3></center>',
+        header: rawHeader,
         style: '.custom-h3 { color: black; }'
       })
       //window.open('/gl/param-print', '_blank');

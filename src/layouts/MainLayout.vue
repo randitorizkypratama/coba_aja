@@ -156,10 +156,10 @@
 import { defineComponent, watch, ref, onMounted } from '@vue/composition-api';
 import storeModule from '~/store';
 import { tableHeaders } from './tables/reportList.table';
-import { getUsername, clear, getHtlname, getHtlcity } from '~/app/helpers/getCredentials.helpers';
+import { getUsername, clear, getHtlName, getHtlCity } from '~/app/helpers/getCredentials.helpers';
 
 export default defineComponent({
-  setup(_, { root }) {
+  setup(_, { root: { $route, $router } }) {
     const rightDrawer = ref(true);
     const reportDrawer = ref(false);
     const reportData = ref(null);
@@ -172,7 +172,7 @@ export default defineComponent({
     const htlcity = ref('');
 
     watch(
-      () => root.$route,
+      () => $route,
       (route) => {
         const { reportList } = route.meta;
         rightDrawer.value = !!reportList;
@@ -185,18 +185,18 @@ export default defineComponent({
     );
 
     const onRowClick = (_, row) => {
-      root.$router.push(row.path);
+      $router.push(row.path);
     };
 
     onMounted( () => {
-      username.value = getUsername.substring(0, getUsername.indexOf("@"));
-      htlname.value = getHtlname;
-      htlcity.value = getHtlcity;
+      username.value = getUsername.substring(0, getUsername.indexOf("@"))
+      htlname.value = getHtlName
+      htlcity.value = getHtlCity
     });
 
     const doLogout = () => {
       clear();
-      root.$router.push('/');
+      $router.push('/');
     };
 
     return {
