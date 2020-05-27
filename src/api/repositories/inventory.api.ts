@@ -112,8 +112,8 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
         doFetch({ url: `${INV_URL}/getStorage` }).then(
             ([, res]) => res?.tLLager?.["t-l-lager"]
         ),
-    getIncomingtable: () =>
-        doFetch({ url: `${INV_URL}/receivingReportList` }).then(
+    getIncomingtable: (body) =>
+        doFetch({ url: `${INV_URL}/receivingReportList`, body }).then(
             ([, res]) => res?.strList?.["str-list"]
         ),
     getMaterialReconciliationprepare: () =>

@@ -38,6 +38,7 @@ import {
 } from '@vue/composition-api';
 import { mapWithMeal } from '~/app/helpers/mapSelectItems.helpers';
 import { date } from 'quasar';
+import print from 'print-js';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -191,8 +192,6 @@ export default defineComponent({
         header: '<center><h3 class="custom-h3">Coba</h3></center>',
         style: '.custom-h3 { color: black; }',
       });
-      //window.open('/gl/param-print', '_blank');
-      //localStorage.setItem('printData',JSON.stringify(state.data));
     }
 
     const groupHeaders = (cols) => cols.filter((col) => col.name !== 'actions');
