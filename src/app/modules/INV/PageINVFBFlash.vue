@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchSearchYearlyIssuing :searches="searches" @onSearch="onSearch" />
+      <SearchFBFlash :searches="searches" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -46,6 +46,10 @@ export default defineComponent({
     const state = reactive({
       isFetching: true,
       data: [],
+      food: '',
+      bev: '',
+      date1: '',
+      date2: '',
       searches: {
         departments: [],
         store: [],
@@ -53,12 +57,17 @@ export default defineComponent({
     });
 
     onMounted(async () => {
-      const [resDepart] = await Promise.all([
-        $api.inventory.getYearlyIssuingprepare(),
+      const [resDepart, resMain] = await Promise.all([
+        $api.inventory.getFBFlashprepare(),
+        $api.inventory.getFBFlashMainGroup(),
       ]);
 
+      state.food = resDepart.food;
+      state.bev = resDepart.bev;
+      state.date1 = resDepart.date1;
+      state.date2 = resDepart.date2;
       state.searches.departments = mapWithadjustmain(
-        resDepart.tLHauptgrp['t-l-hauptgrp'],
+        resMain.tLHauptgrp['t-l-hauptgrp'],
         'endkum'
       );
 
@@ -67,111 +76,49 @@ export default defineComponent({
 
     const tableHeaders = [
       {
-        label: 'Article Number',
-        field: 'artnr',
-        name: 'artnr',
+        label: 'Transfer to Storage',
+        field: 'trans-to-storage',
+        name: 'trans-to-storage',
         align: 'left',
         sortable: false,
       },
       {
-        label: 'Description',
-        field: 'bezeich',
-        name: 'bezeich',
+        label: 'Cost Allocation',
+        field: 'cost-alloc',
+        name: 'cost-alloc',
         align: 'left',
         sortable: false,
       },
       {
-        label: 'January',
-        field: 'qty1',
-        name: 'qty1',
-        sortable: false,
-      },
-      {
-        label: 'February',
-        field: 'qty2',
-        name: 'qty2',
+        label: 'Today Consumed',
+        field: 'day-cons',
+        name: 'day-cons',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'March',
-        field: 'qty3',
-        name: 'qty3',
+        label: 'MTD Consumed',
+        field: 'mtd-cons',
+        name: 'mtd-cons',
         align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'April',
-        field: 'qty4',
-        name: 'qty4',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'May',
-        field: 'qty5',
-        name: 'qty5',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'June',
-        field: 'qty6',
-        name: 'qty6',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'July',
-        field: 'qty7',
-        name: 'qty7',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'August',
-        field: 'qty8',
-        name: 'qty8',
-        sortable: false,
-      },
-      {
-        label: 'September',
-        field: 'qty9',
-        name: 'qty9',
-        sortable: false,
-      },
-      {
-        label: 'October',
-        field: 'qty10',
-        name: 'qty10',
-        sortable: false,
-      },
-      {
-        label: 'November',
-        field: 'qty11',
-        name: 'qty11',
-        sortable: false,
-      },
-      {
-        label: 'December',
-        field: 'qty12',
-        name: 'qty12',
         sortable: false,
       },
     ];
     const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([
-          $api.inventory.getYearlyIssuingtable({
+          $api.inventory.getFBFlashtable({
             pvILanguage: '1',
-            sorttype: '0',
-            fromGrp: '1',
-            mm: '01',
-            yy: '2019',
+            fromGrp: state2.departments.value,
+            food: state.food,
+            bev: state.bev,
+            date1: date.formatDate(state2.fromdate, 'DD/MM/YY'),
+            date2: date.formatDate(state2.todate, 'DD/MM/YY'),
+            'incl-initoh': state2.cost,
           }),
         ]);
+
         charts = response[0] || [];
-        console.log(charts, 'data');
 
         state.data = charts;
       }
@@ -188,8 +135,7 @@ export default defineComponent({
     };
   },
   components: {
-    searchSearchYearlyIssuing: () =>
-      import('./components/SearchYearlyIssuing.vue'),
+    SearchFBFlash: () => import('./components/SearchFBFlash.vue'),
   },
 });
 </script>

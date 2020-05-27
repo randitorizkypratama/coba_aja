@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchSearchYearlyIssuing :searches="searches" @onSearch="onSearch" />
+      <SearchIncomingPriceDiscrepancy :searches="searches" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -46,6 +46,7 @@ export default defineComponent({
     const state = reactive({
       isFetching: true,
       data: [],
+      
       searches: {
         departments: [],
         store: [],
@@ -53,125 +54,122 @@ export default defineComponent({
     });
 
     onMounted(async () => {
-      const [resDepart] = await Promise.all([
-        $api.inventory.getYearlyIssuingprepare(),
+      const [resDepart, resMain] = await Promise.all([
+        $api.inventory.getIncomingPriceDiscrepancyStorage(),
+        $api.inventory.getIncomingPriceDiscrepancyArticleList(),
       ]);
 
-      state.searches.departments = mapWithadjustmain(
-        resDepart.tLHauptgrp['t-l-hauptgrp'],
-        'endkum'
-      );
+     console.log(resDepart);
+     console.log(resMain);
+     
 
       state.isFetching = false;
     });
 
     const tableHeaders = [
       {
-        label: 'Article Number',
-        field: 'artnr',
-        name: 'artnr',
+        label: 'Date',
+        field: 'datum',
+        name: 'datum',
         align: 'left',
+        sortable: false,
+      },
+      {
+        label: 'St',
+        field: 'lager',
+        name: 'lager',
+        align: 'left',
+        sortable: false,
+      },
+      {
+        label: 'Document Number',
+        field: 'docunr',
+        name: 'docunr',
+        align: 'right',
+        sortable: false,
+      },
+      {
+        label: 'Article',
+        field: 'art',
+        name: 'art',
+        align: 'right',
         sortable: false,
       },
       {
         label: 'Description',
         field: 'bezeich',
         name: 'bezeich',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'January',
-        field: 'qty1',
-        name: 'qty1',
-        sortable: false,
-      },
-      {
-        label: 'February',
-        field: 'qty2',
-        name: 'qty2',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'March',
-        field: 'qty3',
-        name: 'qty3',
+        label: 'Quantity',
+        field: 'in-qty',
+        name: 'in-qty',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'April',
-        field: 'qty4',
-        name: 'qty4',
+        label: 'Amount',
+        field: 'amount',
+        name: 'amount',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'May',
-        field: 'qty5',
-        name: 'qty5',
+        label: 'Received-Price',
+        field: 'epreis1',
+        name: 'epreis1',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'June',
-        field: 'qty6',
-        name: 'qty6',
+        label: 'Received-Price',
+        field: 'epreis1',
+        name: 'epreis1',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'July',
-        field: 'qty7',
-        name: 'qty7',
+        label: 'Ordered-Price',
+        field: 'epreis2',
+        name: 'epreis2',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'August',
-        field: 'qty8',
-        name: 'qty8',
+        label: 'Ordered-Price',
+        field: 'lief',
+        name: 'lief',
+        align: 'right',
         sortable: false,
       },
       {
-        label: 'September',
-        field: 'qty9',
-        name: 'qty9',
-        sortable: false,
-      },
-      {
-        label: 'October',
-        field: 'qty10',
-        name: 'qty10',
-        sortable: false,
-      },
-      {
-        label: 'November',
-        field: 'qty11',
-        name: 'qty11',
-        sortable: false,
-      },
-      {
-        label: 'December',
-        field: 'qty12',
-        name: 'qty12',
+        label: 'Delivery Note',
+        field: 'dlvnote',
+        name: 'dlvnote',
+        align: 'right',
         sortable: false,
       },
     ];
     const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([
-          $api.inventory.getYearlyIssuingtable({
-            pvILanguage: '1',
-            sorttype: '0',
-            fromGrp: '1',
-            mm: '01',
-            yy: '2019',
+          $api.inventory.getIncomingPriceDiscrepancyTable({
+            sorttype: '1',
+            fromLager: '1',
+            toLager: '18',
+            fromDate: '01/01/19',
+            toDate: '14/01/19',
+            fromArt: '0000001',
+            toArt: '9999999',
+            miRecChk: false,
+            miOrdChk: false,
+            miAllChk: true,
           }),
         ]);
+
         charts = response[0] || [];
-        console.log(charts, 'data');
 
         state.data = charts;
       }
@@ -188,8 +186,8 @@ export default defineComponent({
     };
   },
   components: {
-    searchSearchYearlyIssuing: () =>
-      import('./components/SearchYearlyIssuing.vue'),
+    SearchIncomingPriceDiscrepancy: () =>
+      import('./components/SearchIncomingPriceDiscrepancy.vue'),
   },
 });
 </script>

@@ -49,6 +49,25 @@ export interface InventoryEndpoints {
     //FBOutletFlash
     getFBOutletFlashprepare: any;
 
+    //FBReconciliation
+    getFBReconciliationprepare: any;
+    getFBReconciliationMainGroup: any;
+    getFBReconciliationtable: any;
+
+    //FBFlash
+    getFBFlashprepare: any;
+    getFBFlashMainGroup: any;
+    getFBFlashtable: any;
+
+    //IncomingPriceDiscrepancy
+    getIncomingPriceDiscrepancyStorage: any;
+    getIncomingPriceDiscrepancyArticleList: any;
+    getIncomingPriceDiscrepancyTable: any;
+
+    //YearlyIssuing
+    getYearlyIssuingprepare: any;
+    getYearlyIssuingtable: any;
+
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
@@ -118,6 +137,50 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
         ),
     getFBOutletFlashprepare: () =>
         doFetch({ url: `${INV_URL}/fbFlash1Prepare` }).then(
+            ([, res]) => res
+        ),
+    getFBReconciliationprepare: () =>
+        doFetch({ url: `${INV_URL}/fbReconsilePrepare` }).then(
+            ([, res]) => res
+        ),
+    getFBReconciliationMainGroup: () =>
+        doFetch({ url: `${INV_URL}/getInvMainGroup` }).then(
+            ([, res]) => res
+        ),
+    getFBReconciliationtable: (body) =>
+        doFetch({ url: `${INV_URL}/fbReconsileList`, body }).then(
+            ([, res]) => res?.fbreconsileList?.["fbreconsile-list"]
+        ),
+    getFBFlashprepare: () =>
+        doFetch({ url: `${INV_URL}/fbFlashPrepare` }).then(
+            ([, res]) => res
+        ),
+    getFBFlashMainGroup: () =>
+        doFetch({ url: `${INV_URL}/getInvMainGroup` }).then(
+            ([, res]) => res
+        ),
+    getFBFlashtable: (body) =>
+        doFetch({ url: `${INV_URL}/fbFlashList`, body }).then(
+            ([, res]) => res?.fbflashList?.["fbflash-list"]
+        ),
+    getIncomingPriceDiscrepancyStorage: () =>
+        doFetch({ url: `${INV_URL}/getStorage` }).then(
+            ([, res]) => res?.tLLager?.["t-l-lager"]
+        ),
+    getIncomingPriceDiscrepancyArticleList: (body) =>
+        doFetch({ url: `${INV_URL}/getInvArticleList`, body }).then(
+            ([, res]) => res
+        ),
+    getIncomingPriceDiscrepancyTable: (body) =>
+        doFetch({ url: `${INV_URL}/priceDiscrepancyReportList`, body }).then(
+            ([, res]) => res?.discrepancyInlist?.["discrepancy-inlist"]
+        ),
+    getYearlyIssuingprepare: () =>
+        doFetch({ url: `${INV_URL}/stockOutAnnualPrepare` }).then(
+            ([, res]) => res
+        ),
+    getYearlyIssuingtable: (body) =>
+        doFetch({ url: `${INV_URL}/stockOutAnnualList`, body }).then(
             ([, res]) => res
         ),
 });

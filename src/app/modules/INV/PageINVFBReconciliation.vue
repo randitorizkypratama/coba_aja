@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchSearchYearlyIssuing :searches="searches" @onSearch="onSearch" />
+      <SearchFBReconciliation :searches="searches" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -46,6 +46,9 @@ export default defineComponent({
     const state = reactive({
       isFetching: true,
       data: [],
+      food: '',
+      bev: '',
+      toDate: '',
       searches: {
         departments: [],
         store: [],
@@ -53,12 +56,16 @@ export default defineComponent({
     });
 
     onMounted(async () => {
-      const [resDepart] = await Promise.all([
-        $api.inventory.getYearlyIssuingprepare(),
+      const [resDepart, resMain] = await Promise.all([
+        $api.inventory.getFBReconciliationprepare(),
+        $api.inventory.getFBReconciliationMainGroup(),
       ]);
 
+      state.food = resDepart.food;
+      state.bev = resDepart.bev;
+      state.toDate = resDepart.toDate;
       state.searches.departments = mapWithadjustmain(
-        resDepart.tLHauptgrp['t-l-hauptgrp'],
+        resMain.tLHauptgrp['t-l-hauptgrp'],
         'endkum'
       );
 
@@ -67,111 +74,66 @@ export default defineComponent({
 
     const tableHeaders = [
       {
-        label: 'Article Number',
-        field: 'artnr',
-        name: 'artnr',
+        label: '',
+        field: 'col1',
+        name: 'col1',
         align: 'left',
         sortable: false,
       },
       {
-        label: 'Description',
-        field: 'bezeich',
-        name: 'bezeich',
+        label: '',
+        field: 'col2',
+        name: 'col2',
         align: 'left',
         sortable: false,
       },
       {
-        label: 'January',
-        field: 'qty1',
-        name: 'qty1',
-        sortable: false,
-      },
-      {
-        label: 'February',
-        field: 'qty2',
-        name: 'qty2',
+        label: '',
+        field: 'col3',
+        name: 'col3',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'March',
-        field: 'qty3',
-        name: 'qty3',
+        label: '',
+        field: 'col4',
+        name: 'col4',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'April',
-        field: 'qty4',
-        name: 'qty4',
+        label: '',
+        field: 'col5',
+        name: 'col5',
         align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'May',
-        field: 'qty5',
-        name: 'qty5',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'June',
-        field: 'qty6',
-        name: 'qty6',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'July',
-        field: 'qty7',
-        name: 'qty7',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'August',
-        field: 'qty8',
-        name: 'qty8',
-        sortable: false,
-      },
-      {
-        label: 'September',
-        field: 'qty9',
-        name: 'qty9',
-        sortable: false,
-      },
-      {
-        label: 'October',
-        field: 'qty10',
-        name: 'qty10',
-        sortable: false,
-      },
-      {
-        label: 'November',
-        field: 'qty11',
-        name: 'qty11',
-        sortable: false,
-      },
-      {
-        label: 'December',
-        field: 'qty12',
-        name: 'qty12',
         sortable: false,
       },
     ];
     const onSearch = (state2) => {
+      console.log(state2, 'search');
+
       async function asyncCall() {
         const response = await Promise.all([
-          $api.inventory.getYearlyIssuingtable({
+          $api.inventory.getFBReconciliationtable({
             pvILanguage: '1',
-            sorttype: '0',
-            fromGrp: '1',
-            mm: '01',
-            yy: '2019',
+            caseType:
+              state2.departments.value == null
+                ? 0
+                : state2.departments.value == 1
+                ? 1
+                : state2.departments.value == 2
+                ? 2
+                : state2.departments,
+            fromDate: date.formatDate(state2.fromdate, 'YYYY-MM-DD'),
+            toDate: date.formatDate(state2.todate, 'YYYY-MM-DD'),
+            fromGrp: state2.departments.value == null ? 0 : state2.departments.value,
+            miOpt: state2.summary,
+            date1: date.formatDate(state2.fromdate, 'DD/MM/YY'),
+            date2: date.formatDate(state2.todate, 'DD/MM/YY'),
           }),
         ]);
+
         charts = response[0] || [];
-        console.log(charts, 'data');
 
         state.data = charts;
       }
@@ -188,8 +150,8 @@ export default defineComponent({
     };
   },
   components: {
-    searchSearchYearlyIssuing: () =>
-      import('./components/SearchYearlyIssuing.vue'),
+    SearchFBReconciliation: () =>
+      import('./components/SearchFBReconciliation.vue'),
   },
 });
 </script>

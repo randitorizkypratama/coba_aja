@@ -172,7 +172,6 @@ export default defineComponent({
         charts = response[0] || [];
         state.data = charts;
 
-        console.log(charts, 'charts');
       }
       asyncCall();
     };
