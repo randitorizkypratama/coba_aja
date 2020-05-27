@@ -14,7 +14,7 @@ export const reportList: ReportList = {
     title: 'General Ledger',
     reports: [
       {
-        path: '/gl/report/trial-balance',
+        path: '/gl/trial-balance',
         name: 'Trial Balance',
         keyword: 'General-Ledger',
       },
@@ -38,7 +38,7 @@ export const reportList: ReportList = {
     title: 'Outlet',
     reports: [
       {
-        path: '/ou/report/order-taker-report',
+        path: '/gl/chart-of-accounts',
         name: 'Order Taker',
         keyword: 'Outlet',
       },

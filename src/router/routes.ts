@@ -12,7 +12,7 @@ const MODULE_ROUTES = Object.values(SUBMODULE_LIST)
 
 const routes: RouteConfig[] = [
   {
-    path: '/',
+    path: '/home',
     component: () => import('~/layouts/MainLayout.vue'),
     children: [
       {
@@ -22,6 +22,16 @@ const routes: RouteConfig[] = [
       },
       ...MODULE_ROUTES,
     ],
+  },
+  {
+    path: '/',
+    name: 'Login',
+    component: () => import('~/app/login/PageLogin.vue'),
+  },
+  {
+    path: '/gl/param-print',
+    name: 'PrintGLParam',
+    component: () => import('~/app/modules/GL/PrintGLParam.vue'),
   },
 ];
 

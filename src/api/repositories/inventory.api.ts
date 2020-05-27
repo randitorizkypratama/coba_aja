@@ -1,7 +1,7 @@
 import { DoRequest } from '../config/repository';
 
 const INV_URL = 'vhpINV';
-const Common_URL = 'Common';
+const COMMON_URL = 'Common';
 
 const defaultBodies = {
     zugriff: {
@@ -68,11 +68,16 @@ export interface InventoryEndpoints {
     getYearlyIssuingprepare: any;
     getYearlyIssuingtable: any;
 
+    //Common
+    getAllInvArticleList: any;
+
+    //Monthly Incoming
+    getMonthlyIncomingList: any;
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
     getMealCouponzugriff: (body = defaultBodies.zugriff) =>
-        doFetch({ url: `${Common_URL}/checkPermission`, body }).then(
+        doFetch({ url: `${COMMON_URL}/checkPermission`, body }).then(
             ([, res]) => res
         ),
     getMealCoupontable: (body) =>
@@ -183,4 +188,12 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
         doFetch({ url: `${INV_URL}/stockOutAnnualList`, body }).then(
             ([, res]) => res
         ),
+    getAllInvArticleList: (body) =>
+    doFetch({ url: `${INV_URL}/getHelpInvArticle`, body }).then(
+        ([, res]) => res?.sartnrList?.['sartnr-list']
+    ),
+    getMonthlyIncomingList: (body) =>
+    doFetch({ url: `${INV_URL}/stinReportList`, body }).then(
+        ([, res]) => res?.tList?.['t-list']
+    ),
 });

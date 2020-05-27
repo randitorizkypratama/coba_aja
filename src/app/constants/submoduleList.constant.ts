@@ -37,6 +37,7 @@ const SUBMODULES: Submodule = {
     'FB Reconciliation',
     'FB Flash',
     'Incoming Price Discrepancy',
+    'Monthly Incoming',
   ],
   OU: [
     'Order Taker Report',

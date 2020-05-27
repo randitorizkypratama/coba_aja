@@ -13,11 +13,23 @@
         <q-btn flat round class="q-mr-lg">
           <img :src="require('~/app/icons/Icon-Refresh.svg')" height="30" />
         </q-btn>
-        <q-btn flat round>
+        <q-btn @click="doPrint" round>
           <img :src="require('~/app/icons/Icon-Print.svg')" height="30" />
+        <!--<q-btn round>
+          <img :src="require('~/app/icons/Icon-Print.svg')" height="30" v-print="printOptions" />-->
         </q-btn>
       </div>
 
+      <!--<STable
+        :loading="isFetching"
+        :columns="tableHeaders"
+        :data="tableData"
+        :rows-per-page-options="[0]"
+        :pagination.sync="pagination"
+        hide-bottom
+        class="table-accounting-date"
+        id="printMe"
+      >-->
       <STable
         :loading="isFetching"
         :columns="tableHeaders"
@@ -86,14 +98,22 @@ import {
   tableHeaders,
   tableColumns,
 } from './tables/accountingDateParameter.table';
-
+import print from 'print-js';
+//import print from 'vue-print-nb';
 export default defineComponent({
+  /*directives: {
+    print,
+  },*/
   setup(_, { root: { $api } }) {
     const state = reactive<any>({
       isFetching: true,
       dialog: false,
       selectedParam: null,
       tableData: [],
+      /*printOptions: {
+        id: 'printMe',
+        extraCss: 'https://dev-bodowa.s3-ap-southeast-1.amazonaws.com/Cincin/test.css',
+      },*/
     });
 
     onMounted(async () => {
@@ -119,6 +139,24 @@ export default defineComponent({
       onDialog(false);
     };
 
+    function doPrint() {
+      print({
+        printable: state.tableData,
+        type: 'json',
+        properties: [
+          { field: 'paramnr', displayName: 'Number'},
+          { field: 'bezeichnung', displayName: 'Name'},
+          { field: 'values', displayName: 'Value'},
+          { field: 'lupdate', displayName: 'Changed Date'},
+          { field: 'fdefault', displayName: 'Changed By'},
+        ],
+        header: '<center><h3 class="custom-h3">Accounting Parameter</h3></center>',
+        style: '.custom-h3 { color: black; }'
+      })
+      //window.open('/gl/param-print', '_blank');
+      //localStorage.setItem('printData',JSON.stringify(state.tableData));
+    }
+
     const groupHeaders = (cols) => cols.filter((col) => col.name !== 'actions');
     const actionHeader = (cols) => cols.find((col) => col.name === 'actions');
 
@@ -131,6 +169,7 @@ export default defineComponent({
       groupHeaders,
       actionHeader,
       pagination: { page: 1, rowsPerPage: 0 },
+      doPrint,
     };
   },
   components: {
