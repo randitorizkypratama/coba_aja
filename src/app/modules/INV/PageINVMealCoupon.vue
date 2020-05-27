@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div v-if="zugriff === 'false'">{{messStr}}</div>
+    <div v-if="zugriff === 'false'">{{ messStr }}</div>
     <div v-else>
       <q-drawer :value="true" side="left" bordered :width="250" persistent>
         <searchMealCoupon :searches="searches" @onSearch="onSearch" />
@@ -11,7 +11,7 @@
           <q-btn flat round class="q-mr-lg">
             <img :src="require('~/app/icons/Icon-Refresh.svg')" height="30" />
           </q-btn>
-          <q-btn flat round>
+          <q-btn @click="doPrint" round>
             <img :src="require('~/app/icons/Icon-Print.svg')" height="30" />
           </q-btn>
         </div>
@@ -154,6 +154,7 @@ export default defineComponent({
         sortable: false,
       },
     ];
+
     const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([
@@ -170,19 +171,41 @@ export default defineComponent({
         ]);
 
         charts = response[0] || [];
-        state.data = charts;
 
+        state.data = charts;
       }
       asyncCall();
     };
+
+    function doPrint() {
+      print({
+        printable: state.data,
+        type: 'json',
+        properties: [
+          { field: 'datum', displayName: 'Date' },
+          { field: 'dept', displayName: 'Name' },
+          { field: 'deptname', displayName: 'Value' },
+          { field: 'rechnr', displayName: 'Changed Date' },
+          { field: 'pax', displayName: 'Changed By' },
+        ],
+        header: '<center><h3 class="custom-h3">Coba</h3></center>',
+        style: '.custom-h3 { color: black; }',
+      });
+      //window.open('/gl/param-print', '_blank');
+      //localStorage.setItem('printData',JSON.stringify(state.data));
+    }
+
+    const groupHeaders = (cols) => cols.filter((col) => col.name !== 'actions');
+    const actionHeader = (cols) => cols.find((col) => col.name === 'actions');
 
     return {
       ...toRefs(state),
       tableHeaders,
       onSearch,
-      pagination: {
-        rowsPerPage: 10,
-      },
+      groupHeaders,
+      actionHeader,
+      pagination: { page: 1, rowsPerPage: 0 },
+      doPrint,
     };
   },
   components: {
