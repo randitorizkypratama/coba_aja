@@ -7,10 +7,12 @@ const username = checkUsername !== null ? JSON.parse(checkUsername) : 'error';
 export const getUserinit = credentials.userInit;
 export const getToken = credentials.userToken;
 export const getUsername = username;
-export const getHtlname = credentials.htlName;
-export const getHtlcity = credentials.htlCity;
+export const getHtlName = credentials.htlName;
+export const getHtlCity = credentials.htlCity;
 export const getHtlUrl = credentials.htlUrl;
 export const getUserkey = credentials.userKey;
+export const getHtlAdr = credentials.htlAdr;
+export const getHtlTel = credentials.htlTel;
 export const clear = function(): void {
   localStorage.clear();
 };
@@ -31,8 +33,10 @@ export default {
   clear,
   setUsername,
   getUsername,
-  getHtlname,
-  getHtlcity,
+  getHtlName,
+  getHtlCity,
   getHtlUrl,
   getUserkey,
+  getHtlAdr,
+  getHtlTel,
 };
