@@ -5,6 +5,7 @@
         label-text="User ID"
         :options="searches.userList"
         v-model="userID"
+        :disable="showAllUser"
       />
 
       <v-date-picker mode="range" v-model="date" :columns="2" :popover="{ visibility: 'click' }">
@@ -17,6 +18,8 @@
           @clear="date = null"
         />
       </v-date-picker>
+
+      <q-checkbox v-model="showAllUser" label="Show All User" />
 
       <q-btn dense color="primary" icon="search" label="Search" class="q-mt-md full-width" @click="onSearch"/>
     </div>
@@ -42,6 +45,7 @@ export default defineComponent({
     const state = reactive({
       userID: ref(null),
       date: {start: ref(new Date()), end: ref(new Date())},
+      showAllUser: ref(false)
     });
 
     const onSearch = () => {

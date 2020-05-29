@@ -15,7 +15,6 @@
       </div>
 
       <q-table
-        :loading="isFetching"
         dense
         :data="build"
         :columns="tableHeaders"
@@ -40,8 +39,7 @@ import { date } from 'quasar';
 export default defineComponent({
   setup(_, { root: { $api } }) {
     let responsePrepare;
-
-    let charts = [];
+    let charts;
 
     const state = reactive({
       isFetching: true,
@@ -52,8 +50,6 @@ export default defineComponent({
     });
 
     onMounted(async () => {
-      state.isFetching = true;
-
       const [data] = await Promise.all([
         $api.outlet.getOUPrepareOrderTakerReport('getOrderTaker', {}),
       ]);
@@ -64,8 +60,7 @@ export default defineComponent({
     });
 
     const onSearch = (state2) => {
-      state.isFetching = true;
-
+      console.log(date.formatDate(state2.date.end, 'MM/DD/YYYY'));
       async function asyncCall() {
         const dataOrderTakerList = await Promise.all([
           $api.outlet.getOUOrderTakerReport('getOrderTakerList', {
@@ -77,7 +72,8 @@ export default defineComponent({
 
         charts = dataOrderTakerList[0] || [];
         state.build = charts;
-        state.isFetching = false;
+
+        console.log(state, 'data');
       }
       asyncCall();
     };

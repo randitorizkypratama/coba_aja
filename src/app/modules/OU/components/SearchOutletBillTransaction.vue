@@ -1,22 +1,25 @@
 <template>
   <section class="mt-7">
     <div class="q-pa-md">
-      <SSelect
-        label-text="User ID"
-        :options="searches.userList"
-        v-model="userID"
-      />
-
       <v-date-picker mode="range" v-model="date" :columns="2" :popover="{ visibility: 'click' }">
         <SInput
           label-text="Date"
           slot-scope="{ inputProps }"
-          placeholder="From - Until"
+          placeholder="Select Date"
           readonly
           v-bind="inputProps"
-          @clear="date = null"
-        />
+          @clear="date = null" />
       </v-date-picker>
+
+      <SSelect
+        label-text="From Department"
+        :options="searches.fromDept"
+        v-model="fromDept" />
+
+      <SSelect
+        label-text="To Department"
+        :options="searches.toDept"
+        v-model="toDept"/>
 
       <q-btn dense color="primary" icon="search" label="Search" class="q-mt-md full-width" @click="onSearch"/>
     </div>
@@ -40,8 +43,9 @@ export default defineComponent({
 
   setup(_, { emit }) {
     const state = reactive({
-      userID: ref(null),
-      date: {start: ref(new Date()), end: ref(new Date())},
+      fromDept: ref(null),
+      toDept: ref(null),
+      date: {start: ref(new Date()), end: ref(new Date())}
     });
 
     const onSearch = () => {

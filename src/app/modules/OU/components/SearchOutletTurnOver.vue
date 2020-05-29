@@ -1,22 +1,28 @@
 <template>
   <section class="mt-7">
     <div class="q-pa-md">
-      <SSelect
-        label-text="User ID"
-        :options="searches.userList"
-        v-model="userID"
-      />
-
-      <v-date-picker mode="range" v-model="date" :columns="2" :popover="{ visibility: 'click' }">
+      <v-date-picker v-model="date" :columns="1" :popover="{ visibility: 'click' }">
         <SInput
           label-text="Date"
           slot-scope="{ inputProps }"
-          placeholder="From - Until"
+          placeholder="Select Date"
           readonly
           v-bind="inputProps"
-          @clear="date = null"
-        />
+          @clear="date = null" />
       </v-date-picker>
+
+      <SSelect
+        label-text="From Department"
+        :options="searches.fromDept"
+        v-model="fromDept" />
+
+      <SSelect
+        label-text="To Department"
+        :options="searches.toDept"
+        v-model="toDept"/>
+
+      <q-checkbox v-model="incNotSoldItems" label="Including not sold items" />
+      <q-checkbox v-model="incLaundryDrugstore" label="Including Laundry and Drugstore" />
 
       <q-btn dense color="primary" icon="search" label="Search" class="q-mt-md full-width" @click="onSearch"/>
     </div>
@@ -24,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, toRefs } from '@vue/composition-api';
+import { defineComponent, ref, reactive, toRefs, computed } from '@vue/composition-api';
 import { setupCalendar, DatePicker } from 'v-calendar';
 import { watch } from 'fs';
 import { date } from 'quasar';
@@ -33,15 +39,18 @@ setupCalendar({
   firstDayOfWeek: 2,
 });
 
+
 export default defineComponent({
   props: {
     searches: { type: Object, required: true },
   },
-
   setup(_, { emit }) {
     const state = reactive({
-      userID: ref(null),
-      date: {start: ref(new Date()), end: ref(new Date())},
+      fromDept: ref(null),
+      toDept: ref(null),
+      date: ref(new Date()),
+      incNotSoldItems: ref(false),
+      incLaundryDrugstore : ref(false)
     });
 
     const onSearch = () => {

@@ -27,7 +27,6 @@
 import { defineComponent, ref, reactive, toRefs } from '@vue/composition-api';
 import { setupCalendar, DatePicker } from 'v-calendar';
 import { watch } from 'fs';
-import { date } from 'quasar';
 
 setupCalendar({
   firstDayOfWeek: 2,
@@ -41,7 +40,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const state = reactive({
       userID: ref(null),
-      date: {start: ref(new Date()), end: ref(new Date())},
+      date: ref(null)
     });
 
     const onSearch = () => {
