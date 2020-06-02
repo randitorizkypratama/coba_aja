@@ -39,6 +39,7 @@ import {
 } from '~/app/helpers/mapSelectItems.helpers';
 import { date } from 'quasar';
 import print from 'print-js';
+import { tableHeaders } from './tables/incoming.table';
 import {
   getHtlName,
   getHtlAdr,
@@ -70,9 +71,6 @@ export default defineComponent({
         $api.inventory.getIncomingmaingroup(),
         $api.inventory.getIncomingstore(),
       ]);
-      console.log(resPrepare, 'prepare');
-      console.log(resMaingroup, 'prepare2');
-      console.log(resStore, 'prepare3');
 
       state.lKreditRecid = resPrepare.lKreditRecid;
       state.longDigit = resPrepare.longDigit;
@@ -82,134 +80,25 @@ export default defineComponent({
       state.isFetching = false;
     });
 
-    const tableHeaders = [
-      {
-        label: 'Date',
-        field: 'DATE',
-        name: 'DATE',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Storage Number',
-        field: 'st',
-        name: 'st',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Supplier',
-        field: 'supplier',
-        name: 'supplier',
-        sortable: false,
-      },
-      {
-        label: 'Article Number',
-        field: 'artnr',
-        name: 'artnr',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Description',
-        field: 'DESCRIPTION',
-        name: 'DESCRIPTION',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Delivery Unit',
-        field: 'd-unit',
-        name: 'd-unit',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Price',
-        field: 'price',
-        name: 'price',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Incoming Quantity',
-        field: 'inc-qty',
-        name: 'inc-qty',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Amount',
-        field: 'amount',
-        name: 'amount',
-        sortable: false,
-      },
-      {
-        label: 'Document Number',
-        field: 'docu-no',
-        name: 'docu-no',
-        sortable: false,
-      },
-      {
-        label: 'ID',
-        field: 'ID',
-        name: 'ID',
-        sortable: false,
-      },
-      {
-        label: 'Delivery Note',
-        field: 'deliv-note',
-        name: 'deliv-note',
-        sortable: false,
-      },
-      {
-        label: 'Invoice Number',
-        field: 'invoice-nr',
-        name: 'invoice-nr',
-        sortable: false,
-      },
-    ];
     const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([
           $api.inventory.getIncomingtable({
-            // pvILanguage: '1',
-            // lastArtnr: '?',
-            // lieferantRecid: state2.checkbox1 == true ? '0' : state2.supplier,
-            // lKreditRecid: state.lKreditRecid,
-            // longDigit: state.longDigit,
-            // showPrice: state.showPriceprepare,
-            // store: state2.storeNumber,
-            // allSupp: state2.checkbox1,
-            // sorttype: state2.radios,
-            // fromGrp: state2.fromMainGroup,
-            // toGrp: state2.toMainGroup,
-            // fromDate: date.formatDate(state2.date.start, 'DD/MM/YY'),
-            // toDate: date.formatDate(state2.date.end, 'DD/MM/YY'),
-            // userInit: '01',
-            // apRecid: '0',
-            // taxcodeList: {
-            //   'taxcode-list': [
-            //     {
-            //       taxcode: '',
-            //       taxamount: '0',
-            //     },
-            //   ],
             pvILanguage: '1',
             lastArtnr: '?',
-            lieferantRecid: '0',
-            lKreditRecid: '0',
-            apRecid: '0',
-            longDigit: true,
-            showPrice: true,
-            store: '1',
-            allSupp: true,
-            sorttype: '1',
-            fromGrp: '1',
-            toGrp: '99',
-            fromDate: '01/01/19',
-            toDate: '14/01/19',
+            lieferantRecid: state2.checkbox1 == true ? '0' : state2.supplier,
+            lKreditRecid: state.lKreditRecid,
+            longDigit: state.longDigit,
+            showPrice: state.showPriceprepare,
+            store: state2.storeNumber,
+            allSupp: state2.checkbox1,
+            sorttype: state2.radios,
+            fromGrp: state2.fromMainGroup,
+            toGrp: state2.toMainGroup,
+            fromDate: date.formatDate(state2.date.start, 'DD/MM/YY'),
+            toDate: date.formatDate(state2.date.end, 'DD/MM/YY'),
             userInit: '01',
+            apRecid: '0',
             taxcodeList: {
               'taxcode-list': [
                 {
@@ -217,12 +106,59 @@ export default defineComponent({
                   taxamount: '0',
                 },
               ],
+              // pvILanguage: '1',
+              // lastArtnr: '?',
+              // lieferantRecid: '0',
+              // lKreditRecid: '0',
+              // apRecid: '0',
+              // longDigit: true,
+              // showPrice: true,
+              // store: '1',
+              // allSupp: true,
+              // sorttype: '1',
+              // fromGrp: '1',
+              // toGrp: '99',
+              // fromDate: '01/01/19',
+              // toDate: '14/01/19',
+              // userInit: '01',
+              // taxcodeList: {
+              //   'taxcode-list': [
+              //     {
+              //       taxcode: '',
+              //       taxamount: '0',
+              //     },
+              //   ],
             },
           }),
         ]);
         charts = response[0] || [];
 
-        state.data = charts;
+        console.log(charts);
+
+        for (let i = 0; i < charts.length; i++) {
+          const dataRow = {};
+          const dataItem = charts[i];
+
+          dataRow['DATE'] = dataItem['DATE'] =
+            null || undefined || ''
+              ? ' '
+              : date.formatDate(dataItem['DATE'], 'DD/MM/YYYY');
+          dataRow['st'] = dataItem['st'] == 0 ? '' : dataItem['st'];
+          dataRow['supplier'] = dataItem['supplier'];
+          dataRow['artnr'] = dataItem['artnr'] == 0 ? '' : dataItem['artnr'];
+          dataRow['DESCRIPTION'] = dataItem['DESCRIPTION'];
+          dataRow['d-unit'] = dataItem['d-unit'];
+          dataRow['price'] = dataItem['price'] == 0 ? '' : dataItem['price'];
+          dataRow['inc-qty'] =
+            dataItem['inc-qty'] == 0 ? '' : dataItem['inc-qty'];
+          dataRow['amount'] = dataItem['amount'] == 0 ? '' : dataItem['amount'];
+          dataRow['docu-no'] = dataItem['docu-no'];
+          dataRow['ID'] = dataItem['ID'];
+          dataRow['deliv-note'] = dataItem['deliv-note'];
+          dataRow['invoice-nr'] = dataItem['invoice-nr'];
+
+          state.data.push(dataRow);
+        }
       }
       asyncCall();
     };

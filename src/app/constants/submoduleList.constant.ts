@@ -38,6 +38,14 @@ const SUBMODULES: Submodule = {
   ],
   OU: [
     'Order Taker Report',
+    'Meal Coupon',
+    'Drugstore Report',
+    'Outlet User Transaction',
+    'Outlet Turnover',
+    'Actual And Recipe Cost',
+    'Outlet Bill Transaction',
+    'Occupied Table',
+    'Cancellation Journal',
   ],
 };
 
