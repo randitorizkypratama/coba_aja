@@ -9,7 +9,7 @@
         <q-btn flat round class="q-mr-lg">
           <img :src="require('~/app/icons/Icon-Refresh.svg')" height="30" />
         </q-btn>
-        <q-btn flat round>
+        <q-btn @click="doPrint" flat round>
           <img :src="require('~/app/icons/Icon-Print.svg')" height="30" />
         </q-btn>
       </div>
@@ -38,6 +38,12 @@ import {
   mapWithadjuststore,
 } from '~/app/helpers/mapSelectItems.helpers';
 import { date } from 'quasar';
+import print from 'print-js';
+import {
+  getHtlName,
+  getHtlAdr,
+  getHtlTel,
+} from '~/app/helpers/getCredentials.helpers';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -167,21 +173,43 @@ export default defineComponent({
       async function asyncCall() {
         const response = await Promise.all([
           $api.inventory.getIncomingtable({
+            // pvILanguage: '1',
+            // lastArtnr: '?',
+            // lieferantRecid: state2.checkbox1 == true ? '0' : state2.supplier,
+            // lKreditRecid: state.lKreditRecid,
+            // longDigit: state.longDigit,
+            // showPrice: state.showPriceprepare,
+            // store: state2.storeNumber,
+            // allSupp: state2.checkbox1,
+            // sorttype: state2.radios,
+            // fromGrp: state2.fromMainGroup,
+            // toGrp: state2.toMainGroup,
+            // fromDate: date.formatDate(state2.date.start, 'DD/MM/YY'),
+            // toDate: date.formatDate(state2.date.end, 'DD/MM/YY'),
+            // userInit: '01',
+            // apRecid: '0',
+            // taxcodeList: {
+            //   'taxcode-list': [
+            //     {
+            //       taxcode: '',
+            //       taxamount: '0',
+            //     },
+            //   ],
             pvILanguage: '1',
             lastArtnr: '?',
-            lieferantRecid: state2.checkbox1 == true ? '0' : state2.supplier,
-            lKreditRecid: state.lKreditRecid,
-            longDigit: state.longDigit,
-            showPrice: state.showPriceprepare,
-            store: state2.storeNumber,
-            allSupp: state2.checkbox1,
-            sorttype: state2.radios,
-            fromGrp: state2.fromMainGroup,
-            toGrp: state2.toMainGroup,
-            fromDate: date.formatDate(state2.date.start, 'DD/MM/YY'),
-            toDate: date.formatDate(state2.date.end, 'DD/MM/YY'),
-            userInit: '01',
+            lieferantRecid: '0',
+            lKreditRecid: '0',
             apRecid: '0',
+            longDigit: true,
+            showPrice: true,
+            store: '1',
+            allSupp: true,
+            sorttype: '1',
+            fromGrp: '1',
+            toGrp: '99',
+            fromDate: '01/01/19',
+            toDate: '14/01/19',
+            userInit: '01',
             taxcodeList: {
               'taxcode-list': [
                 {
@@ -199,13 +227,66 @@ export default defineComponent({
       asyncCall();
     };
 
+    const today = Date.now();
+    const formattedToday = date.formatDate(today, 'DD/MM/YYYY');
+    const rawHeader =
+      `
+        <table style=width:100%>
+        <tr>
+        <td align=left>` +
+      getHtlName +
+      `</td>
+        <td align=right>Date: ` +
+      formattedToday +
+      `</td>
+        </tr>
+        <tr>
+        <td align=left>` +
+      getHtlAdr +
+      `</td>
+        </tr>
+        <tr>
+        <td align=left>Tel ` +
+      getHtlTel +
+      `</td>
+        </tr>
+        </table>
+        <center><h3 class="custom-h3">Accounting Parameter</h3></center>
+    `;
+
+    function doPrint() {
+      print({
+        printable: state.data,
+        type: 'json',
+        properties: [
+          { field: 'DATE', displayName: 'Date' },
+          { field: 'st', displayName: 'Storage Number' },
+          { field: 'supplier', displayName: 'Supplier' },
+          { field: 'artnr', displayName: 'Article Number' },
+          { field: 'DESCRIPTION', displayName: 'Description' },
+          { field: 'd-unit', displayName: 'Delivery Unit' },
+          { field: 'price', displayName: 'Price' },
+          { field: 'inc-qty', displayName: 'Incoming Quantity' },
+          { field: 'amount', displayName: 'Amount' },
+          { field: 'docu-no', displayName: 'Document Number' },
+          { field: 'ID', displayName: 'ID' },
+          { field: 'deliv-note', displayName: 'Delivery Note' },
+          { field: 'invoice-nr', displayName: 'Invoice Number' },
+        ],
+        header: rawHeader,
+        style: '.custom-h3 { color: black; }',
+      });
+    }
+    const groupHeaders = (cols) => cols.filter((col) => col.name !== 'actions');
+    const actionHeader = (cols) => cols.find((col) => col.name === 'actions');
     return {
       ...toRefs(state),
       tableHeaders,
       onSearch,
-      pagination: {
-        rowsPerPage: 10,
-      },
+      groupHeaders,
+      actionHeader,
+      pagination: { page: 1, rowsPerPage: 0 },
+      doPrint,
     };
   },
   components: {
