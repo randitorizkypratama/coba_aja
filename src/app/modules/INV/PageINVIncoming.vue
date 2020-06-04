@@ -81,20 +81,21 @@ export default defineComponent({
     });
 
     const onSearch = (state2) => {
+
       async function asyncCall() {
         const response = await Promise.all([
           $api.inventory.getIncomingtable({
             pvILanguage: '1',
             lastArtnr: '?',
-            lieferantRecid: state2.checkbox1 == true ? '0' : state2.supplier,
+            lieferantRecid: state2.all == true ? '0' : state2.supplier,
             lKreditRecid: state.lKreditRecid,
             longDigit: state.longDigit,
             showPrice: state.showPriceprepare,
-            store: state2.storeNumber,
-            allSupp: state2.checkbox1,
-            sorttype: state2.radios,
-            fromGrp: state2.fromMainGroup,
-            toGrp: state2.toMainGroup,
+            store: state2.store.value,
+            allSupp: state2.all,
+            sorttype: state2.shape,
+            fromGrp: state2.fromMain.value,
+            toGrp: state2.toMain.value,
             fromDate: date.formatDate(state2.date.start, 'DD/MM/YY'),
             toDate: date.formatDate(state2.date.end, 'DD/MM/YY'),
             userInit: '01',
@@ -133,14 +134,12 @@ export default defineComponent({
         ]);
         charts = response[0] || [];
 
-        console.log(charts);
-
         for (let i = 0; i < charts.length; i++) {
           const dataRow = {};
           const dataItem = charts[i];
 
-          dataRow['DATE'] = dataItem['DATE'] =
-            null || undefined || ''
+          dataRow['DATE'] =
+            dataItem['DATE'] == null || undefined || ''
               ? ' '
               : date.formatDate(dataItem['DATE'], 'DD/MM/YYYY');
           dataRow['st'] = dataItem['st'] == 0 ? '' : dataItem['st'];
@@ -187,7 +186,7 @@ export default defineComponent({
       `</td>
         </tr>
         </table>
-        <center><h3 class="custom-h3">Accounting Parameter</h3></center>
+        <center><h3 class="custom-h3">Incoming (Receiving Report by Suppliers)</h3></center>
     `;
 
     function doPrint() {

@@ -58,7 +58,7 @@ export default defineComponent({
       fromMain: ref(null),
       toMain: ref(null),
       shape: ref('1'),
-      all: ref(false),
+      all: ref(true),
     });
 
     const onSearch = () => {
