@@ -24,7 +24,7 @@ const routes: RouteConfig[] = [
     ],
   },
 ];
-
+console.log(routes, 'routers');
 // Always leave this as last one
 if (process.env.MODE !== 'ssr') {
   routes.push({

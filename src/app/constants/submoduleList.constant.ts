@@ -32,7 +32,7 @@ const SUBMODULES: Submodule = {
     'Store Requisition',
     'Incoming',
   ],
-  OU: ['Order Taker Report', 'Summary Restaurant Report'],
+  OU: ['Order Taker Report', 'Summary Restaurant Report', 'Outlet Sold Menu'],
 };
 
 export const generateModulePath = (moduleAbbr: string, name: string) => {

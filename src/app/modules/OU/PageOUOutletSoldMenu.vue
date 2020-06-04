@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchSummaryRestaurant :searches="searches" @onSearch="onSearch" />
+      <searchOutletSoldMenu :searches="searches" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -46,140 +46,138 @@ export default defineComponent({
       isFetching: true,
       build: [],
       searches: {
-        userList: [],
+        fromDept: [],
+        toDept: [],
+        sorting: [],
       },
     });
 
     onMounted(async () => {
       const [data] = await Promise.all([
-        $api.outlet.getOUPrepareSummaryRestaurantReport('summRestPrepare', {
-          currDept: '1',
+        $api.outlet.getOUPrepareOutletSoldMenu('fbSalesCostsAnalPrepare', {
+          fromDate: '1',
+          toDate: '99',
         }),
       ]);
 
       responsePrepare = data || [];
-      console.log('test', responsePrepare.ttArtnr['tt-artnr']);
+      console.log('test', responsePrepare);
+      // state.searches.fromDept = mapOU(responsePrepare, 'fromDept');
+      // state.isFetching = false;
     });
 
     const onSearch = (state2) => {
       async function asyncCall() {
-        const dataSummaryRestaurantList = await Promise.all([
-          $api.outlet.getOUSummaryRestaurantReport('summRestList', {
-            currDept: '1',
-            deptName: responsePrepare.deptName,
-            exchgrate: responsePrepare.exchgRate,
-            ttArtnr: {
-              'tt-artnr': [
+        const dataOutletSoldMenuList = await Promise.all([
+          $api.outlet.getOUSummaryRestaurantReport('fbSalesCostsAnalList', {
+            subgrList: {
+              'subgr-list': [
                 {
-                  artnr: responsePrepare.ttArtnr['tt-artnr'][0].artnr,
-                  'curr-i': responsePrepare.ttArtnr['tt-artnr'][0][`curr-i`],
+                  selected: true,
+                  subnr: responsePrepare.subnr,
+                  bezeich: responsePrepare.bezeich,
                 },
               ],
             },
-            ldry: responsePrepare.ldry,
-            dstore: responsePrepare.dstore,
-            clb: responsePrepare.clb,
-            zeit2: '86399',
-            zeit1: '0',
-            fromDate: date.formatDate(state2.date, 'YYYY-MM-DD'),
+            sorttype: '1',
+            fromDept: '1',
+            toDept: '1',
+            dstore: '0',
+            ldryDept: '20',
+            allSub: true,
+            fromDate: date.formatDate(state2.date.start, 'YYYY-MM-DD'),
+            toDate: date.formatDate(state2.date.end, 'YYYY-MM-DD'),
+            fact1: '1',
+            exchgRate: '1',
+            vatIncluded: false,
+            miSubgrp: false,
+            detailed: false,
+            currSort: '1',
+            shortFlag: 'yes',
           }),
         ]);
 
-        charts = dataSummaryRestaurantList[0] || [];
+        charts = dataOutletSoldMenuList[0] || [];
         state.build = charts;
 
-        console.log(state2.date, 'data1');
+        console.log(state2.date, 'date1');
       }
       asyncCall();
     };
 
     const tableHeaders = [
       {
-        label: 'Outlet',
-        field: 'name',
-        name: 'name',
+        label: 'Article Number',
+        field: 'depart',
+        name: 'depart',
         align: 'left',
         sortable: false,
       },
       {
-        label: 'Pax',
-        field: 'belegung',
-        name: 'belegung',
+        label: 'Description',
+        field: 'depname1',
+        name: 'depname1',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'Food Harris Cafe',
+        label: 'Quantity',
         field: 'food',
         name: 'food',
         align: 'left',
         sortable: false,
       },
       {
-        label: 'Beverange Harris Cafe',
+        label: 'Percentage',
         field: 'beverage',
         name: 'beverage',
         align: 'left',
         sortable: false,
       },
       {
-        label: "B'fast Harris Cafe",
+        label: 'Unit Price',
         field: 'cigarette',
         name: 'cigarette',
         sortable: false,
       },
       {
-        label: 'Other Harris Cafe',
+        label: 'Unit Cost',
         field: 'discount',
         name: 'discount',
         sortable: false,
       },
       {
-        label: 'Service',
+        label: 'Ratio',
         field: 't-service',
         name: 't-service',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'Tax',
+        label: 'Sales',
         field: 't-tax',
         name: 't-tax',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'Total',
+        label: 'Cost',
         field: 't-debit',
         name: 't-debit',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'Cash USD',
+        label: 'Ratio',
         field: 'p-cash1',
         name: 'p-cash1',
         align: 'right',
         sortable: false,
       },
       {
-        label: 'Cash Rp',
+        label: 'Percentage',
         field: 'p-cash',
         name: 'p-cash',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Transfer',
-        field: 'r-transfer',
-        name: 'r-transfer',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'CC/CL',
-        field: 'c-ledger',
-        name: 'c-ledger',
         align: 'right',
         sortable: false,
       },
@@ -195,8 +193,7 @@ export default defineComponent({
     };
   },
   components: {
-    searchSummaryRestaurant: () =>
-      import('./components/SearchSummaryRestaurantReport.vue'),
+    searchOutletSoldMenu: () => import('./components/SearchOutletSoldMenu.vue'),
   },
 });
 </script>

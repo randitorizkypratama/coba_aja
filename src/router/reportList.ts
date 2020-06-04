@@ -47,6 +47,11 @@ export const reportList: ReportList = {
         name: 'Summary Restaurant',
         keyword: 'Outlet',
       },
+      {
+        path: '/ou/outlet-sold-menu',
+        name: 'Outlet Sold Menu',
+        keyword: 'Outlet',
+      },
     ],
   },
 };

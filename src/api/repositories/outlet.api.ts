@@ -7,6 +7,8 @@ export interface OutletEndpoints {
   getOUOrderTakerReport: any;
   getOUPrepareSummaryRestaurantReport: any;
   getOUSummaryRestaurantReport: any;
+  getOUPrepareOutletSoldMenu: any;
+  getOUOutletSoldMenu: any;
 }
 
 export default (doFetch: DoRequest): OutletEndpoints => ({
@@ -23,5 +25,11 @@ export default (doFetch: DoRequest): OutletEndpoints => ({
   getOUSummaryRestaurantReport: (api, body) =>
     doFetch({ url: `${OU_URL}/${api}`, body }).then(
       ([, res]) => res?.turnover?.['turnover']
+    ),
+  getOUPrepareOutletSoldMenu: (api, body) =>
+    doFetch({ url: `${OU_URL}/${api}`, body }).then(([, res]) => res),
+  getOUgetOUOutletSoldMenu: (api, body) =>
+    doFetch({ url: `${OU_URL}/${api}`, body }).then(
+      ([, res]) => res?.tHoteldpt?.['t-hoteldpt']
     ),
 });
