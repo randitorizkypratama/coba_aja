@@ -33,6 +33,16 @@ const routes: RouteConfig[] = [
     name: 'PrintGLParam',
     component: () => import('~/app/modules/GL/PrintGLParam.vue'),
   },
+  {
+    path: '/inv/print-monthly-incoming',
+    name: 'PrintINVMonthlyIncoming',
+    component: () => import('~/app/modules/INV/components/PrintMonthlyIncoming.vue'),
+  },
+  {
+    path: '/gl/print-rc',
+    name: 'PrintRC',
+    component: () => import('~/app/modules/GL/PrintRC.vue'),
+  },
 ];
 
 // Always leave this as last one

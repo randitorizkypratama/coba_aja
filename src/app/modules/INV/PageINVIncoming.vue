@@ -21,6 +21,7 @@
         separator="cell"
         :rows-per-page-options="[10, 13, 16]"
         :pagination.sync="pagination"
+        id="printMe"
       ></q-table>
     </div>
   </div>
@@ -210,6 +211,10 @@ export default defineComponent({
         ],
         header: rawHeader,
         style: '.custom-h3 { color: black; }',
+        /*printable: 'printMe',
+        type: 'html',
+        targetStyles: ['*'],
+        maxWidth: 1024,*/
       });
     }
     const groupHeaders = (cols) => cols.filter((col) => col.name !== 'actions');

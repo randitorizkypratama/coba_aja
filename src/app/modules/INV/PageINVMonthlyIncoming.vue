@@ -10,18 +10,19 @@
           <img :src="require('~/app/icons/Icon-Refresh.svg')" height="30" />
         </q-btn>
         <q-btn flat round>
-          <img :src="require('~/app/icons/Icon-Print.svg')" height="30" />
+          <img :src="require('~/app/icons/Icon-Print.svg')" height="30" @click="doPrint" />
         </q-btn>
       </div>
 
-      <q-table
+      <STable
         dense
         :columns="tableHeaders"
         :data="data"
         separator="cell"
         :rows-per-page-options="[10, 13, 16]"
         :pagination.sync="pagination"
-      ></q-table>
+        id="printMe"
+      ></STable>
     </div>
   </div>
 </template>
@@ -36,6 +37,7 @@ import {
 import { mapGroup } from '~/app/helpers/mapSelectItems.helpers';
 import { tableHeaders } from './tables/monthlyIncoming.table';
 import { date } from 'quasar';
+import print from 'print-js';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -90,22 +92,28 @@ export default defineComponent({
       state.data = dataLists;
     };
 
-    /*const onSearch = (state2) => {
-      async function asyncCall() {
-        const response = await Promise.all([
-          $api.inventory.getInterKitchenTransfertable({
-            sorttype: state2.shape,
-            fromDept: state2.fromdepartments.value,
-            toDept: state2.todepartments.value,
-            fromDate: date.formatDate(state2.date.start, 'YYYY-MM-DD'),
-            toDate: date.formatDate(state2.date.end, 'YYYY-MM-DD'),
-          }),
-        ]);
-        lists = response[0] || [];
-        state.datas = lists;
-      }
-      asyncCall();
-    };*/
+    function doPrint() {
+      /*print({
+        printable: 'printMe',
+        type: 'html',
+        properties: [
+          { field: 'f-bezeich', displayName: 'Storage'},
+          { field: 'artnr', displayName: 'Article Number'},
+          { field: 'bezeich', displayName: 'Description'},
+          { field: 'einheit', displayName: 'Unit'},
+          { field: 'qty', displayName: 'Quantity'},
+          { field: 'val', displayName: 'Amount'},
+          { field: 't-qty', displayName: 'MTD Quantity'},
+          { field: 't-val', displayName: 'MTD Amount'},
+        ],
+        targetStyles: ['*'],
+        //style: styleShit,
+        //header: '<center><h3 class="custom-h3">Monthly Incoming</h3></center>',
+        //style: '.custom-h3 { color: black; }',
+      })*/
+      window.open('/inv/print-monthly-incoming', '_blank');
+      localStorage.setItem('printData',JSON.stringify(state.data));
+    }
 
     return {
       ...toRefs(state),
@@ -114,6 +122,7 @@ export default defineComponent({
       pagination: {
         rowsPerPage: 10,
       },
+      doPrint,
     };
   },
   components: {
