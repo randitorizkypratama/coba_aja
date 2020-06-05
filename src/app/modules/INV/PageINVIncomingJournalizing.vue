@@ -219,7 +219,8 @@ export default defineComponent({
     };
   },
   components: {
-    SearchChartOfAccounts: () => import('./components/SearchRecipe.vue'),
+    SearchChartOfAccounts: () =>
+      import('./components/SearchIncomingJournalizing.vue'),
     DialogChartOfAccounts: () => import('./components/DialogRecipe.vue'),
   },
 });

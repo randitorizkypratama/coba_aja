@@ -12,14 +12,8 @@
           @clear="date = null"
         />
       </v-date-picker>
-
-      <SSelect
-        label-text="From Department"
-        :options="searches.departments"
-        v-model="fromdepartment"
-      />
-
-      <SSelect label-text="To Department" :options="searches.departments" v-model="todepartment" />
+      <SInput label-text="Refrence Number" v-model="articleNumber" unmasked-value />
+      <SInput label-text="Description" v-model="articleNumber" unmasked-value />
 
       <q-btn
         dense

@@ -44,6 +44,11 @@ export interface InventoryEndpoints {
   chgRecipeDelete: any;
   checkTime: any;
   chgRecipeSave: any;
+  recipeListDelCheck: any;
+
+  // Outlet Compliment Journalizing
+  glLinkcompliPrepare: any;
+  glLinkcompli1: any;
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
@@ -142,4 +147,16 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
     doFetch({ url: `${INV_URL}/chgRecipeSave`, body }).then((res) => {
       console.log('sukses12', res);
     }),
+
+  recipeListDelCheck: (body) =>
+    doFetch({ url: `${INV_URL}/recipeListDelCheck`, body }).then((res) => {
+      console.log('sukses12', res);
+    }),
+
+  // Outlet Compliment Journalizing
+  glLinkcompliPrepare: () =>
+    doFetch({ url: `${INV_URL}/glLinkcompliPrepare` }).then(([, res]) => res),
+
+  glLinkcompli1: (body) =>
+    doFetch({ url: `${INV_URL}/glLinkcompli1`, body }).then(([, res]) => res),
 });

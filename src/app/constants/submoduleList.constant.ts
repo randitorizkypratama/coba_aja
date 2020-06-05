@@ -31,6 +31,9 @@ const SUBMODULES: Submodule = {
     'Store Requisition',
     'Incoming',
     'Recipe',
+    'OutletComplimentJournalizing',
+    'OutgoingJournalizing',
+    'IncomingJournalizing',
   ],
   OU: ['Order Taker Report'],
 };
