@@ -1,13 +1,11 @@
 <template>
-  <div>
+  <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <SearchChartOfAccounts @onSearch="onSearch" />
+      <searchIncoming :searches="searches" :dialogTransfer="dialogTransfer" @onSearch="onSearch" />
     </q-drawer>
+
     <div class="q-pa-lg">
       <div class="q-mb-md">
-        <q-btn @click="openDialog" flat round class="q-mr-lg">
-          <img :src="require('~/app/icons/Icon-Add.svg')" height="30" />
-        </q-btn>
         <q-btn flat round class="q-mr-lg">
           <img :src="require('~/app/icons/Icon-Refresh.svg')" height="30" />
         </q-btn>
@@ -15,9 +13,10 @@
           <img :src="require('~/app/icons/Icon-Print.svg')" height="30" />
         </q-btn>
       </div>
+
       <q-table
         dense
-        :class="{ mystickyvirtscrolltable : page }"
+        :class="{mystickyvirtscrolltable : trueAndFalse}"
         :columns="tableHeaders"
         :data="data"
         separator="cell"
@@ -25,73 +24,9 @@
         :virtual-scroll-sticky-size-start="48"
         :pagination.sync="pagination"
         hide-bottom
-      >
-        <template #header-cell-fibukonto="props">
-          <q-th :props="props" class="fixed-col left">
-            {{
-            props.col.label
-            }}
-          </q-th>
-        </template>
-
-        <template #body-cell-fibukonto="props">
-          <q-td :props="props" class="fixed-col left">
-            {{
-            props.row
-            }}
-          </q-td>
-        </template>
-
-        <template #header-cell-actions="props">
-          <q-th :props="props" class="fixed-col right">
-            {{
-            props.col.label
-            }}
-          </q-th>
-        </template>
-
-        <template #body-cell-actions="props">
-          <q-td :props="props" class="fixed-col right">
-            <q-icon name="more_vert" size="16px">
-              <q-menu auto-close anchor="bottom right" self="top right">
-                <q-list>
-                  <q-item clickable v-ripple @click="editItem(props.row)">
-                    <q-item-section>edit</q-item-section>
-                  </q-item>
-                  <q-item clickable v-ripple @click="confirm = true">
-                    <q-item-section>delete</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-icon>
-          </q-td>
-        </template>
-      </q-table>
+        @row-click="onRowClick"
+      />
     </div>
-    <DialogChartOfAccounts
-      :dialog="dialog"
-      @save="dialog = false"
-      @cencel="dialog = false"
-      :selected="prepare"
-      :account-id="accountId"
-      :idDialog="idDialog"
-    />
-    <q-dialog v-model="confirm" persistent>
-      <q-card>
-        <q-card-section class="row items-center">
-          <q-avatar icon="warning" color="primary" text-color="white" />
-          <span class="q-ml-sm">
-            Are you sure delete the stock article {{ 1101002 }} - Avocado
-            ?
-          </span>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="primary" v-close-popup />
-          <q-btn @click="deleteData" flat label="Ok" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </div>
 </template>
 
@@ -101,137 +36,139 @@ import {
   onMounted,
   toRefs,
   reactive,
-  ref,
 } from '@vue/composition-api';
-import { tableHeaders } from './tables/recipe';
-import { log } from 'util';
+import {
+  mapWithadjustmain,
+  mapWithadjuststore,
+} from '~/app/helpers/mapSelectItems.helpers';
+import { tableHeaders } from './tables/IncomingJournalizing';
+import { mapGroup } from '~/app/helpers/mapSelectItems.helpers';
+
 export default defineComponent({
   setup(_, { root: { $api } }) {
     let charts;
+
     const state = reactive({
+      disableToStore: true,
+      disableAccount: true,
+      isFetching: true,
+      searches: {
+        departments: [],
+        store: [],
+      },
       dialog: false,
-      confirm: false,
-      prepare: '',
+      dialogTransfer: false,
+      transfer: null,
       data: [],
-      page: false,
-      accountId: '',
-      idDialog: '',
+      trueAndFalse: false,
+      confirm: false,
+      rowClick: '',
+      fromDept: '',
+      toDept: '',
     });
+
     onMounted(async () => {
-      const data1 = await Promise.all([$api.inventory.recipeListPrepare()]);
-      state.data = data1[0].tHRezept['t-h-rezept'].map((item, i) =>
-        Object.assign({}, item, data1[0].costList['cost-list'][i])
+      const data = await Promise.all([$api.inventory.storeReqPrepare()]);
+      state.searches.departments = mapGroup(
+        data[0].tLUntergrup['t-l-untergrup'],
+        'bezeich',
+        'zwkum'
       );
-      console.log('sukses12', data1);
-      if (state.data !== undefined) {
-        state.page = true;
-      }
     });
-    const saveData = () => {
-      state.dialog = false;
-    };
 
-    const onSearch = (val, input) => {
-      const asyncCal = async () => {
-        const data1 = await Promise.all([$api.inventory.recipeListPrepare()]);
-        const data = data1[0].tHRezept['t-h-rezept'].map((item, i) =>
-          Object.assign({}, item, data1[0].costList['cost-list'][i])
-        );
-        console.log('sukses12', data);
-
-        // state.data = data2.map((item) => ({
-        //   artnrrezept: item.artnrrezept,
-        //   betriebsnr: item.betriebsnr,
-        //   bezeich1: item.bezeich.substring(0, 25),
-        //   bezeich2: item.bezeich.substring(25),
-        // }));
-
-        // console.log('sukses123', data);
-        // console.log('sukses1234', data2);
-
-        if (val == '1') {
-          state.data = data.filter((data: any) => {
-            return data.artnrrezept.toString().includes(input.toString());
-          });
-          if (state.data.length < 14) {
-            state.page = false;
-          }
-          if (state.data.length > 14) {
-            state.page = true;
-          }
-        }
-        if (val == '2') {
-          state.data = data.filter((data: any) => {
-            return data.bezeich.toLowerCase().includes(input.toLowerCase());
-          });
-          if (state.data.length < 14) {
-            state.page = false;
-          }
-          if (state.data.length > 14) {
-            state.page = true;
-          }
-        }
-        if (val == '3') {
-          state.data = data.filter((data: any) => {
-            return data.kategorie.toString().includes(input.toString());
-          });
-          if (state.data.length < 14) {
-            state.page = false;
-          }
-          if (state.data.length > 14) {
-            state.page = true;
-          }
-        }
-      };
-    };
-
-    const editItem = (accountId) => {
-      state.accountId = accountId;
-      state.dialog = true;
-      state.idDialog = '2';
-    };
-
-    const openDialog = () => {
-      state.dialog = true;
-      state.idDialog = '1';
-    };
-
-    const deleteData = async () => {
-      await Promise.all([
-        $api.inventory.recipeListDelCheck({
-          pvILanguage: 1,
-          ['t-h-rezept-artnrrezept']: 'Recipe Number',
+    const getData = async () => {
+      const GET_DATA = await Promise.all([
+        $api.inventory.glLinkstockBtnGo({
+          pvILanguage: 0,
+          linkOut: true,
+          linkIn: true,
+          fromGrp: 0,
+          fromDate: '01/02/19',
+          toDate: '01/02/19',
+          userInit: 0,
         }),
       ]);
+
+      state.data = GET_DATA[0].tGList['t-g-list'];
+      if (GET_DATA[0].outputOkFlag == 'true') {
+        state.trueAndFalse = true;
+      }
     };
 
+    const onSearch = (val) => {
+      getData();
+    };
+    const select = (val, group) => {
+      if (group == '1') {
+        state.dialogTransfer = true;
+        state.disableToStore = false;
+      }
+      if (group == '2') {
+        state.dialogTransfer = true;
+        state.disableAccount = false;
+      }
+      state.dialog = val;
+    };
+    const close = (val) => {
+      state.disableAccount = true;
+      state.disableToStore = true;
+      state.dialogTransfer = val;
+      state.dialog = val;
+    };
+
+    function select1() {
+      state.disableAccount = true;
+      state.disableToStore = true;
+      state.dialogTransfer = false;
+    }
+
+    function onRowClick(e, rowClick) {
+      state.rowClick = rowClick;
+    }
+
+    function deleteData() {
+      console.log('sukses2', state.rowClick['s-recid']);
+      async function asyncCall() {
+        $api.inventory.storeReqDelete({
+          tListSrecid: state.rowClick['s-recid'],
+          bedienerNr: '01',
+          fromDate: '01/14/19',
+          toDate: '01/14/19',
+          fromDept: state.fromDept,
+          toDept: state.toDept,
+          currLschein: ' ',
+          showPrice: 'yes',
+        });
+      }
+      asyncCall();
+    }
     return {
       ...toRefs(state),
-      editItem,
-      deleteData,
-      openDialog,
-      onSearch,
-      saveData,
       tableHeaders,
+      onRowClick,
+      deleteData,
+      select1,
+      onSearch,
+      close,
+      select,
       pagination: {
         rowsPerPage: 0,
+        // rowsNumber: state.GET_DATA.length,
       },
     };
   },
   components: {
-    SearchChartOfAccounts: () =>
-      import('./components/SearchIncomingJournalizing.vue'),
-    DialogChartOfAccounts: () => import('./components/DialogRecipe.vue'),
+    searchIncoming: () => import('./components/SearchIncomingJournalizing.vue'),
   },
 });
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  background: $primary-grad;
-}
 .mystickyvirtscrolltable {
   height: 410px;
+}
+
+.my-sticky-virtscroll-table .q-table__top .q-table__bottom {
 }
 
 .my-sticky-virtscroll-table thead tr:first-child th {

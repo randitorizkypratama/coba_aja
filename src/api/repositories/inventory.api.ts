@@ -49,6 +49,9 @@ export interface InventoryEndpoints {
   // Outlet Compliment Journalizing
   glLinkcompliPrepare: any;
   glLinkcompli1: any;
+
+  //INVENTORY – RECEIVING TO GL
+  glLinkstockBtnGo: any;
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
@@ -159,4 +162,10 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
 
   glLinkcompli1: (body) =>
     doFetch({ url: `${INV_URL}/glLinkcompli1`, body }).then(([, res]) => res),
+
+  //INVENTORY – RECEIVING TO GL
+  glLinkstockBtnGo: (body) =>
+    doFetch({ url: `${INV_URL}/glLinkstockBtnGo`, body }).then(
+      ([, res]) => res
+    ),
 });

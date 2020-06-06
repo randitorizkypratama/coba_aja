@@ -187,7 +187,7 @@ import {
   toRefs,
 } from '@vue/composition-api';
 import { setupCalendar, DatePicker } from 'v-calendar';
-import {tableDialogNew} from '../tables/storeRequisition'
+import { tableDialogNew } from '../tables/storeRequisition';
 import { mapGroup } from '~/app/helpers/mapSelectItems.helpers';
 interface State {
   pagination: any;
@@ -252,7 +252,7 @@ export default defineComponent({
         'bezeich',
         'lager-nr'
       );
-      console.log('sukses123', data);
+      // console.log('sukses123', data);
     });
 
     function select() {

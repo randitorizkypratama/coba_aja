@@ -1,67 +1,67 @@
 <template>
   <section class="mt-7">
-    <div id="input" class="q-pa-md">
-      <q-form @submit="onSearch">
-        <SInput label-text="Description" v-model="inputan" unmasked-value />
-        <q-option-group size="xs" v-model="group" :options="options" color="primary" />
-        <q-btn
-          block
-          color="primary"
-          max-height="28"
-          icon="search"
-          label="Search"
-          type="submit"
-          class="q-mt-md full-width"
+    <div class="q-pa-md">
+      <v-date-picker mode="range" v-model="date" :columns="2" :popover="{ visibility: 'click' }">
+        <SInput
+          label-text="Date"
+          slot-scope="{ inputProps }"
+          placeholder="From - Until"
+          readonly
+          v-bind="inputProps"
+          clearable
+          @clear="date = null"
         />
-      </q-form>
+      </v-date-picker>
+      <SInput label-text="Reference Number" :options="searches.store" v-model="ReqNumber" />
+      <SInput label-text="Description" :options="searches.store" v-model="ReqNumber" />
+      <q-btn
+        dense
+        color="primary"
+        icon="search"
+        label="Search"
+        class="q-mt-md full-width"
+        @click="onSearch"
+      />
     </div>
-
-    <q-separator style="border-width: 1px;" class="q-my-md" />
   </section>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, ref } from '@vue/composition-api';
+import { defineComponent, ref, reactive, toRefs } from '@vue/composition-api';
+import { setupCalendar, DatePicker } from 'v-calendar';
+import { date } from 'quasar';
+import { log } from 'util';
+
+setupCalendar({
+  firstDayOfWeek: 2,
+});
+
 export default defineComponent({
-  props: {},
+  props: {
+    searches: { type: Object, required: true },
+  },
+
   setup(_, { emit }) {
     const state = reactive({
-      inputan: ref(null),
-      group: '1',
-      options: [
-        {
-          label: 'Recipe Number',
-          value: '1',
-        },
-        {
-          label: 'Description',
-          value: '2',
-        },
-        {
-          label: 'Category',
-          value: '3',
-        },
-      ],
+      date: null,
+      fromDept: ref(null),
+      toDept: ref(null),
+      ReqNumber: ref(' '),
     });
+
     const onSearch = () => {
-      emit('onSearch', state.group, state.inputan);
+      emit('onSearch', { ...state });
     };
+
     return {
-      onSearch,
       ...toRefs(state),
+      onSearch,
     };
+  },
+  components: {
+    'v-date-picker': DatePicker,
   },
 });
 </script>
-<style lang="scss" scoped>
-#input {
-  width: 220px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
 
-#radio {
-  margin-left: -9px;
-}
-</style>
+<style lang="scss" scoped></style>
