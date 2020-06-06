@@ -122,7 +122,6 @@ export default defineComponent({
       state.data = data1[0].tHRezept['t-h-rezept'].map((item, i) =>
         Object.assign({}, item, data1[0].costList['cost-list'][i])
       );
-      console.log('sukses12', data1);
       if (state.data !== undefined) {
         state.page = true;
       }
@@ -131,58 +130,48 @@ export default defineComponent({
       state.dialog = false;
     };
 
+    const asyncCal = async (val, input) => {
+      const data1 = await Promise.all([$api.inventory.recipeListPrepare()]);
+      const data = data1[0].tHRezept['t-h-rezept'].map((item, i) =>
+        Object.assign({}, item, data1[0].costList['cost-list'][i])
+      );
+      if (val == '1') {
+        state.data = data.filter((data: any) => {
+          return data.artnrrezept.toString().includes(input.toString());
+        });
+        if (state.data.length < 14) {
+          state.page = false;
+        }
+        if (state.data.length > 14) {
+          state.page = true;
+        }
+      }
+      if (val == '2') {
+        state.data = data.filter((data: any) => {
+          return data.bezeich.toLowerCase().includes(input.toLowerCase());
+        });
+        if (state.data.length < 14) {
+          state.page = false;
+        }
+        if (state.data.length > 14) {
+          state.page = true;
+        }
+      }
+      if (val == '3') {
+        state.data = data.filter((data: any) => {
+          return data.kategorie.toString().includes(input.toString());
+        });
+        if (state.data.length < 14) {
+          state.page = false;
+        }
+        if (state.data.length > 14) {
+          state.page = true;
+        }
+      }
+    };
+
     const onSearch = (val, input) => {
-      const asyncCal = async () => {
-        const data1 = await Promise.all([$api.inventory.recipeListPrepare()]);
-        const data = data1[0].tHRezept['t-h-rezept'].map((item, i) =>
-          Object.assign({}, item, data1[0].costList['cost-list'][i])
-        );
-        console.log('sukses12', data);
-
-        // state.data = data2.map((item) => ({
-        //   artnrrezept: item.artnrrezept,
-        //   betriebsnr: item.betriebsnr,
-        //   bezeich1: item.bezeich.substring(0, 25),
-        //   bezeich2: item.bezeich.substring(25),
-        // }));
-
-        // console.log('sukses123', data);
-        // console.log('sukses1234', data2);
-
-        if (val == '1') {
-          state.data = data.filter((data: any) => {
-            return data.artnrrezept.toString().includes(input.toString());
-          });
-          if (state.data.length < 14) {
-            state.page = false;
-          }
-          if (state.data.length > 14) {
-            state.page = true;
-          }
-        }
-        if (val == '2') {
-          state.data = data.filter((data: any) => {
-            return data.bezeich.toLowerCase().includes(input.toLowerCase());
-          });
-          if (state.data.length < 14) {
-            state.page = false;
-          }
-          if (state.data.length > 14) {
-            state.page = true;
-          }
-        }
-        if (val == '3') {
-          state.data = data.filter((data: any) => {
-            return data.kategorie.toString().includes(input.toString());
-          });
-          if (state.data.length < 14) {
-            state.page = false;
-          }
-          if (state.data.length > 14) {
-            state.page = true;
-          }
-        }
-      };
+      asyncCal(val, input);
     };
 
     const editItem = (accountId) => {
