@@ -46,8 +46,6 @@ export default defineComponent({
 
     const state = reactive({
       searches: {
-        departments: [],
-        store: [],
         hasilCredit: 0,
         hasilDebit: 0,
         group: [],
@@ -82,6 +80,25 @@ export default defineComponent({
         }),
       ]);
       charts = GET_DATA[0].tGList['t-g-list'];
+
+      console.log('sukses', charts)
+      const GET_DATA2 = await Promise.all([
+        $api.inventory.glLinkstock2({
+          pvILanguage: 0,
+          linkIn: true,
+          toDate: '01/02/19',
+          remains: 0,
+          credits: 0,
+          debits: 0,
+          refno: '00001306',
+          datum: '01/02/19',
+          bezeich: 'Inventory Guest Supplies',
+          jtype: 0,
+          tGList: {
+            't-g-list': charts,
+          },
+        }),
+      ]);
       state.data = charts;
 
       let totalCredit = 0;
