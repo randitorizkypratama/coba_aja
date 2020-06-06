@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchIncoming :searches="searches" :dialogTransfer="dialogTransfer" @onSearch="onSearch" />
+      <searchIncoming :searches="searches" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -37,43 +37,21 @@ import {
   toRefs,
   reactive,
 } from '@vue/composition-api';
-import {
-  mapWithadjustmain,
-  mapWithadjuststore,
-} from '~/app/helpers/mapSelectItems.helpers';
 import { tableHeaders } from './tables/IncomingJournalizing';
-import { mapGroup } from '~/app/helpers/mapSelectItems.helpers';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
     let charts;
 
     const state = reactive({
-      disableToStore: true,
-      disableAccount: true,
-      isFetching: true,
       searches: {
         departments: [],
         store: [],
+        hasilCredit: 0,
+        hasilDebit: 0,
       },
-      dialog: false,
-      dialogTransfer: false,
-      transfer: null,
       data: [],
       trueAndFalse: false,
-      confirm: false,
-      rowClick: '',
-      fromDept: '',
-      toDept: '',
-    });
-
-    onMounted(async () => {
-      const data = await Promise.all([$api.inventory.storeReqPrepare()]);
-      state.searches.departments = mapGroup(
-        data[0].tLUntergrup['t-l-untergrup'],
-        'bezeich',
-        'zwkum'
-      );
     });
 
     const getData = async () => {
@@ -88,8 +66,19 @@ export default defineComponent({
           userInit: 0,
         }),
       ]);
+      charts = GET_DATA[0].tGList['t-g-list'];
+      state.data = charts;
 
-      state.data = GET_DATA[0].tGList['t-g-list'];
+      let totalCredit = 0;
+      let totalDebit = 0;
+      for (const i in charts) {
+        totalCredit += charts[i].credit;
+        totalDebit += charts[i].debit;
+      }
+
+      state.searches.hasilCredit = totalCredit;
+      state.searches.hasilDebit = totalDebit;
+
       if (GET_DATA[0].outputOkFlag == 'true') {
         state.trueAndFalse = true;
       }
@@ -98,59 +87,11 @@ export default defineComponent({
     const onSearch = (val) => {
       getData();
     };
-    const select = (val, group) => {
-      if (group == '1') {
-        state.dialogTransfer = true;
-        state.disableToStore = false;
-      }
-      if (group == '2') {
-        state.dialogTransfer = true;
-        state.disableAccount = false;
-      }
-      state.dialog = val;
-    };
-    const close = (val) => {
-      state.disableAccount = true;
-      state.disableToStore = true;
-      state.dialogTransfer = val;
-      state.dialog = val;
-    };
 
-    function select1() {
-      state.disableAccount = true;
-      state.disableToStore = true;
-      state.dialogTransfer = false;
-    }
-
-    function onRowClick(e, rowClick) {
-      state.rowClick = rowClick;
-    }
-
-    function deleteData() {
-      console.log('sukses2', state.rowClick['s-recid']);
-      async function asyncCall() {
-        $api.inventory.storeReqDelete({
-          tListSrecid: state.rowClick['s-recid'],
-          bedienerNr: '01',
-          fromDate: '01/14/19',
-          toDate: '01/14/19',
-          fromDept: state.fromDept,
-          toDept: state.toDept,
-          currLschein: ' ',
-          showPrice: 'yes',
-        });
-      }
-      asyncCall();
-    }
     return {
       ...toRefs(state),
       tableHeaders,
-      onRowClick,
-      deleteData,
-      select1,
       onSearch,
-      close,
-      select,
       pagination: {
         rowsPerPage: 0,
         // rowsNumber: state.GET_DATA.length,

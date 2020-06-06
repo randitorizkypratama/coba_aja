@@ -52,6 +52,7 @@ export interface InventoryEndpoints {
 
   //INVENTORY – RECEIVING TO GL
   glLinkstockBtnGo: any;
+  glLinkstockPrepare: any;
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
@@ -166,6 +167,10 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
   //INVENTORY – RECEIVING TO GL
   glLinkstockBtnGo: (body) =>
     doFetch({ url: `${INV_URL}/glLinkstockBtnGo`, body }).then(
+      ([, res]) => res
+    ),
+  glLinkstockPrepare: (body) =>
+    doFetch({ url: `${INV_URL}/glLinkstockPrepare`, body }).then(
       ([, res]) => res
     ),
 });

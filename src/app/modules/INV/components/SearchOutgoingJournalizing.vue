@@ -12,8 +12,9 @@
           @clear="date = null"
         />
       </v-date-picker>
-      <SInput label-text="Reference Number" :options="searches.store" v-model="ReqNumber" />
-      <SInput label-text="Description" :options="searches.store" v-model="ReqNumber" />
+      <SInput label-text="Reference Number" :options="searches.store" />
+      <SInput label-text="Description" :options="searches.store" />
+      <SSelect label-text="Group" :options="searches.group" v-model="ReqNumber" />
       <q-btn
         dense
         color="primary"
@@ -29,7 +30,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, toRefs } from '@vue/composition-api';
+import {
+  defineComponent,
+  ref,
+  reactive,
+  toRefs,
+  onMounted,
+} from '@vue/composition-api';
 import { setupCalendar, DatePicker } from 'v-calendar';
 import { date } from 'quasar';
 import { log } from 'util';
@@ -46,9 +53,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const state = reactive({
       date: null,
-      fromDept: ref(null),
-      toDept: ref(null),
-      ReqNumber: ref(' '),
+      ReqNumber: ref(null),
     });
 
     const onSearch = () => {
