@@ -28,8 +28,8 @@ export default (doFetch: DoRequest): OutletEndpoints => ({
     ),
   getOUPrepareOutletSoldMenu: (api, body) =>
     doFetch({ url: `${OU_URL}/${api}`, body }).then(([, res]) => res),
-  getOUgetOUOutletSoldMenu: (api, body) =>
-    doFetch({ url: `${OU_URL}/${api}`, body }).then(
-      ([, res]) => res?.tHoteldpt?.['t-hoteldpt']
+  getOUgetOUOutletSoldMenu: (body) =>
+    doFetch({ url: `${OU_URL}/fbSalesCostsAnalList`, body }).then(
+      ([, res]) => res
     ),
 });

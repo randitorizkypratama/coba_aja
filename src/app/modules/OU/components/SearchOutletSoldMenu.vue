@@ -11,39 +11,36 @@
           @clear="date = null"
         />
       </v-date-picker>
-
       <SSelect label-text="From Outlet" :options="searches.fromDept" v-model="fromDept" />
-
       <SSelect label-text="To Outlet" :options="searches.toDept" v-model="toDept" />
-      <SSelect v-model="model" :options="options" label-text="Sorting By" />
+      <SSelect
+        label-text="Sorting By"
+        v-model="sortBy"
+        :options="[
+          { label: 'By Description', value: 'byDesc' },
+          { label: 'By Sold Quantity', value: 'bySoldQuantity' },
+          { label: 'By Sold Quantity', value: 'bySoldAmount' },
+        ]"
+      />
       <q-btn-toggle
         label-text="Display"
-        v-model="food"
+        v-model="sorttype"
         spread
         toggle-color="primary"
         :options="[
-        {label: 'Food', value: 'food'},
-        {label: 'Beverange', value: 'beverange'}
-      ]"
+          { label: 'Food', value: '1' },
+          { label: 'Beverange', value: '2' },
+        ]"
       ></q-btn-toggle>
 
-      <q-checkbox v-model="teal" label="By Factor 1000" />
-      <q-checkbox v-model="orange" label="Including Not Sold Items" />
-      <q-checkbox v-model="subgroup" class="disabled" label="All Sub Group" />
+      <q-checkbox label="By Factor 1000" />
+      <q-checkbox v-model="detailed" label="Including Not Sold Items" />
+      <q-checkbox v-model="allSub" class="disabled" label="All Sub Group" />
       <q-list dense bordered padding class="rounded-borders disabled">
         <q-item clickable v-ripple>
-          <q-item-section>Item</q-item-section>
-        </q-item>
-
-        <q-item clickable v-ripple>
-          <q-item-section>Item</q-item-section>
-        </q-item>
-
-        <q-item clickable v-ripple>
-          <q-item-section>Item</q-item-section>
+          <!-- <q-item-section>{{ searches.getDateItem }}</q-item-section> -->
         </q-item>
       </q-list>
-
       <q-btn
         dense
         color="primary"
@@ -68,16 +65,9 @@ setupCalendar({
 export default defineComponent({
   data() {
     return {
-      food: 'food',
-      teal: false,
-      orange: true,
-      subgroup: false,
-      model: null,
-      options: [
-        { label: 'By Description', value: 'byDesc' },
-        { label: 'By Sold Quantity', value: 'bySoldQuantity' },
-        { label: 'By Sold Quantity', value: 'bySoldAmount' },
-      ],
+      info: null,
+      allSub: null,
+      detailed: null,
     };
   },
   props: {
@@ -90,6 +80,9 @@ export default defineComponent({
       date: ref(null),
       fromDept: ref(null),
       toDept: ref(null),
+      sorttype: ref(null),
+      allSub: ref(null),
+      detailed: ref(null),
     });
 
     const onSearch = () => {

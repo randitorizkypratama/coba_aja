@@ -15,8 +15,9 @@
       </div>
 
       <q-table
+        :loading="isFetching"
         dense
-        :class="{mystickyvirtscrolltable : trueandfalse}"
+        :class="{ mystickyvirtscrolltable: trueandfalse }"
         :data="build"
         :columns="tableHeaders"
         separator="cell"
@@ -34,7 +35,7 @@ import {
   toRefs,
   reactive,
 } from '@vue/composition-api';
-import { mapOU } from '~/app/helpers/mapSelectItems.helpers';
+import { mapOU, mapGroup } from '~/app/helpers/mapSelectItems.helpers';
 import { date } from 'quasar';
 
 export default defineComponent({
@@ -48,9 +49,87 @@ export default defineComponent({
       searches: {
         fromDept: [],
         toDept: [],
-        sorting: [],
+        getDateItem: [],
       },
     });
+
+    const tableHeaders = [
+      {
+        label: 'Article Number',
+        field: 'artnr',
+        name: 'artnr',
+        align: 'left',
+        sortable: false,
+      },
+      {
+        label: 'Description',
+        field: 'bezeich',
+        name: 'bezeich',
+        align: 'right',
+        sortable: false,
+      },
+      {
+        label: 'Quantity',
+        field: 'qty',
+        name: 'qty',
+        align: 'left',
+        sortable: false,
+      },
+      {
+        label: 'Percentage',
+        field: 'proz1',
+        name: 'proz1',
+        align: 'left',
+        sortable: false,
+      },
+      {
+        label: 'Unit Price',
+        field: 'epreis',
+        name: 'epreis',
+        sortable: false,
+      },
+      {
+        label: 'Unit Cost',
+        field: 'cost',
+        name: 'cost',
+        sortable: false,
+      },
+      {
+        label: 'Ratio',
+        field: 'margin',
+        name: 'margin',
+        align: 'right',
+        sortable: false,
+      },
+      {
+        label: 'Sales',
+        field: 't-sales',
+        name: 't-sales',
+        align: 'right',
+        sortable: false,
+      },
+      {
+        label: 'Cost',
+        field: 't-cost',
+        name: 't-cost',
+        align: 'right',
+        sortable: false,
+      },
+      {
+        label: 'Ratio',
+        field: 't-margin',
+        name: 't-margin',
+        align: 'right',
+        sortable: false,
+      },
+      {
+        label: 'Percentage',
+        field: 'proz2',
+        name: 'proz2',
+        align: 'right',
+        sortable: false,
+      },
+    ];
 
     onMounted(async () => {
       const [data] = await Promise.all([
@@ -59,29 +138,39 @@ export default defineComponent({
           toDate: '99',
         }),
       ]);
-
       responsePrepare = data || [];
-      console.log('test', responsePrepare);
-      // state.searches.fromDept = mapOU(responsePrepare, 'fromDept');
-      // state.isFetching = false;
+      const dataItem = responsePrepare.tWgrpdep['t-wgrpdep'];
+      for (const i in dataItem) {
+        state.searches.getDateItem.push(dataItem[i].bezeich);
+      }
+      state.searches.fromDept = mapGroup(
+        responsePrepare.tHoteldpt['t-hoteldpt'],
+        'depart',
+        'num'
+      );
+      state.searches.toDept = mapGroup(
+        responsePrepare.tHoteldpt['t-hoteldpt'],
+        'depart',
+        'num'
+      );
+      state.isFetching = false;
     });
-
     const onSearch = (state2) => {
       async function asyncCall() {
         const dataOutletSoldMenuList = await Promise.all([
-          $api.outlet.getOUSummaryRestaurantReport('fbSalesCostsAnalList', {
+          $api.outlet.getOUgetOUOutletSoldMenu({
             subgrList: {
               'subgr-list': [
                 {
                   selected: true,
-                  subnr: responsePrepare.subnr,
-                  bezeich: responsePrepare.bezeich,
+                  subnr: '10',
+                  bezeich: 'PACKAGE',
                 },
               ],
             },
             sorttype: '1',
-            fromDept: '1',
-            toDept: '1',
+            fromDept: state2.fromDept.value,
+            toDept: state2.toDept.value,
             dstore: '0',
             ldryDept: '20',
             allSub: true,
@@ -92,96 +181,19 @@ export default defineComponent({
             vatIncluded: false,
             miSubgrp: false,
             detailed: false,
-            currSort: '1',
-            shortFlag: 'yes',
+            currSort: '2',
+            shortFlag: true,
           }),
         ]);
 
-        charts = dataOutletSoldMenuList[0] || [];
+        charts =
+          dataOutletSoldMenuList[0].fbCostAnalyst['fb-cost-analyst'] || [];
         state.build = charts;
 
-        console.log(state2.date, 'date1');
+        console.log(dataOutletSoldMenuList, 'data1');
       }
       asyncCall();
     };
-
-    const tableHeaders = [
-      {
-        label: 'Article Number',
-        field: 'depart',
-        name: 'depart',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Description',
-        field: 'depname1',
-        name: 'depname1',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Quantity',
-        field: 'food',
-        name: 'food',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Percentage',
-        field: 'beverage',
-        name: 'beverage',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Unit Price',
-        field: 'cigarette',
-        name: 'cigarette',
-        sortable: false,
-      },
-      {
-        label: 'Unit Cost',
-        field: 'discount',
-        name: 'discount',
-        sortable: false,
-      },
-      {
-        label: 'Ratio',
-        field: 't-service',
-        name: 't-service',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Sales',
-        field: 't-tax',
-        name: 't-tax',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Cost',
-        field: 't-debit',
-        name: 't-debit',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Ratio',
-        field: 'p-cash1',
-        name: 'p-cash1',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Percentage',
-        field: 'p-cash',
-        name: 'p-cash',
-        align: 'right',
-        sortable: false,
-      },
-    ];
 
     return {
       ...toRefs(state),
