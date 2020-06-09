@@ -195,29 +195,27 @@ export default defineComponent({
 
     function doPrint() {
       print({
-        printable: state.data,
-        type: 'json',
-        properties: [
-          { field: 'DATE', displayName: 'Date' },
-          { field: 'st', displayName: 'Storage Number' },
-          { field: 'supplier', displayName: 'Supplier' },
-          { field: 'artnr', displayName: 'Article Number' },
-          { field: 'DESCRIPTION', displayName: 'Description' },
-          { field: 'd-unit', displayName: 'Delivery Unit' },
-          { field: 'price', displayName: 'Price' },
-          { field: 'inc-qty', displayName: 'Incoming Quantity' },
-          { field: 'amount', displayName: 'Amount' },
-          { field: 'docu-no', displayName: 'Document Number' },
-          { field: 'ID', displayName: 'ID' },
-          { field: 'deliv-note', displayName: 'Delivery Note' },
-          { field: 'invoice-nr', displayName: 'Invoice Number' },
-        ],
-        header: rawHeader,
-        style: '.custom-h3 { color: black; }',
-        /*printable: 'printMe',
+        printable: 'printMe',
         type: 'html',
         targetStyles: ['*'],
-        maxWidth: 1024,*/
+        maxWidth: 3600,
+        // properties: [
+        //   { field: 'DATE', displayName: 'Date' },
+        //   { field: 'st', displayName: 'Storage Number' },
+        //   { field: 'supplier', displayName: 'Supplier' },
+        //   { field: 'artnr', displayName: 'Article Number' },
+        //   { field: 'DESCRIPTION', displayName: 'Description' },
+        //   { field: 'd-unit', displayName: 'Delivery Unit' },
+        //   { field: 'price', displayName: 'Price' },
+        //   { field: 'inc-qty', displayName: 'Incoming Quantity' },
+        //   { field: 'amount', displayName: 'Amount' },
+        //   { field: 'docu-no', displayName: 'Document Number' },
+        //   { field: 'ID', displayName: 'ID' },
+        //   { field: 'deliv-note', displayName: 'Delivery Note' },
+        //   { field: 'invoice-nr', displayName: 'Invoice Number' },
+        // ],
+        header: rawHeader,
+        style: '.custom-h3 { color: black; }',
       });
     }
     const groupHeaders = (cols) => cols.filter((col) => col.name !== 'actions');
