@@ -5,6 +5,7 @@ import { InventoryEndpoints } from '~/api/repositories/inventory.api';
 import { StockItemEndpoints } from '~/api/repositories/stockItem.api';
 import { LoginEndpoints } from '~/api/repositories/login.api';
 import { PrintEndpoints } from '~/api/repositories/print.api';
+import { OutletEndpoints } from '~/api/repositories/outlet.api';
 
 interface ApiEndpoints {
   generalLedger: GeneralLedgerEndpoints;
@@ -14,6 +15,8 @@ interface ApiEndpoints {
   stockItem: StockItemEndpoints;
   loginAuth: LoginEndpoints;
   printLNL: PrintEndpoints;
+  outlet: OutletEndpoints;
+
 }
 
 declare module 'vue/types/vue' {

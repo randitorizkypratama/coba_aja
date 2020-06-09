@@ -10,6 +10,7 @@ import InventoryEndpoints from '../repositories/inventory.api';
 import stockItemEndPoint from '../repositories/stockItem.api';
 import LoginAPI from '../repositories/login.api';
 import PrintAPI from '../repositories/print.api';
+import OutletEndpoints from '../repositories/outlet.api';
 
 export default {
   generalLedger: GeneralLedgerAPI(repository),
@@ -19,4 +20,6 @@ export default {
   stockItem: stockItemEndPoint(repository),
   loginAuth: LoginAPI(login),
   printLNL: PrintAPI(print),
+  outlet: OutletEndpoints(repository),
+
 };
