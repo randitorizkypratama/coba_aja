@@ -60,7 +60,6 @@ export default defineComponent({
       const [glLinkcompliPrepare] = await Promise.all([
         $api.inventory.glLinkcompliPrepare(),
       ]);
-      console.log('sukses', glLinkcompliPrepare);
     });
     const asyncCall = async (val) => {
       const response = await Promise.all([
@@ -74,7 +73,6 @@ export default defineComponent({
           userInit: 0,
         }),
       ]);
-      console.log('sukses', response);
       state.data = response[0].tGList['t-g-list'] || [];
     };
 

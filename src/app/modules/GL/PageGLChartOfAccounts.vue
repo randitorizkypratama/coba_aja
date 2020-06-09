@@ -99,7 +99,6 @@ export default defineComponent({
     });
 
     const onRowClick = (_, { bemerk }) => {
-      console.log('sukses12', bemerk);
       state.selectedAccount = bemerk;
     };
 

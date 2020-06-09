@@ -24,7 +24,6 @@
         :virtual-scroll-sticky-size-start="48"
         :pagination.sync="pagination"
         hide-bottom
-        @row-click="onRowClick"
       />
     </div>
   </div>
@@ -81,7 +80,6 @@ export default defineComponent({
       ]);
       charts = GET_DATA[0].tGList['t-g-list'];
 
-      console.log('sukses', charts)
       const GET_DATA2 = await Promise.all([
         $api.inventory.glLinkstock2({
           pvILanguage: 0,

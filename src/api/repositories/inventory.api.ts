@@ -238,7 +238,6 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
 
   storeReqDelete: (body) =>
     doFetch({ url: `${INV_URL}/storeReqDelete`, body }).then((res) => {
-      console.log('sukses3', res);
     }),
 
   storeRequestPrepare: (body) =>
@@ -255,15 +254,12 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
 
   addRecipeSave: (body) =>
     doFetch({ url: `${INV_URL}/addRecipeSave`, body }).then((res) => {
-      console.log('sukses123', res);
     }),
   addRecipeCreateRezlin: (body) =>
     doFetch({ url: `${INV_URL}/addRecipeCreateRezlin`, body }).then((res) => {
-      console.log('sukses123', res);
     }),
   addRecipeCalCost: (body) =>
     doFetch({ url: `${INV_URL}/addRecipeCalCost`, body }).then((res) => {
-      console.log('sukses123', res);
     }),
   chgRecipePrepareL: (body) =>
     doFetch({ url: `${INV_URL}/chgRecipePrepare`, body }).then(
@@ -275,20 +271,16 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
     ),
   chgRecipeDelete: (body) =>
     doFetch({ url: `${INV_URL}/chgRecipeDelete`, body }).then((res) => {
-      console.log('sukses12', res);
     }),
   checkTime: (body) =>
     doFetch({ url: `${COMMON_URL}/checkTime`, body }).then((res) => {
-      console.log('sukses123', res);
     }),
   chgRecipeSave: (body) =>
     doFetch({ url: `${INV_URL}/chgRecipeSave`, body }).then((res) => {
-      console.log('sukses12', res);
     }),
 
   recipeListDelCheck: (body) =>
     doFetch({ url: `${INV_URL}/recipeListDelCheck`, body }).then((res) => {
-      console.log('sukses12', res);
     }),
 
   // Outlet Compliment Journalizing
@@ -310,6 +302,5 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
 
   glLinkstock2: (body) =>
     doFetch({ url: `${INV_URL}/glLinkstock2`, body }).then((res) => {
-      console.log('sukses', res);
     }),
 });

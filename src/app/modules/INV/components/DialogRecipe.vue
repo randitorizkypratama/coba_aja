@@ -94,7 +94,6 @@
                   :virtual-scroll-sticky-size-start="48"
                   :pagination.sync="pagination"
                   hide-bottom
-                  @row-click="onRowClick"
                 >
                   <template #header-cell-fibukonto="props">
                     <q-th :props="props" class="fixed-col left">
@@ -170,7 +169,6 @@
               :rows-per-page-options="[0]"
               :pagination.sync="pagination"
               hide-bottom
-              @row-click="onRowClick"
             >
               <template v-slot:loading>
                 <q-inner-loading showing color="primary" />
@@ -376,7 +374,6 @@ export default defineComponent({
 
     const saveData = async () => {
       if (state.idDialog == '1') {
-        console.log('sukses12', state.idDialog);
       }
       if (state.idDialog == '2') {
         await Promise.all([

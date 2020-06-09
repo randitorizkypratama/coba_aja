@@ -24,7 +24,6 @@
         :virtual-scroll-sticky-size-start="48"
         :pagination.sync="pagination"
         hide-bottom
-        @row-click="onRowClick"
       />
     </div>
   </div>

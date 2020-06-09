@@ -25,7 +25,6 @@
         :virtual-scroll-sticky-size-start="48"
         :pagination.sync="pagination"
         hide-bottom
-        @row-click="onRowClick"
       >
         <template #header-cell-fibukonto="props">
           <q-th :props="props" class="fixed-col left">{{ props.col.label }}</q-th>

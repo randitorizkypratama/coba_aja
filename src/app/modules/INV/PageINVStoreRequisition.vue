@@ -144,7 +144,6 @@ export default defineComponent({
             showPrice: 'yes',
           }),
         ]);
-        console.log('sukses1', GET_DATA);
 
         state.data = GET_DATA[0].tList['t-list'];
         if (GET_DATA[0].itExist == 'true') {
@@ -182,7 +181,6 @@ export default defineComponent({
     }
 
     function deleteData() {
-      console.log('sukses2', state.rowClick['s-recid']);
       async function asyncCall() {
         $api.inventory.storeReqDelete({
           tListSrecid: state.rowClick['s-recid'],
