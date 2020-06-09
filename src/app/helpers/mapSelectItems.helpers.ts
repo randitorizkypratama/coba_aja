@@ -5,6 +5,7 @@ export const mapWithBezeich = (items, prefix) =>
       value: item.bezeich,
     }))
     : [];
+    
 export const mapWithMeal = (items, prefix) =>
   items
     ? items.map((item) => ({

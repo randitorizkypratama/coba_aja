@@ -13,14 +13,11 @@
         />
       </v-date-picker>
 
-      <SSelect
-        label-text="From Department"
-        :options="searches.departments"
-        v-model="fromdepartment"
-      />
+      <SSelect label-text="From Department" :options="searches.departments" v-model="fromDept" />
 
-      <SSelect label-text="To Department" :options="searches.departments" v-model="todepartment" />
+      <SSelect label-text="To Department" :options="searches.departments" v-model="toDept" />
 
+      <SInput label-text="Request Number" :options="searches.store" v-model="ReqNumber" />
       <q-btn
         dense
         color="primary"
@@ -36,6 +33,8 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, toRefs } from '@vue/composition-api';
 import { setupCalendar, DatePicker } from 'v-calendar';
+import { date } from 'quasar';
+import { log } from 'util';
 
 setupCalendar({
   firstDayOfWeek: 2,
@@ -49,8 +48,9 @@ export default defineComponent({
   setup(_, { emit }) {
     const state = reactive({
       date: null,
-      fromdepartment: ref(null),
-      todepartment: ref(null),
+      fromDept: ref(null),
+      toDept: ref(null),
+      ReqNumber: ref(' '),
     });
 
     const onSearch = () => {

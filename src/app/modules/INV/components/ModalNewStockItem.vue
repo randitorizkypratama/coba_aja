@@ -185,6 +185,7 @@ import {
   toRefs,
 } from '@vue/composition-api';
 import { mapGroup } from '~/app/helpers/mapSelectItems.helpers';
+import { watch } from 'fs';
 interface State {
   isLoading: boolean;
   totalBudget: number;
@@ -207,7 +208,7 @@ interface State {
 export default defineComponent({
   props: {
     dialog: { type: Boolean, required: true },
-    prepare: { type: Object, required: true },
+    selected: { type: [String, Number, Object], required: true },
   },
 
   setup(props, { emit, root: { $api } }) {

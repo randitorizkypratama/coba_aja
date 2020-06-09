@@ -17,7 +17,7 @@
       </div>
       <q-table
         dense
-        class="my-sticky-virtscroll-table"
+        :class="{mystickyvirtscrolltable : trueandfalse}"
         :columns="tableHeaders"
         :data="data"
         separator="cell"
@@ -57,7 +57,7 @@
         </template>
       </q-table>
     </div>
-    <DialogChartOfAccounts :dialog="dialog" @onDialog="onDialog" :prepare="prepare" />
+    <DialogChartOfAccounts :dialog="dialog" @onDialog="onDialog" :selected="prepare" />
     <q-dialog v-model="confirm" persistent>
       <q-card>
         <q-card-section class="row items-center">
@@ -80,18 +80,19 @@ import {
   onMounted,
   toRefs,
   reactive,
+  ref,
 } from '@vue/composition-api';
 import { mapWithBezeich } from '~/app/helpers/mapSelectItems.helpers';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
     let charts;
-
     const state = reactive({
       data: [],
       dialog: false,
       confirm: false,
       prepare: '',
+      trueandfalse: false,
     });
     const tableHeaders = [
       {
@@ -180,6 +181,7 @@ export default defineComponent({
             ]);
             charts = resArtcl[0] || [];
             state.data = charts;
+            state.trueandfalse = true;
           }
           asyncCall();
         }
@@ -211,6 +213,8 @@ export default defineComponent({
 
     function editItem() {
       state.dialog = true;
+      state.prepare = 'tes';
+      // console.log('sukses12345', state.prepare);
       async function asyncCall() {
         const editItem = await Promise.all([
           $api.stockItem.chgInvArticlePrepare({
@@ -219,7 +223,6 @@ export default defineComponent({
           }),
         ]);
         // console.log('sukses12345', editItem);
-        state.prepare = editItem;
       }
       asyncCall();
     }
@@ -255,7 +258,7 @@ export default defineComponent({
 h1 {
   background: $primary-grad;
 }
-.my-sticky-virtscroll-table {
+.mystickyvirtscrolltable {
   height: 410px;
 }
 

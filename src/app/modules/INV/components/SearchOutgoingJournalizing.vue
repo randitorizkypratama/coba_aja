@@ -12,15 +12,9 @@
           @clear="date = null"
         />
       </v-date-picker>
-
-      <SSelect
-        label-text="From Department"
-        :options="searches.departments"
-        v-model="fromdepartment"
-      />
-
-      <SSelect label-text="To Department" :options="searches.departments" v-model="todepartment" />
-
+      <SInput label-text="Reference Number" :options="searches.store" />
+      <SInput label-text="Description" :options="searches.store" />
+      <SSelect label-text="Group" :options="searches.group" v-model="ReqNumber" />
       <q-btn
         dense
         color="primary"
@@ -29,13 +23,23 @@
         class="q-mt-md full-width"
         @click="onSearch"
       />
+      <SInput class="q-mt-md" label-text="Total Debit" v-model="searches.hasilCredit" disable />
+      <SInput label-text="Total Credit" v-model="searches.hasilCredit" disable />
     </div>
   </section>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, toRefs } from '@vue/composition-api';
+import {
+  defineComponent,
+  ref,
+  reactive,
+  toRefs,
+  onMounted,
+} from '@vue/composition-api';
 import { setupCalendar, DatePicker } from 'v-calendar';
+import { date } from 'quasar';
+import { log } from 'util';
 
 setupCalendar({
   firstDayOfWeek: 2,
@@ -49,8 +53,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const state = reactive({
       date: null,
-      fromdepartment: ref(null),
-      todepartment: ref(null),
+      ReqNumber: ref(null),
     });
 
     const onSearch = () => {

@@ -28,6 +28,7 @@ const SUBMODULES: Submodule = {
     'Stock Item',
     'Meal Coupon',
     'Adjustment Result',
+    'Store Requisition',
     'Incoming',
     'Material Reconciliation',
     'Slow Moving Stock On Hand',
@@ -35,8 +36,11 @@ const SUBMODULES: Submodule = {
     'Yearly Issuing',
     'FB Outlet Flash',
     'Monthly Incoming',
+    'Recipe',
+    'Outlet Compliment Journalizing',
+    'Outgoing Journalizing',
+    'Incoming Journalizing',
   ],
- 
 };
 
 export const generateModulePath = (moduleAbbr: string, name: string) => {
