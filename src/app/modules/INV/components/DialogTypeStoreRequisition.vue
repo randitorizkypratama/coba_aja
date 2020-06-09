@@ -1,4 +1,4 @@
-<template>
+2<template>
   <div>
     <div>
       <q-dialog v-model="dialog">
