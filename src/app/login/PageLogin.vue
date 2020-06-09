@@ -90,7 +90,6 @@ export default defineComponent({
           userName: state.userName,
           userPswd: state.userPswd,
         })*/
-        console.log('BLAH', resCredentials)
         if (resCredentials[0].iResult == 0) {
           localStorage.setItem('credentials', JSON.stringify(resCredentials[0]));
           setUsername(state.userName!);

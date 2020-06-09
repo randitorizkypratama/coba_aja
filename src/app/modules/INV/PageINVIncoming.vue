@@ -38,6 +38,7 @@ import {
   mapWithadjustmain,
   mapWithadjuststore,
 } from '~/app/helpers/mapSelectItems.helpers';
+import { labels, getLabels } from '~/app/helpers/getLabels.helpers';
 import { date } from 'quasar';
 import print from 'print-js';
 import { tableHeaders } from './tables/incoming.table';
@@ -81,8 +82,10 @@ export default defineComponent({
       state.isFetching = false;
     });
 
-    const onSearch = (state2) => {
+    console.log(labels, 'label');
+    console.log(getLabels(labels), 'labels');
 
+    const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([
           $api.inventory.getIncomingtable({

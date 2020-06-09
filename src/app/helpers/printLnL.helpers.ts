@@ -30,7 +30,6 @@ export function printLnL (licenseNr, lstName, printCase, variableList, columnTit
 	localStorage.setItem("lstName", lstName);
 	localStorage.setItem("printRequest", JSON.stringify(printRequest));
 
-//	console.log(localStorage.getItem("printRequest"));
 
 	window.open('/gl/print-rc', '_blank');
 

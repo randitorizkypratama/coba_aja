@@ -59,7 +59,7 @@ export default defineComponent({
       const [resDepart] = await Promise.all([
         $api.inventory.getInterKitchenTransferprepare(),
       ]);
-      console.log(resDepart);
+      // console.log(resDepart);
 
       state.fromDate = resDepart.fromDate;
       state.toDate = resDepart.toDate;

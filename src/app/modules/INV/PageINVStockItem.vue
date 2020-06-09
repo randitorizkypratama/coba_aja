@@ -168,7 +168,7 @@ export default defineComponent({
     const onSearch = ({ shape, articleNumber }) => {
       if (articleNumber == undefined) {
         if (shape == undefined) {
-          console.log('error button');
+          // console.log('error button');
         } else {
           async function asyncCall() {
             const resArtcl = await Promise.all([
@@ -218,7 +218,7 @@ export default defineComponent({
             changed: 'no',
           }),
         ]);
-        console.log('sukses12345', editItem);
+        // console.log('sukses12345', editItem);
         state.prepare = editItem;
       }
       asyncCall();

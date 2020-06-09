@@ -45,12 +45,10 @@ export default (doFetch: DoRequest): StockItemEndpoints => ({
 
   addInvArticle: (body) =>
     doFetch({ url: `${INV_URL}/addInvArticle`, body }).then((res) => {
-      console.log('sukses12345', res);
     }),
 
   delInvArticle: (body) =>
     doFetch({ url: `${INV_URL}/delInvArticle`, body }).then((res) => {
-      console.log('sukses12345', res);
     }),
   chgInvArticlePrepare: (body) =>
     doFetch({ url: `${INV_URL}/chgInvArticlePrepare`, body }).then(

@@ -62,7 +62,7 @@ export default defineComponent({
         $api.inventory.getMealCouponzugriff(),
         $api.inventory.getMealCouponprepare(),
       ]);
-      console.log(resZugriff, 'huhu');
+      // console.log(resZugriff, 'huhu');
 
       state.zugriff = resZugriff.zugriff;
       state.messStr = resZugriff.messStr;
@@ -171,8 +171,6 @@ export default defineComponent({
 
         charts = response[0] || [];
         state.data = charts;
-
-        console.log(charts, 'charts');
       }
       asyncCall();
     };

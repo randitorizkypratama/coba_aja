@@ -36,17 +36,7 @@ const SUBMODULES: Submodule = {
     'FB Outlet Flash',
     'Monthly Incoming',
   ],
-  OU: [
-    'Order Taker Report',
-    'Meal Coupon',
-    'Drugstore Report',
-    'Outlet User Transaction',
-    'Outlet Turnover',
-    'Actual And Recipe Cost',
-    'Outlet Bill Transaction',
-    'Occupied Table',
-    'Cancellation Journal',
-  ],
+ 
 };
 
 export const generateModulePath = (moduleAbbr: string, name: string) => {

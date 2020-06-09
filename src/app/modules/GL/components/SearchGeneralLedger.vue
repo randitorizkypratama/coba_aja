@@ -163,7 +163,7 @@ export default defineComponent({
     onMounted(async () => {
       const res = await $api.accountReceivable.getPrepareSelectGLAcct();
       state.prepareOptions = mapWithBezeich(res, 'fibukonto');
-      console.log('setup -> state.prepareOptions', state.prepareOptions);
+      // console.log('setup -> state.prepareOptions', state.prepareOptions);
       state.search.isFetching = false;
     });
 
