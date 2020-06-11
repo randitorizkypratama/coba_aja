@@ -28,7 +28,7 @@ export default (doFetch: DoRequest): OutletEndpoints => ({
     ),
   getOUPrepareOutletSoldMenu: (api, body) =>
     doFetch({ url: `${OU_URL}/${api}`, body }).then(([, res]) => res),
-  getOUgetOUOutletSoldMenu: (body) =>
+  getOUOutletSoldMenu: (body) =>
     doFetch({ url: `${OU_URL}/fbSalesCostsAnalList`, body }).then(
       ([, res]) => res
     ),

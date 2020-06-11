@@ -17,9 +17,9 @@
         label-text="Sorting By"
         v-model="sortBy"
         :options="[
-          { label: 'By Description', value: 'byDesc' },
-          { label: 'By Sold Quantity', value: 'bySoldQuantity' },
-          { label: 'By Sold Quantity', value: 'bySoldAmount' },
+          { label: 'By Description', value: '1' },
+          { label: 'By Sold Quantity', value: '2' },
+          { label: 'By Sold Amount', value: '3' },
         ]"
       />
       <q-btn-toggle
@@ -33,7 +33,7 @@
         ]"
       ></q-btn-toggle>
 
-      <q-checkbox label="By Factor 1000" />
+      <q-checkbox v-model="byFactor" label="By Factor 1000" />
       <q-checkbox v-model="detailed" label="Including Not Sold Items" />
       <q-checkbox v-model="allSub" class="disabled" label="All Sub Group" />
       <q-list dense bordered padding class="rounded-borders disabled">
@@ -66,8 +66,8 @@ export default defineComponent({
   data() {
     return {
       info: null,
-      allSub: null,
-      detailed: null,
+      byFactor: false,
+      detailed: true,
     };
   },
   props: {
@@ -76,13 +76,13 @@ export default defineComponent({
 
   setup(_, { emit }) {
     const state = reactive({
-      // userID: ref(null),
       date: ref(null),
       fromDept: ref(null),
       toDept: ref(null),
       sorttype: ref(null),
+      sortBy: ref(null),
       allSub: ref(null),
-      detailed: ref(null),
+      detailed: ref(true),
     });
 
     const onSearch = () => {

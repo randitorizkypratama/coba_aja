@@ -50,6 +50,9 @@ export default defineComponent({
         fromDept: [],
         toDept: [],
         getDateItem: [],
+        sorttype: [],
+        sortBy: [],
+        detailed: [],
       },
     });
 
@@ -158,7 +161,7 @@ export default defineComponent({
     const onSearch = (state2) => {
       async function asyncCall() {
         const dataOutletSoldMenuList = await Promise.all([
-          $api.outlet.getOUgetOUOutletSoldMenu({
+          $api.outlet.getOUOutletSoldMenu({
             subgrList: {
               'subgr-list': [
                 {
@@ -168,7 +171,7 @@ export default defineComponent({
                 },
               ],
             },
-            sorttype: '1',
+            sorttype: state2.sorttype,
             fromDept: state2.fromDept.value,
             toDept: state2.toDept.value,
             dstore: '0',
@@ -180,8 +183,8 @@ export default defineComponent({
             exchgRate: '1',
             vatIncluded: false,
             miSubgrp: false,
-            detailed: false,
-            currSort: '2',
+            detailed: state2.detailed,
+            currSort: state2.sortBy.value,
             shortFlag: true,
           }),
         ]);
