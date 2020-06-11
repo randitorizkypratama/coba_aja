@@ -1,12 +1,6 @@
 <template>
   <section class="mt-7">
     <div class="q-pa-md">
-      <SSelect
-        label-text="User ID"
-        :options="searches.userList"
-        v-model="userID"
-      />
-
       <v-date-picker mode="range" v-model="date" :columns="2" :popover="{ visibility: 'click' }">
         <SInput
           label-text="Date"
@@ -34,13 +28,8 @@ setupCalendar({
 });
 
 export default defineComponent({
-  props: {
-    searches: { type: Object, required: true },
-  },
-
   setup(_, { emit }) {
     const state = reactive({
-      userID: ref(null),
       date: {start: ref(new Date()), end: ref(new Date())},
     });
 

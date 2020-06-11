@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" xmlns:xlink="http://www.w3.org/1999/xlink" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd">
+  <defs>
+    <linearGradient id="id0" gradientUnits="userSpaceOnUse" x1="48.8" y1="57.9" x2="82.1" y2="77">
+      <stop offset="0" stop-color="#7a0606"/>
+      <stop offset="1" stop-color="red"/>
+    </linearGradient>
+    <linearGradient id="id1" gradientUnits="userSpaceOnUse" xlink:href="#id0" x1="29.4" y1="80.6" x2="62.7" y2="99.6"/>
+    <style>
+      .fil7{fill:#a98f71}.fil8{fill:#f0a71f}.fil6{fill:#ffcb68}.fil4,.fil5{fill:#fefefe;fill-rule:nonzero}.fil4{fill:#e8e9ec}.fil1,.fil2,.fil3{fill:#c8ccd4;fill-rule:nonzero}.fil2,.fil3{fill:#a7acb6}.fil3{fill:#4e4e53}
+    </style>
+  </defs>
+  <g id="Layer_x0020_1">
+    <path fill="none" d="M0 0h120v120H0z"/>
+    <g id="_809500720">
+      <path class="fil1" d="M5 71h52V17H5z"/>
+      <path class="fil2" d="M6 33h51V17H6z"/>
+      <path class="fil3" d="M60 28H2l3-11h53z"/>
+      <path class="fil4" d="M10 71h42V37H10z"/>
+      <path class="fil5" d="M11 71h40V37H11z"/>
+      <path class="fil3" d="M9 38h44v-2H9zM10 71h40v-5H10z"/>
+      <g>
+        <path class="fil6" d="M15 57h11v11H15z"/>
+        <path class="fil7" d="M19 57h4v1h-4z"/>
+        <path class="fil8" d="M26 57l-3-1H13l2 1h11z"/>
+        <path class="fil8" d="M15 68l-2-2V56l2 1v11z"/>
+      </g>
+      <g>
+        <path class="fil6" d="M27 57h11v11H27z"/>
+        <path class="fil7" d="M31 57h4v1h-4z"/>
+        <path class="fil8" d="M38 57l-2-1H25l2 1h11z"/>
+        <path class="fil8" d="M27 68l-2-2V56l2 1v11z"/>
+      </g>
+      <g>
+        <path class="fil6" d="M25 45h11v11H25z"/>
+        <path class="fil7" d="M29 46h4v1h-4z"/>
+        <path class="fil8" d="M36 46l-2-2H23l2 1 11 1z"/>
+        <path class="fil8" d="M25 56l-2-1V44l2 1v11z"/>
+      </g>
+      <g>
+        <path class="fil6" d="M13 45h11v11H13z"/>
+        <path class="fil7" d="M17 46h4v1h-4z"/>
+        <path class="fil8" d="M24 46l-2-2H11l2 1 11 1z"/>
+        <path class="fil8" d="M13 56l-2-1V44l2 1v11z"/>
+      </g>
+      <g>
+        <path class="fil1" d="M63 96h51V42H63z"/>
+        <path class="fil2" d="M63 57h51V42H63z"/>
+        <path class="fil3" d="M118 52H60l2-10h53z"/>
+        <path class="fil4" d="M67 96h43V62H67z"/>
+        <path class="fil5" d="M69 96h40V62H69z"/>
+        <path class="fil3" d="M67 63h43v-2H67zM67 96h40v-5H67z"/>
+      </g>
+      <g>
+        <path d="M43 62h25v-8l20 13-20 13v-7H43V62zm0 5" fill="url(#id0)" fill-rule="nonzero"/>
+        <path id="1" class="fil5" d="M68 61l1 1-1 1H43v-2h25zm1 1v1h-1l1-1zm-2-8h2v8h-2v-8zm0 0v-1l2 1h-2zm21 13v1h-1L68 55l1-1 19 13zm0 0h2l-2 1v-1zM69 81l-2-1h1l19-13 1 1-19 13zm0 0l-2 1v-2l2 1zm-2-8l1-1 1 1v7h-2v-7zm1-1h1v1l-1-1zm-25 2l-1-1 1-1h25v2H43zm0 0h-1v-1l1 1zm-1-12l1-1 1 1v11h-2V62zm0 0v-1h1l-1 1z"/>
+        <g>
+          <path d="M68 85H43v-8L24 90l19 13v-8h25V85zm0 5" fill="url(#id1)" fill-rule="nonzero"/>
+          <path id="1" class="fil5" d="M43 84h25v2H43l-1-1 1-1zm0 2h-1v-1l1 1zm1-9v8h-2v-8l1-1 1 1zm-1-1l1-1v2l-1-1zM23 89l20-13 1 2-20 13h-1v-2zm0 2l-1-1 1-1v2zm20 13L23 91l1-2 20 13v1l-1 1zm1-1v2l-1-1 1-1zm0-8v8h-2v-8l1-1 1 1zm-2 0v-1h1l-1 1zm26 1H43v-2h25l1 1-1 1zm1-1v1h-1l1-1zm0-10v10h-2V85l1-1 1 1zm-1-1h1v1l-1-1z"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -40,8 +40,24 @@ const SUBMODULES: Submodule = {
     'Outlet Compliment Journalizing',
     'Outgoing Journalizing',
     'Incoming Journalizing',
+    'Inter Store Transfer',
   ],
-  OU: ['Order Taker Report', 'Summary Restaurant Report', 'Outlet Sold Menu'],
+  OU: [
+    'Order Taker Report',
+    'Summary Restaurant Report',
+    'Outlet Sold Menu',
+    'Meal Coupon',
+    'Drugstore Report',
+    'Outlet User Transaction',
+    'Outlet Turnover',
+    'Actual And Recipe Cost',
+    'Outlet Bill Transaction',
+    'Occupied Table',
+    'Cancellation Journal',
+    'Join To Guest Folio',
+    'Outlet Shift Revenue And Cost',
+    'Breakfast',
+    'Outlet Article Transaction',],
 
 };
 

@@ -1,0 +1,80 @@
+import { TableHeader } from '~/components/VhpUI/typings';
+
+export const tableHeaders: TableHeader[] = [
+    {
+        label: 'Storage Number',
+        field: 'descr',
+        name: 'descr',
+        align: 'left',
+        sortable: false,
+    },
+    {
+        label: 'Article Number',
+        field: 'cost-alloc',
+        name: 'cost-alloc',
+        sortable: false,
+    },
+    {
+        label: 'Description',
+        field: 'today-consume',
+        name: 'today-consume',
+        align: 'right',
+        sortable: false,
+    },
+    {
+        label: 'Unit Price',
+        field: 'mtd-consume',
+        name: 'mtd-consume',
+        align: 'right',
+        sortable: false,
+    },
+    {
+        label: 'Quantity',
+        field: 'mtd-consume',
+        name: 'mtd-consume',
+        align: 'right',
+        sortable: false,
+    },
+    {
+        label: 'Amount',
+        field: 'mtd-consume',
+        name: 'mtd-consume',
+        align: 'right',
+        sortable: false,
+    },
+    {
+        label: 'Accountin Number',
+        field: 'mtd-consume',
+        name: 'mtd-consume',
+        align: 'right',
+        sortable: false,
+    },
+    {
+        label: 'Date',
+        field: 'mtd-consume',
+        name: 'mtd-consume',
+        align: 'right',
+        sortable: false,
+    },
+    {
+        label: 'Type of Moving',
+        field: 'mtd-consume',
+        name: 'mtd-consume',
+        align: 'right',
+        sortable: false,
+    },
+    {
+        label: 'Storage Number',
+        field: 'mtd-consume',
+        name: 'mtd-consume',
+        align: 'right',
+        sortable: false,
+    },
+    {
+        label: 'Created Time',
+        field: 'mtd-consume',
+        name: 'mtd-consume',
+        align: 'right',
+        sortable: false,
+    },
+];

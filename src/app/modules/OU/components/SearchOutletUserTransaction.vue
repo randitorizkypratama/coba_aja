@@ -18,6 +18,8 @@
         />
       </v-date-picker>
 
+      <q-checkbox v-model="showAllUser" label="Show as Summary by Article" />
+
       <q-btn dense color="primary" icon="search" label="Search" class="q-mt-md full-width" @click="onSearch"/>
     </div>
   </section>
@@ -39,9 +41,11 @@ export default defineComponent({
   },
 
   setup(_, { emit }) {
+    
     const state = reactive({
       userID: ref(null),
       date: {start: ref(new Date()), end: ref(new Date())},
+      showAllUser: ref(false)
     });
 
     const onSearch = () => {
