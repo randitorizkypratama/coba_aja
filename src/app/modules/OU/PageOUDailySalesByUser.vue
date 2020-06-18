@@ -1,7 +1,14 @@
 <template>
   <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchIncoming :searches="searches" @onSearch="onSearch" />
+      <searchDailySalesByUser :searches="searches" @onSearch="onSearch" />
+      <q-btn
+        dense
+        color="primary"
+        label="click"
+        class="q-mt-md full-width"
+        @click="dialogPayVisible = true"
+      />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -23,6 +30,8 @@
         :pagination.sync="pagination"
         id="printMe"
       ></q-table>
+
+      <DialogDailySalesByUser :show="dialogPayVisible" @hide="dialogPayVisible = false" />
     </div>
   </div>
 </template>
@@ -41,7 +50,7 @@ import {
 import { labels, getLabels } from '~/app/helpers/getLabels.helpers';
 import { date } from 'quasar';
 import print from 'print-js';
-import { tableHeaders } from './tables/incoming.table';
+import { tableHeaders } from './tables/dailySalesByUser.table';
 import {
   getHtlName,
   getHtlAdr,
@@ -58,6 +67,7 @@ export default defineComponent({
       lKreditRecid: '',
       longDigit: '',
       showPriceprepare: '',
+      dialogPayVisible: false,
       searches: {
         departments: [],
         store: [],
@@ -82,41 +92,16 @@ export default defineComponent({
       state.isFetching = false;
     });
 
+    console.log(labels, 'label');
+    console.log(getLabels(labels), 'labels');
+
     const onSearch = (state2) => {
-      console.log(
-        {
-          pvILanguage: '1',
-          lastArtnr: '?',
-          lieferantRecid: state2.all ? '0' : state2.supplierVal,
-          lKreditRecid: state.lKreditRecid,
-          longDigit: state.longDigit,
-          showPrice: state.showPriceprepare,
-          store: state2.store.value,
-          allSupp: state2.all,
-          sorttype: state2.shape,
-          fromGrp: state2.fromMain.value,
-          toGrp: state2.toMain.value,
-          fromDate: date.formatDate(state2.date.start, 'DD/MM/YY'),
-          toDate: date.formatDate(state2.date.end, 'DD/MM/YY'),
-          userInit: '01',
-          apRecid: '0',
-          taxcodeList: {
-            'taxcode-list': [
-              {
-                taxcode: '',
-                taxamount: '0',
-              },
-            ],
-          },
-        },
-        'cari'
-      );
       async function asyncCall() {
         const response = await Promise.all([
           $api.inventory.getIncomingtable({
             pvILanguage: '1',
             lastArtnr: '?',
-            lieferantRecid: state2.all ? '0' : state2.supplierVal,
+            lieferantRecid: state2.all == true ? '0' : state2.supplier,
             lKreditRecid: state.lKreditRecid,
             longDigit: state.longDigit,
             showPrice: state.showPriceprepare,
@@ -162,8 +147,6 @@ export default defineComponent({
           }),
         ]);
         charts = response[0] || [];
-        console.log(charts, 'data');
-        state.data = [];
 
         for (let i = 0; i < charts.length; i++) {
           const dataRow = {};
@@ -258,7 +241,10 @@ export default defineComponent({
     };
   },
   components: {
-    searchIncoming: () => import('./components/SearchIncoming.vue'),
+    searchDailySalesByUser: () =>
+      import('./components/SearchDailySalesByUser.vue'),
+    DialogDailySalesByUser: () =>
+      import('./components/DialogDailySalesByUser.vue'),
   },
 });
 </script>

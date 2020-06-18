@@ -1,7 +1,11 @@
 <template>
   <div>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <searchJoinToGuestFolio :searches="searches" @onSearch="onSearch" :dataSelected="dataSelected" />
+      <searchJoinToGuestFolio
+        :searches="searches"
+        @onSearch="onSearch"
+        :dataSelected="dataSelected"
+      />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -22,7 +26,8 @@
         separator="cell"
         @row-click="onRowClick"
         :rows-per-page-options="[10, 13, 16]"
-        :pagination.sync="pagination">
+        :pagination.sync="pagination"
+      >
         <template #body-cell-actions="props">
           <q-td :props="props" class="fixed-col right">
             <q-icon name="more_vert" size="16px">
@@ -36,10 +41,13 @@
             </q-icon>
           </q-td>
         </template>
-    </q-table>
-    
-    <dialogJoinToGuestFolioDetail :dialog="dialog" @onDialog="onDialog" :data-selected="dataSelected" />
+      </q-table>
 
+      <dialogJoinToGuestFolioDetail
+        :dialog="dialog"
+        @onDialog="onDialog"
+        :data-selected="dataSelected"
+      />
     </div>
   </div>
 </template>
@@ -64,81 +72,95 @@ export default defineComponent({
       isFetching: true,
       build: [],
       dataSelected: {},
-      dataPrepare:{},
+      dataPrepare: {},
       searches: {
-        dept: []
+        dept: [],
       },
       dialog: false,
     });
 
     const tableHeaders = [
-        {
-            label: "Date",
-            field: "date",
-            sortable: false,
-            align: "left",
-        },{
-            label: "RmNo", 
-            field: "rmno",
-            sortable: false,
-            align: "left",
-        }, {
-            label: "Guest Name", 
-            field: "gname",
-            sortable: false,
-            align: "left",
-        }, {
-            label: "Bill No", 
-            field: "rechnr",
-            sortable: false,
-            align: "right",
-        }, {
-            label: "Description", 
-            field: "bezeich",
-            sortable: false,
-            align: "left",
-            },{
-            label: "Amount", 
-            field: "saldo",
-            sortable: false,
-            align: "right",
-        }, {
-            label: "Foreign Art", 
-            field: "foreign",
-            sortable: false,
-            align: "right",
-        },  {
-            label: "Time", 
-            field: "zeit",
-            sortable: false,
-            align: "center",
-        }, {
-            label: "ID", 
-            field: "id",
-            sortable: false,
-            align: "center",
-        },  {
-            label: "TB", 
-            field: "tb",
-            sortable: false,
-            align: "center",
-        }, { 
-            name: 'actions',
-            field: 'actions' 
-        },
+      {
+        label: 'Date',
+        field: 'date',
+        sortable: false,
+        align: 'left',
+      },
+      {
+        label: 'RmNo',
+        field: 'rmno',
+        sortable: false,
+        align: 'left',
+      },
+      {
+        label: 'Guest Name',
+        field: 'gname',
+        sortable: false,
+        align: 'left',
+      },
+      {
+        label: 'Bill No',
+        field: 'rechnr',
+        sortable: false,
+        align: 'right',
+      },
+      {
+        label: 'Description',
+        field: 'bezeich',
+        sortable: false,
+        align: 'left',
+      },
+      {
+        label: 'Amount',
+        field: 'saldo',
+        sortable: false,
+        align: 'right',
+      },
+      {
+        label: 'Foreign Art',
+        field: 'foreign',
+        sortable: false,
+        align: 'right',
+      },
+      {
+        label: 'Time',
+        field: 'zeit',
+        sortable: false,
+        align: 'center',
+      },
+      {
+        label: 'ID',
+        field: 'id',
+        sortable: false,
+        align: 'center',
+      },
+      {
+        label: 'TB',
+        field: 'tb',
+        sortable: false,
+        align: 'center',
+      },
+      {
+        name: 'actions',
+        field: 'actions',
+      },
     ];
-    
+
     onMounted(async () => {
-        const [data] = await Promise.all([
-            $api.outlet.getOUPrepare('roomTransferReportPrepare', {}),
-        ]);
-        responsePrepare = data || [];
-        state.dataPrepare = responsePrepare;  
-        
-        const deptList = responsePrepare.tHoteldpt['t-hoteldpt'];
-        state.dataPrepare['tHoteldpt']['t-hoteldpt'] = deptList;
-        state.searches.dept = mapOU(state.dataPrepare['tHoteldpt']['t-hoteldpt'], 'num', 'depart');
-        state.isFetching = false;
+      const [data] = await Promise.all([
+        $api.outlet.getOUPrepare('roomTransferReportPrepare', {}),
+      ]);
+      responsePrepare = data || [];
+      state.dataPrepare = responsePrepare;
+
+      const deptList = responsePrepare.tHoteldpt['t-hoteldpt'];
+      state.dataPrepare['tHoteldpt']['t-hoteldpt'] = deptList;
+      state.searches.dept = mapOU(
+        state.dataPrepare['tHoteldpt']['t-hoteldpt'],
+        'num',
+        'depart'
+      );
+      state.isFetching = false;
     });
 
     const onDialog = (val) => {
@@ -146,7 +168,8 @@ export default defineComponent({
     };
 
     const onRowClick = (_, dataRow) => {
-        state.dataPrepare = dataRow;
+      state.dataPrepare = dataRow;
+      console.log(dataRow, 'lol');
     };
 
     const showDialog = (dataRow) => {
@@ -155,28 +178,31 @@ export default defineComponent({
     };
 
     const onSearch = (state2) => {
-        state.isFetching = true;
-        state.build = [];
-        
-        async function asyncCall() {
-            const dataResponse = await Promise.all([
-                $api.outlet.getOUJoinToGuestFolio('roomTransferReportList', {
-                    fromDate: date.formatDate(state2.date.start, 'MM/DD/YYYY'),
-                    toDate: date.formatDate(state2.date.end, 'MM/DD/YYYY'),
-                    currDept: state2.dept.value,
-                    longDigit: state.dataPrepare['longDigit'],          
-                }),
-            ]);
-            charts = dataResponse[0] || [];
-            for (let i=0; i<charts.length; i++) {
-                charts[i]["dbilldate"] = charts[i]["datum"],
-                charts[i]["date"] = date.formatDate(charts[i]["datum"], 'DD/MM/YYYY');
-                // charts[i]["amount"] = this.formatterMoney(dataTable[i]["amount"]);
-            }
-            state.build = charts;
-            state.isFetching = false;
+      state.isFetching = true;
+      state.build = [];
+
+      async function asyncCall() {
+        const dataResponse = await Promise.all([
+          $api.outlet.getOUJoinToGuestFolio('roomTransferReportList', {
+            fromDate: date.formatDate(state2.date.start, 'MM/DD/YYYY'),
+            toDate: date.formatDate(state2.date.end, 'MM/DD/YYYY'),
+            currDept: state2.dept.value,
+            longDigit: state.dataPrepare['longDigit'],
+          }),
+        ]);
+        charts = dataResponse[0] || [];
+        for (let i = 0; i < charts.length; i++) {
+          (charts[i]['dbilldate'] = charts[i]['datum']),
+            (charts[i]['date'] = date.formatDate(
+              charts[i]['datum'],
+              'DD/MM/YYYY'
+            ));
+          // charts[i]["amount"] = this.formatterMoney(dataTable[i]["amount"]);
         }
-        asyncCall();
+        state.build = charts;
+        state.isFetching = false;
+      }
+      asyncCall();
     };
 
     return {
@@ -192,8 +218,10 @@ export default defineComponent({
     };
   },
   components: {
-    searchJoinToGuestFolio: () => import('./components/SearchJoinToGuestFolio.vue'),
-    dialogJoinToGuestFolioDetail: () => import('./components/DialogJoinToGuestFolioDetail.vue'),
+    searchJoinToGuestFolio: () =>
+      import('./components/SearchJoinToGuestFolio.vue'),
+    dialogJoinToGuestFolioDetail: () =>
+      import('./components/DialogJoinToGuestFolioDetail.vue'),
   },
 });
 </script>

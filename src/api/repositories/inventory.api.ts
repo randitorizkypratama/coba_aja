@@ -33,6 +33,7 @@ export interface InventoryEndpoints {
   getIncomingmaingroup: any;
   getIncomingstore: any;
   getIncomingtable: any;
+  getIncomingsupplier: any;
 
   //materialreconciliation
   getMaterialReconciliationprepare: any;
@@ -141,6 +142,10 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
   getIncomingstore: () =>
     doFetch({ url: `${INV_URL}/getStorage` }).then(
       ([, res]) => res?.tLLager?.["t-l-lager"]
+    ),
+  getIncomingsupplier: () =>
+    doFetch({ url: `${COMMON_URL}/getSupplierList` }).then(
+      ([, res]) => res?.supplyList?.["supply-list"]
     ),
   getIncomingtable: (body) =>
     doFetch({ url: `${INV_URL}/receivingReportList`, body }).then(

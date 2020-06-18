@@ -61,7 +61,7 @@ export const moduleList: HomeModule[] = [
     logo: 'Inventory',
   },
   {
-    path: '/accounts-payable',
+    path: '/ap/supplier-profile',
     name: 'Accounts Payable',
     logo: 'AP',
   },

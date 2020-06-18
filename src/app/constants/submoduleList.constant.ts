@@ -57,8 +57,9 @@ const SUBMODULES: Submodule = {
     'Join To Guest Folio',
     'Outlet Shift Revenue And Cost',
     'Breakfast',
-    'Outlet Article Transaction',],
-
+    'Outlet Article Transaction',
+    'Daily Sales By User'],
+  AP: ['Supplier Profile'],
 };
 
 export const generateModulePath = (moduleAbbr: string, name: string) => {

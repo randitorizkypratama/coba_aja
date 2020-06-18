@@ -11,6 +11,7 @@ import stockItemEndPoint from '../repositories/stockItem.api';
 import LoginAPI from '../repositories/login.api';
 import PrintAPI from '../repositories/print.api';
 import OutletEndpoints from '../repositories/outlet.api';
+import AccountsPayableApi from '../repositories/accountsPayable.api';
 
 export default {
   generalLedger: GeneralLedgerAPI(repository),
@@ -21,5 +22,6 @@ export default {
   loginAuth: LoginAPI(login),
   printLNL: PrintAPI(print),
   outlet: OutletEndpoints(repository),
+  accountsPayable: AccountsPayableApi(repository),
 
 };

@@ -3,4 +3,5 @@ export enum ModuleAbbr {
   HK = 'Housekeeping',
   INV = 'Inventory',
   OU = 'Outlet',
+  AP = 'AccountsPayable',
 }

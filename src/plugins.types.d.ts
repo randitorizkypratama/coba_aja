@@ -6,6 +6,7 @@ import { StockItemEndpoints } from '~/api/repositories/stockItem.api';
 import { LoginEndpoints } from '~/api/repositories/login.api';
 import { PrintEndpoints } from '~/api/repositories/print.api';
 import { OutletEndpoints } from '~/api/repositories/outlet.api';
+import { AccountsPayableEndpoints } from './api/repositories/accountsPayable.api';
 
 interface ApiEndpoints {
   generalLedger: GeneralLedgerEndpoints;
@@ -16,6 +17,7 @@ interface ApiEndpoints {
   loginAuth: LoginEndpoints;
   printLNL: PrintEndpoints;
   outlet: OutletEndpoints;
+  accountsPayable: AccountsPayableEndpoints;
 
 }
 
