@@ -102,9 +102,13 @@ export interface InventoryEndpoints {
   glLinkstockBtnGo: any;
   glLinkstockPrepare: any;
   glLinkstock2: any;
+
+  //InterStoreTransfer
+  getInterStoreTransferprepare: any;
+  getInterStoreTransferarticle: any;
+  getInterStoreTransfertable: any;
+
 }
-
-
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
   getMealCouponzugriff: (body = defaultBodies.zugriff) =>
@@ -306,6 +310,14 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
     ),
 
   glLinkstock2: (body) =>
-    doFetch({ url: `${INV_URL}/glLinkstock2`, body }).then((res) => {
-    }),
+    doFetch({ url: `${INV_URL}/glLinkstock2`, body }).then((res) => { }),
+
+  getInterStoreTransferprepare: () =>
+    doFetch({ url: `${INV_URL}/transValidationPrepare` }).then(
+      ([, res]) => res
+    ),
+  getInterStoreTransfertable: (body) =>
+    doFetch({ url: `${INV_URL}/transValidationList`, body }).then(
+      ([, res]) => res?.tList?.['t-list']
+    ),
 });

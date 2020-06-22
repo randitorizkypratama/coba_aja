@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <q-drawer :value="true" side="left" bordered :width="250" persistent>
+      <searchInterStoreTransfer :searches="searches" @onSearch="onSearch" />
+    </q-drawer>
+
     <div class="q-pa-lg">
       <div class="q-mb-md">
         <q-btn flat round class="q-mr-lg">
@@ -9,8 +13,6 @@
           <img :src="require('~/app/icons/Icon-Print.svg')" height="30" />
         </q-btn>
       </div>
-
-      <searchInterStoreTransfer :searches="searches" @onSearch="onSearch" />
 
       <q-table
         dense
@@ -34,6 +36,7 @@ import {
 import {
   mapWithadjuststore,
   mapWithadjustmain,
+  mapWithBezeich,
 } from '~/app/helpers/mapSelectItems.helpers';
 import { date } from 'quasar';
 import { tableHeaders } from './tables/interstoretransfer.table';
@@ -45,33 +48,43 @@ export default defineComponent({
     const state = reactive({
       isFetching: true,
       data: [],
-      food: '',
-      bev: '',
-      date2: '',
-      date1: '',
-      billDate: '',
-      doubleCurrency: '',
-      foreignNr: '',
-      exchgRate: '',
+      showPrice: '',
+      availQueasy: '',
       searches: {
         departments: [],
         store: [],
+        article: [],
+        displayList: [
+          {
+            label: 'Material & Engineering Articles',
+            value: 0,
+          },
+          {
+            label: 'Material Articles Only',
+            value: 1,
+          },
+          {
+            label: 'Engineering Articles Only',
+            value: 2,
+          },
+        ],
       },
     });
 
     onMounted(async () => {
-      const [resDepart] = await Promise.all([
-        $api.inventory.getFBOutletFlashprepare(),
+      const [resDepart, resArticle] = await Promise.all([
+        $api.inventory.getInterStoreTransferprepare(),
+        $api.inventory.getInterStoreTransferarticle({
+          currLager: '0',
+          recipe: false,
+          sorttype: '0',
+          sArtnr: '0',
+          sBezeich: ' ',
+        }),
       ]);
 
-      state.food = resDepart.food;
-      state.bev = resDepart.bev;
-      state.date2 = resDepart.date2;
-      state.date1 = resDepart.date1;
-      state.billDate = resDepart.billDate;
-      state.doubleCurrency = resDepart.doubleCurrency;
-      state.foreignNr = resDepart.foreignNr;
-      state.exchgRate = resDepart.exchgRate;
+      state.showPrice = resDepart.showPrice;
+      state.availQueasy = resDepart.availQueasy;
 
       state.searches.departments = mapWithadjustmain(
         resDepart.tLHauptgrp['t-l-hauptgrp'],
@@ -81,6 +94,7 @@ export default defineComponent({
         resDepart.tLLager['t-l-lager'],
         ['lager-nr']
       );
+      state.searches.article = mapWithBezeich(resArticle, 'artnr');
 
       state.isFetching = false;
     });
@@ -88,28 +102,29 @@ export default defineComponent({
     const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([
-          $api.inventory.getAdjustmentResulttable({}),
+          $api.inventory.getAdjustmentResulttable({
+            transCode: state2.transfercode,
+            mGrp:
+              state2.main.value === undefined || state2.main.value === 0
+                ? 0
+                : state2.main.value,
+            sorttype: state2.shape,
+            mStr:
+              state2.store.value === undefined || state2.store.value === 0
+                ? 0
+                : state2.store.value,
+            mattype: state2.display,
+            fromArt: state2.fromarticle.value,
+            toArt: state2.toarticle.value,
+            fromDate: date.formatDate(state2.date.start, 'YYYY-MM-DD'),
+            toDate: date.formatDate(state2.date.end, 'YYYY-MM-DD'),
+            showPrice: state.showPrice,
+            expenseAmt: state2.use,
+          }),
         ]);
 
         charts = response[0] || [];
-
-        const pbookList = charts.cList['c-list'];
-        const Amount = charts.totAmount;
-        const Average = charts.totAvrgAmount;
-        const listData = {
-          key: Number.MAX_VALUE,
-          artnr: '',
-          bezeich: 'Total',
-          munit: '',
-          inhalt: '',
-          qty: '',
-          qty1: '',
-          ['avrg-amount']: Average,
-          amount: Amount,
-          fibukonto: '',
-          ['cost-center']: '',
-        };
-        state.data = pbookList.concat(listData);
+        state.data = charts;
       }
       asyncCall();
     };

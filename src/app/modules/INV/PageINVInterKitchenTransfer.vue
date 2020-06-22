@@ -35,6 +35,7 @@ import {
 } from '@vue/composition-api';
 import { mapInterkitchen } from '~/app/helpers/mapSelectItems.helpers';
 import { date } from 'quasar';
+import { tableHeaders } from './tables/interKitchen.table';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -75,63 +76,6 @@ export default defineComponent({
       state.isFetching = false;
     });
 
-    const tableHeaders = [
-      {
-        label: 'Date',
-        field: 'datum',
-        name: 'datum',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Transfer From',
-        field: 'dept1',
-        name: 'dept1',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Transfer To',
-        field: 'dept2',
-        name: 'dept2',
-        sortable: false,
-      },
-      {
-        label: 'From Storage',
-        field: '',
-        name: '',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Article Number',
-        field: 'artnr',
-        name: 'artnr',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Description',
-        field: 'bezeich',
-        name: 'bezeich',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Food-Cost',
-        field: 'f-cost',
-        name: 'f-cost',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Beverage-Cost',
-        field: 'b-cost',
-        name: 'b-cost',
-        align: 'right',
-        sortable: false,
-      },
-    ];
     const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([
