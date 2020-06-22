@@ -38,6 +38,7 @@ import {
 } from '@vue/composition-api';
 import { mapWithMeal } from '~/app/helpers/mapSelectItems.helpers';
 import { date } from 'quasar';
+import { tableHeaders } from './tables/mealCoupon.table';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -62,7 +63,6 @@ export default defineComponent({
         $api.inventory.getMealCouponzugriff(),
         $api.inventory.getMealCouponprepare(),
       ]);
-      // console.log(resZugriff, 'huhu');
 
       state.zugriff = resZugriff.zugriff;
       state.messStr = resZugriff.messStr;
@@ -77,83 +77,7 @@ export default defineComponent({
       state.isFetching = false;
     });
 
-    const tableHeaders = [
-      {
-        label: 'Date',
-        field: 'datum',
-        name: 'datum',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Department',
-        field: 'deptname',
-        name: 'deptname',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Bill Number',
-        field: 'rechnr',
-        name: 'rechnr',
-        sortable: false,
-      },
-      {
-        label: 'Pax',
-        field: 'pax',
-        name: 'pax',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Description',
-        field: 'bezeich',
-        name: 'bezeich',
-        sortable: false,
-      },
-      {
-        label: 'Food Amount',
-        field: 'f-betrag',
-        name: 'f-betrag',
-        sortable: false,
-      },
-      {
-        label: 'Food Cost',
-        field: 'f-cost',
-        name: 'f-cost',
-        sortable: false,
-      },
-      {
-        label: 'Beverage Amount',
-        field: 'b-betrag',
-        name: 'b-betrag',
-        sortable: false,
-      },
-      {
-        label: 'Beverage Cost',
-        field: 'b-cost',
-        name: 'b-cost',
-        sortable: false,
-      },
-      {
-        label: 'Bill Amount',
-        field: 'betrag',
-        name: 'betrag',
-        sortable: false,
-      },
-      {
-        label: 'Cost of Sales',
-        field: 't-cost',
-        name: 't-cost',
-        sortable: false,
-      },
-      {
-        label: 'User Id',
-        field: 'usr-id',
-        name: 'usr-id',
-        sortable: false,
-      },
-    ];
+    
     const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([

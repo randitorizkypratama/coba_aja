@@ -38,6 +38,7 @@ import {
   mapWithadjustmain,
 } from '~/app/helpers/mapSelectItems.helpers';
 import { date } from 'quasar';
+import { tableHeaders } from './tables/slowMovingStockOnHand.table';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -71,56 +72,6 @@ export default defineComponent({
       state.isFetching = false;
     });
 
-    const tableHeaders = [
-      {
-        label: 'Article Number',
-        field: 'artnr',
-        name: 'artnr',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Name',
-        field: 'name',
-        name: 'name',
-        align: 'left',
-        sortable: false,
-      },
-      {
-        label: 'Minimum On Hand',
-        field: 'min-oh',
-        name: 'min-oh',
-        sortable: false,
-      },
-      {
-        label: 'Current On Hand',
-        field: 'curr-oh',
-        name: 'curr-oh',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Average Price',
-        field: 'avrgprice',
-        name: 'avrgprice',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Actual Price',
-        field: 'ek-aktuell',
-        name: 'ek-aktuell',
-        align: 'right',
-        sortable: false,
-      },
-      {
-        label: 'Last Purchase Date',
-        field: 'datum',
-        name: 'datum',
-        align: 'right',
-        sortable: false,
-      },
-    ];
     const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([
