@@ -2,13 +2,6 @@
   <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
       <searchDailySalesByUser :searches="searches" @onSearch="onSearch" />
-      <q-btn
-        dense
-        color="primary"
-        label="click"
-        class="q-mt-md full-width"
-        @click="dialogPayVisible = true"
-      />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -30,8 +23,6 @@
         :pagination.sync="pagination"
         id="printMe"
       ></q-table>
-
-      <DialogDailySalesByUser :show="dialogPayVisible" @hide="dialogPayVisible = false" />
     </div>
   </div>
 </template>
@@ -67,7 +58,6 @@ export default defineComponent({
       lKreditRecid: '',
       longDigit: '',
       showPriceprepare: '',
-      dialogPayVisible: false,
       searches: {
         departments: [],
         store: [],
@@ -243,8 +233,6 @@ export default defineComponent({
   components: {
     searchDailySalesByUser: () =>
       import('./components/SearchDailySalesByUser.vue'),
-    DialogDailySalesByUser: () =>
-      import('./components/DialogDailySalesByUser.vue'),
   },
 });
 </script>

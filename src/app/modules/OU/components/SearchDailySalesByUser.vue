@@ -15,13 +15,20 @@
 
       <SSelect label-text="Department" :options="searches.departments" v-model="fromMain" />
 
-
-
       <q-checkbox v-model="all" label="Suppress compliments VAT and service" />
       <q-checkbox v-model="all" label="Separate Discount to food Beverage and Other" />
       <q-checkbox v-model="all" label="Exclude Compliment" />
 
+      <q-btn
+        dense
+        color="primary"
+        icon="search"
+        label="Search"
+        class="q-mt-md full-width"
+        @click="showDialog"
+      />
     </div>
+    <DialogSupplier :show="show" @onDialog="onDialog" />
   </section>
 </template>
 
@@ -46,19 +53,31 @@ export default defineComponent({
       toMain: ref(null),
       shape: ref('1'),
       all: ref(true),
+      show: false,
     });
 
-    const onSearch = () => {
-      emit('onSearch', { ...state });
+    // const onSearch = () => {
+    //   emit('onSearch', { ...state });
+    // };
+
+    const onDialog = (val) => {
+      state.show = val;
     };
 
+    const showDialog = () => {
+      // state.dataSelected = dataRow;
+      onDialog(true);
+    };
     return {
       ...toRefs(state),
-      onSearch,
+      // onSearch,
+      showDialog,
+      onDialog,
     };
   },
   components: {
     'v-date-picker': DatePicker,
+    DialogSupplier: () => import('./DialogDailySalesByUser.vue'),
   },
 });
 </script>

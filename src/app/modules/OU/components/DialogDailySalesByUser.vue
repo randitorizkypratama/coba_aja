@@ -1,38 +1,53 @@
 <template>
-  <q-dialog :value="show" @hide="hide">
+  <q-dialog v-model="dialogModel">
     <div class="dialog">
       <div class="dialog__header">
-        <span class="dialog__title">Select User</span>
+        <span class="dialog__title">Select Supplier</span>
       </div>
-      <q-form @submit="onSubmit">
+      <q-form>
         <div class="bg-white q-pa-lg">
-          <div class="dialog__form-top row justify-between">
-            <div class="col-6">
-              <SInput label-text="Supplier Number" disable />
-            </div>
-          </div>
+          <div class="col"></div>
         </div>
         <div class="dialog__footer">
-          <q-btn label="Cancel" color="primary" flat class="q-mr-sm" v-close-popup />
-          <q-btn label="Submit" color="primary" @click="dialogPayVisible = true" />
+          <q-btn
+            label="Cancel"
+            color="primary"
+            flat
+            class="q-mr-sm"
+            @click="$emit('onDialog', false)"
+          />
+          <q-btn label="Submit" @click="showModal" color="primary" />
         </div>
       </q-form>
-
-      <DialogDailySalesByUserDua :show="dialogPayVisible" @hide="dialogPayVisible = false" />
     </div>
+    <DialogShift :muncul="muncul" @onModal="onModal" />
   </q-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from '@vue/composition-api';
+import {
+  defineComponent,
+  ref,
+  toRefs,
+  reactive,
+  computed,
+  onMounted,
+} from '@vue/composition-api';
 import { date } from 'quasar';
 
 export default defineComponent({
   props: {
     show: { type: Boolean, required: true },
   },
-  setup(_, { emit, root: { $api } }) {
+  setup(props, { emit, root: { $api } }) {
     const hide = () => emit('hide');
+
+    const dialogModel = computed({
+      get: () => props.show,
+      set: (val) => {
+        emit('onDialog', val);
+      },
+    });
 
     // Start fetch Country data
 
@@ -45,24 +60,35 @@ export default defineComponent({
     // TODO: Form still not working in react version
     // Place all form data here
     const data = reactive({
-      country: null,
-      segment: null,
-      date: date.formatDate(new Date(), 'DD/MM/YY'),
+      isFetching: true,
+      supplier: [],
+      dataSelected: {},
       dialogPayVisible: false,
+      muncul: false,
     });
 
-    function onSubmit() {
-      // TODO: Form still not working in react version
-    }
+    // function onSubmit() {
+    //   emit('onDialog', false);
+    // }
+
+    const onModal = (val) => {
+      data.muncul = val;
+    };
+
+    const showModal = () => {
+      // state.dataSelected = dataRow;
+      onModal(true);
+    };
 
     return {
+      ...toRefs(data),
       hide,
-      onSubmit,
+      dialogModel,
+      showModal,
+      onModal,
     };
   },
-  components: {
-    DialogDailySalesByUserDua: () => import('./DialogDailySalesByUserDua.vue'),
-  },
+  components: { DialogShift: () => import('./DialogDailySalesByUserDua.vue') },
 });
 </script>
 <style lang="scss" scoped>
