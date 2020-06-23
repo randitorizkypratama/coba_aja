@@ -17,10 +17,6 @@
 
       <SSelect label-text="Store Number" :options="searches.store" v-model="store" />
 
-      <SSelect label-text="From Article Number" :options="searches.article" v-model="fromarticle" />
-
-      <SSelect label-text="To Article Number" :options="searches.article" v-model="toarticle" />
-
       <SInput label-text="Transfer Code" v-model="transfercode" placeholder="Transfer Code" />
 
       <div>
@@ -45,8 +41,8 @@
         <q-radio size="xs" v-model="shape" val="2" label="By Description" />
       </div>
 
-      <q-checkbox v-model="use" label="Use Unit Expenses" />
-      <q-checkbox v-model="print" label="Print Without Amounts" />
+      <q-checkbox v-model="use" label="Use Unit Expenses" :disable="searches.availQueasy != false" />
+      <!-- <q-checkbox v-model="print" label="Print Without Amounts" /> -->
 
       <q-btn
         dense
@@ -76,15 +72,13 @@ export default defineComponent({
   setup(_, { emit }) {
     const state = reactive({
       date: null,
-      store: ref(null),
-      main: ref(null),
-      fromarticle: ref(null),
-      toarticle: ref(null),
+      store: ref(0),
+      main: ref(0),
       transfercode: ref(null),
-      shape: ref(null),
+      shape: ref('1'),
       use: false,
-      print: false,
-      display: ref(null),
+      // print: false,
+      display: 0,
     });
 
     const onSearch = () => {

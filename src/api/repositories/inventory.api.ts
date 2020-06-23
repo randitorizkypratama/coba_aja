@@ -105,7 +105,6 @@ export interface InventoryEndpoints {
 
   //InterStoreTransfer
   getInterStoreTransferprepare: any;
-  getInterStoreTransferarticle: any;
   getInterStoreTransfertable: any;
 
 }

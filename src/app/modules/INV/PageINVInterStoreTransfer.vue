@@ -49,11 +49,10 @@ export default defineComponent({
       isFetching: true,
       data: [],
       showPrice: '',
-      availQueasy: '',
       searches: {
+        availQueasy: '',
         departments: [],
         store: [],
-        article: [],
         displayList: [
           {
             label: 'Material & Engineering Articles',
@@ -74,27 +73,22 @@ export default defineComponent({
     onMounted(async () => {
       const [resDepart, resArticle] = await Promise.all([
         $api.inventory.getInterStoreTransferprepare(),
-        $api.inventory.getInterStoreTransferarticle({
-          currLager: '0',
-          recipe: false,
-          sorttype: '0',
-          sArtnr: '0',
-          sBezeich: ' ',
-        }),
       ]);
 
       state.showPrice = resDepart.showPrice;
-      state.availQueasy = resDepart.availQueasy;
+      state.searches.availQueasy = resDepart.availQueasy;
 
-      state.searches.departments = mapWithadjustmain(
-        resDepart.tLHauptgrp['t-l-hauptgrp'],
-        'endkum'
-      );
-      state.searches.store = mapWithadjuststore(
-        resDepart.tLLager['t-l-lager'],
-        ['lager-nr']
-      );
-      state.searches.article = mapWithBezeich(resArticle, 'artnr');
+      const coba = resDepart.tLHauptgrp['t-l-hauptgrp'];
+      coba.push({ endkum: 0, bezeich: 'ALL' });
+      const test = resDepart.tLLager['t-l-lager'];
+      test.push({
+        bezeich: 'ALL',
+        'lager-nr': 0,
+        betriebsnr: 0,
+      });
+
+      state.searches.departments = mapWithadjustmain(coba, 'endkum');
+      state.searches.store = mapWithadjuststore(test, ['lager-nr']);
 
       state.isFetching = false;
     });
@@ -102,26 +96,55 @@ export default defineComponent({
     const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([
-          $api.inventory.getAdjustmentResulttable({
-            transCode: state2.transfercode,
-            mGrp:
-              state2.main.value === undefined || state2.main.value === 0
-                ? 0
-                : state2.main.value,
+          $api.inventory.getInterStoreTransfertable({
+            transCode:
+              state2.transfercode === undefined || state2.transfercode === null
+                ? ' '
+                : state2.transfercode,
+            mGrp: 1,
+            // state2.main.value === undefined || state2.main.value === null
+            //   ? 0
+            //   : state2.main.value,
             sorttype: state2.shape,
-            mStr:
-              state2.store.value === undefined || state2.store.value === 0
-                ? 0
-                : state2.store.value,
+            mStr: 1,
+            // state2.store.value === undefined || state2.store.value === null
+            //   ? 0
+            //   : state2.store.value,
             mattype: state2.display,
-            fromArt: state2.fromarticle.value,
-            toArt: state2.toarticle.value,
+            fromArt: '1',
+            toArt: '9999999',
             fromDate: date.formatDate(state2.date.start, 'YYYY-MM-DD'),
             toDate: date.formatDate(state2.date.end, 'YYYY-MM-DD'),
             showPrice: state.showPrice,
             expenseAmt: state2.use,
           }),
         ]);
+
+        console.log(
+          {
+            transCode:
+              state2.transfercode === undefined || state2.transfercode === null
+                ? ' '
+                : state2.transfercode,
+            mGrp:
+              state2.main.value === undefined || state2.main.value === null
+                ? 0
+                : state2.main.value,
+            sorttype: state2.shape,
+            mStr:
+              state2.store.value === undefined || state2.store.value === null
+                ? 0
+                : state2.store.value,
+            mattype: state2.display,
+            fromArt: '1',
+            toArt: '9999999',
+            fromDate: date.formatDate(state2.date.start, 'YYYY-MM-DD'),
+            toDate: date.formatDate(state2.date.end, 'YYYY-MM-DD'),
+            showPrice: state.showPrice,
+            expenseAmt: state2.use,
+          },
+          'cari'
+        );
 
         charts = response[0] || [];
         state.data = charts;
