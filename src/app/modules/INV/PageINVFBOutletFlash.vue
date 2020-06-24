@@ -88,7 +88,7 @@ export default defineComponent({
 
     const tableHeaders = [
       {
-        label: 'Description',
+        label: 'Transfer to Storage',
         field: 'descr',
         name: 'descr',
         align: 'left',
@@ -119,29 +119,23 @@ export default defineComponent({
       async function asyncCall() {
         const response = await Promise.all([
           $api.inventory.getAdjustmentResulttable({
-           
+            pvILanguage: '1',
+            fromGrp: '1',
+            food: '1',
+            mainStorage: '1',
+            fStore: '1',
+            tStore: '18',
+            date1: '2019-01-01',
+            date2: '2019-01-14',
+            foreignNr: '0',
+            exchgRate: '1',
+            doubleCurrency: false,
           }),
         ]);
 
         charts = response[0] || [];
 
-        const pbookList = charts.cList['c-list'];
-        const Amount = charts.totAmount;
-        const Average = charts.totAvrgAmount;
-        const listData = {
-          key: Number.MAX_VALUE,
-          artnr: '',
-          bezeich: 'Total',
-          munit: '',
-          inhalt: '',
-          qty: '',
-          qty1: '',
-          ['avrg-amount']: Average,
-          amount: Amount,
-          fibukonto: '',
-          ['cost-center']: '',
-        };
-        state.data = pbookList.concat(listData);
+        state.data = charts;
       }
       asyncCall();
     };

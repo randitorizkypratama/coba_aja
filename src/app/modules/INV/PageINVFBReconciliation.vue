@@ -33,12 +33,9 @@ import {
   toRefs,
   reactive,
 } from '@vue/composition-api';
-import {
-  mapWithadjuststore,
-  mapWithadjustmain,
-} from '~/app/helpers/mapSelectItems.helpers';
+import { mapWithadjustmain } from '~/app/helpers/mapSelectItems.helpers';
 import { date } from 'quasar';
-import { tableHeaders } from './tables/materialREconciliation.table';
+import { tableHeaders } from './tables/fbReconciliation.table';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -47,25 +44,27 @@ export default defineComponent({
     const state = reactive({
       isFetching: true,
       data: [],
+      food: '',
+      bev: ' ',
+      toDate: ' ',
       searches: {
         departments: [],
-        store: [],
       },
     });
 
     onMounted(async () => {
-      const [resDepart] = await Promise.all([
-        $api.inventory.getMaterialReconciliationprepare(),
+      const [resPrepare, resMain] = await Promise.all([
+        $api.inventory.getFBReconciliationprepare(),
+        $api.inventory.getFBReconciliationMainGroup(),
       ]);
 
-      state.searches.departments = mapWithadjustmain(
-        resDepart.tLHauptgrp['t-l-hauptgrp'],
-        'endkum'
-      );
-      state.searches.store = mapWithadjuststore(
-        resDepart.tLLager['t-l-lager'],
-        ['lager-nr']
-      );
+      state.food = resPrepare.food;
+      state.bev = resPrepare.bev;
+      state.toDate = resPrepare.toDate;
+
+      const coba = resMain.tLHauptgrp['t-l-hauptgrp'];
+      coba.push({ endkum: 0, bezeich: 'ALL' });
+      state.searches.departments = mapWithadjustmain(coba, 'endkum');
 
       state.isFetching = false;
     });
@@ -73,16 +72,20 @@ export default defineComponent({
     const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([
-          $api.inventory.getMaterialReconciliationtable({
+          $api.inventory.getFBReconciliationtable({
             pvILanguage: '1',
-            toDate: date.formatDate(state2.date, 'YYYY/MM/DD'),
-            lagerNo: state2.store == undefined ? 0 : state2.store,
-            fromMain: state2.fromdepartments.value,
-            toMain: state2.todepartments.value,
+            caseType: ' 0',
+            fromDate: '01/01/19',
+            toDate: '15/01/19',
+            fromGrp: '0',
+            miOpt: false,
+            date1: '01/01/19',
+            date2: '15/01/19',
           }),
         ]);
 
         charts = response[0] || [];
+        console.log(charts);
 
         state.data = charts;
       }

@@ -13,18 +13,10 @@
         />
       </v-date-picker>
 
-      <SSelect label-text="Store Number" :options="searches.store" v-model="store" />
+      <SSelect label-text="Main Group" :options="searches.departments" v-model="main" />
 
-      <SSelect
-        label-text="From Main Group"
-        :options="searches.departments"
-        v-model="fromdepartments"
-      />
-      <SSelect label-text="To Main Group" :options="searches.departments" v-model="todepartments" />
-      <div id="radio">
-        <q-radio size="xs" v-model="shape" val="1" label="By Inventory Account" />
-        <q-radio size="xs" v-model="shape" val="2" label="By Description" />
-      </div>
+      <q-checkbox v-model="summary" label="Summary Expenses by Main Acct" />
+
       <q-btn
         dense
         color="primary"
@@ -48,11 +40,9 @@ export default defineComponent({
 
   setup(_, { emit }) {
     const state = reactive({
-      date: '14/01/2019',
-      store: ref(null),
-      fromdepartments: ref(null),
-      todepartments: ref(null),
-      shape: ref('1'),
+      date: null,
+      main: ref(null),
+      summary: false,
     });
 
     const onSearch = () => {

@@ -49,6 +49,7 @@ export interface InventoryEndpoints {
 
   //FBOutletFlash
   getFBOutletFlashprepare: any;
+  getFBOutletFlashtable: any;
 
   //FBReconciliation
   getFBReconciliationprepare: any;
@@ -180,6 +181,10 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
     ),
   getFBOutletFlashprepare: () =>
     doFetch({ url: `${INV_URL}/fbFlash1Prepare` }).then(
+      ([, res]) => res
+    ),
+  getFBOutletFlashtable: (body) =>
+    doFetch({ url: `${INV_URL}/fbFlash1List`, body }).then(
       ([, res]) => res
     ),
   getFBReconciliationprepare: () =>
@@ -319,4 +324,5 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
     doFetch({ url: `${INV_URL}/transValidationList`, body }).then(
       ([, res]) => res?.tList?.['t-list']
     ),
+
 });
