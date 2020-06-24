@@ -41,6 +41,7 @@ const SUBMODULES: Submodule = {
     'Outgoing Journalizing',
     'Incoming Journalizing',
     'Inter Store Transfer',
+    'FB Reconciliation'
   ],
   OU: [
     'Order Taker Report',
