@@ -1,21 +1,16 @@
 <template>
   <section class="mt-7">
     <div class="q-pa-md">
-      <v-date-picker mode="range" v-model="range" :columns="2" :popover="{ visibility: 'click' }">
+      <v-date-picker mode="range" v-model="date" :columns="2" :popover="{ visibility: 'click' }">
         <SInput
           label-text="Date"
           slot-scope="{ inputProps }"
           placeholder="From - Until"
           readonly
           v-bind="inputProps"
-          clearable
           @clear="date = null"
         />
       </v-date-picker>
-
-      <SSelect label-text="Main Group" :options="searches.departments" v-model="main" />
-
-      <q-checkbox v-model="summary" label="Summary Expenses by Main Acct" />
 
       <q-btn
         dense
@@ -31,19 +26,17 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, toRefs } from '@vue/composition-api';
-import { DatePicker } from 'v-calendar';
+import { setupCalendar, DatePicker } from 'v-calendar';
+import { date } from 'quasar';
+
+setupCalendar({
+  firstDayOfWeek: 2,
+});
 
 export default defineComponent({
-  props: {
-    searches: { type: Object, required: true },
-    // range: { type: Object, required: true },
-  },
-
   setup(_, { emit }) {
     const state = reactive({
-      range: null,
-      main: ref(null),
-      summary: false,
+      date: ref(null),
     });
 
     const onSearch = () => {

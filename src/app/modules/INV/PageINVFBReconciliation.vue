@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <SearchFBReconciliation :searches="searches" @onSearch="onSearch" />
+      <SearchFBReconciliation :searches="searches" :range="range" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -46,9 +46,14 @@ export default defineComponent({
       data: [],
       food: '',
       bev: ' ',
-      toDate: ' ',
+      date1: '',
+      date2: ' ',
       searches: {
         departments: [],
+      },
+      range: {
+        start: new Date(),
+        end: new Date(),
       },
     });
 
@@ -60,8 +65,15 @@ export default defineComponent({
 
       state.food = resPrepare.food;
       state.bev = resPrepare.bev;
-      state.toDate = resPrepare.toDate;
-
+      state.date2 = date.formatDate(resPrepare.toDate, 'DD/MM/YY');
+      state.range.end = new Date(
+        date.formatDate(resPrepare.toDate, 'DD/MM/YYYY')
+      );
+      const dd = '01';
+      const mmyy = date.formatDate(resPrepare.toDate, 'MM/YY');
+      const mmyyyy = date.formatDate(resPrepare.toDate, 'MM/YYYY');
+      state.date1 = dd + '/' + mmyy;
+      state.range.start = new Date(dd + '/' + mmyyyy);
       const coba = resMain.tLHauptgrp['t-l-hauptgrp'];
       coba.push({ endkum: 0, bezeich: 'ALL' });
       state.searches.departments = mapWithadjustmain(coba, 'endkum');
@@ -74,13 +86,18 @@ export default defineComponent({
         const response = await Promise.all([
           $api.inventory.getFBReconciliationtable({
             pvILanguage: '1',
-            caseType: ' 0',
-            fromDate: '01/01/19',
-            toDate: '15/01/19',
-            fromGrp: '0',
-            miOpt: false,
-            date1: '01/01/19',
-            date2: '15/01/19',
+            caseType:
+              state2.main.value == 1
+                ? state.food
+                : state2.main.value == 2
+                ? state.bev
+                : 0,
+            fromDate: state.date1,
+            toDate: state.date2,
+            fromGrp: state2.main.value,
+            miOpt: state2.summary,
+            date1: date.formatDate(state2.range.start, 'DD/MM/YY'),
+            date2: date.formatDate(state2.range.end, 'DD/MM/YY'),
           }),
         ]);
 

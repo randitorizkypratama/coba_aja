@@ -108,6 +108,9 @@ export interface InventoryEndpoints {
   getInterStoreTransferprepare: any;
   getInterStoreTransfertable: any;
 
+  //Stock Item Transform
+  getStockItemTransformtable: any;
+
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
@@ -322,6 +325,10 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
     ),
   getInterStoreTransfertable: (body) =>
     doFetch({ url: `${INV_URL}/transValidationList`, body }).then(
+      ([, res]) => res?.tList?.['t-list']
+    ),
+  getStockItemTransformtable: (body) =>
+    doFetch({ url: `${INV_URL}/stockTransformList`, body }).then(
       ([, res]) => res?.tList?.['t-list']
     ),
 

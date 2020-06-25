@@ -118,7 +118,7 @@ export default defineComponent({
     const onSearch = (state2) => {
       async function asyncCall() {
         const response = await Promise.all([
-          $api.inventory.getAdjustmentResulttable({
+          $api.inventory.getFBOutletFlashtable({
             pvILanguage: '1',
             fromGrp: '1',
             food: '1',
