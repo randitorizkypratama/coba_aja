@@ -57,7 +57,6 @@ import { date } from 'quasar';
 export default defineComponent({
   setup(_, { root: { $api } }) {
     let responsePrepare;
-
     let charts = [] as any;
 
     const state = reactive({
@@ -66,8 +65,12 @@ export default defineComponent({
       dataSelected: {},
       dataPrepare:{},
       searches: {
+        deptList: [],
         fromDept: [],
-        toDept: []
+        toDept: [],
+        date: {start: (new Date()), end: (new Date())},
+        fromDeptVal: null,
+        toDeptVal: null,
       },
       dialog: false,
     });
@@ -147,9 +150,30 @@ export default defineComponent({
       const responseDataHotel = dataHotel || [];
       const deptList = responseDataHotel.tHoteldpt['t-hoteldpt'];
 
+      const fdate = new Date(responsePrepare.fromDate);
+      const tdate = new Date(responsePrepare.toDate);
+      state.searches.date.start = fdate;
+      state.searches.date.end = tdate;
+
       state.dataPrepare['tHoteldpt']['t-hoteldpt'] = deptList;
       state.searches.fromDept = mapOU(state.dataPrepare['tHoteldpt']['t-hoteldpt'], 'num', 'depart');
       state.searches.toDept = mapOU(state.dataPrepare['tHoteldpt']['t-hoteldpt'], 'num', 'depart');
+      state.searches.deptList = state.searches.fromDept;
+      
+      const fdptStr = state.dataPrepare['depname1'];
+      const tdptStr = state.dataPrepare['depname2'];
+
+      for(let i = 0; i<state.searches.deptList.length; i++) {
+        const depart = deptList[i]['depart'];
+
+        if (depart == fdptStr) {
+          state.searches.fromDeptVal = state.searches.deptList[i];
+        } 
+
+        if (depart == tdptStr) {
+          state.searches.toDeptVal = state.searches.deptList[i];
+        }
+      }
       state.isFetching = false;
     });
 
@@ -175,8 +199,8 @@ export default defineComponent({
                 $api.outlet.getOUCancelJournalList('cancelJournList', {
                     fromDate: date.formatDate(state2.date.start, 'MM/DD/YYYY'),
                     toDate: date.formatDate(state2.date.end, 'MM/DD/YYYY'),
-                    fromDept: state2.fromDept.value,
-                    toDept: state2.toDept.value,          
+                    fromDept: state2.fromDeptVal.value,
+                    toDept: state2.toDeptVal.value,          
                 }),
             ]);
             charts = dataResponse[0] || [];

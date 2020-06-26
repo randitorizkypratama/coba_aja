@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <SearchFBReconciliation :searches="searches" :range="range" @onSearch="onSearch" />
+      <SearchFBReconciliation :searches="searches" @onSearch="onSearch" />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -44,16 +44,13 @@ export default defineComponent({
     const state = reactive({
       isFetching: true,
       data: [],
-      food: '',
+      food: ' ',
       bev: ' ',
-      date1: '',
+      date1: ' ',
       date2: ' ',
       searches: {
         departments: [],
-      },
-      range: {
-        start: new Date(),
-        end: new Date(),
+        date: { start: new Date(), end: new Date() },
       },
     });
 
@@ -66,38 +63,37 @@ export default defineComponent({
       state.food = resPrepare.food;
       state.bev = resPrepare.bev;
       state.date2 = date.formatDate(resPrepare.toDate, 'DD/MM/YY');
-      state.range.end = new Date(
-        date.formatDate(resPrepare.toDate, 'DD/MM/YYYY')
-      );
+      const tdate = date.formatDate(resPrepare.toDate, 'YYYY-MM-DD');
+      state.searches.date.end = new Date(tdate);
+
       const dd = '01';
       const mmyy = date.formatDate(resPrepare.toDate, 'MM/YY');
-      const mmyyyy = date.formatDate(resPrepare.toDate, 'MM/YYYY');
+      const mmyyyy = date.formatDate(resPrepare.toDate, 'YYYY-MM');
       state.date1 = dd + '/' + mmyy;
-      state.range.start = new Date(dd + '/' + mmyyyy);
+      const fdate = mmyyyy + '-' + dd;
+      state.searches.date.start = new Date(fdate);
+
       const coba = resMain.tLHauptgrp['t-l-hauptgrp'];
-      coba.push({ endkum: 0, bezeich: 'ALL' });
+      // coba.push({ endkum: 0, bezeich: 'ALL' });
       state.searches.departments = mapWithadjustmain(coba, 'endkum');
 
       state.isFetching = false;
     });
 
     const onSearch = (state2) => {
+      console.log(state2);
+
       async function asyncCall() {
         const response = await Promise.all([
           $api.inventory.getFBReconciliationtable({
             pvILanguage: '1',
-            caseType:
-              state2.main.value == 1
-                ? state.food
-                : state2.main.value == 2
-                ? state.bev
-                : 0,
+            caseType: state2.main == 1 ? state.food : state2.main == 2 ? state.bev : 0,
             fromDate: state.date1,
             toDate: state.date2,
-            fromGrp: state2.main.value,
+            fromGrp: state2.main,
             miOpt: state2.summary,
-            date1: date.formatDate(state2.range.start, 'DD/MM/YY'),
-            date2: date.formatDate(state2.range.end, 'DD/MM/YY'),
+            date1: date.formatDate(state2.date.start, 'DD/MM/YY'),
+            date2: date.formatDate(state2.date.end, 'DD/MM/YY'),
           }),
         ]);
 

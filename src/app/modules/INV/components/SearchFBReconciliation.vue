@@ -1,7 +1,12 @@
 <template>
   <section class="mt-7">
     <div class="q-pa-md">
-      <v-date-picker mode="range" v-model="range" :columns="2" :popover="{ visibility: 'click' }">
+      <v-date-picker
+        mode="range"
+        v-model="searches.date"
+        :columns="2"
+        :popover="{ visibility: 'click' }"
+      >
         <SInput
           label-text="Date"
           slot-scope="{ inputProps }"
@@ -9,13 +14,18 @@
           readonly
           v-bind="inputProps"
           clearable
-          @clear="date = null"
+          @clear="searches.date = null"
         />
       </v-date-picker>
 
-      <SSelect label-text="Main Group" :options="searches.departments" v-model="main" />
+      <SSelect
+        label-text="Main Group"
+        :options="searches.departments"
+        v-model="searches.fromDeptVal"
+        @input="onChange($options, true)"
+      />
 
-      <q-checkbox v-model="summary" label="Summary Expenses by Main Acct" />
+      <q-checkbox v-model="searches.summary" label="Summary Expenses by Main Acct" />
 
       <q-btn
         dense
@@ -32,27 +42,35 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, toRefs } from '@vue/composition-api';
 import { DatePicker } from 'v-calendar';
+import { date } from 'quasar';
 
 export default defineComponent({
   props: {
     searches: { type: Object, required: true },
-    // range: { type: Object, required: true },
   },
 
-  setup(_, { emit }) {
-    const state = reactive({
-      range: null,
-      main: ref(null),
-      summary: false,
-    });
+  setup(props, { emit }) {
+    // const state = reactive({
+    //   searchesdate: null,
+    //   main: ref(null),
+    //   summary: false,
+    // });
 
     const onSearch = () => {
-      emit('onSearch', { ...state });
+      emit('onSearch', { ...props.searches });
+    };
+
+    const onChange = (input) => {
+      const searchesValue = input.propsData.searches;
+      console.log(input.propsData.searches, 'input');
+      const main = searchesValue.fromDeptVal.value;
+      const summary = searchesValue.summary;
     };
 
     return {
-      ...toRefs(state),
+      ...toRefs,
       onSearch,
+      onChange,
     };
   },
   components: {
