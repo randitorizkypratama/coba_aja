@@ -51,6 +51,7 @@ export default defineComponent({
       searches: {
         departments: [],
         date: { start: new Date(), end: new Date() },
+        summary: false,
       },
     });
 
@@ -81,13 +82,13 @@ export default defineComponent({
     });
 
     const onSearch = (state2) => {
-      console.log(state2);
 
       async function asyncCall() {
         const response = await Promise.all([
           $api.inventory.getFBReconciliationtable({
             pvILanguage: '1',
-            caseType: state2.main == 1 ? state.food : state2.main == 2 ? state.bev : 0,
+            caseType:
+              state2.main == 1 ? state.food : state2.main == 2 ? state.bev : 0,
             fromDate: state.date1,
             toDate: state.date2,
             fromGrp: state2.main,
@@ -98,7 +99,6 @@ export default defineComponent({
         ]);
 
         charts = response[0] || [];
-        console.log(charts);
 
         state.data = charts;
       }

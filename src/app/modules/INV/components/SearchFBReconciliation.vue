@@ -62,7 +62,6 @@ export default defineComponent({
 
     const onChange = (input) => {
       const searchesValue = input.propsData.searches;
-      console.log(input.propsData.searches, 'input');
       const main = searchesValue.fromDeptVal.value;
       const summary = searchesValue.summary;
     };
