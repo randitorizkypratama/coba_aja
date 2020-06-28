@@ -19,10 +19,27 @@
         :columns="tableHeaders"
         :data="data"
         separator="cell"
+        @row-click="onRowClick"
         :rows-per-page-options="[10, 13, 16]"
         :pagination.sync="pagination"
-        id="printMe"
-      ></q-table>
+      >
+        <template #body-cell-actions="props">
+          <q-td :props="props" class="fixed-col right">
+            <q-icon name="more_vert" size="16px">
+              <q-menu auto-close anchor="bottom right" self="top right">
+                <q-list>
+                  <q-item clickable v-ripple @click="showDialog(props.row)">
+                    <q-item-section>Delete</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-icon>
+          </q-td>
+        </template>
+        >
+      </q-table>
+
+      <DialogStockItemTransfer :dialog="dialog" @onDialog="onDialog" :dataSelected="dataSelected" />
     </div>
   </div>
 </template>
@@ -30,12 +47,13 @@
 <script lang="ts">
 import {
   defineComponent,
-  // onMounted,
+  onMounted,
   toRefs,
   reactive,
 } from '@vue/composition-api';
 import { date } from 'quasar';
 import { tableHeaders } from './tables/stockItemTransform.table';
+import { stat } from 'fs';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -44,7 +62,54 @@ export default defineComponent({
     const state = reactive({
       isFetching: true,
       data: [],
+      dataSelected: [],
+      zugriff: '',
+      messStr: '',
+      flogical: '',
+      fdate: '',
+      fchar: '',
+      fint: '',
+      fdec: '',
+      dialog: false,
     });
+
+    onMounted(async () => {
+      const [resPrepare, resParam] = await Promise.all([
+        $api.inventory.getStockItemTransformpermission({
+          userInit: '01',
+          arrayNr: '41',
+          expectedNr: '2',
+        }),
+        $api.inventory.getStockItemTransformgetHTParam0({
+          casetype: '2',
+          inpParam: '1035',
+        }),
+      ]);
+
+      state.zugriff = resPrepare.zugriff;
+      state.messStr = resPrepare.messStr;
+      state.flogical = resParam.flogical;
+      state.fdate = resParam.fdate;
+      state.fchar = resParam.fchar;
+      state.fint = resParam.fint;
+      state.fdec = resParam.fdec;
+      //Sorry, no access right
+
+      state.isFetching = false;
+    });
+
+    const onDialog = (val) => {
+      state.dialog = val;
+    };
+
+    const onRowClick = (_, dataRow) => {
+      state.dataSelected = dataRow;
+    };
+
+    const showDialog = (dataRow) => {
+      state.dataSelected = dataRow;
+      onDialog(true);
+    };
 
     const onSearch = (state2) => {
       async function asyncCall() {
@@ -57,7 +122,37 @@ export default defineComponent({
           }),
         ]);
         charts = response[0] || [];
-        state.data = charts;
+        state.data = [];
+
+        for (let i = 0; i < charts.length; i++) {
+          const dataRow = {};
+          const dataItem = charts[i];
+
+          dataRow['datum'] =
+            dataItem['datum'] == null || undefined || ''
+              ? ' '
+              : date.formatDate(dataItem['datum'], 'DD/MM/YYYY');
+          dataRow['lscheinnr'] = dataItem['lscheinnr'];
+          dataRow['f-bezeich'] = dataItem['f-bezeich'];
+          dataRow['t-bezeich'] = dataItem['t-bezeich'];
+          dataRow['artnr'] =
+            dataItem['op-art'] == 2
+              ? dataItem['artnr'] + '(special)'
+              : dataItem['artnr'];
+          dataRow['bezeich'] =
+            dataItem['op-art'] == 2
+              ? dataItem['artnr'] + '(special)'
+              : dataItem['artnr'];
+          dataItem['bezeich'];
+          dataRow['einheit'] = dataItem['einheit'];
+          dataRow['content'] = dataItem['content'];
+          dataRow['price'] = dataItem['price'];
+          dataRow['qty'] = dataItem['qty'];
+          dataRow['val'] = dataItem['val'];
+          dataRow['ID'] = dataItem['ID'];
+
+          state.data.push(dataRow);
+        }
       }
       asyncCall();
     };
@@ -66,12 +161,17 @@ export default defineComponent({
       ...toRefs(state),
       tableHeaders,
       onSearch,
+      onRowClick,
+      onDialog,
+      showDialog,
       pagination: { page: 1, rowsPerPage: 0 },
     };
   },
   components: {
     SearchStockItemTransform: () =>
       import('./components/SearchStockItemTransform.vue'),
+    DialogStockItemTransfer: () =>
+      import('./components/DialogStockItemTransfer.vue'),
   },
 });
 </script>

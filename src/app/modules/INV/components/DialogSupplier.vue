@@ -26,11 +26,7 @@
             class="q-mr-sm"
             @click="$emit('onDialog', false)"
           />
-          <q-btn
-            label="Submit"
-            type="submit"
-            color="primary"
-          />
+          <q-btn label="Submit" type="submit" color="primary" />
         </div>
       </q-form>
     </div>
@@ -76,7 +72,6 @@ export default defineComponent({
       isFetching: true,
       supplier: [],
       dataSelected: {},
-      dialogPayVisible: false,
     });
 
     onMounted(async () => {

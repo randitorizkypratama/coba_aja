@@ -162,7 +162,6 @@ export default defineComponent({
           }),
         ]);
         charts = response[0] || [];
-        console.log(charts, 'data');
         state.data = [];
 
         for (let i = 0; i < charts.length; i++) {

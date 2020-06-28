@@ -71,5 +71,9 @@ export const tableHeaders: TableHeader[] = [
         align: 'right',
         sortable: false,
     },
+    {
+        name: 'actions',
+        field: 'actions'
+    },
 ];
 

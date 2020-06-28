@@ -110,6 +110,18 @@ export interface InventoryEndpoints {
 
   //Stock Item Transform
   getStockItemTransformtable: any;
+  getStockItemTransformpermission: any;
+  getStockItemTransformgetHTParam0: any;
+
+  //Issuing
+  getIssuingrprepare: any;
+  getIssuingStorage: any;
+  getIssuingInvArticleList: any;
+  getIssuingmaingroup: any;
+
+  //Cancelled Incoming
+  getCancelledIncomingrprepare: any;
+  getCancelledIncomingtable: any;
 
 }
 
@@ -331,5 +343,37 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
     doFetch({ url: `${INV_URL}/stockTransformList`, body }).then(
       ([, res]) => res?.tList?.['t-list']
     ),
+  getStockItemTransformpermission: (body) =>
+    doFetch({ url: `${COMMON_URL}/checkPermission`, body }).then(
+      ([, res]) => res
+    ),
+  getStockItemTransformgetHTParam0: (body) =>
+    doFetch({ url: `${COMMON_URL}/getHTParam0`, body }).then(
+      ([, res]) => res
+    ),
 
+  getIssuingrprepare: () =>
+    doFetch({ url: `${INV_URL}/stockOutlistPrepare` }).then(
+      ([, res]) => res
+    ),
+  getIssuingStorage: () =>
+    doFetch({ url: `${INV_URL}/getStorage` }).then(
+      ([, res]) => res?.tLLager?.["t-l-lager"]
+    ),
+  getIssuingInvArticleList: (api, body) =>
+    doFetch({ url: `${INV_URL}/${api}`, body }).then(
+      ([, res]) => res?.tLArtikel?.['t-l-artikel']
+    ),
+  getIssuingmaingroup: () =>
+    doFetch({ url: `${INV_URL}/getInvMainGroup` }).then(
+      ([, res]) => res?.tLHauptgrp?.['t-l-hauptgrp']
+    ),
+  getCancelledIncomingrprepare: () =>
+    doFetch({ url: `${INV_URL}/cancelStockInPrepare` }).then(
+      ([, res]) => res
+    ),
+  getCancelledIncomingtable: (body) =>
+    doFetch({ url: `${INV_URL}/cancelStockInLoad`, body }).then(
+      ([, res]) => res?.cancelStockinList?.['cancel-stockin-list']
+    ),
 });
