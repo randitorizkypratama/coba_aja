@@ -75,14 +75,13 @@ export default defineComponent({
       state.searches.date.start = new Date(fdate);
 
       const coba = resMain.tLHauptgrp['t-l-hauptgrp'];
-      // coba.push({ endkum: 0, bezeich: 'ALL' });
+      coba.unshift({ endkum: 0, bezeich: 'ALL' });
       state.searches.departments = mapWithadjustmain(coba, 'endkum');
 
       state.isFetching = false;
     });
 
     const onSearch = (state2) => {
-
       async function asyncCall() {
         const response = await Promise.all([
           $api.inventory.getFBReconciliationtable({
@@ -91,7 +90,7 @@ export default defineComponent({
               state2.main == 1 ? state.food : state2.main == 2 ? state.bev : 0,
             fromDate: state.date1,
             toDate: state.date2,
-            fromGrp: state2.main,
+            fromGrp: state2.main.value,
             miOpt: state2.summary,
             date1: date.formatDate(state2.date.start, 'DD/MM/YY'),
             date2: date.formatDate(state2.date.end, 'DD/MM/YY'),

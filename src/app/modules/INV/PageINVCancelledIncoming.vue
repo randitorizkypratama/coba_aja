@@ -33,7 +33,10 @@ import {
   toRefs,
   reactive,
 } from '@vue/composition-api';
-import { mapWithadjustmain } from '~/app/helpers/mapSelectItems.helpers';
+import {
+  mapWithadjustmain,
+  mapWithadjuststore,
+} from '~/app/helpers/mapSelectItems.helpers';
 import { date } from 'quasar';
 import { tableHeaders } from './tables/cancelledIncoming.table';
 
@@ -47,20 +50,23 @@ export default defineComponent({
       showPrice: '',
       searches: {
         departments: [],
+        store: [],
       },
     });
 
     onMounted(async () => {
-      const [resPrepare, resDepart] = await Promise.all([
+      const [resPrepare] = await Promise.all([
         $api.inventory.getCancelledIncomingrprepare(),
-        $api.inventory.getMealCouponprepare(),
       ]);
 
       state.showPrice = resPrepare.showPrice;
-      state.searches.departments = mapWithadjustmain(
-        resDepart.tLHauptgrp['t-l-hauptgrp'],
-        'endkum'
-      );
+      const coba = resPrepare.tLLager['t-l-lager'];
+      coba.unshift({ ['lager-nr']: 0, bezeich: 'ALL' });
+      state.searches.departments = mapWithadjuststore(coba, ['lager-nr']);
+      const test = resPrepare.tLHauptgrp['t-l-hauptgrp'];
+      test.unshift({ endkum: 0, bezeich: 'ALL' });
+      state.searches.store = mapWithadjustmain(test, 'endkum');
+
       state.isFetching = false;
     });
 
@@ -69,14 +75,14 @@ export default defineComponent({
         const response = await Promise.all([
           $api.inventory.getCancelledIncomingtable({
             pvILanguage: '1',
-            allSupp: true,
-            sorttype: 1,
-            fromGrp: 0,
-            store: '00',
-            'fromDate ': '01/01/2019',
-            'toDate ': '29/06/2020',
-            showPrice: true,
-            fromSupp: ' ',
+            allSupp: state2.all,
+            sorttype: state2.shape,
+            fromGrp: state2.main.value,
+            store: state2.store.value,
+            fromDate: date.formatDate(state2.date.start, 'D/M/YY'),
+            toDate: date.formatDate(state2.date.end, 'D/M/YY'),
+            showPrice: state.showPrice,
+            fromSupp: state2.all ? ' ' : state2.supplierVal,
           }),
         ]);
 

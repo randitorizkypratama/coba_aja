@@ -79,9 +79,9 @@ export default defineComponent({
       state.searches.availQueasy = resDepart.availQueasy;
 
       const coba = resDepart.tLHauptgrp['t-l-hauptgrp'];
-      coba.push({ endkum: 0, bezeich: 'ALL' });
+      coba.unshift({ endkum: 0, bezeich: 'ALL' });
       const test = resDepart.tLLager['t-l-lager'];
-      test.push({
+      test.unshift({
         bezeich: 'ALL',
         'lager-nr': 0,
         betriebsnr: 0,
@@ -101,15 +101,15 @@ export default defineComponent({
               state2.transfercode === undefined || state2.transfercode === null
                 ? ' '
                 : state2.transfercode,
-            mGrp: 1,
-            // state2.main.value === undefined || state2.main.value === null
-            //   ? 0
-            //   : state2.main.value,
+            mGrp:
+              state2.main.value === undefined || state2.main.value === null
+                ? 0
+                : state2.main.value,
             sorttype: state2.shape,
-            mStr: 1,
-            // state2.store.value === undefined || state2.store.value === null
-            //   ? 0
-            //   : state2.store.value,
+            mStr:
+              state2.store.value === undefined || state2.store.value === null
+                ? 0
+                : state2.store.value,
             mattype: state2.display,
             fromArt: '1',
             toArt: '9999999',

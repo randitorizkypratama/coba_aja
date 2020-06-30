@@ -23,7 +23,6 @@
         <template v-slot:append>
           <q-btn round dense flat icon="search" @click="showDialog({})" :disabled="all" />
 
-          <!-- <q-icon name="search"@click="all ? showDialog({}) : null" :disabled="all" /> -->
         </template>
       </SInput>
 

@@ -18,8 +18,13 @@
       <SSelect label-text="Store Number" :options="searches.store" v-model="store" />
 
       <SInput v-model="supplier" placeholder="Supplier" :disabled="all">
-      
-      <div id="radio"> 
+        <template v-slot:append>
+          <q-btn round dense flat icon="search" @click="showDialog({})" :disabled="all" />
+        </template>
+      </SInput>
+      <q-checkbox v-model="all" label="All Supplier" />
+
+      <div id="radio">
         <q-radio size="xs" v-model="shape" val="1" label="Supplier" />
         <q-radio size="xs" v-model="shape" val="2" label="Document" />
         <q-radio size="xs" v-model="shape" val="3" label="SubGroup " />
@@ -34,6 +39,7 @@
         @click="onSearch"
       />
     </div>
+    <DialogSupplier :show="show" @onDialog="onDialog" @getSupplier="getSupplier" />
   </section>
 </template>
 
@@ -54,21 +60,42 @@ export default defineComponent({
     const state = reactive({
       date: null,
       main: ref(null),
+      all: ref(false),
       store: ref(null),
+      supplier: ref(null),
       shape: ref('1'),
+      supplierVal: ref(null),
+      show: false,
     });
 
     const onSearch = () => {
       emit('onSearch', { ...state });
     };
 
+    const onDialog = (val) => {
+      state.show = val;
+    };
+
+    const getSupplier = (dataSelected) => {
+      state.supplierVal = dataSelected['t-recid'];
+      state.supplier = dataSelected['t-recid'] + ' - ' + dataSelected.firma;
+    };
+    const showDialog = (dataRow) => {
+      // state.dataSelected = dataRow;
+      onDialog(true);
+    };
+
     return {
       ...toRefs(state),
       onSearch,
+      onDialog,
+      showDialog,
+      getSupplier,
     };
   },
   components: {
     'v-date-picker': DatePicker,
+    DialogSupplier: () => import('./DialogSupplier.vue'),
   },
 });
 </script>

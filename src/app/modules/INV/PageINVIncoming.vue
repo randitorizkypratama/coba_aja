@@ -83,34 +83,6 @@ export default defineComponent({
     });
 
     const onSearch = (state2) => {
-      console.log(
-        {
-          pvILanguage: '1',
-          lastArtnr: '?',
-          lieferantRecid: state2.all ? '0' : state2.supplierVal,
-          lKreditRecid: state.lKreditRecid,
-          longDigit: state.longDigit,
-          showPrice: state.showPriceprepare,
-          store: state2.store.value,
-          allSupp: state2.all,
-          sorttype: state2.shape,
-          fromGrp: state2.fromMain.value,
-          toGrp: state2.toMain.value,
-          fromDate: date.formatDate(state2.date.start, 'DD/MM/YY'),
-          toDate: date.formatDate(state2.date.end, 'DD/MM/YY'),
-          userInit: '01',
-          apRecid: '0',
-          taxcodeList: {
-            'taxcode-list': [
-              {
-                taxcode: '',
-                taxamount: '0',
-              },
-            ],
-          },
-        },
-        'cari'
-      );
       async function asyncCall() {
         const response = await Promise.all([
           $api.inventory.getIncomingtable({
