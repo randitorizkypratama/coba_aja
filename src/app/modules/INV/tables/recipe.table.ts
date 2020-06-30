@@ -209,4 +209,8 @@ export const Recipe: TableHeader[] = [
     align: 'right',
     sortable: true,
   },
+  {
+    name: 'actions',
+    field: 'actions',
+  },
 ];

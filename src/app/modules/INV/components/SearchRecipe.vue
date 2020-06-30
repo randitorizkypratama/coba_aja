@@ -3,15 +3,18 @@
     <div id="input" class="q-pa-md">
       <q-form @submit="onSearch">
         <SInput label-text="Description" v-model="inputan" unmasked-value />
-        <q-option-group size="xs" v-model="group" :options="options" color="primary" />
+        <div id="radio">
+          <q-option-group size="xs" v-model="group" :options="options" color="primary" />
+        </div>
         <q-btn
           block
           color="primary"
-          max-height="28"
-          icon="search"
+          max-height="10"
+          icon="mdi-magnify"
           label="Search"
           type="submit"
           class="q-mt-md full-width"
+          style="height: 25px"
         />
       </q-form>
     </div>
@@ -55,7 +58,7 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 #input {
-  width: 220px;
+  width: 200px;
   display: block;
   margin-left: auto;
   margin-right: auto;

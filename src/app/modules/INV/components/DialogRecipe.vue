@@ -2,7 +2,7 @@
   <div>
     <div>
       <q-dialog v-model="dialog">
-        <q-card style="width: 1100px; max-width: 90vw;">
+        <q-card style="width: 1000px; max-width: 90vw;">
           <q-toolbar>
             <q-toolbar-title class="text-white text-weight-medium">Recipe</q-toolbar-title>
           </q-toolbar>
@@ -12,71 +12,60 @@
                 <div class="row">
                   <div class="col-5">
                     <SInput
-                      style="width: 180px; marginTop: -5px"
+                      style="width: 160px;"
                       label-text="Category Number"
                       v-model="recipe.CategoryNumber"
                     />
                     <SInput
-                      style="width: 180px; marginTop: -5px"
+                      style="width: 160px; marginTop: -10px"
                       label-text="Recipe Number"
                       v-model="recipe.RecipeNumber"
                     />
                     <SInput
-                      style="width: 180px; marginTop: -5px"
+                      style="width: 160px; marginTop: -10px"
                       label-text="Portion"
                       v-model="recipe.Portion"
                     />
                     <SInput
-                      style="width: 180px; marginTop: -5px"
+                      style="width: 160px; marginTop: -10px"
                       label-text="Article Number"
                       v-model="recipe.ArticelNumber"
                       @click.prevent="dialogOnClick"
                     />
                     <SInput
-                      style="width: 180px; marginTop: -5px"
+                      style="width: 160px; marginTop: -10px"
                       label-text="Loss Factor"
                       v-model="recipe.LoodFactor"
                     />
                   </div>
                   <div class="col-7">
+                    <SInput label-text="Category Name" v-model="recipe.CategoryName" />
                     <SInput
-                      style=" marginTop: -5px"
-                      label-text="Category Name"
-                      v-model="recipe.CategoryName"
+                      style=" marginTop: -10px;"
+                      label-text="Description"
+                      v-model="recipe.Description"
                     />
-                    <div class="column" style="height: 152px">
-                      <div class="col">
-                        <SInput
-                          style=" marginTop: -5px"
-                          label-text="Description"
-                          v-model="recipe.Description"
-                        />
-                      </div>
+                    <div class="row" style="marginTop: 70px">
+                      <SInput
+                        style=" width: 130px; marginTop: -10px; marginRight: 22px"
+                        label-text="Content"
+                        v-model="recipe.content"
+                      />
+
+                      <SInput
+                        style=" width: 130px; marginTop: -10px"
+                        label-text="Quantity"
+                        v-model="recipe.Quantity"
+                      />
                     </div>
-                    <div class="row">
-                      <div class="col">
-                        <SInput
-                          style=" width: 150px; marginTop: -5px"
-                          label-text="Content"
-                          v-model="recipe.content"
-                        />
-                      </div>
-                      <div class="col">
-                        <SInput
-                          style=" width: 150px; marginTop: -5px"
-                          label-text="Quantity"
-                          v-model="recipe.Quantity"
-                        />
-                      </div>
-                    </div>
-                    <SInput style="marginTop: -5px" label-text="Recipe Cost" v-model="inputName" />
+                    <SInput style="marginTop: -9px" label-text="Recipe Cost" v-model="inputName" />
                   </div>
                 </div>
                 <q-btn
-                  style="marginTop: -7px"
+                  style="marginTop: -7px; height: 25px"
                   dense
                   color="primary"
-                  icon="plus"
+                  max-height="10"
                   label="ADD"
                   class="q-mt-md full-width"
                   @click="add"
@@ -85,7 +74,7 @@
               <div class="col">
                 <q-table
                   dense
-                  style="marginLeft: 10px"
+                  style="marginLeft: 20px"
                   :class="{ verticalTable: pageColumns }"
                   :columns="modalAdd"
                   :data="dataTable"
@@ -94,6 +83,7 @@
                   :virtual-scroll-sticky-size-start="48"
                   :pagination.sync="pagination"
                   hide-bottom
+                  @row-click="onRowClick"
                 >
                   <template #header-cell-fibukonto="props">
                     <q-th :props="props" class="fixed-col left">
@@ -169,6 +159,7 @@
               :rows-per-page-options="[0]"
               :pagination.sync="pagination"
               hide-bottom
+              @row-click="onRowClick"
             >
               <template v-slot:loading>
                 <q-inner-loading showing color="primary" />
@@ -209,37 +200,23 @@ import {
   watch,
   toRefs,
 } from '@vue/composition-api';
-import { tableHeaders, stockArticle, Recipe, modalAdd } from '../tables/recipe';
+import {
+  tableHeaders,
+  stockArticle,
+  Recipe,
+  modalAdd,
+} from '../tables/recipe.table';
 import { Dialog } from 'quasar';
-interface State {
-  isLoading: boolean;
-  dialogModel: boolean;
-  group: any;
-  options: any;
-  columns: any;
-  data: any;
-  page: boolean;
-  trueandfalse: any;
-  className: any;
-  class2: boolean;
-  recipe: any;
-  dataTable: any;
-  pageColumns: boolean;
-  confirm: boolean;
-  modify: string;
-  idRecid: any;
-  idDialog: any;
-}
 export default defineComponent({
   props: {
     dialog: { type: Boolean, required: true },
     selected: { type: [String, Number, Object], required: true },
     accountId: { type: Object, default: null },
-    idDialog: { type: String, default: true },
+    idDialog: { type: Boolean, default: true },
   },
 
   setup(props, { emit, root: { $api } }) {
-    const state = reactive<State>({
+    const state = reactive({
       isLoading: false,
       dialogModel: false,
       confirm: false,
@@ -285,7 +262,9 @@ export default defineComponent({
       state.columns = stockArticle;
       state.class2 = true;
 
-      const getData = await Promise.all([$api.inventory.addRecipePrepare()]);
+      const getData = await Promise.all([
+        $api.inventory.apiRecipe('addRecipePrepare'),
+      ]);
       state.data = getData[0].tLArtikel['t-l-artikel'];
       if (state.data.length < 14) {
         state.isLoading = false;
@@ -294,6 +273,8 @@ export default defineComponent({
         state.page = true;
         state.isLoading = false;
       }
+
+      console.log('sukses', getData);
     };
 
     const recipe = async () => {
@@ -301,7 +282,9 @@ export default defineComponent({
       state.trueandfalse = false;
       state.columns = Recipe;
       state.class2 = false;
-      const getData = await Promise.all([$api.inventory.addRecipePrepare()]);
+      const getData = await Promise.all([
+        $api.inventory.apiRecipe('addRecipePrepare'),
+      ]);
       state.data = getData[0].tHRezept['t-h-rezept'];
       if (state.data.length < 14) {
         state.isLoading = false;
@@ -332,18 +315,19 @@ export default defineComponent({
       () => props.idDialog,
       (idDialog, prev) => {
         if (idDialog && idDialog !== prev) {
+          // console.log('sukses123', idDialog);
           state.idDialog = idDialog;
         }
       }
     );
     const GET_DATA = async (accountId) => {
       const [getData, getDataNumber] = await Promise.all([
-        $api.inventory.chgRecipePrepareL({
+        $api.inventory.apiRecipe('chgRecipePrepare', {
           pvILanguage: 1,
           hArtnr: accountId.artnrrezept,
           DESCRIPTION: accountId.bezeich,
         }),
-        $api.inventory.chgRecipeRetKatnr({
+        $api.inventory.apiRecipe('chgRecipeRetKatnr', {
           katnr: accountId.kategorie,
         }),
       ]);
@@ -374,17 +358,18 @@ export default defineComponent({
 
     const saveData = async () => {
       if (state.idDialog == '1') {
+        console.log('sukses12', state.idDialog);
       }
       if (state.idDialog == '2') {
         await Promise.all([
-          $api.inventory.chgRecipeSave({
+          $api.inventory.apiRecipe('chgRecipeSave', {
             recId: state.idRecid['h-recid'],
             katnr: state.recipe.CategoryNumber,
             portion: state.recipe.Portion,
             'h-bezeich': state.recipe.Description,
             katbezeich: state.recipe.CategoryName,
           }),
-          $api.inventory.checkTime({
+          $api.inventory.apiRecipeCommon('checkTime', {
             caseType: 2,
             idTable: state.idRecid['h-recid'],
           }),
@@ -392,8 +377,9 @@ export default defineComponent({
       }
       emit('save');
     };
+
     const add = () => {
-      $api.inventory.addRecipeSave({
+      $api.inventory.apiRecipe('addRecipeSave', {
         sRezlin: {
           's-rezlin': [
             {
@@ -412,7 +398,7 @@ export default defineComponent({
         },
       });
       setTimeout(() => {
-        const data = $api.inventory.addRecipeCreateRezlin({
+        const data = $api.inventory.apiRecipe('addRecipeCreateRezlin', {
           's-artnr': state.recipe.ArticelNumber,
           qty: state.recipe.Quantity,
           'price-type': 0,
@@ -423,7 +409,7 @@ export default defineComponent({
           recipetype: 0,
         });
       }, 5000);
-      $api.inventory.addRecipeCalCost({
+      $api.inventory.apiRecipe('addRecipeCalCost', {
         pArtnr: state.recipe.ArticelNumber,
         menge: state.recipe.Quantity,
       });
@@ -441,10 +427,10 @@ export default defineComponent({
 
     const deleteData = async () => {
       await Promise.all([
-        $api.inventory.chgRecipeDelete({
+        $api.inventory.apiRecipe('chgRecipeDelete', {
           hRecid: state.idRecid['h-recid'],
         }),
-        $api.inventory.checkTime({
+        $api.inventory.apiRecipe('checkTime', {
           caseType: 3,
           idTable: state.idRecid['h-recid'],
         }),
@@ -461,7 +447,7 @@ export default defineComponent({
       saveData,
       tableHeaders,
       ...toRefs(state),
-      pagination: { page: 1, rowsPerPage: 0 },
+      pagination: { page: 1, rowsPerPage: 10 },
     };
   },
 

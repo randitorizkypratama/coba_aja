@@ -1,11 +1,11 @@
 <template>
   <div>
-    <q-drawer :value="true" side="left" bordered :width="250" persistent>
+    <q-drawer :value="true" side="left" bordered :width="220" persistent>
       <SearchChartOfAccounts @onSearch="onSearch" />
     </q-drawer>
     <div class="q-pa-lg">
       <div class="q-mb-md">
-        <q-btn @click="openDialog" flat round class="q-mr-lg">
+        <q-btn @click="dialog = true" flat round class="q-mr-lg">
           <img :src="require('~/app/icons/Icon-Add.svg')" height="30" />
         </q-btn>
         <q-btn flat round class="q-mr-lg">
@@ -15,47 +15,34 @@
           <img :src="require('~/app/icons/Icon-Print.svg')" height="30" />
         </q-btn>
       </div>
-      <q-table
-        dense
-        :class="{ mystickyvirtscrolltable : page }"
+      <STable
+        :loading="isFetching"
         :columns="tableHeaders"
         :data="data"
-        separator="cell"
-        :rows-per-page-options="[10, 13, 16]"
-        :virtual-scroll-sticky-size-start="48"
+        :rows-per-page-options="[0]"
         :pagination.sync="pagination"
         hide-bottom
+        class="table-accounting-date"
+        @row-click="onRowClick"
       >
         <template #header-cell-fibukonto="props">
-          <q-th :props="props" class="fixed-col left">
-            {{
-            props.col.label
-            }}
-          </q-th>
+          <q-th :props="props" class="fixed-col left">{{ props.col.label }}</q-th>
         </template>
 
         <template #body-cell-fibukonto="props">
-          <q-td :props="props" class="fixed-col left">
-            {{
-            props.row
-            }}
-          </q-td>
+          <q-td :props="props" class="fixed-col left">{{ props.row.fibukonto }}</q-td>
         </template>
 
         <template #header-cell-actions="props">
-          <q-th :props="props" class="fixed-col right">
-            {{
-            props.col.label
-            }}
-          </q-th>
+          <q-th :props="props" class="fixed-col right">{{ props.col.label }}</q-th>
         </template>
 
         <template #body-cell-actions="props">
           <q-td :props="props" class="fixed-col right">
-            <q-icon name="more_vert" size="16px">
+            <q-icon name="mdi-dots-vertical" size="16px">
               <q-menu auto-close anchor="bottom right" self="top right">
                 <q-list>
-                  <q-item clickable v-ripple @click="editItem(props.row)">
+                  <q-item clickable v-ripple @click="editItem">
                     <q-item-section>edit</q-item-section>
                   </q-item>
                   <q-item clickable v-ripple @click="confirm = true">
@@ -66,15 +53,14 @@
             </q-icon>
           </q-td>
         </template>
-      </q-table>
+      </STable>
     </div>
     <DialogChartOfAccounts
       :dialog="dialog"
-      @save="dialog = false"
+      @saveData="saveData"
       @cencel="dialog = false"
       :selected="prepare"
-      :account-id="accountId"
-      :idDialog="idDialog"
+      :accountId="accountId"
     />
     <q-dialog v-model="confirm" persistent>
       <q-card>
@@ -103,7 +89,7 @@ import {
   reactive,
   ref,
 } from '@vue/composition-api';
-import { tableHeaders } from './tables/recipe';
+import { tableHeaders } from './tables/recipe.table';
 import { log } from 'util';
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -118,23 +104,32 @@ export default defineComponent({
       idDialog: '',
     });
     onMounted(async () => {
-      const data1 = await Promise.all([$api.inventory.recipeListPrepare()]);
+      const data1 = await Promise.all([
+        $api.inventory.apiRecipe('recipeListPrepare'),
+      ]);
+
       state.data = data1[0].tHRezept['t-h-rezept'].map((item, i) =>
         Object.assign({}, item, data1[0].costList['cost-list'][i])
       );
       if (state.data !== undefined) {
         state.page = true;
       }
+      ``;
     });
     const saveData = () => {
       state.dialog = false;
     };
 
-    const asyncCal = async (val, input) => {
-      const data1 = await Promise.all([$api.inventory.recipeListPrepare()]);
+    const asyncCall = async (val, input) => {
+      const data1 = await Promise.all([
+        $api.inventory.apiRecipe('recipeListPrepare'),
+      ]);
+
+      // MENGGABUNGKAN DUA OBJECT DALAM SATU ARRAY
       const data = data1[0].tHRezept['t-h-rezept'].map((item, i) =>
         Object.assign({}, item, data1[0].costList['cost-list'][i])
       );
+
       if (val == '1') {
         state.data = data.filter((data: any) => {
           return data.artnrrezept.toString().includes(input.toString());
@@ -148,7 +143,10 @@ export default defineComponent({
       }
       if (val == '2') {
         state.data = data.filter((data: any) => {
-          return data.bezeich.toLowerCase().includes(input.toLowerCase());
+          return data
+            .toLowerCase()
+            .bezeich.toLowerCase()
+            .includes(input.toLowerCase());
         });
         if (state.data.length < 14) {
           state.page = false;
@@ -171,7 +169,7 @@ export default defineComponent({
     };
 
     const onSearch = (val, input) => {
-      asyncCal(val, input);
+      asyncCall(val, input);
     };
 
     const editItem = (accountId) => {
@@ -187,20 +185,24 @@ export default defineComponent({
 
     const deleteData = async () => {
       await Promise.all([
-        $api.inventory.recipeListDelCheck({
+        $api.inventory.apiRecipe('recipeListDelCheck', {
           pvILanguage: 1,
           ['t-h-rezept-artnrrezept']: 'Recipe Number',
         }),
       ]);
     };
 
+    const onRowClick = (val) => {
+      console.log(val);
+    };
     return {
       ...toRefs(state),
+      onSearch,
+      onRowClick,
+      saveData,
+      openDialog,
       editItem,
       deleteData,
-      openDialog,
-      onSearch,
-      saveData,
       tableHeaders,
       pagination: {
         rowsPerPage: 0,
@@ -215,26 +217,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  background: $primary-grad;
-}
-.mystickyvirtscrolltable {
-  height: 410px;
-}
+::v-deep .table-accounting-date {
+  max-height: 75vh;
 
-.my-sticky-virtscroll-table thead tr:first-child th {
-  background-color: #fff;
-}
+  thead tr {
+    th {
+      position: sticky;
+      z-index: 3;
+    }
 
-.my-sticky-virtscroll-table thead tr th {
-  position: sticky;
-  // z-index: 1
-}
-.my-sticky-virtscroll-table thead tr:last-child th {
-  top: 48px;
-}
-
-.my-sticky-virtscroll-table thead tr:first-child th {
-  top: 0;
+    &:first-child th {
+      top: 0;
+    }
+  }
 }
 </style>

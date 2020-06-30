@@ -13,7 +13,18 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="danger" label="Delete" @click="$emit('onDialog', false)" />
+        <q-btn
+          color="white"
+          text-color="blue"
+          label="Cancel"
+          @click="$emit('onDialog', false)"
+        />
+
+        <q-btn
+          style="background: #ff0000; color: white"
+          label="Delete"
+          @click="$emit('onDialog', false)"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -34,7 +45,7 @@ export default defineComponent({
       dialogPayVisible: false,
       message: 'Do you really want to cancel the transform records',
     });
-    
+
     const dialogModel = computed({
       get: () => props.dialog,
       set: (val) => {

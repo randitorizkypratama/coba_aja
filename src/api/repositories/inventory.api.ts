@@ -123,6 +123,9 @@ export interface InventoryEndpoints {
   getCancelledIncomingrprepare: any;
   getCancelledIncomingtable: any;
 
+  // Recipe
+  apiRecipe: any;
+  apiRecipeCommon: any;
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
@@ -376,4 +379,9 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
     doFetch({ url: `${INV_URL}/cancelStockInLoad`, body }).then(
       ([, res]) => res?.cancelStockinList?.['cancel-stockin-list']
     ),
+  // Recipe
+  apiRecipe: (api, body) =>
+    doFetch({ url: `${INV_URL}/${api}`, body }).then(([, res]) => res),
+  apiRecipeCommon: (api, body) =>
+    doFetch({ url: `${COMMON_URL}/${api}`, body }).then(([, res]) => res),
 });
