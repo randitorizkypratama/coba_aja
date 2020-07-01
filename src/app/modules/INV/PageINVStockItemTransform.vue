@@ -51,7 +51,7 @@ import {
   toRefs,
   reactive,
 } from '@vue/composition-api';
-import { date } from 'quasar';
+import { date, Notify, Cookies } from 'quasar';
 import { tableHeaders } from './tables/stockItemTransform.table';
 import { stat } from 'fs';
 
@@ -62,7 +62,7 @@ export default defineComponent({
     const state = reactive({
       isFetching: true,
       data: [],
-      dataSelected: [],
+      dataSelected: {},
       zugriff: '',
       messStr: '',
       flogical: '',
@@ -89,7 +89,7 @@ export default defineComponent({
       state.zugriff = resPrepare.zugriff;
       state.messStr = resPrepare.messStr;
       state.flogical = resParam.flogical;
-      state.fdate = resParam.fdate;
+      state.fdate = date.formatDate(resParam.fdate, 'DD/MM/YYYY');
       state.fchar = resParam.fchar;
       state.fint = resParam.fint;
       state.fdec = resParam.fdec;
@@ -107,8 +107,15 @@ export default defineComponent({
     };
 
     const showDialog = (dataRow) => {
-      state.dataSelected = dataRow;
-      onDialog(true);
+      if (dataRow.datum <= state.fdate) {
+        Notify.create({
+          message: 'Inventory transferred to G/L - Cancel no longer possible.',
+          color: 'red',
+        });
+      } else {
+        state.dataSelected = dataRow;
+        onDialog(true);
+      }
     };
 
     const onSearch = (state2) => {

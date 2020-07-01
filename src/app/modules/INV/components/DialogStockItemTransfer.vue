@@ -6,19 +6,15 @@
       </q-toolbar>
 
       <q-card-section>
-        {{dataSelected}}
-        {{message}}
+        Do you really want to cancel the transform records:
+        {{ dataSelected.datum }} -
+        {{ dataSelected.lscheinnr }} ?
       </q-card-section>
 
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn
-          color="white"
-          text-color="blue"
-          label="Cancel"
-          @click="$emit('onDialog', false)"
-        />
+        <q-btn color="white" text-color="blue" label="Cancel" @click="$emit('onDialog', false)" />
 
         <q-btn
           style="background: #ff0000; color: white"
