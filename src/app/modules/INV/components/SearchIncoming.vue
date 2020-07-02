@@ -21,8 +21,14 @@
 
       <SInput v-model="supplier" placeholder="Supplier" :disabled="all">
         <template v-slot:append>
-          <q-btn round dense flat icon="mdi-magnify" @click="showDialog({})" :disabled="all" />
-
+          <q-btn
+            round
+            dense
+            flat
+            icon="mdi-magnify"
+            @click="showDialog({})"
+            :disabled="all"
+          />
         </template>
       </SInput>
 
