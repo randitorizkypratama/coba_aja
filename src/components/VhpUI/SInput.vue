@@ -4,7 +4,6 @@
       {{ labelText }}
     </label>
     <q-input
-      dense
       outlined
       v-bind="$attrs"
       v-on="$listeners"

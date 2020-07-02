@@ -1,12 +1,12 @@
-export interface TableHeader {
+export interface TableHeader<T = any> {
   name?: string;
   label?: string;
-  field: string | Function;
+  field: string | ((row: T) => void);
   required?: boolean;
-  align?: string;
+  align?: 'left' | 'right' | 'center' | 'justify';
   sortable?: boolean;
-  sort?: Function;
-  format?: Function;
+  sort?: (a, b, rowA: T, rowB: T) => number;
+  format?: (val, row: T) => void;
   style?: string;
   classes?: string;
   headerStyle?: string;

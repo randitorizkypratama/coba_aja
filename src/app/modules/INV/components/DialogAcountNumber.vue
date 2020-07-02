@@ -73,11 +73,12 @@ export default defineComponent({
 
     onMounted(async () => {
       const dataAccount = await Promise.all([
-        $api.stockItem.getPrepareSelectGLAcct({
+        $api.inventory.apiStockItemAR('getPrepareSelectGLAcct', {
           currDept: '0',
         }),
       ]);
-      state.data = dataAccount[0];
+
+      state.data = dataAccount[0][1].glacctList['glacct-list'];
     });
 
     const columns = [

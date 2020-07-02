@@ -1,6 +1,6 @@
 <template>
   <section class="mt-7">
-    <div class="q-pa-md">
+    <div id="input" class="q-pa-md">
       <v-date-picker mode="range" v-model="date" :columns="2" :popover="{ visibility: 'click' }">
         <SInput
           label-text="Date"
@@ -17,12 +17,16 @@
 
       <SSelect label-text="To Department" :options="searches.departments" v-model="toDept" />
 
-      <SInput label-text="Request Number" :options="searches.store" v-model="ReqNumber" />
+      <SInput label-text="Request Number" v-model="ReqNumber" />
+
       <q-btn
-        dense
+        block
         color="primary"
-        icon="search"
+        max-height="10"
+        style="height: 25px"
+        icon="mdi-magnify"
         label="Search"
+        type="submit"
         class="q-mt-md full-width"
         @click="onSearch"
       />
@@ -68,4 +72,15 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#input {
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#radio {
+  margin-left: -9px;
+}
+</style>

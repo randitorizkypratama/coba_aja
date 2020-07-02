@@ -42,7 +42,7 @@
           <STable :loading="false" :columns="tableHeaders.note" :data="[]">
             <template v-slot:no-data>
               <div class="full-width column flex-center text-grey q-pa-lg">
-                <q-icon size="2em" name="info" />
+                <q-icon size="2em" name="mdi-info" />
                 <span> Set the filter value then press search </span>
               </div>
             </template>

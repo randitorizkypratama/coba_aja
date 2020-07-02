@@ -1,15 +1,15 @@
 <template>
   <q-dialog v-model="dialogModel">
-    <q-card style="width: 1100px; max-width: 90vw;">
+    <q-card style="width: 1000px; max-width: 90vw; height: 500px">
       <q-toolbar>
         <q-toolbar-title class="text-white text-weight-medium">New</q-toolbar-title>
       </q-toolbar>
       <!-- <q-form @submit="inputan"> -->
-      <q-card-section style="height: 480px;">
+      <q-card-section style="height: auto;">
         <template>
           <SInput class="inputName" label-text="Name" v-model="inputName" unmasked-value />
         </template>
-        <q-splitter v-model="splitterModel" style="height: 380px; width: 1000px;">
+        <q-splitter v-model="splitterModel" style="height: 300px;">
           <template v-slot:before>
             <q-tabs v-model="tab" vertical active-color="primary" indicator-color="primary">
               <q-tab name="category" label="Category" />
@@ -57,7 +57,7 @@
                 />
               </q-tab-panel>
 
-              <q-tab-panel name="UnitPrice">
+              <q-tab-panel name="UnitPrice" style="marginTop: -20px">
                 <div class="q-gutter-md row items-start">
                   <SInput
                     style="width: 150px;"
@@ -183,9 +183,9 @@ import {
   computed,
   reactive,
   toRefs,
+  watch,
 } from '@vue/composition-api';
 import { mapGroup } from '~/app/helpers/mapSelectItems.helpers';
-import { watch } from 'fs';
 interface State {
   isLoading: boolean;
   totalBudget: number;
@@ -209,6 +209,8 @@ export default defineComponent({
   props: {
     dialog: { type: Boolean, required: true },
     selected: { type: [String, Number, Object], required: true },
+    accountId: { type: Object, required: true },
+    getAccountnumber: { type: Object, required: true },
   },
 
   setup(props, { emit, root: { $api } }) {
@@ -257,19 +259,87 @@ export default defineComponent({
       },
     });
 
+    onMounted(async () => {
+      const dataGrop = await Promise.all([
+        $api.inventory.apiStockItem('getInvMainGroup'),
+      ]);
+
+      state.subMain.main = mapGroup(
+        dataGrop[0].tLHauptgrp['t-l-hauptgrp'],
+        'bezeich',
+        'endkum'
+      );
+    });
+
+    const GET_DATA = async (val) => {
+      const GET_DATA = await Promise.all([
+        $api.inventory.apiStockItem('chgInvArticlePrepare', {
+          artnr: props.getAccountnumber,
+          changed: 'no',
+        }),
+      ]);
+      console.log('sukses 001', GET_DATA[0]);
+      state.inputName = GET_DATA[0].lArt['l-art'][0].bezeich;
+      state.subMain.mains = GET_DATA[0].endBezeich;
+      state.subGroup.subs = GET_DATA[0].zwBezeich;
+      state.totalBudget = GET_DATA[0].lArt['l-art'][0].artnr;
+      state.unitPrice.DeliveryUnit = GET_DATA[0].lArt['l-art'][0].traubensorte;
+      state.unitPrice.messUnit = GET_DATA[0].lArt['l-art'][0].masseinheit;
+      state.unitPrice.recipeUnit = GET_DATA[0].sUnit;
+      state.modelRecipeNumber = '000,000';
+      //
+      state.unitPrice.unitPrice1 = GET_DATA[0].lArt['l-art'][0]['ek-aktuell'];
+      state.unitPrice.unitPrice2 = GET_DATA[0].lArt['l-art'][0]['ek-letzter'];
+      state.unitPrice.unitPrice3 = GET_DATA[0].lArt['l-art'][0]['vk-preis'];
+    };
+
+    watch(
+      () => props.accountId,
+      (accountId, prev) => {
+        if (accountId && accountId !== prev) {
+          GET_DATA(accountId);
+        }
+      }
+    );
+
     function clickMainGrup() {
       async function asyncCall() {
         const dataSub = await Promise.all([
-          $api.stockItem.getInvSubGroup({ mainNr: state.subMain.mains.value }),
+          $api.inventory.apiStockItem('getInvSubGroup', {
+            mainNr: state.subMain.mains.value,
+          }),
         ]);
-        state.subGroup.sub = mapGroup(dataSub[0], 'bezeich', 'zwkum');
+
+        state.subGroup.sub = mapGroup(
+          dataSub[0].szwkumList['szwkum-list'],
+          'bezeich',
+          'zwkum'
+        );
       }
       asyncCall();
     }
+
+    function clickSubGroup() {
+      async function asyncCall() {
+        const dataArticle = await Promise.all([
+          $api.inventory.apiStockItem('getInvArtNo', {
+            pvILanguage: 1, // buat default value = 1
+            caseType: 2, // buat default value = 2
+            inpInt: state.subGroup.subs.value, // zwkum - SUB GROUP
+            inpInt2: state.subMain.mains.value, // endkum - MAIN GROUP
+            inpChar: ' ', // buat default value = “ ”
+          }),
+        ]);
+
+        state.totalBudget = dataArticle[0].outInt;
+      }
+      asyncCall();
+    }
+
     function saveData() {
       async function saveData() {
         const saveData = await Promise.all([
-          $api.stockItem.addInvArticle({
+          $api.inventory.apiStockItem('addInvArticle', {
             artnr: state.totalBudget.toString(),
             bezAend: state.model,
             dmlArt: state.model2,
@@ -318,21 +388,6 @@ export default defineComponent({
       saveData();
     }
 
-    function clickSubGroup() {
-      async function asyncCall() {
-        const dataArticle = await Promise.all([
-          $api.stockItem.getInvArtNo({
-            pvILanguage: 1, // buat default value = 1
-            caseType: 2, // buat default value = 2
-            inpInt: state.subGroup.subs.value, // zwkum - SUB GROUP
-            inpInt2: state.subMain.mains.value, // endkum - MAIN GROUP
-            inpChar: ' ', // buat default value = “ ”
-          }),
-        ]);
-        state.totalBudget = dataArticle[0];
-      }
-      asyncCall();
-    }
     function onRowRecipe(row) {
       state.modelRecipeNumber = row.kategorie;
     }
@@ -346,10 +401,6 @@ export default defineComponent({
     function dialogAcountNumber() {
       state.dialogAcount = true;
     }
-    onMounted(async () => {
-      const dataGrop = await Promise.all([$api.stockItem.getInvMainGroup()]);
-      state.subMain.main = mapGroup(dataGrop[0], 'bezeich', 'endkum');
-    });
 
     const onDialog1 = (val) => {
       state.dialogArticel = val;

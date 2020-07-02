@@ -10,17 +10,9 @@
           unmasked-value
         />
 
-        <SSelect
-          label-text="Main Account"
-          :options="searches.mains"
-          v-model="main"
-        />
+        <SSelect label-text="Main Account" :options="searches.mains" v-model="main" />
 
-        <SSelect
-          label-text="Account Category"
-          :options="searches.categories"
-          v-model="category"
-        />
+        <SSelect label-text="Account Category" :options="searches.categories" v-model="category" />
 
         <SSelect
           label-text="Account Department"
@@ -32,7 +24,7 @@
           block
           color="primary"
           max-height="28"
-          icon="search"
+          icon="mdi-search"
           label="Search"
           type="submit"
           class="q-mt-md full-width"
@@ -49,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, toRefs } from '@vue/composition-api';
+import { defineComponent, reactive, toRefs } from '@vue/composition-api';
 
 export default defineComponent({
   props: {
@@ -58,10 +50,10 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const state = reactive({
-      accountNumber: ref(null),
-      main: ref(null),
-      category: ref(null),
-      department: ref(null),
+      accountNumber: null,
+      main: null,
+      category: null,
+      department: null,
     });
 
     const onSearch = () => {

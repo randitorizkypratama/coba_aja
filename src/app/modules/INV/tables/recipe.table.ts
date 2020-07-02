@@ -1,22 +1,26 @@
 import { TableHeader } from '~/components/VhpUI/typings';
+// import { getLabels } from '../../../helpers/getLabels.helpers';
 
 export const tableHeaders: TableHeader[] = [
   {
-    label: 'Recipe Number',
+    // label: getLabels('recipe_number'),
+    label: 'recipe_number',
     field: 'artnrrezept',
     name: 'artnrrezept',
     align: 'right',
     sortable: true,
   },
   {
-    label: 'Description',
+    // label: getLabels('description'),
+    label: 'description',
     field: 'bezeich',
     name: 'bezeich',
     align: 'left',
     sortable: true,
   },
   {
-    label: 'Category',
+    // label: getLabels('category'),
+    label: 'category',
     field: 'kategorie',
     name: 'kategorie',
     sortable: true,
@@ -35,13 +39,15 @@ export const tableHeaders: TableHeader[] = [
     sortable: true,
   },
   {
-    label: 'Created',
+    // label: getLabels('created'),
+    label: 'created',
     field: 'datumanlage',
     name: 'datumanlage',
     sortable: true,
   },
   {
-    label: 'Last Changed',
+    // label: getLabels('last_changed'),
+    label: 'last_changed',
     field: 'datummod',
     name: 'datummod',
     sortable: true,
@@ -208,9 +214,5 @@ export const Recipe: TableHeader[] = [
     name: '',
     align: 'right',
     sortable: true,
-  },
-  {
-    name: 'actions',
-    field: 'actions',
   },
 ];

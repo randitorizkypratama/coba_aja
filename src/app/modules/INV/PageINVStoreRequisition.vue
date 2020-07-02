@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <q-drawer :value="true" side="left" bordered :width="250" persistent>
+    <q-drawer :value="true" side="left" bordered :width="220" persistent>
       <searchIncoming :searches="searches" :dialogTransfer="dialogTransfer" @onSearch="onSearch" />
     </q-drawer>
 
@@ -16,17 +16,14 @@
           <img :src="require('~/app/icons/Icon-Print.svg')" height="30" />
         </q-btn>
       </div>
-
-      <q-table
-        dense
-        :class="{mystickyvirtscrolltable : trueAndFalse}"
+      <STable
+        :loading="isFetching"
         :columns="tableHeaders"
         :data="data"
-        separator="cell"
-        :rows-per-page-options="[10, 13, 16]"
-        :virtual-scroll-sticky-size-start="48"
+        :rows-per-page-options="[0]"
         :pagination.sync="pagination"
         hide-bottom
+        class="table-accounting-date"
         @row-click="onRowClick"
       >
         <template #header-cell-fibukonto="props">
@@ -43,7 +40,7 @@
 
         <template #body-cell-actions="props">
           <q-td :props="props" class="fixed-col right">
-            <q-icon name="more_vert" size="16px">
+            <q-icon name="mdi-dots-vertical" size="16px">
               <q-menu auto-close anchor="bottom right" self="top right">
                 <q-list>
                   <q-item clickable v-ripple @click="editItem">
@@ -57,12 +54,13 @@
             </q-icon>
           </q-td>
         </template>
-      </q-table>
+      </STable>
       <dialogTypeStoreRequisition
         :dialogTransfer="dialogTransfer"
         :disableToStore="disableToStore"
         :disableAccount="disableAccount"
         :dialog="dialog"
+        :searches="searches"
         @select="select"
         @close="close"
         @select1="select1"
@@ -92,11 +90,11 @@ import {
   reactive,
 } from '@vue/composition-api';
 import {
-  mapWithadjustmain,
-  mapWithadjuststore,
+  mapArticel,
+  mapGroup
 } from '~/app/helpers/mapSelectItems.helpers';
 import { tableHeaders } from './tables/storeRequisition';
-import { mapGroup } from '~/app/helpers/mapSelectItems.helpers';
+import { Notify } from 'quasar';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -105,10 +103,10 @@ export default defineComponent({
     const state = reactive({
       disableToStore: true,
       disableAccount: true,
-      isFetching: true,
+      isFetching: false,
       searches: {
         departments: [],
-        store: [],
+        articelNumber: []
       },
       dialog: false,
       dialogTransfer: false,
@@ -122,35 +120,44 @@ export default defineComponent({
     });
 
     onMounted(async () => {
-      const data = await Promise.all([$api.inventory.storeReqPrepare()]);
-      state.searches.departments = mapGroup(
-        data[0].tLUntergrup['t-l-untergrup'],
-        'bezeich',
-        'zwkum'
+      const [data, data2] = await Promise.all([
+        $api.inventory.apiStoreRequisition('storeRequestPrepare', {
+          userInit: '01'
+        }),
+        $api.inventory.apiStoreRequisition('storeReqPrepare')
+      ]);
+        state.searches.departments = mapGroup(
+          data.tParameters['t-parameters'],
+        'vstring',
+        'varname'
       );
+      state.searches.articelNumber = data.tempLArtikel['temp-l-artikel']
+      console.log('hadfina', data)
     });
 
+    const getData = async (val) => {
+      const GET_DATA = await Promise.all([
+        $api.inventory.apiStoreRequisition('storeReqCreateList', {
+          fromDate: '01/14/17',
+          toDate: '01/14/19',
+          fromDept: val.fromDept.value,
+          toDept: val.toDept.value,
+          currLschein: val.ReqNumber,
+          showPrice: true,
+        }),
+      ]);
+      state.data = GET_DATA[0].tList['t-list'];
+      console.log('sukses3', GET_DATA)
+      if (GET_DATA[0].itExist == 'true') {
+        state.isFetching = false;
+      }
+    };
+
     const onSearch = (val) => {
+      state.isFetching = true;
       state.fromDept = val.fromDept.value;
       state.toDept = val.toDept.value;
-      async function getData() {
-        const GET_DATA = await Promise.all([
-          $api.inventory.storeReqCreateList({
-            fromDate: '01/14/19',
-            toDate: '01/14/19',
-            fromDept: val.fromDept.value,
-            toDept: val.toDept.value,
-            currLschein: val.ReqNumber,
-            showPrice: 'yes',
-          }),
-        ]);
-
-        state.data = GET_DATA[0].tList['t-list'];
-        if (GET_DATA[0].itExist == 'true') {
-          state.trueAndFalse = true;
-        }
-      }
-      getData();
+      getData(val);
     };
     const select = (val, group) => {
       if (group == '1') {
@@ -180,9 +187,9 @@ export default defineComponent({
       state.rowClick = rowClick;
     }
 
-    function deleteData() {
-      async function asyncCall() {
-        $api.inventory.storeReqDelete({
+    const asyncCall = async () => {
+      const GET_DATA = await Promise.all([
+        $api.inventory.apiStoreRequisition('storeReqDelete', {
           tListSrecid: state.rowClick['s-recid'],
           bedienerNr: '01',
           fromDate: '01/14/19',
@@ -191,8 +198,12 @@ export default defineComponent({
           toDept: state.toDept,
           currLschein: ' ',
           showPrice: 'yes',
-        });
-      }
+        }),
+      ]);
+
+      console.log('sukses', GET_DATA);
+    };
+    function deleteData() {
       asyncCall();
     }
     return {
@@ -206,7 +217,6 @@ export default defineComponent({
       select,
       pagination: {
         rowsPerPage: 0,
-        // rowsNumber: state.GET_DATA.length,
       },
     };
   },
@@ -219,26 +229,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.mystickyvirtscrolltable {
-  height: 410px;
-}
+::v-deep .table-accounting-date {
+  max-height: 75vh;
 
-.my-sticky-virtscroll-table .q-table__top .q-table__bottom {
-}
+  thead tr {
+    th {
+      position: sticky;
+      z-index: 3;
+    }
 
-.my-sticky-virtscroll-table thead tr:first-child th {
-  background-color: #fff;
-}
-
-.my-sticky-virtscroll-table thead tr th {
-  position: sticky;
-  // z-index: 1
-}
-.my-sticky-virtscroll-table thead tr:last-child th {
-  top: 48px;
-}
-
-.my-sticky-virtscroll-table thead tr:first-child th {
-  top: 0;
+    &:first-child th {
+      top: 0;
+    }
+  }
 }
 </style>

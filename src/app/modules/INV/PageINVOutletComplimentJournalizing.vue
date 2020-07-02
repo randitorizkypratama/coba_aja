@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <q-drawer :value="true" side="left" bordered :width="250" persistent>
+    <q-drawer :value="true" side="left" bordered :width="220" persistent>
       <searchAdjustmentResult :searches="searches" @onSearch="onSearch" />
     </q-drawer>
 
@@ -14,14 +14,32 @@
         </q-btn>
       </div>
 
-      <q-table
-        dense
+      <STable
+        :loading="isFetching"
         :columns="tableHeaders"
         :data="data"
-        separator="cell"
-        :rows-per-page-options="[10, 13, 16]"
+        :rows-per-page-options="[0]"
         :pagination.sync="pagination"
-      ></q-table>
+        hide-bottom
+        class="table-accounting-date"
+        @row-click="onRowClick"
+      />
+    </div>
+    <div>
+      <q-dialog v-model="confirm">
+        <q-card>
+          <q-card-section class="row items-center">
+            <span class="q-ml-sm">Do you really want to transfer NOW to G/L?”</span>
+          </q-card-section>
+
+          <q-separator />
+
+          <q-card-actions align="right">
+            <q-btn flat label="Cancel" color="primary" v-close-popup />
+            <q-btn @click="ok" flat label="Ok" color="primary" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </div>
 </template>
@@ -45,44 +63,83 @@ export default defineComponent({
     let charts;
 
     const state = reactive({
-      isFetching: true,
+      isFetching: false,
+      confirm: false,
       data: [],
+      gListTable: [],
       matGrp: '',
       p221: '',
       p224: '',
       searches: {
         departments: [],
         store: [],
+        hasilCredit: 0,
+        hasilDebit: 0,
       },
     });
 
     onMounted(async () => {
-      const [glLinkcompliPrepare] = await Promise.all([
-        $api.inventory.glLinkcompliPrepare(),
+      const glLinkcompliPrepare = await Promise.all([
+        $api.inventory.apiOutletComplimentJournalizing('glLinkcompliPrepare'),
       ]);
+      console.log('sukses01', glLinkcompliPrepare);
     });
+
     const asyncCall = async (val) => {
       const response = await Promise.all([
-        $api.inventory.glLinkcompli1({
+        $api.inventory.apiOutletComplimentJournalizing('glLinkcompli1', {
           pvILanguage: 0,
-          fromDate: date.formatDate(val.date.end, 'DD/MM/YY'),
-          toDate: date.formatDate(val.date.start, 'DD/MM/YY'),
+          fromDate: '01/01/19',
+          toDate: '05/01/19',
           doubleCurrency: 'no',
           foreignNr: 0,
           exchgRate: 1,
           userInit: 0,
         }),
       ]);
-      state.data = response[0].tGList['t-g-list'] || [];
+
+      charts = response[0].tGList['t-g-list'] || [];
+      state.data = charts;
+      state.gListTable = response[0];
+
+      if (state.data.length !== 0) {
+        state.isFetching = false;
+        state.confirm = true;
+      }
+
+      state.searches.hasilCredit = response[0].credits;
+      state.searches.hasilDebit = response[0].debits;
+    };
+
+    const ok = async () => {
+      const GET_DATA = await Promise.all([
+        $api.inventory.tes('glLinkcompli2', {
+          pvILanguage: 0,
+          remains: state.gListTable.remains,
+          debits: state.searches.hasilDebit,
+          credits: state.searches.hasilCredit,
+          toDate: '04/01/19',
+          refno: 'lkeqqk',
+          bezeich: 'dis',
+          'msg-str': state.gListTable.msgStr,
+          tGList: {
+            't-g-list': state.data,
+          },
+        }),
+      ]);
+
+      // console.log('sukses', GET_DATA);
     };
 
     const onSearch = (val) => {
+      state.isFetching = true;
       asyncCall(val);
     };
 
     return {
       ...toRefs(state),
       tableHeaders,
+      ok,
       onSearch,
       pagination: {
         rowsPerPage: 10,
@@ -97,7 +154,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  background: $primary-grad;
+::v-deep .table-accounting-date {
+  max-height: 75vh;
+
+  thead tr {
+    th {
+      position: sticky;
+      z-index: 3;
+    }
+
+    &:first-child th {
+      top: 0;
+    }
+  }
 }
 </style>

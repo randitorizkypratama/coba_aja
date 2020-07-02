@@ -1,8 +1,6 @@
 import ky, { Options } from 'ky';
-import { getHtlUrl, getUsername, getUserkey } from '~/app/helpers/getCredentials.helpers';
 
-//const API_URL = 'http://ws1.e1-vhp.com/VHPWebBased/rest';
-const API_URL = getHtlUrl;
+const API_URL = 'http://ws1.e1-vhp.com/VHPWebBased/rest';
 
 interface FetchArgs {
   url: string;
@@ -16,8 +14,8 @@ const doFetch = async ({ url, body, options }: FetchArgs) => {
   let data = body || {};
   data = {
     request: {
-      inputUserkey: getUserkey,
-      inputUsername: getUsername.substring(0, getUsername.indexOf("@")),
+      inputUserkey: '6D83EFC6F6CA694FFC35FAA7D70AD308FB74A6CD',
+      inputUsername: 'sindata',
       ...data,
     },
   };

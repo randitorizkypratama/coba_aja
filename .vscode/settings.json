@@ -9,5 +9,6 @@
       "language": "vue",
       "autoFix": true
     }
-  ]
+  ],
+  "git.ignoreLimitWarning": true
 }

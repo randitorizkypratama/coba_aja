@@ -2,24 +2,21 @@
   <section class="mt-7">
     <div id="input" class="q-pa-md">
       <q-form @submit="onSearch">
-        <SInput
-          label-text="Search By Article Number"
-          v-model="articleNumber"
-          mask="##-##-####"
-          unmasked-value
-        />
+        <SInput label-text="Search By Article Number" v-model="articleNumber" unmasked-value />
         <div id="radio">
           <q-radio size="xs" v-model="shape" val="1" label="Article Number" />
           <q-radio size="xs" v-model="shape" val="2" label="Description" />
         </div>
+
         <q-btn
           block
           color="primary"
-          max-height="28"
-          icon="search"
+          max-height="10"
+          icon="mdi-magnify"
           label="Search"
           type="submit"
           class="q-mt-md full-width"
+          style="height: 25px"
         />
       </q-form>
     </div>
@@ -34,7 +31,7 @@ export default defineComponent({
   props: {},
   setup(_, { emit }) {
     const state = reactive({
-      shape: ref(null),
+      shape: '1',
       articleNumber: ref(null),
     });
     const onSearch = () => {
@@ -49,7 +46,7 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 #input {
-  width: 220px;
+  width: 200px;
   display: block;
   margin-left: auto;
   margin-right: auto;

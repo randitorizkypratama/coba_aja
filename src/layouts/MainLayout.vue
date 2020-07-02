@@ -20,36 +20,7 @@
             </g>
           </svg>
 
-          <div>{{ htlname }} - {{ htlcity }}</div>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <div>
-            <q-btn flat round :label="username">
-              <q-menu>
-                <q-list>
-                  <q-item clickable v-close-popup>
-                    <q-item-section>Change Password</q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup>
-                    <q-item-section @click="doLogout">Log out</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
-          </div>
-
-          <q-btn flat round icon="apps">
+          <q-btn flat round icon="mdi-apps">
             <q-menu content-class="menu-submodule" :offset="[0, 5]" auto-close>
               <ul class="q-pa-md">
                 <li v-for="menuItem in submoduleMenu" :key="menuItem.name">
@@ -57,12 +28,7 @@
                     :to="menuItem.path"
                     class="column items-center justify-center text-center full-height"
                   >
-                    <img
-                      :src="require(`~/app/icons/${menuItem.icon}.svg`)"
-                      width="50"
-                      height="50"
-                    />
-
+                    <img :src="require(`~/app/icons/${menuItem.icon}.svg`)" width="50" height="50" />
                     {{ menuItem.name }}
                   </router-link>
                 </li>
@@ -72,30 +38,16 @@
         </q-toolbar>
       </q-header>
 
-      <q-page-container>
+      <q-page-container :style="{ 'padding-right': reportData ? '50px' : '0px' }">
         <router-view />
       </q-page-container>
 
-      <q-drawer
-        v-model="rightDrawer"
-        side="right"
-        bordered
-        :width="50"
-        persistent
-      >
+      <q-drawer v-model="rightDrawer" side="right" bordered :width="50" persistent>
         <div class="column full-height">
           <q-list padding>
-            <q-item
-              clickable
-              v-ripple
-              class="q-px-sm"
-              @click="reportDrawer = true"
-            >
+            <q-item clickable v-ripple class="q-px-sm" @click="reportDrawer = true">
               <q-item-section class="items-center">
-                <img
-                  :src="require('~/app/icons/Icon-Report-List.svg')"
-                  height="30px"
-                />
+                <img :src="require('~/app/icons/Icon-Report-List.svg')" height="30px" />
               </q-item-section>
             </q-item>
           </q-list>
@@ -103,63 +55,61 @@
           <q-list padding class="q-mt-auto q-mb-lg">
             <q-item clickable v-ripple @click="rightDrawer = false">
               <q-item-section>
-                <q-icon name="arrow_forward_ios" />
+                <q-icon name="mdi-chevron-right" />
               </q-item-section>
             </q-item>
           </q-list>
         </div>
       </q-drawer>
-    </q-layout>
 
-    <q-layout v-if="reportData">
-      <q-drawer
-        side="right"
-        v-model="reportDrawer"
-        overlay
-        behavior="mobile"
-        :width="360"
-      >
-        <q-toolbar class="justify-between shadow-2">
-          <span class="text-weight-medium">
-            {{ reportData.title }} Report List
-          </span>
-          <q-btn flat round icon="close" @click="reportDrawer = false" />
-        </q-toolbar>
-
-        <div class="q-pa-lg">
-          <SInput label-text="Search" v-model="reportFilter" />
-
-          <STable
-            :columns="tableHeaders"
-            :data="reportData.reports"
-            hide-bottom
-            :filter="reportFilter"
-            @row-click="onRowClick"
+      <template v-if="reportData">
+        <q-page-sticky position="bottom-right" :offset="[18, 28]">
+          <q-btn
+            v-if="!rightDrawer"
+            fab
+            icon="mdi-chevron-left"
+            color="primary"
+            @click="rightDrawer = true"
           />
-        </div>
-      </q-drawer>
+        </q-page-sticky>
 
-      <q-page-sticky position="bottom-right" :offset="[18, 28]">
-        <q-btn
-          v-if="!rightDrawer"
-          fab
-          icon="chevron_left"
-          color="primary"
-          @click="rightDrawer = true"
-        />
-      </q-page-sticky>
+        <q-drawer
+          side="right"
+          v-model="reportDrawer"
+          overlay
+          behavior="mobile"
+          :width="360"
+          no-swipe-backdrop
+        >
+          <q-toolbar class="justify-between shadow-2">
+            <span class="text-weight-medium">{{ reportData.title }} Report List</span>
+            <q-btn flat round icon="mdi-close" @click="reportDrawer = false" />
+          </q-toolbar>
+
+          <div class="q-pa-lg">
+            <SInput label-text="Search" v-model="reportFilter" />
+
+            <STable
+              :columns="tableHeaders"
+              :data="reportData.reports"
+              hide-bottom
+              :filter="reportFilter"
+              @row-click="onRowClick"
+            />
+          </div>
+        </q-drawer>
+      </template>
     </q-layout>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref, onMounted } from '@vue/composition-api';
+import { defineComponent, watch, ref } from '@vue/composition-api';
 import storeModule from '~/store';
 import { tableHeaders } from './tables/reportList.table';
-import { getUsername, clear, getHtlName, getHtlCity } from '~/app/helpers/getCredentials.helpers';
 
 export default defineComponent({
-  setup(_, { root: { $route, $router } }) {
+  setup(_, { root }) {
     const rightDrawer = ref(true);
     const reportDrawer = ref(false);
     const reportData = ref(null);
@@ -167,12 +117,9 @@ export default defineComponent({
     const { submoduleMenu } = storeModule('layout').useGetters([
       'submoduleMenu',
     ]);
-    const username = ref('');
-    const htlname = ref('');
-    const htlcity = ref('');
 
     watch(
-      () => $route,
+      () => root.$route,
       (route) => {
         const { reportList } = route.meta;
         rightDrawer.value = !!reportList;
@@ -185,18 +132,7 @@ export default defineComponent({
     );
 
     const onRowClick = (_, row) => {
-      $router.push(row.path);
-    };
-
-    onMounted( () => {
-      username.value = getUsername.substring(0, getUsername.indexOf("@"))
-      htlname.value = getHtlName
-      htlcity.value = getHtlCity
-    });
-
-    const doLogout = () => {
-      clear();
-      $router.push('/');
+      root.$router.push(row.path);
     };
 
     return {
@@ -207,19 +143,12 @@ export default defineComponent({
       reportFilter,
       tableHeaders,
       onRowClick,
-      username,
-      htlname,
-      htlcity,
-      doLogout,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-h8 {
-  color: rgba(255, 255, 255, 255);
-}
 .menu-submodule {
   li {
     list-style: none;

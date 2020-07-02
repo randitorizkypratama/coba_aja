@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-drawer :value="true" side="left" bordered :width="250" persistent>
+    <q-drawer :value="true" side="left" bordered :width="220" persistent>
       <SearchChartOfAccounts :searches="searches" :selected="selectedAccount" @onSearch="onSearch" />
     </q-drawer>
     <div class="q-pa-lg">
@@ -11,57 +11,88 @@
         <q-btn flat round class="q-mr-lg">
           <img :src="require('~/app/icons/Icon-Refresh.svg')" height="30" />
         </q-btn>
-        <q-btn flat @click="doPrint" round>
+        <q-btn flat round>
           <img :src="require('~/app/icons/Icon-Print.svg')" height="30" />
         </q-btn>
       </div>
-      <q-table
-        dense
-        :class="{mystickyvirtscrolltable : trueandfalse}"
-        :columns="tableHeaders"
+      <STable
+        class="table-rooming-list"
+        :columns="roomTableHeaders"
         :data="data"
-        separator="cell"
-        :rows-per-page-options="[10, 13, 16]"
-        :virtual-scroll-sticky-size-start="48"
+        :rows-per-page-options="[0]"
         :pagination.sync="pagination"
         hide-bottom
+        row-key="zinr"
+        :filter="filterRooms"
+        :filter-method="filterTable"
       >
-        <template #header-cell-fibukonto="props">
-          <q-th :props="props" class="fixed-col left">{{ props.col.label }}</q-th>
-        </template>
+        <template #header="props">
+          <q-tr :props="props">
+            <q-th
+              :props="props"
+              key="articelNumber"
+              rowspan="2"
+              class="fixed-col left"
+              style="z-index: 4; width: 70px;"
+            >{{ props.colsMap.articelNumber.label }}</q-th>
 
-        <template #body-cell-fibukonto="props">
-          <q-td :props="props" class="fixed-col left">{{ props.row.fibukonto }}</q-td>
+            <q-th
+              :props="props"
+              key="articelNumber"
+              rowspan="2"
+              class="fixed-col left"
+              style="z-index: 4;"
+            >{{ props.colsMap.descriPtion.label }}</q-th>
+            <q-th colspan="2">Mess</q-th>
+            <q-th colspan="2">Delivery</q-th>
+            <q-th
+              :props="props"
+              key="articelNumber"
+              rowspan="2"
+              class="fixed-col left"
+              style="z-index: 4;"
+            >{{ props.colsMap.guestNote.label }}</q-th>
+            <q-th colspan="3">Price</q-th>
+            <q-th
+              :props="props"
+              key="articelNumber"
+              rowspan="2"
+              class="fixed-col right"
+              style="z-index: 4;"
+            >{{ props.colsMap.purchase.label }}</q-th>
+            <q-th
+              :props="props"
+              key="articelNumber"
+              rowspan="2"
+              class="fixed-col right"
+              style="z-index: 4;"
+            >{{ props.colsMap.accountNumber.label }}</q-th>
+          </q-tr>
+          <q-tr :props="props">
+            <q-th
+              v-for="col in getDefaultColumns(props.cols)"
+              :key="col.name"
+              :props="props"
+            >{{ col.label }}</q-th>
+          </q-tr>
         </template>
-
-        <template #header-cell-actions="props">
-          <q-th :props="props" class="fixed-col right">{{ props.col.label }}</q-th>
-        </template>
-
-        <template #body-cell-actions="props">
-          <q-td :props="props" class="fixed-col right">
-            <q-icon name="more_vert" size="16px">
-              <q-menu auto-close anchor="bottom right" self="top right">
-                <q-list>
-                  <q-item clickable v-ripple @click="editItem">
-                    <q-item-section>edit</q-item-section>
-                  </q-item>
-                  <q-item clickable v-ripple @click="confirm = true">
-                    <q-item-section>delete</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-icon>
-          </q-td>
-        </template>
-      </q-table>
+      </STable>
     </div>
-    <DialogChartOfAccounts :dialog="dialog" @onDialog="onDialog" :selected="prepare" />
+    <DialogChartOfAccounts
+      :dialog="dialog"
+      @onDialog="onDialog"
+      :selected="prepare"
+      :accountId="accountId"
+      :getAccountnumber="valueData"
+    />
     <q-dialog v-model="confirm" persistent>
       <q-card>
         <q-card-section class="row items-center">
           <q-avatar icon="warning" color="primary" text-color="white" />
-          <span class="q-ml-sm">Are you sure delete the stock article {{1101002}} - Avocado ?</span>
+          <span class="q-ml-sm">
+            Are you sure delete the stock article {{ 1101002 }} - Avocado
+            ?
+          </span>
         </q-card-section>
 
         <q-card-actions align="right">
@@ -82,6 +113,8 @@ import {
   ref,
 } from '@vue/composition-api';
 import { mapWithBezeich } from '~/app/helpers/mapSelectItems.helpers';
+// import { tableHeaders } from './tables/stockItem.table';
+import { roomTableHeaders } from './tables/stockItem.table';
 
 export default defineComponent({
   setup(_, { root: { $api } }) {
@@ -92,93 +125,26 @@ export default defineComponent({
       confirm: false,
       prepare: '',
       trueandfalse: false,
+      valueData: 0,
+      accountId: '',
+      getAccountnumber: '',
     });
-    const tableHeaders = [
-      {
-        label: 'Article Number',
-        field: 'artnr',
-        name: 'artnr',
-        align: 'right',
-        sortable: true,
-      },
-      {
-        label: 'Description',
-        field: 'bezeich',
-        name: 'bezeich',
-        align: 'left',
-        sortable: true,
-      },
-      {
-        label: 'Unit',
-        field: 'masseinheit',
-        name: 'masseinheit',
-        sortable: true,
-      },
-      {
-        label: 'Content',
-        field: 'inhalt',
-        name: 'inhalt',
-        align: 'right',
-        sortable: true,
-      },
-      {
-        label: 'Unit',
-        field: 'traubensorte',
-        name: 'traubensorte',
-        sortable: true,
-      },
-      {
-        label: 'Content',
-        field: 'lief-einheit',
-        name: 'lief-einheit',
-        sortable: true,
-      },
-      {
-        label: 'Minumum Stock (Mess)',
-        field: 'min-bestand',
-        name: 'min-bestand',
-        sortable: true,
-      },
-      {
-        label: 'Actual',
-        field: 'ek-aktuell',
-        name: 'ek-aktuell',
-        sortable: true,
-      },
-      {
-        label: 'Last',
-        field: 'ek-letzter',
-        name: 'ek-letzter',
-        sortable: true,
-      },
-      {
-        label: 'Average',
-        field: 'vk-preis',
-        name: 'vk-preis',
-        sortable: true,
-      },
-      {
-        label: 'Purchase Frequency',
-        field: 'fibukonto',
-        name: 'fibukonto',
-        sortable: true,
-      },
-      { name: 'actions', field: 'actions' },
-    ];
+
     const onSearch = ({ shape, articleNumber }) => {
       if (articleNumber == undefined) {
         if (shape == undefined) {
-          // console.log('error button');
+          console.log('error button');
         } else {
           async function asyncCall() {
             const resArtcl = await Promise.all([
-              $api.stockItem.getInvArticleList({
+              $api.inventory.apiStockItem('getInvArticleList', {
                 sorttype: shape,
                 lastArt: '*',
                 lastArt1: '',
               }),
             ]);
-            charts = resArtcl[0] || [];
+
+            charts = resArtcl[0].tLArtikel['t-l-artikel'] || [];
             state.data = charts;
             state.trueandfalse = true;
           }
@@ -200,83 +166,79 @@ export default defineComponent({
 
     function deleteData() {
       async function asyncCall() {
-        await Promise.all([
-          $api.stockItem.delInvArticle({
+        const GET_DATA = await Promise.all([
+          $api.inventory.apiStockItem('delInvArticle', {
             pvILanguage: 1,
-            artnr: '1101001',
+            artnr: state.valueData,
           }),
         ]);
       }
       asyncCall();
     }
 
-    function editItem() {
+    const onRowClick = (p, val) => {
+      state.valueData = val.artnr;
+    };
+
+    function editItem(accountId) {
       state.dialog = true;
-      state.prepare = 'tes';
-      // console.log('sukses12345', state.prepare);
-      async function asyncCall() {
-        const editItem = await Promise.all([
-          $api.stockItem.chgInvArticlePrepare({
-            artnr: 1101001,
-            changed: 'no',
-          }),
-        ]);
-        // console.log('sukses12345', editItem);
-      }
-      asyncCall();
+      state.accountId = accountId;
     }
 
-    function doPrint() {
-      window.open('/gl/param-print', '_blank');
-      //localStorage.setItem('printData',JSON.stringify(state.tableData));
+    function getDefaultColumns(cols) {
+      return cols.filter(
+        (col) =>
+          ![
+            'descriPtion',
+            'articelNumber',
+            'guestNote',
+            'purchase',
+            'accountNumber',
+          ].includes(col.name)
+      );
     }
-
     return {
       ...toRefs(state),
+      roomTableHeaders,
+      getDefaultColumns,
       editItem,
-      tableHeaders,
+      onRowClick,
       deleteData,
       onSearch,
       onDialog,
       pagination: {
-        page: 1,
         rowsPerPage: 0,
       },
-      doPrint,
     };
   },
   components: {
     SearchChartOfAccounts: () =>
       import('./components/SearchChartStockItem.vue'),
     DialogChartOfAccounts: () => import('./components/ModalNewStockItem.vue'),
+    StockItemRoomTable: () => import('./components/INVStockItemRoomTable.vue'),
   },
 });
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  background: $primary-grad;
-}
-.mystickyvirtscrolltable {
-  height: 410px;
-}
+.table-rooming-list {
+  max-height: 75vh;
+  thead tr th {
+    position: sticky;
+    z-index: 3;
+  }
 
-.my-sticky-virtscroll-table .q-table__top .q-table__bottom {
-}
+  thead tr:first-child th {
+    top: 0;
+  }
 
-.my-sticky-virtscroll-table thead tr:first-child th {
-  background-color: #fff;
-}
+  thead tr:last-child th {
+    top: 28px;
+  }
 
-.my-sticky-virtscroll-table thead tr th {
-  position: sticky;
-  // z-index: 1
-}
-.my-sticky-virtscroll-table thead tr:last-child th {
-  top: 48px;
-}
-
-.my-sticky-virtscroll-table thead tr:first-child th {
-  top: 0;
+  tr.selected td {
+    background-color: #2d00e2 !important;
+    color: #fff;
+  }
 }
 </style>

@@ -2,24 +2,20 @@
   <q-dialog v-model="dialogModel">
     <q-card style="width: 500px;">
       <q-toolbar>
-        <q-toolbar-title class="text-white text-weight-medium">Account's</q-toolbar-title>
+        <q-toolbar-title class="text-white text-weight-medium">
+          Account's
+        </q-toolbar-title>
       </q-toolbar>
 
       <q-card-section>
-        <q-table
-          dense
+        <STable
           :loading="isLoading"
           :columns="tableHeaders"
           :data="columns"
-          separator="cell"
           :rows-per-page-options="[0]"
           :pagination.sync="pagination"
           hide-bottom
-        >
-          <template v-slot:loading>
-            <q-inner-loading showing color="primary" />
-          </template>
-        </q-table>
+        />
 
         <div class="total-budget flex q-mt-md">
           <span>Total Budget</span>
@@ -71,6 +67,7 @@ export default defineComponent({
         $api.generalLedger.getViewBudgetValue(accountId),
         $api.generalLedger.getViewActualValue(accountId),
       ]);
+
       if (resBudget) {
         resBudget.bList['b-list'].forEach((budget, idx) => {
           state.columns.push({

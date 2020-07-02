@@ -1,0 +1,88 @@
+import { TableHeader } from '~/components/VhpUI/typings';
+
+export const roomTableHeaders: TableHeader[] = [
+  {
+    label: 'Article Number',
+    field: 'artnr',
+    name: 'articelNumber',
+    align: 'left',
+    sortable: true,
+  },
+  {
+    label: 'Description',
+    field: 'bezeich',
+    name: 'descriPtion',
+    align: 'left',
+    sortable: true,
+  },
+  {
+    label: 'Unit ',
+    field: 'masseinheit',
+    name: 'masseinheit',
+    align: 'left',
+    sortable: true,
+  },
+  {
+    label: 'Content',
+    field: 'inhalt',
+    name: 'inhalt',
+    align: 'left',
+    sortable: true,
+  },
+  {
+    label: 'Unit',
+    field: 'traubensorte',
+    name: 'roomType',
+    align: 'left',
+    sortable: true,
+  },
+  {
+    label: 'Content',
+    field: 'lief-einheit',
+    name: 'roomStatus',
+    align: 'left',
+    sortable: true,
+  },
+  {
+    label: 'Minumum Stock (Mess)',
+    field: 'min-bestand',
+    name: 'guestNote',
+    align: 'left',
+    sortable: true,
+  },
+  {
+    label: 'Actual',
+    field: 'ek-aktuell',
+    name: 'guestPax',
+    align: 'left',
+    sortable: true,
+  },
+  {
+    label: 'Last',
+    field: 'ek-letzter',
+    name: 'last',
+    align: 'left',
+    sortable: true,
+  },
+  {
+    label: 'Purchase Frequensi',
+    field: 'fibukonto',
+    name: 'purchase',
+    align: 'left',
+    sortable: true,
+  },
+  {
+    label: 'Account Number',
+    field: 'fibukontoq',
+    name: 'accountNumber',
+    align: 'left',
+    sortable: true,
+  },
+  {
+    label: 'Average',
+    field: 'guestPax',
+    name: 'average',
+    align: 'left',
+    sortable: true,
+  },
+];

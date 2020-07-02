@@ -32,7 +32,11 @@
           v-bind="inputProps"
           clearable
           @clear="date = null"
-        />
+        >
+          <template v-slot:append>
+            <q-icon name="mdi-event" />
+          </template>
+        </SInput>
       </v-date-picker>
 
       <SInput label-text="Voucher No" />
@@ -40,7 +44,7 @@
       <q-btn
         dense
         color="primary"
-        icon="search"
+        icon="mdi-search"
         label="Search"
         class="q-mt-md full-width"
       />

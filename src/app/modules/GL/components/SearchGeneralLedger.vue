@@ -20,7 +20,11 @@
             v-bind="inputProps"
             clearable
             @clear="date = null"
-          />
+          >
+            <template v-slot:append>
+              <q-icon name="mdi-event" />
+            </template>
+          </SInput>
         </v-date-picker>
 
         <SSelect
@@ -70,7 +74,7 @@
         <q-btn
           dense
           color="primary"
-          icon="search"
+          icon="mdi-search"
           label="Search"
           class="q-mt-md full-width"
         />
@@ -163,7 +167,6 @@ export default defineComponent({
     onMounted(async () => {
       const res = await $api.accountReceivable.getPrepareSelectGLAcct();
       state.prepareOptions = mapWithBezeich(res, 'fibukonto');
-      // console.log('setup -> state.prepareOptions', state.prepareOptions);
       state.search.isFetching = false;
     });
 
@@ -180,5 +183,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped></style>

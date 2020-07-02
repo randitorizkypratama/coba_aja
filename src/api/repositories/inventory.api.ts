@@ -1,6 +1,8 @@
 import { DoRequest } from '../config/repository';
 
 const INV_URL = 'vhpINV';
+const INV_AR = 'vhpAR';
+const INV_AP = 'vhpAP';
 const COMMON_URL = 'Common';
 
 const defaultBodies = {
@@ -17,7 +19,42 @@ const defaultBodies = {
     maxDept: '0',
   },
 };
+
 export interface InventoryEndpoints {
+  // Stock Item
+  apiStockItem: any;
+  apiStockItemAR: any;
+
+  // Recipe
+  apiRecipe: any;
+  apiRecipeCommon: any;
+
+  // Store Requisition
+  apiStoreRequisition: any;
+  apiStoreRequisitionCommon: any;
+
+  // IncomingJournalizing
+  apiIncomingJournalizing: any;
+
+  // Outlet Compliment Journalizing
+  apiOutletComplimentJournalizing: any;
+  tes;
+
+  // SupplierProfile
+  apiSupplierProfile: any;
+  // Stored WithPO
+  apiStoredwithPO: any;
+  apiStoredCommon: any
+
+  // IssuedWithPo
+  apiIssuedWithpo: any;
+
+  // IssuedwithoutPO
+  apiIssuedwithoutPO: any;
+
+  // Issuing
+  apiIssuing: any;
+
   //meal coupon
   getMealCoupontable: any;
   getMealCouponprepare: any;
@@ -99,6 +136,7 @@ export interface InventoryEndpoints {
   glLinkcompliPrepare: any;
   glLinkcompli1: any;
 
+
   //INVENTORY – RECEIVING TO GL
   glLinkstockBtnGo: any;
   glLinkstockPrepare: any;
@@ -122,13 +160,61 @@ export interface InventoryEndpoints {
   //Cancelled Incoming
   getCancelledIncomingrprepare: any;
   getCancelledIncomingtable: any;
-
-  // Recipe
-  apiRecipe: any;
-  apiRecipeCommon: any;
 }
 
 export default (doFetch: DoRequest): InventoryEndpoints => ({
+  // Stock Item
+  apiStockItem: (api, body) =>
+    doFetch({ url: `${INV_URL}/${api}`, body }).then(([, res]) => res),
+  apiStockItemAR: (api, body) =>
+    doFetch({ url: `${INV_AR}/${api}`, body }).then((res) => res),
+
+  // Recipe
+  apiRecipe: (api, body) =>
+    doFetch({ url: `${INV_URL}/${api}`, body }).then(([, res]) => res),
+  apiRecipeCommon: (api, body) =>
+    doFetch({ url: `${COMMON_URL}/${api}`, body }).then(([, res]) => res),
+
+  // Store Requisition
+  apiStoreRequisition: (api, body) =>
+    doFetch({ url: `${INV_URL}/${api}`, body }).then(([, res]) => res),
+  apiStoreRequisitionCommon: (api, body) =>
+    doFetch({ url: `${COMMON_URL}/${api}`, body }).then(([, res]) => res),
+
+  // IncomingJournalizing
+  apiIncomingJournalizing: (api, body) =>
+    doFetch({ url: `${INV_URL}/${api}`, body }).then(([, res]) => res),
+
+  // Outlet Compliment Journalizing
+  apiOutletComplimentJournalizing: (api, body) =>
+    doFetch({ url: `${INV_URL}/${api}`, body }).then(([, res]) => res),
+  tes: (api, body) =>
+    doFetch({ url: `${INV_URL}/${api}`, body }).then((res) => {
+      console.log('sukses', res);
+      console.log('sukses', body);
+    }),
+
+  // SupplierProfile
+  apiSupplierProfile: (api, body) =>
+    doFetch({ url: `${INV_AP}/${api}`, body }).then(([, res]) => res),
+
+  // IssuedWithPo
+  apiIssuedWithpo: (api, body) =>
+    doFetch({ url: `${INV_URL}/${api}`, body }).then(([, res]) => res),
+
+  // Stored WithPO
+  apiStoredwithPO: (api, body) =>
+    doFetch({ url: `${INV_URL}/${api}`, body }).then(([, res]) => res),
+  apiStoredCommon: (api, body) =>
+    doFetch({ url: `${COMMON_URL}/${api}`, body }).then(([, res]) => res),
+
+  // IssuedwithoutPO
+  apiIssuedwithoutPO: (api, body) =>
+    doFetch({ url: `${INV_URL}/${api}`, body }).then(([, res]) => res),
+  // Issuing
+  apiIssuing: (api, body) =>
+    doFetch({ url: `${INV_URL}/${api}`, body }).then(([, res]) => res),
+
   getMealCouponzugriff: (body = defaultBodies.zugriff) =>
     doFetch({ url: `${COMMON_URL}/checkPermission`, body }).then(
       ([, res]) => res
@@ -320,7 +406,6 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
 
   glLinkcompli1: (body) =>
     doFetch({ url: `${INV_URL}/glLinkcompli1`, body }).then(([, res]) => res),
-
   //INVENTORY – RECEIVING TO GL
   glLinkstockBtnGo: (body) =>
     doFetch({ url: `${INV_URL}/glLinkstockBtnGo`, body }).then(
@@ -379,9 +464,4 @@ export default (doFetch: DoRequest): InventoryEndpoints => ({
     doFetch({ url: `${INV_URL}/cancelStockInLoad`, body }).then(
       ([, res]) => res?.cancelStockinList?.['cancel-stockin-list']
     ),
-  // Recipe
-  apiRecipe: (api, body) =>
-    doFetch({ url: `${INV_URL}/${api}`, body }).then(([, res]) => res),
-  apiRecipeCommon: (api, body) =>
-    doFetch({ url: `${COMMON_URL}/${api}`, body }).then(([, res]) => res),
 });

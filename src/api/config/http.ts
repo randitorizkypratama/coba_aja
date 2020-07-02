@@ -1,27 +1,19 @@
 import repository from './repository';
-import login from './login';
-import print from './print';
+import { ApiEndpoints } from '~/plugins.types';
 
 // endpoints
 import GeneralLedgerAPI from '../repositories/generalLedger.api';
 import AccountReceivableApi from '../repositories/accountReceivable.api';
 import HousekeepingApi from '../repositories/housekeeping.api';
 import InventoryEndpoints from '../repositories/inventory.api';
-import stockItemEndPoint from '../repositories/stockItem.api';
-import LoginAPI from '../repositories/login.api';
-import PrintAPI from '../repositories/print.api';
-import OutletEndpoints from '../repositories/outlet.api';
 import AccountsPayableApi from '../repositories/accountsPayable.api';
 
-export default {
+const http: ApiEndpoints = {
   generalLedger: GeneralLedgerAPI(repository),
   accountReceivable: AccountReceivableApi(repository),
   housekeeping: HousekeepingApi(repository),
-  inventory: InventoryEndpoints(repository),
-  stockItem: stockItemEndPoint(repository),
-  loginAuth: LoginAPI(login),
-  printLNL: PrintAPI(print),
-  outlet: OutletEndpoints(repository),
   accountsPayable: AccountsPayableApi(repository),
-
+  inventory: InventoryEndpoints(repository),
 };
+
+export default http;

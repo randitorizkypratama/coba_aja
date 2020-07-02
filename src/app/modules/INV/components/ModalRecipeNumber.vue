@@ -59,7 +59,7 @@ export default defineComponent({
 
     onMounted(async () => {
       const dataRecipe = await Promise.all([
-        $api.stockItem.getInvRecipe({
+        $api.inventory.apiStockItem('getInvRecipe', {
           caseType: 2,
           int1: '',
           int2: '',
@@ -68,7 +68,8 @@ export default defineComponent({
           date1: '',
         }),
       ]);
-      state.columns = dataRecipe[0];
+
+      state.columns = dataRecipe[0].tHRezept['t-h-rezept'];
     });
     function onRowClick(a, row) {
       emit('onRowRecipe', row);

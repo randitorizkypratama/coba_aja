@@ -19,7 +19,7 @@
 
       <SInput v-model="supplier" placeholder="Supplier" :disabled="all">
         <template v-slot:append>
-          <q-btn round dense flat icon="search" @click="showDialog({})" :disabled="all" />
+          <q-btn round dense flat icon="mdi-magnify" @click="showDialog({})" :disabled="all" />
         </template>
       </SInput>
       <q-checkbox v-model="all" label="All Supplier" />
@@ -33,7 +33,7 @@
       <q-btn
         dense
         color="primary"
-        icon="search"
+        icon="mdi-magnify"
         label="Search"
         class="q-mt-md full-width"
         @click="onSearch"

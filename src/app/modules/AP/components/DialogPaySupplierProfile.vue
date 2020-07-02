@@ -203,6 +203,7 @@ export default defineComponent({
 
     function onSubmit() {
       // TODO: Form still not working in react version
+      console.log('Form submitted');
     }
 
     return {

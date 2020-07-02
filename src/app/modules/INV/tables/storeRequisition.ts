@@ -97,70 +97,70 @@ export const tableHeaders: TableHeader[] = [
 export const tableDialogNew: TableHeader[] = [
   {
     label: 'Storage Number',
-    field: 'datum',
+    field: 'storageNumber',
     name: 'datum',
     align: 'left',
     sortable: false,
   },
   {
     label: 'Articel Number',
-    field: 'datum',
+    field: 'articelNumber',
     name: 'datum',
     align: 'left',
     sortable: false,
   },
   {
     label: 'Description',
-    field: 'datum',
+    field: 'sBezeich',
     name: 'datum',
     align: 'left',
     sortable: false,
   },
   {
     label: 'Unit Price',
-    field: 'datum',
+    field: 'unitPrice',
     name: 'datum',
     align: 'left',
     sortable: false,
   },
   {
-    label: '',
-    field: 'datum',
+    label: 'Onhand',
+    field: 'onhand',
     name: 'datum',
     align: 'left',
     sortable: false,
   },
   {
     label: 'Quantity',
-    field: 'datum',
+    field: 'quantity',
     name: 'datum',
     align: 'left',
     sortable: false,
   },
   {
     label: 'Amount',
-    field: 'datum',
+    field: 'amount',
     name: 'datum',
     align: 'left',
     sortable: false,
   },
   {
     label: 'Date',
-    field: 'datum',
+    field: 'date',
     name: 'datum',
     align: 'left',
     sortable: false,
   },
   {
     label: 'Type Of Moving',
-    field: 'datum',
+    field: 'type',
     name: 'datum',
     align: 'left',
     sortable: false,
   },
   {
     label: 'Created By',
-    field: 'datum',
+    field: 'sUsername',
     name: 'datum',
     align: 'left',
     sortable: false,
@@ -173,7 +173,66 @@ export const tableDialogNew: TableHeader[] = [
     sortable: false,
   },
   {
-    name: 'actions',
-    field: 'actions',
+    label: 'Time',
+    field: 'time',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Account Number',
+    field: 'acctNo',
+    name: 'datum',
+    align: 'left',
+    sortable: false,
   },
 ];
+
+export const tableDialogStockArticel: TableHeader[] = [
+  {
+    label: 'Articel Number',
+    field: 'artnr',
+    name: 'artnr',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Description',
+    field: 'bezeich',
+    name: 'bezeich',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Onhand',
+    field: 'onhand',
+    name: 'onhand',
+    align: 'left',
+    sortable: false,
+  },
+]
+export const tableCostCenterList: TableHeader[] = [
+  {
+    label: 'Cost Center List',
+    field: 'name',
+    name: 'artnr',
+    align: 'left',
+    sortable: false,
+  }
+]
+export const tableAllocationsList: TableHeader[] = [
+  {
+    label: 'Account Number',
+    field: 'fibu',
+    name: 'artnr',
+    align: 'left',
+    sortable: false,
+  },
+  {
+    label: 'Description',
+    field: 'bezeich',
+    name: 'artnr',
+    align: 'left',
+    sortable: false,
+  }
+]

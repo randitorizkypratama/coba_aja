@@ -12,7 +12,7 @@ const MODULE_ROUTES = Object.values(SUBMODULE_LIST)
 
 const routes: RouteConfig[] = [
   {
-    path: '/home',
+    path: '/',
     component: () => import('~/layouts/MainLayout.vue'),
     children: [
       {
@@ -20,30 +20,17 @@ const routes: RouteConfig[] = [
         name: 'PageHome',
         component: () => import('~/app/home/PageHome.vue'),
       },
+      {
+        path: '/inv/incomingstock',
+        name: 'incoming',
+        component: () => import(`~/app/modules/INV/PageINVIncomingStock.vue`),
+      },
       ...MODULE_ROUTES,
     ],
   },
-  {
-    path: '/',
-    name: 'Login',
-    component: () => import('~/app/login/PageLogin.vue'),
-  },
-  {
-    path: '/gl/param-print',
-    name: 'PrintGLParam',
-    component: () => import('~/app/modules/GL/PrintGLParam.vue'),
-  },
-  {
-    path: '/inv/print-monthly-incoming',
-    name: 'PrintINVMonthlyIncoming',
-    component: () => import('~/app/modules/INV/components/PrintMonthlyIncoming.vue'),
-  },
-  {
-    path: '/gl/print-rc',
-    name: 'PrintRC',
-    component: () => import('~/app/modules/GL/PrintRC.vue'),
-  },
 ];
+
+console.log('sukses123', SUBMODULE_LIST);
 
 // Always leave this as last one
 if (process.env.MODE !== 'ssr') {

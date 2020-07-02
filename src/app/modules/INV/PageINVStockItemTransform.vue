@@ -23,6 +23,18 @@
         :rows-per-page-options="[10, 13, 16]"
         :pagination.sync="pagination"
       >
+        <template v-slot:body-cell-artnr="props">
+          <q-td
+            :props="props"
+            :class="props.row['op-art'] == 2 ? 'text-red' : 'text-black'"
+          >{{ props.row.artnr }}</q-td>
+        </template>
+        <template v-slot:body-cell-bezeich="props">
+          <q-td
+            :props="props"
+            :class="props.row['op-art'] == 2 ? 'text-red' : 'text-black'"
+          >{{ props.row.bezeich }}</q-td>
+        </template>
         <template #body-cell-actions="props">
           <q-td :props="props" class="fixed-col right">
             <q-icon name="more_vert" size="16px">
@@ -142,15 +154,8 @@ export default defineComponent({
           dataRow['lscheinnr'] = dataItem['lscheinnr'];
           dataRow['f-bezeich'] = dataItem['f-bezeich'];
           dataRow['t-bezeich'] = dataItem['t-bezeich'];
-          dataRow['artnr'] =
-            dataItem['op-art'] == 2
-              ? dataItem['artnr'] + '(special)'
-              : dataItem['artnr'];
-          dataRow['bezeich'] =
-            dataItem['op-art'] == 2
-              ? dataItem['artnr'] + '(special)'
-              : dataItem['artnr'];
-          dataItem['bezeich'];
+          dataRow['artnr'] = dataItem['artnr'];
+          dataRow['bezeich'] = dataItem['bezeich'];
           dataRow['einheit'] = dataItem['einheit'];
           dataRow['content'] = dataItem['content'];
           dataRow['price'] = dataItem['price'];

@@ -41,7 +41,7 @@ export const moduleList: HomeModule[] = [
     logo: 'Banquet',
   },
   {
-    path: '/ou/order-taker-report',
+    path: '/outlet',
     name: 'Outlet',
     logo: 'Outlet',
   },
@@ -56,11 +56,12 @@ export const moduleList: HomeModule[] = [
     logo: 'Purchasing',
   },
   {
-    path: '/inv/stock-item',
+    path: '/inv/recipe',
     name: 'Inventory',
     logo: 'Inventory',
   },
   {
+    // TODO: Change with AP Aging Report
     path: '/ap/supplier-profile',
     name: 'Accounts Payable',
     logo: 'AP',

@@ -1,6 +1,6 @@
 <template>
   <section class="mt-7">
-    <div class="q-pa-md">
+    <div id="input" class="q-pa-md">
       <v-date-picker mode="range" v-model="date" :columns="2" :popover="{ visibility: 'click' }">
         <SInput
           label-text="Date"
@@ -16,13 +16,20 @@
       <SInput label-text="Description" v-model="articleNumber" unmasked-value />
 
       <q-btn
-        dense
+        block
         color="primary"
-        icon="search"
+       max-height="10"
+          style="height: 25px"
+          icon="mdi-magnify"
         label="Search"
         class="q-mt-md full-width"
         @click="onSearch"
       />
+
+      <q-separator style="border-width: 1px;" class="q-my-md" />
+
+      <SRemarkLeftDrawer label="Total Debit" :value="searches.hasilDebit" />
+      <SRemarkLeftDrawer label="Total Credit" :value="searches.hasilCredit" />
     </div>
   </section>
 </template>
@@ -62,4 +69,15 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#input {
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#radio {
+  margin-left: -9px;
+}
+</style>

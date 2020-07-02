@@ -1,7 +1,11 @@
 <template>
   <q-page>
     <q-drawer :value="true" side="left" bordered :width="250" persistent>
-      <SearchChartOfAccounts :searches="searches" :selected="selectedAccount" @onSearch="onSearch" />
+      <SearchChartOfAccounts
+        :searches="searches"
+        :selected="selectedAccount"
+        @onSearch="onSearch"
+      />
     </q-drawer>
 
     <div class="q-pa-lg">
@@ -14,34 +18,42 @@
         </q-btn>
       </div>
 
-      <q-table
-        dense
+      <STable
         :loading="isFetching"
         :columns="tableHeaders"
         :data="accounts"
-        separator="cell"
         :rows-per-page-options="[10, 13, 16]"
         :pagination.sync="pagination"
         @row-click="onRowClick"
       >
         <template #header-cell-fibukonto="props">
-          <q-th :props="props" class="fixed-col left">{{ props.col.label }}</q-th>
+          <q-th :props="props" class="fixed-col left">
+            {{ props.col.label }}
+          </q-th>
         </template>
 
         <template #body-cell-fibukonto="props">
-          <q-td :props="props" class="fixed-col left">{{ props.row.fibukonto }}</q-td>
+          <q-td :props="props" class="fixed-col left">
+            {{ props.row.fibukonto }}
+          </q-td>
         </template>
 
         <template #header-cell-actions="props">
-          <q-th :props="props" class="fixed-col right">{{ props.col.label }}</q-th>
+          <q-th :props="props" class="fixed-col right">
+            {{ props.col.label }}
+          </q-th>
         </template>
 
         <template #body-cell-actions="props">
           <q-td :props="props" class="fixed-col right">
-            <q-icon name="more_vert" size="16px">
+            <q-icon name="mdi-dots-vertical" size="16px">
               <q-menu auto-close anchor="bottom right" self="top right">
                 <q-list>
-                  <q-item clickable v-ripple @click="selectAccount(props.row.fibukonto)">
+                  <q-item
+                    clickable
+                    v-ripple
+                    @click="selectAccount(props.row.fibukonto)"
+                  >
                     <q-item-section>Show Account Budget</q-item-section>
                   </q-item>
                 </q-list>
@@ -49,20 +61,19 @@
             </q-icon>
           </q-td>
         </template>
-      </q-table>
+      </STable>
     </div>
 
-    <DialogChartOfAccounts :dialog="dialog" @onDialog="onDialog" :account-id="accountId" />
+    <DialogChartOfAccounts
+      :dialog="dialog"
+      @onDialog="onDialog"
+      :account-id="accountId"
+    />
   </q-page>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  toRefs,
-  reactive,
-} from '@vue/composition-api';
+import { defineComponent, toRefs, reactive } from '@vue/composition-api';
 import { mapWithBezeich } from '~/app/helpers/mapSelectItems.helpers';
 import { tableHeaders } from './tables/chartOfAccounts.table';
 
@@ -83,7 +94,8 @@ export default defineComponent({
       dialog: false,
     });
 
-    onMounted(async () => {
+    // Fetch columns
+    (async () => {
       const [resChart, resMain, resTypes, resDepart] = await Promise.all([
         $api.generalLedger.getChartOfAccount(),
         $api.generalLedger.getGLMainAccount(),
@@ -96,7 +108,7 @@ export default defineComponent({
       state.searches.categories = mapWithBezeich(resTypes, 'nr');
       state.searches.departments = mapWithBezeich(resDepart, 'nr');
       state.isFetching = false;
-    });
+    })();
 
     const onRowClick = (_, { bemerk }) => {
       state.selectedAccount = bemerk;

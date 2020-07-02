@@ -47,7 +47,7 @@
       <q-btn
         dense
         color="primary"
-        icon="search"
+        icon="mdi-magnify"
         label="Search"
         class="q-mt-md full-width"
         @click="onSearch"

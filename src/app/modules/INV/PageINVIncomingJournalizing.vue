@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <q-drawer :value="true" side="left" bordered :width="250" persistent>
+    <q-drawer :value="true" side="left" bordered :width="220" persistent>
       <searchIncoming :searches="searches" @onSearch="onSearch" />
     </q-drawer>
 
@@ -13,17 +13,15 @@
           <img :src="require('~/app/icons/Icon-Print.svg')" height="30" />
         </q-btn>
       </div>
-
-      <q-table
-        dense
-        :class="{mystickyvirtscrolltable : trueAndFalse}"
+      <STable
+        :loading="isFetching"
         :columns="tableHeaders"
         :data="data"
-        separator="cell"
-        :rows-per-page-options="[10, 13, 16]"
-        :virtual-scroll-sticky-size-start="48"
+        :rows-per-page-options="[0]"
         :pagination.sync="pagination"
         hide-bottom
+        class="table-accounting-date"
+        @row-click="onRowClick"
       />
     </div>
   </div>
@@ -43,6 +41,7 @@ export default defineComponent({
     let charts;
 
     const state = reactive({
+      isFetching: false,
       searches: {
         departments: [],
         store: [],
@@ -55,7 +54,7 @@ export default defineComponent({
 
     const getData = async () => {
       const GET_DATA = await Promise.all([
-        $api.inventory.glLinkstockBtnGo({
+        $api.inventory.apiIncomingJournalizing('glLinkstockBtnGo', {
           pvILanguage: 0,
           linkOut: true,
           linkIn: true,
@@ -67,7 +66,6 @@ export default defineComponent({
       ]);
       charts = GET_DATA[0].tGList['t-g-list'];
       state.data = charts;
-
       let totalCredit = 0;
       let totalDebit = 0;
       for (const i in charts) {
@@ -75,6 +73,9 @@ export default defineComponent({
         totalDebit += charts[i].debit;
       }
 
+      if (charts.length !== 0) {
+        state.isFetching = false;
+      }
       state.searches.hasilCredit = totalCredit;
       state.searches.hasilDebit = totalDebit;
 
@@ -84,6 +85,7 @@ export default defineComponent({
     };
 
     const onSearch = (val) => {
+      state.isFetching = true;
       getData();
     };
 
@@ -93,7 +95,6 @@ export default defineComponent({
       onSearch,
       pagination: {
         rowsPerPage: 0,
-        // rowsNumber: state.GET_DATA.length,
       },
     };
   },
@@ -104,26 +105,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.mystickyvirtscrolltable {
-  height: 410px;
-}
+::v-deep .table-accounting-date {
+  max-height: 75vh;
 
-.my-sticky-virtscroll-table .q-table__top .q-table__bottom {
-}
+  thead tr {
+    th {
+      position: sticky;
+      z-index: 3;
+    }
 
-.my-sticky-virtscroll-table thead tr:first-child th {
-  background-color: #fff;
-}
-
-.my-sticky-virtscroll-table thead tr th {
-  position: sticky;
-  // z-index: 1
-}
-.my-sticky-virtscroll-table thead tr:last-child th {
-  top: 48px;
-}
-
-.my-sticky-virtscroll-table thead tr:first-child th {
-  top: 0;
+    &:first-child th {
+      top: 0;
+    }
+  }
 }
 </style>
