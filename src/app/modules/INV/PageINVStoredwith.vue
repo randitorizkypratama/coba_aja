@@ -152,7 +152,7 @@
               <q-btn
                 outline
                 color="primary"
-                label="Cencel"
+                label="Cancel"
                 style="
                   width: 90px;
                   height: 25px;

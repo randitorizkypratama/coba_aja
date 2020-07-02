@@ -166,7 +166,7 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right" class="bg-white text-teal">
-        <q-btn flat label="cencel" v-close-popup />
+        <q-btn flat label="Cancel" v-close-popup />
         <q-btn @click="saveData" flat label="OK" v-close-popup />
       </q-card-actions>
       <!-- </q-form> -->

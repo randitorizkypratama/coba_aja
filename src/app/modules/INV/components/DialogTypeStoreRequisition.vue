@@ -20,7 +20,7 @@
           </q-card-section>
           <q-separator />
           <q-card-actions align="right">
-            <q-btn @click="close" label="cencel" />
+            <q-btn @click="close" label="Cancel" />
             <q-btn @click="select" color="primary" label="Select" />
           </q-card-actions>
         </q-card>
@@ -194,7 +194,7 @@
           </q-card-section>
           <q-separator />
           <q-card-actions align="right">
-            <q-btn @click="close" label="cencel" />
+            <q-btn @click="close" label="Cancel" />
             <q-btn @click="select1" color="primary" label="Select" />
           </q-card-actions>
         </q-card>
@@ -236,7 +236,7 @@
 
           <q-separator />
           <q-card-actions align="right">
-            <q-btn flat label="Cencel" color="primary" @click="selectStockArticel = false" />
+            <q-btn flat label="Cancel" color="primary" @click="selectStockArticel = false" />
             <q-btn flat label="Ok" color="primary" @click="onClickStockArticel" />
           </q-card-actions>
         </q-card>
@@ -289,7 +289,7 @@
           </q-card-section>
           <q-separator />
           <q-card-actions align="right">
-            <q-btn flat label="Cencel" color="primary" @click="dialogAccount = false" />
+            <q-btn flat label="Cancel" color="primary" @click="dialogAccount = false" />
             <q-btn flat label="Ok" color="primary" @click="dialogAccount = false" />
           </q-card-actions>
         </q-card>

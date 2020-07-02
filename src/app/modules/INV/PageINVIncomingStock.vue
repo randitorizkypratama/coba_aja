@@ -226,7 +226,7 @@
          <q-btn
           outline
           color="primary"
-          label="cencel"
+          label="Cancel"
           style="width: 100px; height: 25px; marginRight: 20px; marginTop: 10px"
         />
         <q-btn
@@ -265,7 +265,7 @@
                 </q-card-section>
                 <q-separator />
                 <q-card-actions align="right">
-                  <q-btn label="cencel" style="height: 30px" color="primary" @click="onClickCencelDeliveryNumber"/>
+                  <q-btn label="Cancel" style="height: 30px" color="primary" @click="onClickCencelDeliveryNumber"/>
                   <q-btn unelevated color="primary" label="OK" style="height: 30px" @click="onClickDeliveryNumber" />
                 </q-card-actions>
           </q-card>

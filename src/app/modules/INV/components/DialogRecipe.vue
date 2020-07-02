@@ -128,7 +128,7 @@
           </q-card-section>
           <q-separator />
           <q-card-actions align="right" class="bg-white text-teal">
-            <q-btn @click="$emit('cencel')" flat label="cencel" />
+            <q-btn @click="$emit('cencel')" flat label="Cancel" />
             <q-btn @click="saveData" flat label="OK" />
           </q-card-actions>
         </q-card>

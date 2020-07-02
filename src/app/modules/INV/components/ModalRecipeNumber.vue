@@ -23,7 +23,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat label="cencel" v-close-popup />
+        <q-btn flat label="Cancel" v-close-popup />
         <q-btn color="primary" label="OK" @click="$emit('onDialog', false)" />
       </q-card-actions>
     </q-card>
