@@ -37,7 +37,7 @@
         </template>
         <template #body-cell-actions="props">
           <q-td :props="props" class="fixed-col right">
-            <q-icon name="more_vert" size="16px">
+            <q-icon name="mdi-dots-vertical" size="16px">
               <q-menu auto-close anchor="bottom right" self="top right">
                 <q-list>
                   <q-item clickable v-ripple @click="showDialog(props.row)">
