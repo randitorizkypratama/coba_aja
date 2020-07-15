@@ -87,10 +87,10 @@ export default defineComponent({
           $api.inventory.getFBReconciliationtable({
             pvILanguage: '1',
             caseType:
-              state2.main == 1 ? state.food : state2.main == 2 ? state.bev : 0,
+              state2.fromDeptVal.value == 1 ? state.food : state2.fromDeptVal.value == 2 ? state.bev : 0,
             fromDate: state.date1,
             toDate: state.date2,
-            fromGrp: state2.main.value,
+            fromGrp: state2.fromDeptVal.value,
             miOpt: state2.summary,
             date1: date.formatDate(state2.date.start, 'DD/MM/YY'),
             date2: date.formatDate(state2.date.end, 'DD/MM/YY'),
